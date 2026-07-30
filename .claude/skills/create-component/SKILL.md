@@ -1,311 +1,200 @@
 ---
 name: create-component
-description: Advance or materially refine the Elegant UI V1 component library by delivering exactly one component across Android, Desktop JVM, and Web/Wasm, routing implementation through completed repository components as source-of-truth references. Includes dependency-aware selection, contract design, shared foundations, commonMain source, tests, shared showcase registration, Miuix-format bilingual pages, real Compose Web iframe, KMP publication, CI artifacts, and platform acceptance. Use for add Badge, implement Checkbox, refine Avatar, continue the component library, next planned component, 新建组件, 添加组件, 优化组件, 继续组件库, or finish a component milestone.
+description: >-
+  Create or complete one Compose Multiplatform UI component for Elegant UI,
+  including every required wiring point: shared library source and tests,
+  shared showcase demo and slug registration, English and Simplified Chinese
+  Miuix-format pages, both component indexes, VitePress sidebars,
+  Android/Desktop/Web verification, publication, and CI. Use whenever the user
+  wants to add a component, create a composable, continue the component library,
+  or complete a component milestone, including 新建组件、添加组件、继续组件库、完成组件.
 ---
 
 # Create an Elegant UI component
 
-Complete one component as a reviewable, published, three-platform milestone. Android, Desktop JVM, and Web/Wasm are all supported. iOS is out of scope.
+Add one component to Elegant UI and complete every companion change beyond the component file itself: tests, shared showcase registration, bilingual documentation, website discovery, three-platform verification, publication, and CI.
 
-## Operating model
+The authoritative sources for conventions are `AGENTS.md` and the existing repository source. This skill describes the workflow and where changes go; if it conflicts with `AGENTS.md` or current source, they win. Read `references/completed-components.md` to choose completed Elegant UI components as implementation and delivery references.
 
-- Treat `AGENTS.md` as the authority and this skill as its execution sequence.
-- Keep exactly one active component milestone.
-- Read `references/completed-components.md` and select completed repository references by behavior, layout, semantics, and delivery needs.
-- Copy delivery structure and family conventions, never component-specific implementation or external branding.
-- Add only shared primitives required by the active component.
-- Stop after the active component is pushed and both workflows succeed. Do not start the next component in the same milestone.
-- Do not use Figma unless the user explicitly approves a separate Figma milestone.
-- Do not create screenshot, pixel-diff, or visual-evidence artifacts as a completion gate.
+Work on exactly one component milestone. iOS, Figma work, screenshot evidence, and pixel-diff artifacts are excluded unless the user separately requests them.
 
-Treat these as the milestone touch points:
+## Step 1: Gather requirements
 
-```text
-1. public source and required shared foundations
-2. common contract tests and affected regression tests
-3. shared showcase page and stable slug routing
-4. English component page
-5. Simplified Chinese component page
-6. both sidebars and both component indexes
-7. VALIDATION.md and local command results
-8. KMP publication, artifacts, and both GitHub Actions workflows
-```
+Infer what is already established by the request, the two component indexes, and existing code. Ask only when a missing decision would materially change the public contract:
 
-Every touch point must be handled or explicitly determined not applicable from the component contract. Do not create empty files or assertions to make the list appear complete.
+1. **Component name** — public `ElegantXxx` name and package name
+2. **Milestone type** — new component or a concrete refinement of an available component
+3. **Purpose** — what it does, where it is used, and what is out of scope
+4. **Key parameters** — required state, callbacks, state flags, styles, sizes, slots, and content
+5. **Visual model** — whether it needs `ElegantXxxDefaults`, `ElegantXxxColors`, or a smaller immutable model
+6. **Stable documentation slug** — lowercase and unchanged once published
 
-## 0. Select one milestone
-
-Read both progress indexes:
+When the user only asks to continue, read:
 
 ```text
 docs/components/index.md
 docs/zh_CN/components/index.md
 ```
 
-If the user names a component, verify it belongs to the V1 scope and identify its stable prerequisites. If the user only asks to continue, select the first planned component whose dependencies are already available. Keep the two indexes synchronized, but do not mark the component available until the milestone closes.
+Select the first planned component whose prerequisites are already available. Do not start or scaffold a later component in the same milestone.
 
-Do not create source, test, documentation, or registry placeholders for later components.
+## Step 2: Read reference files by component type
 
-For an already available component, keep its ledger status unchanged and define the concrete quality, behavior, API, or defect outcome that closes the refinement milestone.
+Before writing code, read the Component API contract, Foundations and visual rules, Accessibility and input, and Component definition of done sections in `AGENTS.md`. Then read `references/completed-components.md`, choose the closest completed component, and read its source and contract test in full.
 
-## 1. Inspect the repository
+| Component type | Starting reference | Key points |
+| :--- | :--- | :--- |
+| Text action | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/button/ElegantButton.kt` | controlled activation, loading, emphasis styles, sizes, content slots |
+| Compact or icon-only action | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/iconbutton/ElegantIconButton.kt` | accessible name, 48dp target, icon ownership, action-state parity |
+| Non-interactive identity/display | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/avatar/ElegantAvatar.kt` | fallback content, decorative versus named semantics, custom content |
+| Status, count, or overlay | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/badge/ElegantBadge.kt` | semantic tones, overflow, RTL placement, overlay measurement |
+| Minimal or custom-drawn separator | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/divider/ElegantDivider.kt` | orientation, emphasis, stroke style, decorative semantics |
+| New family | closest entry in `references/completed-components.md` | reuse repository delivery shape, then define the new family contract |
 
-Read:
+Also read the selected reference's showcase section and English/Chinese pages. Read only the theme or internal primitive files that it actually uses. Existing source wins if the reference catalog becomes stale.
 
-- `AGENTS.md`
-- `references/completed-components.md`
-- `PROJECT_BRIEF.md`
-- `FLOW.md`
-- `VALIDATION.md`
-- the closest implementation in `elegant-ui/src/commonMain/`
-- the shared registry in `showcase/src/commonMain/.../ElegantShowcaseApp.kt`
-- the matching English and Chinese component pages
-- `.github/workflows/android.yml`
-- `.github/workflows/docs.yml`
+Use completed components for conventions, not as templates to copy blindly. Do not inherit a dimension, state, slot, or interaction merely because the reference has it.
 
-Confirm these targets remain present in both `:elegant-ui` and `:showcase`:
+## Step 3: Write the component source and tests
 
-```text
-android
-jvm("desktop")
-wasmJs
-```
-
-Map the selected component to:
-
-- one behavioral reference and, when useful, separate layout, semantics, and delivery references;
-- the shared tokens and primitives it should reuse;
-- any missing foundation that must be delivered inside this milestone;
-- completed components that could be affected by foundation changes.
-
-Read each selected reference’s source and contract test in full. Then read its showcase section, English page, Chinese page, and the theme/internal files it actually uses. Existing source wins if a reference catalog description becomes stale.
-
-## 2. Freeze the component contract
-
-Record:
-
-- purpose and non-goals;
-- new-component or refinement outcome;
-- public signature and parameter order;
-- public enums, state holders, Defaults, and Colors;
-- full state matrix and mutually exclusive states;
-- interaction-visual precedence and combination of semantic states;
-- semantic token additions;
-- visible metrics and minimum interactive target;
-- motion duration/easing;
-- Light/Dark behavior;
-- semantics role and state descriptions;
-- Android touch/TalkBack checks;
-- Desktop mouse/keyboard/focus/window checks;
-- Web pointer/keyboard/focus/viewport checks;
-- documentation slug and Miuix page outline;
-- component-family naming and state-precedence rules inherited from completed references;
-- customization anatomy: Defaults, Colors or state model, named slots, and intentionally non-customizable internals;
-- cross-component compositions that must remain valid;
-- long, empty, invalid-but-representable, RTL, large-font, narrow-width, and custom-slot behavior;
-- API compatibility impact and migration, if refining an available component.
-
-Reject contradictory boolean combinations or undefined state precedence before coding. Prefer controlled state and callbacks for mutable behavior. Do not expose platform objects, internal layout machinery, or customization that has no stable product meaning.
-
-## 3. Choose source sets
-
-Default implementation path:
+Create shared source under:
 
 ```text
-elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/<component>/
+elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/{package}/
 ```
 
-Use platform source sets only for unavoidable platform APIs:
+Create stable contract and pure-state tests under:
 
 ```text
-elegant-ui/src/androidMain/
-elegant-ui/src/desktopMain/
-elegant-ui/src/wasmJsMain/
+elegant-ui/src/commonTest/kotlin/com/elegant/compose/ui/{package}/
 ```
 
-Never expose Android, AWT/Swing, browser DOM, or other platform objects from shared public signatures.
+Follow `AGENTS.md` for public parameter order, KDoc, state models, semantics, minimum target size, theme tokens, Light/Dark behavior, RTL, loading behavior, and compatibility. Match the chosen reference's coding style and idioms.
 
-## 4. Implement source and foundations
+Important repository-specific rules:
 
-- Follow the parameter order in `AGENTS.md`.
-- Reuse the closest completed component's conventions for naming, sizing, state resolution, semantics, and KDoc shape.
-- Use semantic tokens from `ElegantTheme`.
-- Add `ElegantXxxDefaults` and immutable visual/state models when needed.
-- Centralize state resolution.
-- Add complete public KDoc.
-- Use correct semantics and state descriptions.
-- Enforce the minimum interactive target.
-- Prevent duplicate activation during loading/transition states.
-- Preserve Light/Dark, RTL, density, font scale, high DPI, browser zoom, and viewport resizing.
-- Do not wrap and re-export a Material component without an Elegant UI contract.
-- Do not copy Button-specific behavior into a different component family.
-- When adding a shared primitive, keep it lower-level than its consumers, test it directly, and rerun affected completed-component tests.
-- Apply the caller modifier once to the public root.
-- Keep slot spacing, alignment, content color, and text style owned by the component.
-- Keep accessibility strings caller-configurable where localization is required.
-- Use `rememberUpdatedState`, `@NonRestartableComposable`, and stability annotations only under the constraints in `AGENTS.md`.
-- Keep pure formatting, fallback, state resolution, and sizing choices outside composables when they can be tested directly.
-- Avoid new dependencies unless the component cannot reasonably use existing common Compose/Kotlin facilities.
+- implement in `commonMain` first;
+- use `androidMain`, `desktopMain`, or `wasmJsMain` only for unavoidable platform APIs;
+- never expose Android, AWT/Swing, browser DOM, or other platform types in the shared public API;
+- resolve state to visual values in one place;
+- add or extend shared foundations only when the active component needs them;
+- use semantic values from `ElegantTheme`, not raw colors in component code;
+- provide correct role and state semantics for interactive and non-interactive forms;
+- use controlled state and callbacks for mutable behavior;
+- do not expose an unmodified Material component as the Elegant UI contract;
+- do not reference or imitate another library's brand in code, comments, KDoc, or visuals;
+- test stable enums and meaningful pure contract logic; do not add tautological tests.
 
-Add meaningful `commonTest` coverage for stable and pure logic.
+If shared foundations change, run the affected completed-component tests as regressions.
 
-For a refinement or bug fix, add the smallest regression test that would have failed before the change. Update all consumers of the changed API in the same milestone.
-
-## 5. Run boundary validation
-
-```bash
-./scripts/validate-kmp-boundaries.sh
-```
-
-It must reject platform imports in common code, missing targets, missing sample modules, and legacy `src/main` layouts in KMP modules.
-
-## 6. Register the shared showcase
-
-Update `showcase/src/commonMain/.../ElegantShowcaseApp.kt`:
-
-- register `"{slug}" -> ...`;
-- render default, every public style and size, disabled, loading, error, selected, and other applicable states;
-- include interactive state transitions;
-- follow completed showcase pages for responsive structure, hierarchy, theme switching, and real usage context;
-- include long or constrained content when it is part of the contract;
-- include one realistic composition with an available component when the API is designed for composition;
-- keep the demo UI shared rather than copied into platform launchers;
-- preserve Light/Dark switching.
-
-Keep launchers thin:
-
-- `sample` launches the shared showcase on Android;
-- `desktop-sample` launches it in a desktop window;
-- `web-sample` reads `?id={slug}` and launches it through `ComposeViewport`.
-
-## 7. Add bilingual Miuix-format pages
-
-Create:
-
-```text
-docs/components/{slug}.md
-docs/zh_CN/components/{slug}.md
-```
-
-Use the fixed order:
-
-```text
-# ComponentName
-introduction
-iframe
-Import / 引入
-Basic Usage / 基本用法
-component-specific types or behavior
-Component States / 组件状态
-Properties / 属性
-Advanced Usage / 进阶用法
-```
-
-Use:
-
-```html
-src="../compose/index.html?id={slug}"
-src="../../compose/index.html?id={slug}"
-```
-
-Document every public parameter in signature order and every user-facing enum, Defaults, Colors, constant, and factory. Keep both locales structurally synchronized.
-
-## 8. Update website discovery
+## Step 4: Add the shared showcase demo
 
 Update:
 
 ```text
-docs/.vitepress/config.ts
-docs/components/index.md
-docs/zh_CN/components/index.md
+showcase/src/commonMain/kotlin/com/elegant/compose/showcase/ElegantShowcaseApp.kt
 ```
 
-The documentation iframe must be the actual `:web-sample` Compose Web/Wasm distribution. Do not add a separate HTML imitation of component behavior.
+1. Register the stable route: `"{slug}" -> XxxShowcase()`.
+2. Add one shared showcase section for the component.
+3. Cover the default appearance, every public style and size, applicable disabled/loading/error/selected states, and key content slots.
+4. Include real interaction and constrained or long content when those are part of the contract.
+5. Reuse the responsive showcase structure and theme switching already present.
 
-Keep both component indexes structurally aligned. Change the active component from planned to available only when every completion gate is ready to land in the same milestone.
+The same shared showcase must run on Android, Desktop, and Web. Keep platform launchers thin. The Web launcher obtains the slug from `?id={slug}`; do not create a separate HTML imitation for documentation.
 
-## 9. Perform the refinement pass
+## Step 5: Add documentation
 
-Review the real shared showcase, without creating a screenshot evidence gate:
+1. **Component pages** — create:
 
-- hierarchy and visual emphasis are immediately understandable;
-- text, icons, indicators, and containers are optically aligned;
-- every size is intentionally tuned rather than uniformly scaled;
-- state changes are visible, restrained, and do not move neighboring layout;
-- Light and Dark themes preserve contrast and hierarchy;
-- long content, RTL, font scaling, narrow width, and custom slots follow the frozen contract;
-- responsive layout does not assume the documentation iframe width;
-- the component looks native to Elegant UI rather than like an unmodified Material wrapper or an imitation of another library.
+   ```text
+   docs/components/{slug}.md
+   docs/zh_CN/components/{slug}.md
+   ```
 
-Fix contract or implementation problems discovered here before continuing. Record the checked result or any unavailable runtime in `VALIDATION.md`; do not require committed screenshots or pixel baselines.
+   Follow the Miuix-format order defined in `AGENTS.md`: introduction, iframe, Import, Basic Usage, component-specific behavior, Component States, Properties, and Advanced Usage. Keep English and Chinese examples and API identifiers aligned.
 
-## 10. Verify all targets
+2. **Real interactive preview** — place the iframe directly after the introduction:
 
-Run when available:
+   ```html
+   src="../compose/index.html?id={slug}"
+   src="../../compose/index.html?id={slug}"
+   ```
+
+   It must load the real `:web-sample` Compose Web/Wasm distribution.
+
+3. **Component overview** — add the component to:
+
+   ```text
+   docs/components/index.md
+   docs/zh_CN/components/index.md
+   ```
+
+   Keep both indexes synchronized. Change Planned / 计划中 to Available / 已完成 only when the complete milestone is ready to land.
+
+4. **Sidebars** — add the English and Chinese entries in:
+
+   ```text
+   docs/.vitepress/config.ts
+   ```
+
+5. **Validation record** — update `VALIDATION.md` with commands actually run and unavailable runtime checks. Do not manufacture evidence or claim an unrun check passed.
+
+## Step 6: Verify and land
+
+Run repository checks as separate invocations. In particular, keep Android, Desktop, and Web build tasks separate so one platform does not block the other two.
+
+Shared library and boundary checks:
 
 ```bash
 ./scripts/validate-kmp-boundaries.sh
-
 gradle :elegant-ui:build --stacktrace --no-daemon
 gradle :showcase:build --stacktrace --no-daemon
 gradle :elegant-ui:publishAllPublicationsToBuildRepository --stacktrace --no-daemon
-gradle :sample:assembleDebug --stacktrace --no-daemon
-gradle :desktop-sample:createDistributable --stacktrace --no-daemon
-gradle :web-sample:wasmJsBrowserDistribution --stacktrace --no-daemon
+```
 
+Android:
+
+```bash
+gradle :sample:assembleDebug --stacktrace --no-daemon
+```
+
+Desktop JVM:
+
+```bash
+gradle :desktop-sample:createDistributable --stacktrace --no-daemon
+```
+
+Web/Wasm:
+
+```bash
+gradle :web-sample:wasmJsBrowserDistribution --stacktrace --no-daemon
+```
+
+Documentation:
+
+```bash
 cd docs
 npm install
 npm run docs:check
 npm run docs:build
 ```
 
-Verify the Maven repository contains root metadata plus Android, Desktop JVM, and Web/Wasm publications.
+Exercise the shared showcase on the supported runtimes available locally and record platform acceptance in `VALIDATION.md` as required by `AGENTS.md`. GitHub Actions is authoritative when a local Android SDK, browser runtime, or packaging tool is unavailable.
 
-## 11. Platform acceptance
+Use one coherent Conventional Commit for the component and all companion changes. Push it, wait for both **Multiplatform Build** and **Documentation** workflows to succeed, confirm the working tree is clean and local `HEAD` matches the remote, then stop without starting the next component.
 
-Update `VALIDATION.md` and complete applicable checks:
+## Checklist
 
-- Android: physical device, touch, hardware keyboard, TalkBack, font scale, RTL.
-- Desktop: mouse, keyboard, focus traversal, resize, high DPI, Linux CI distributable.
-- Web: modern WasmGC browser, pointer, keyboard, focus, browser zoom, responsive viewport.
+A component milestone lands only when all 8 touch points are complete:
 
-A component is not complete if any supported platform is skipped without an explicit, approved exception.
+1. Shared component source and meaningful `commonTest` coverage
+2. Shared showcase implementation
+3. Stable slug registration and Web query routing
+4. English and Simplified Chinese Miuix-format component pages
+5. English and Chinese component overview entries
+6. English and Chinese VitePress sidebar entries
+7. Boundary, publication, documentation, and separate Android/Desktop/Web checks recorded in `VALIDATION.md`
+8. One coherent commit pushed with both GitHub Actions workflows successful
 
-## 12. Close the milestone
-
-Before marking the component available:
-
-1. Run the active component tests and all completed-component tests affected by shared foundation changes.
-2. Run documentation validation after updating both indexes and sidebars.
-3. Review the public API diff for naming, parameter order, additive compatibility, and family consistency.
-4. Update `VALIDATION.md` with commands actually run and any authoritative GitHub-only checks.
-5. If the component became available, add it to `references/completed-components.md` with its exact source, test, and bilingual documentation paths.
-6. Re-read the public declarations against both property tables and KDoc.
-7. Use one coherent Conventional Commit for the milestone; use separate follow-up commits only for independently discovered fixes.
-8. Push when the user requested a complete remote delivery.
-9. Wait for both **Multiplatform Build** and **Documentation** workflows to finish successfully.
-10. Confirm the working tree is clean and local `HEAD` matches the pushed branch.
-11. Stop. Report the next planned component without starting it.
-
-## Completion checklist
-
-1. Exactly one V1 component milestone was selected; a new component has stable dependencies, or a refinement has a locked outcome.
-2. Completed behavioral, layout, semantics, and delivery references were selected as needed.
-3. Contract, family conventions, customization anatomy, and slug are locked.
-4. Shared source and KDoc are complete.
-5. No platform types leak into common/public API.
-6. Boundary validation passes.
-7. Tokens, shared primitives, Defaults/Colors, state logic, and tests are complete.
-8. Affected completed-component tests still pass.
-9. Shared showcase registration is interactive and complete.
-10. Android, Desktop, and Web builds succeed.
-11. English and Chinese pages match the API.
-12. Real Compose Web iframe, both sidebars, and both indexes are updated.
-13. A new component is marked available in both progress indexes; a refinement preserves synchronized existing status.
-14. KMP Maven publication includes all three variants.
-15. Multiplatform and Documentation workflows succeed.
-16. Platform acceptance is recorded.
-17. The public API remains additive or has an explicit migration.
-18. The completed-reference catalog includes the component when it became newly available.
-19. The refinement pass completed without requiring screenshot evidence artifacts.
-20. No unrelated next-component or iOS work is included.
+When a new component becomes available, add one concise entry to `references/completed-components.md` in the same commit so future components can use it as a repository-native reference.

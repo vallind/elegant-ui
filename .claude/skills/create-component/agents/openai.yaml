@@ -1,4 +1,4 @@
 interface:
   display_name: "Create Elegant UI Component"
-  short_description: "Deliver one refined component across all supported targets"
-  default_prompt: "Use $create-component to complete the next Elegant UI component milestone."
+  short_description: "Create a component with showcase, docs, and platform checks"
+  default_prompt: "Use $create-component to create or complete one Elegant UI component milestone by following the Miuix-style six-step workflow and repository-native completed-component references."
