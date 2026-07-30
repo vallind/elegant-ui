@@ -5,3 +5,17 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.4.10" apply false
     id("org.jetbrains.compose") version "1.11.1" apply false
 }
+
+allprojects {
+    plugins.withType<org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsPlugin> {
+        extensions.configure<org.jetbrains.kotlin.gradle.targets.wasm.nodejs.WasmNodeJsEnvSpec> {
+            download.set(false)
+        }
+    }
+
+    plugins.withType<org.jetbrains.kotlin.gradle.targets.wasm.binaryen.BinaryenPlugin> {
+        extensions.configure<org.jetbrains.kotlin.gradle.targets.wasm.binaryen.BinaryenEnvSpec> {
+            download.set(false)
+        }
+    }
+}
