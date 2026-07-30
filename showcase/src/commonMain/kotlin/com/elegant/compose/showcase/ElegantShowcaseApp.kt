@@ -89,7 +89,7 @@ private fun ButtonShowcase() {
                             fontWeight = FontWeight.SemiBold,
                         )
                         Text(
-                            text = "Button · Android / Desktop / Web",
+                            text = "Button - Android / Desktop / Web",
                             color = colors.textSecondary,
                         )
                     }
@@ -99,14 +99,14 @@ private fun ButtonShowcase() {
                     }
                 }
 
-                DemoCard(title = "Primary · 主要操作") {
+                DemoCard(title = "Primary actions") {
                     SizeRow(style = ElegantButtonStyle.Primary, onClick = { tapCount++ })
                     ElegantButton(
                         onClick = { loading = !loading },
                         style = ElegantButtonStyle.Primary,
                         loading = loading,
                         leadingIcon = { Text("+") },
-                        trailingIcon = { Text("→") },
+                        trailingIcon = { Text(">") },
                     ) { Text(if (loading) "Loading" else "Toggle loading") }
                     ElegantButton(
                         onClick = {},
@@ -115,13 +115,13 @@ private fun ButtonShowcase() {
                     ) { Text("Disabled") }
                 }
 
-                DemoCard(title = "Secondary · 次要操作") {
+                DemoCard(title = "Secondary actions") {
                     SizeRow(style = ElegantButtonStyle.Secondary, onClick = { tapCount++ })
                     ElegantButton(
                         onClick = { tapCount++ },
                         style = ElegantButtonStyle.Secondary,
                         leadingIcon = { Text("+") },
-                        trailingIcon = { Text("→") },
+                        trailingIcon = { Text(">") },
                     ) { Text("With icons") }
                     ElegantButton(
                         onClick = {},
@@ -130,12 +130,12 @@ private fun ButtonShowcase() {
                     ) { Text("Disabled") }
                 }
 
-                DemoCard(title = "Tertiary · 低强调操作") {
+                DemoCard(title = "Tertiary actions") {
                     SizeRow(style = ElegantButtonStyle.Tertiary, onClick = { tapCount++ })
                     ElegantButton(
                         onClick = { tapCount++ },
                         style = ElegantButtonStyle.Tertiary,
-                        trailingIcon = { Text("→") },
+                        trailingIcon = { Text(">") },
                     ) { Text("Learn more") }
                 }
 
