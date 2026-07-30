@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "elegant-compose"
+rootProject.name = "elegant-ui"
 include(":elegant-ui")
 include(":sample")

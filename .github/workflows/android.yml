@@ -16,9 +16,9 @@ concurrency:
 
 jobs:
   build:
-    name: Build APK and AAR
+    name: Build KMP library and Android sample
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
 
     steps:
       - name: Checkout
@@ -36,36 +36,65 @@ jobs:
           gradle-version: "9.5.0"
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
-      - name: Build debug APK and release AAR
+      - name: Validate KMP source boundaries
+        run: ./scripts/validate-kmp-boundaries.sh
+
+      - name: Build, test, publish Maven repository, and assemble APK
         run: >-
           gradle
+          :elegant-ui:build
+          :elegant-ui:publishAllPublicationsToBuildRepository
           :sample:assembleDebug
-          :elegant-ui:assembleRelease
           --stacktrace
           --no-daemon
 
-      - name: Generate SHA-256 checksums
+      - name: Extract Android AAR and generate checksums
         shell: bash
         run: |
-          sha256sum sample/build/outputs/apk/debug/sample-debug.apk > sample-debug.apk.sha256
-          sha256sum elegant-ui/build/outputs/aar/elegant-ui-release.aar > elegant-ui-release.aar.sha256
+          set -euo pipefail
+          mkdir -p dist
 
-      - name: Upload installable APK
+          aar_path="$(find elegant-ui/build/repo -type f -name '*.aar' -print -quit)"
+          if [[ -z "$aar_path" ]]; then
+            echo "The KMP Maven publication did not contain an Android AAR." >&2
+            exit 1
+          fi
+
+          cp "$aar_path" dist/elegant-ui-android.aar
+          sha256sum dist/elegant-ui-android.aar > dist/elegant-ui-android.aar.sha256
+          sha256sum sample/build/outputs/apk/debug/sample-debug.apk > dist/sample-debug.apk.sha256
+
+          (
+            cd elegant-ui/build/repo
+            find . -type f -print0 | sort -z | xargs -0 sha256sum
+          ) > dist/elegant-ui-maven-repository.sha256
+
+      - name: Upload installable Android APK
         uses: actions/upload-artifact@v4
         with:
-          name: elegant-compose-button-demo-apk
+          name: elegant-ui-sample-apk
           path: |
             sample/build/outputs/apk/debug/sample-debug.apk
-            sample-debug.apk.sha256
+            dist/sample-debug.apk.sha256
           if-no-files-found: error
           retention-days: 14
 
-      - name: Upload library AAR
+      - name: Upload complete KMP Maven repository
         uses: actions/upload-artifact@v4
         with:
-          name: elegant-compose-button-aar
+          name: elegant-ui-maven-repository
           path: |
-            elegant-ui/build/outputs/aar/elegant-ui-release.aar
-            elegant-ui-release.aar.sha256
+            elegant-ui/build/repo/**
+            dist/elegant-ui-maven-repository.sha256
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload direct Android AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-ui-android-aar
+          path: |
+            dist/elegant-ui-android.aar
+            dist/elegant-ui-android.aar.sha256
           if-no-files-found: error
           retention-days: 14

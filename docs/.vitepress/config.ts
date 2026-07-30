@@ -9,6 +9,9 @@ const englishSidebar = {
       text: 'Guide',
       items: [
         { text: 'Getting started', link: '/guide/getting-started' },
+        { text: 'Installation', link: '/guide/installation' },
+        { text: 'Local development', link: '/guide/local-development' },
+        { text: 'Platform support', link: '/guide/platform-support' },
         { text: 'Design principles', link: '/guide/design-principles' },
       ],
     },
@@ -30,6 +33,9 @@ const chineseSidebar = {
       text: '指南',
       items: [
         { text: '快速开始', link: '/zh_CN/guide/getting-started' },
+        { text: '安装与依赖', link: '/zh_CN/guide/installation' },
+        { text: '本地联调', link: '/zh_CN/guide/local-development' },
+        { text: '平台支持', link: '/zh_CN/guide/platform-support' },
         { text: '设计原则', link: '/zh_CN/guide/design-principles' },
       ],
     },
@@ -47,7 +53,7 @@ const chineseSidebar = {
 
 export default defineConfig({
   title: 'Elegant UI',
-  description: 'Refined Android components for Kotlin and Jetpack Compose.',
+  description: 'Refined Android components with a common-first Kotlin Multiplatform foundation.',
   base,
   cleanUrls: true,
   lastUpdated: true,
@@ -84,7 +90,7 @@ export default defineConfig({
       lang: 'zh-CN',
       link: '/zh_CN/',
       title: 'Elegant UI',
-      description: '面向 Kotlin 与 Jetpack Compose 的精致 Android 组件库。',
+      description: '以 Android 为首个正式目标、采用 common-first KMP 架构的精致 Compose 组件库。',
       themeConfig: {
         nav: [
           { text: '指南', link: '/zh_CN/guide/getting-started' },

@@ -5,30 +5,41 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.graphics.Color
 
 private val LocalElegantColors = staticCompositionLocalOf { ElegantLightColors }
+private val LocalElegantTypography = staticCompositionLocalOf { DefaultElegantTypography }
 
+/** Accesses Elegant UI semantic values from the current composition. */
 public object ElegantTheme {
+    /** Semantic color roles for the active light or dark theme. */
     public val colors: ElegantColors
         @Composable
         @ReadOnlyComposable
         get() = LocalElegantColors.current
 
-    public val typography
+    /** Typography roles owned by Elegant UI. */
+    public val typography: ElegantTypography
         @Composable
         @ReadOnlyComposable
-        get() = MaterialTheme.typography
+        get() = LocalElegantTypography.current
 }
 
+/**
+ * Provides Elegant UI colors and typography to [content].
+ *
+ * Android is the only configured target today. The implementation lives in `commonMain` so future
+ * Compose Multiplatform targets can reuse the same visual contract without changing component APIs.
+ */
 @Composable
 public fun ElegantTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    colors: ElegantColors = if (darkTheme) ElegantDarkColors else ElegantLightColors,
+    typography: ElegantTypography = DefaultElegantTypography,
     content: @Composable () -> Unit,
 ) {
-    val colors = if (darkTheme) ElegantDarkColors else ElegantLightColors
     val materialColors = if (darkTheme) {
         darkColorScheme(
             primary = colors.interactivePrimary,
@@ -51,7 +62,10 @@ public fun ElegantTheme(
         )
     }
 
-    androidx.compose.runtime.CompositionLocalProvider(LocalElegantColors provides colors) {
+    CompositionLocalProvider(
+        LocalElegantColors provides colors,
+        LocalElegantTypography provides typography,
+    ) {
         MaterialTheme(
             colorScheme = materialColors,
             content = content,

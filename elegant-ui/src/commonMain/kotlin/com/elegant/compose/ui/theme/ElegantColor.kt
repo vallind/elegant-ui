@@ -3,21 +3,41 @@ package com.elegant.compose.ui.theme
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
+/**
+ * Semantic color roles used by Elegant UI components.
+ *
+ * Prefer supplying product colors through these roles instead of passing raw colors to individual
+ * components. This preserves consistent light/dark behavior and keeps component APIs portable.
+ */
 @Immutable
 public data class ElegantColors(
+    /** App or screen canvas background. */
     val backgroundCanvas: Color,
+    /** Subtle background used for pressed or grouped surfaces. */
     val backgroundSubtle: Color,
+    /** Default content surface. */
     val surfaceDefault: Color,
+    /** Raised content surface. */
     val surfaceRaised: Color,
+    /** Recessed or disabled surface. */
     val surfaceSunken: Color,
+    /** Highest-emphasis text and icon color. */
     val textPrimary: Color,
+    /** Supporting text and icon color. */
     val textSecondary: Color,
+    /** Disabled or lowest-emphasis text and icon color. */
     val textTertiary: Color,
+    /** Text and icon color shown on strong interactive containers. */
     val textInverse: Color,
+    /** Default separator and outline color. */
     val borderDefault: Color,
+    /** Strong separator and pressed outline color. */
     val borderStrong: Color,
+    /** Primary interactive color. */
     val interactivePrimary: Color,
+    /** Pressed primary interactive color. */
     val interactivePrimaryPressed: Color,
+    /** Keyboard or accessibility focus-ring color. */
     val focusRing: Color,
 )
 

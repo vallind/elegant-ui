@@ -8,6 +8,8 @@
 
 ```kotlin
 import com.elegant.compose.ui.button.ElegantButton
+import com.elegant.compose.ui.button.ElegantButtonColors
+import com.elegant.compose.ui.button.ElegantButtonDefaults
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
 ```
@@ -88,10 +90,11 @@ ElegantButton(
 | --- | --- | --- | --- | --- |
 | `onClick` | `() -> Unit` | 按钮接受点击时触发的回调 | - | 是 |
 | `modifier` | `Modifier` | 应用于最小 48dp 触控区域容器的修饰符 | `Modifier` | 否 |
-| `style` | `ElegantButtonStyle` | 按钮的视觉强调类型 | `ElegantButtonStyle.Primary` | 否 |
-| `size` | `ElegantButtonSize` | 可视尺寸与内部度量 | `ElegantButtonSize.Medium` | 否 |
 | `enabled` | `Boolean` | 按钮是否可以接受用户交互 | `true` | 否 |
 | `loading` | `Boolean` | 显示进度并阻止重复触发 | `false` | 否 |
+| `style` | `ElegantButtonStyle` | 按钮的视觉强调类型 | `ElegantButtonStyle.Primary` | 否 |
+| `size` | `ElegantButtonSize` | 可视尺寸与内部度量 | `ElegantButtonSize.Medium` | 否 |
+| `colors` | `ElegantButtonColors` | 主题感知的状态颜色与边框度量 | `ElegantButtonDefaults.colors(style)` | 否 |
 | `leadingIcon` | `(@Composable () -> Unit)?` | 标签前的可选图标或内容 | `null` | 否 |
 | `trailingIcon` | `(@Composable () -> Unit)?` | 标签后的可选图标或内容 | `null` | 否 |
 | `content` | `@Composable () -> Unit` | 显示为按钮标签的可组合内容 | - | 是 |
@@ -111,6 +114,18 @@ ElegantButton(
 | `Small` | `36.dp` | `48.dp` | `12.dp` | `16.dp` |
 | `Medium` | `40.dp` | `48.dp` | `16.dp` | `18.dp` |
 | `Large` | `48.dp` | `48.dp` | `20.dp` | `20.dp` |
+
+### ElegantButtonDefaults
+
+| 成员 | 类型 | 说明 |
+| --- | --- | --- |
+| `MinimumTouchHeight` | `Dp` | 所有尺寸统一使用的最小交互根高度 |
+| `AnimationDurationMillis` | `Int` | 标准状态过渡时长 |
+| `colors(style)` | `ElegantButtonColors` | 返回指定按钮类型的主题感知颜色 |
+
+### ElegantButtonColors
+
+`ElegantButtonColors` 包含默认、按压、聚焦和禁用状态下的容器色、内容色、边框色与边框宽度。应先调用 `ElegantButtonDefaults.colors(style)`，再通过 `copy(...)` 只覆盖产品明确支持的视觉值。
 
 ## 进阶用法
 
@@ -149,6 +164,22 @@ ElegantButton(
     },
 ) {
     Text("继续")
+}
+```
+
+### 自定义颜色
+
+```kotlin
+val baseColors = ElegantButtonDefaults.colors(ElegantButtonStyle.Primary)
+
+ElegantButton(
+    onClick = { /* 处理点击事件 */ },
+    colors = baseColors.copy(
+        containerColor = Color(0xFF0F766E),
+        pressedContainerColor = Color(0xFF115E59),
+    ),
+) {
+    Text("自定义操作")
 }
 ```
 

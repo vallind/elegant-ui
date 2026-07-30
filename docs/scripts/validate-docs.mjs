@@ -7,6 +7,15 @@ const englishDir = join(docsRoot, 'components')
 const chineseDir = join(docsRoot, 'zh_CN', 'components')
 const demoDocument = await readFile(join(docsRoot, 'public', 'compose', 'index.html'), 'utf8')
 
+const requiredGuideSlugs = [
+  'getting-started',
+  'installation',
+  'local-development',
+  'platform-support',
+  'design-principles',
+]
+
+
 const componentSlugs = async (directory) =>
   (await readdir(directory))
     .filter((name) => name.endsWith('.md') && name !== 'index.md')
@@ -45,6 +54,49 @@ if (englishSlugs.join('\n') !== chineseSlugs.join('\n')) {
 const config = await readFile(join(docsRoot, '.vitepress', 'config.ts'), 'utf8')
 const englishIndex = await readFile(join(englishDir, 'index.md'), 'utf8')
 const chineseIndex = await readFile(join(chineseDir, 'index.md'), 'utf8')
+
+for (const slug of requiredGuideSlugs) {
+  const englishPath = join(docsRoot, 'guide', `${slug}.md`)
+  const chinesePath = join(docsRoot, 'zh_CN', 'guide', `${slug}.md`)
+
+  let englishGuide
+  let chineseGuide
+  try {
+    englishGuide = await readFile(englishPath, 'utf8')
+    chineseGuide = await readFile(chinesePath, 'utf8')
+  } catch {
+    fail(`guide locale pair is missing for ${slug}`)
+    continue
+  }
+
+  if (!config.includes(`link: '/guide/${slug}'`)) {
+    fail(`English guide sidebar is missing /guide/${slug}`)
+  }
+  if (!config.includes(`link: '/zh_CN/guide/${slug}'`)) {
+    fail(`Chinese guide sidebar is missing /zh_CN/guide/${slug}`)
+  }
+
+  const englishKotlinBlocks = (englishGuide.match(/```kotlin/g) ?? []).length
+  const chineseKotlinBlocks = (chineseGuide.match(/```kotlin/g) ?? []).length
+  if (englishKotlinBlocks !== chineseKotlinBlocks) {
+    fail(
+      `${slug} guide Kotlin example count differs: English=${englishKotlinBlocks}, Chinese=${chineseKotlinBlocks}`,
+    )
+  }
+}
+
+for (const requiredText of [
+  'io.github.vallind:elegant-ui:0.1.0-SNAPSHOT',
+  'elegant-ui-maven-repository',
+  'only supported runtime target',
+]) {
+  const installation = await readFile(join(docsRoot, 'guide', 'installation.md'), 'utf8')
+  const platformSupport = await readFile(join(docsRoot, 'guide', 'platform-support.md'), 'utf8')
+  const combined = `${installation}\n${platformSupport}`
+  if (!combined.includes(requiredText)) {
+    fail(`English consumer/platform guides are missing required contract text: ${requiredText}`)
+  }
+}
 
 for (const slug of englishSlugs) {
   const englishPage = await readFile(join(englishDir, `${slug}.md`), 'utf8')
@@ -132,6 +184,6 @@ for (const slug of englishSlugs) {
 
 if (!process.exitCode) {
   console.log(
-    `Documentation validation passed for ${englishSlugs.length} Miuix-format component page(s).`,
+    `Documentation validation passed for ${englishSlugs.length} Miuix-format component page(s) and ${requiredGuideSlugs.length} bilingual guide pair(s).`,
   )
 }

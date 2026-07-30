@@ -8,6 +8,8 @@
 
 ```kotlin
 import com.elegant.compose.ui.button.ElegantButton
+import com.elegant.compose.ui.button.ElegantButtonColors
+import com.elegant.compose.ui.button.ElegantButtonDefaults
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
 ```
@@ -88,10 +90,11 @@ ElegantButton(
 | --- | --- | --- | --- | --- |
 | `onClick` | `() -> Unit` | Callback triggered when the button accepts a click | - | Yes |
 | `modifier` | `Modifier` | Modifier applied to the 48dp minimum touch-target container | `Modifier` | No |
-| `style` | `ElegantButtonStyle` | Visual emphasis type of the button | `ElegantButtonStyle.Primary` | No |
-| `size` | `ElegantButtonSize` | Visual size and internal metrics | `ElegantButtonSize.Medium` | No |
 | `enabled` | `Boolean` | Whether the button can accept user interaction | `true` | No |
 | `loading` | `Boolean` | Shows progress and prevents duplicate activation | `false` | No |
+| `style` | `ElegantButtonStyle` | Visual emphasis type of the button | `ElegantButtonStyle.Primary` | No |
+| `size` | `ElegantButtonSize` | Visual size and internal metrics | `ElegantButtonSize.Medium` | No |
+| `colors` | `ElegantButtonColors` | Theme-aware state colors and border metrics | `ElegantButtonDefaults.colors(style)` | No |
 | `leadingIcon` | `(@Composable () -> Unit)?` | Optional icon or content before the label | `null` | No |
 | `trailingIcon` | `(@Composable () -> Unit)?` | Optional icon or content after the label | `null` | No |
 | `content` | `@Composable () -> Unit` | Composable content displayed as the button label | - | Yes |
@@ -111,6 +114,18 @@ ElegantButton(
 | `Small` | `36.dp` | `48.dp` | `12.dp` | `16.dp` |
 | `Medium` | `40.dp` | `48.dp` | `16.dp` | `18.dp` |
 | `Large` | `48.dp` | `48.dp` | `20.dp` | `20.dp` |
+
+### ElegantButtonDefaults
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `MinimumTouchHeight` | `Dp` | Minimum interactive root height used by every size |
+| `AnimationDurationMillis` | `Int` | Standard state-transition duration |
+| `colors(style)` | `ElegantButtonColors` | Returns theme-aware colors for a button style |
+
+### ElegantButtonColors
+
+`ElegantButtonColors` contains default, pressed, focused, and disabled container, content, border, and border-width values. Start with `ElegantButtonDefaults.colors(style)` and use `copy(...)` to override only product-supported values.
 
 ## Advanced Usage
 
@@ -149,6 +164,22 @@ ElegantButton(
     },
 ) {
     Text("Continue")
+}
+```
+
+### Custom Colors
+
+```kotlin
+val baseColors = ElegantButtonDefaults.colors(ElegantButtonStyle.Primary)
+
+ElegantButton(
+    onClick = { /* Handle click event */ },
+    colors = baseColors.copy(
+        containerColor = Color(0xFF0F766E),
+        pressedContainerColor = Color(0xFF115E59),
+    ),
+) {
+    Text("Custom Action")
 }
 ```
 

@@ -1,13 +1,13 @@
-# Elegant Compose — 项目需求基线
+# Elegant UI — 项目需求基线
 
 > 状态：Foundations 已锁定；Button 进入 GitHub Actions + 真机验收流程。
 
 ## 1. 项目定位
 
-- **项目名称**：Elegant Compose（暂定，可在工程初始化前统一替换）
-- **项目类型**：全新的 Android UI 组件库，不改造、不复制任何现有项目
-- **技术栈**：Kotlin + Jetpack Compose
-- **交付形态**：Android Library、示例应用、英文/简体中文 VitePress 文档网站、GitHub Pages
+- **项目名称**：Elegant UI
+- **项目类型**：全新的 Android-first、common-first Kotlin Multiplatform UI 组件库，不改造、不复制任何现有项目
+- **技术栈**：Kotlin Multiplatform + Compose Multiplatform；当前仅配置并正式支持 Android
+- **交付形态**：KMP Maven publication、Android AAR、Android 示例应用、英文/简体中文 VitePress 文档网站、GitHub Pages
 - **设计目标**：精美、优雅、高级、克制、现代、精致、可维护、可扩展
 - **视觉关键词**：Apple HIG 的克制与空间感 × Linear 的清晰与效率 × Ant Design 的精细化 × Material 3 的系统性
 - **参考资料用途**：仅提取工程规范、API 约定、组件工作流与质量标准，不继承原项目品牌、包名、组件视觉或源码
@@ -69,7 +69,9 @@
 - 状态至少覆盖：default、pressed、focused、selected、disabled、error（按组件适用）
 - 组件必须具备 Compose Semantics、正确 Role、触控尺寸与无障碍对比度
 - 公共 API 需提供 KDoc；示例与文档 API 必须一致
-- V1 仅使用 Android/Compose 能力；不引入其他现有组件库的品牌或实现
+- V1 仅正式支持 Android；可共享组件默认进入 `commonMain`，公共 API 不得暴露 Android 平台类型
+- Desktop、iOS、Web/Wasm 为计划目标，只有完成 target、CI、Sample、测试、文档和发布产物后才可声明支持
+- 不引入其他现有组件库的品牌或实现
 
 ## 4. 文档网站要求
 
@@ -107,7 +109,7 @@
 3. **示例应用与双语 VitePress 组件页**
 4. **网站预览、双语导航与索引同步**
 5. **推送独立 GitHub 仓库**
-6. **GitHub Actions 部署网站并构建 APK / AAR**
+6. **GitHub Actions 部署网站并构建 KMP Maven publication / Android AAR / APK**
 7. **真机安装、视觉与交互验收**
 8. **按网站与真机反馈修正后关闭组件里程碑**
 
@@ -115,8 +117,8 @@
 
 ## 7. 暂定工程标识
 
-- Gradle root project：`elegant-compose`
-- Library module：`:elegant-ui`
+- Gradle root project：`elegant-ui`
+- Library module：`:elegant-ui`（KMP，当前仅 Android target）
 - Demo module：`:sample`
 - Kotlin package：`com.elegant.compose.ui`
 - 文档网站：英文 `docs/`，简体中文镜像 `docs/zh_CN/`，VitePress 配置 `docs/.vitepress/`

@@ -1,40 +1,56 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.library")
+    id("org.jetbrains.kotlin.multiplatform")
+    id("com.android.kotlin.multiplatform.library")
+    id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("maven-publish")
 }
 
-android {
-    namespace = "com.elegant.compose.ui"
-    compileSdk = 37
+group = "io.github.vallind"
+version = "0.1.0-SNAPSHOT"
 
-    defaultConfig {
+kotlin {
+    android {
+        namespace = "com.elegant.compose.ui"
+        compileSdk = 37
         minSdk = 24
-        consumerProguardFiles("consumer-rules.pro")
+
+        compilerOptions.configure {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+
+        withHostTestBuilder {}.configure {}
+
+        optimization {
+            consumerKeepRules.apply {
+                publish = true
+                file("consumer-rules.pro")
+            }
+        }
     }
 
-    buildFeatures {
-        compose = true
-    }
+    sourceSets {
+        commonMain.dependencies {
+            api(compose.runtime)
+            api(compose.ui)
+            implementation(compose.foundation)
+            implementation(compose.animation)
+            implementation(compose.material3)
+        }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    testOptions {
-        unitTests.isIncludeAndroidResources = true
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
     }
 }
 
-dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2026.06.00")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-
-    api("androidx.compose.runtime:runtime")
-    api("androidx.compose.ui:ui")
-    api("androidx.compose.foundation:foundation")
-    api("androidx.compose.material3:material3")
-
-    testImplementation("junit:junit:4.13.2")
+publishing {
+    repositories {
+        maven {
+            name = "Build"
+            url = layout.buildDirectory.dir("repo")
+        }
+    }
 }

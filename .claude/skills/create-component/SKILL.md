@@ -1,267 +1,290 @@
 ---
 name: create-component
-description: Create or complete an Elegant UI Android Jetpack Compose component through the full repository workflow: visual/API contract, semantic tokens, library source, sample demo and registration, synchronized English and Simplified Chinese VitePress pages using the Miuix component-documentation template, iframe demo registration, website navigation, GitHub Actions website/APK/AAR builds, and physical-device validation. Use whenever the user asks to add, create, scaffold, implement, or finish a component or composable in vallind/elegant-ui, including requests that only name the component such as "add IconButton", "new component", "添加组件", "新建组件", or "实现 Checkbox".
+description: Create or complete one Elegant UI component through the Android-first, common-first Kotlin Multiplatform workflow: contract, commonMain source, semantic tokens, public KDoc, Android sample, synchronized Miuix-format English and Simplified Chinese website pages, iframe demo registration, KMP boundary checks, Maven/APK/AAR GitHub Actions artifacts, and physical-device validation. Use for requests such as add IconButton, implement Checkbox, 新建组件, 添加组件, or finish a component milestone.
 ---
 
-# Create an Elegant UI Component
+# Create an Elegant UI component
 
-Add one Android Jetpack Compose component to Elegant UI and complete every companion change required for a reviewable, installable, bilingual, website-published, physical-device-tested milestone.
+Complete one component as a reviewable, installable, bilingual milestone. Android is the only supported runtime target. Write shareable code in `commonMain`; do not add speculative Desktop, iOS, or Web implementations.
 
-`AGENTS.md` at the repository root is authoritative for API conventions, tokens, accessibility, website rules, validation, and commit style. Existing source is authoritative for the current project structure. When this skill conflicts with either, `AGENTS.md` and current source win.
+## Outcome
 
-## Step 1: Gather and Lock Requirements
+A successful component milestone includes:
 
-Resolve every item that materially affects the public API, state matrix, or documentation contract:
+- public Compose API in `commonMain`;
+- semantic tokens, defaults, colors, state resolution, KDoc, and tests;
+- Android sample demo and registration;
+- English and Simplified Chinese Miuix-format component pages;
+- iframe visual demo registered by component slug;
+- both locale sidebars and component indexes;
+- KMP boundary validation;
+- KMP build and Maven publication;
+- Android APK and extracted AAR artifacts;
+- documentation deployment;
+- physical-device acceptance.
 
-1. **Component name** — `PascalCase`, with the public composable prefixed `Elegant` when appropriate, for example `ElegantIconButton`.
-2. **V1 category** — basic, form, content, or navigation, matching `PROJECT_BRIEF.md`.
-3. **Purpose** — what user task the component supports and when it should not be used.
-4. **Required state** — such as `checked`, `selected`, `value`, `expanded`, or `loading`.
-5. **Callbacks** — user-originated actions and state-change callbacks.
-6. **Variants and sizes** — only stable design-system axes; do not create variants for arbitrary icons or labels.
-7. **Content slots** — label, leading/trailing icon, supporting content, or custom content.
-8. **States** — default, pressed, focused, disabled, loading, selected, error, or others that genuinely apply.
-9. **Accessibility contract** — role, state semantics, touch target, focus visibility, content descriptions, font scaling, and RTL.
-10. **Website contract** — component slug, category, page sections, preview scenarios, English/Chinese labels, sidebar location, and component-index entry.
-11. **Figma contract** — use it when available. If automation is unavailable, record the agreed contract and continue; do not block Compose, website, or CI.
+Do not begin the next component until all applicable gates pass.
 
-Do not begin implementation while a genuine public-API fork is unresolved. Do not ask about details already locked in `PROJECT_BRIEF.md`, Figma, or existing source.
+## Step 1: Inspect the repository
 
-## Step 2: Inspect the Repository and Closest Reference
+Read:
 
-Before writing code:
+- `AGENTS.md`
+- `PROJECT_BRIEF.md`
+- `FLOW.md`
+- `VALIDATION.md`
+- the closest component in `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/`
+- both locale pages for that component family
+- `docs/public/compose/index.html`
+- `.github/workflows/android.yml`
+- `.github/workflows/docs.yml`
 
-1. Read `AGENTS.md`.
-2. Read `PROJECT_BRIEF.md`, `FLOW.md`, and the current `VALIDATION.md`.
-3. Read the closest existing component source in full.
-4. Read its English and Chinese website pages together.
-5. Read the sample entry point and note how the component will be exposed on device.
-6. Inspect theme/token files before proposing any color, spacing, radius, or motion value.
-7. Inspect `docs/.vitepress/config.ts`, the relevant component overview pages, and existing preview components.
-8. Inspect `.github/workflows/android.yml` and `.github/workflows/docs.yml` so verification commands, deployment base, and artifact paths remain correct.
-
-Choose the closest reference by behavior, not visual resemblance:
-
-| Component behavior | Reference | Review focus |
-| :--- | :--- | :--- |
-| Clickable action | `elegant-ui/.../button/ElegantButton.kt` | interaction source, press/focus state, 48dp root, loading lockout, slots |
-| Theme-aware component | `elegant-ui/.../theme/ElegantTheme.kt` and `ElegantColor.kt` | semantic Light/Dark values and composition locals |
-| Foundation dimensions | `elegant-ui/.../theme/ElegantTokens.kt` | spacing/radius naming and reuse |
-| Physical-device demo | `sample/.../MainActivity.kt` | visible state matrix, theme switch, interaction checks |
-| Bilingual website page | `docs/components/button.md` and `docs/zh_CN/components/button.md` | one-to-one structure and API fidelity |
-| Website demo | `docs/public/compose/index.html?id=button` | Miuix-style iframe contract, query-id registry, Light/Dark and meaningful states, Android-runtime disclaimer |
-
-## Step 3: Define the Component Contract
-
-Before code, write a compact implementation contract in notes or the active plan:
-
-- Public composable signature and parameter order.
-- Public enums/data classes/defaults objects.
-- State matrix and which states are mutually exclusive.
-- Token additions and their semantic names.
-- Minimum touch target and visible dimensions.
-- Animation durations/easing and reduced-motion considerations when applicable.
-- Light/Dark behavior.
-- Semantics role, state descriptions, and disabled behavior.
-- Sample scenarios.
-- English/Chinese website outline.
-- Iframe demo behavior, query-id registry entry, and limitations.
-- Sidebar category and component overview row.
-- Physical-device checks unique to the component.
-
-Prefer a small, coherent public API. Implementation-only metrics and visual resolution models remain private.
-
-## Step 4: Implement Tokens and Library Source
-
-Create the component family under:
+Confirm the current platform statement remains:
 
 ```text
-elegant-ui/src/main/java/com/elegant/compose/ui/<component>/
+Android: supported
+Desktop JVM: planned
+ iOS: planned
+Web/Wasm: planned
 ```
 
-Use a single primary source file until the implementation has a clear reason to split.
+Do not add another target as part of ordinary component work.
+
+## Step 2: Write a compact contract
+
+Record:
+
+- component purpose;
+- public function signature and parameter order;
+- public enums, state holders, defaults, and colors;
+- full state matrix and mutually exclusive states;
+- semantic token additions;
+- minimum touch target and visible metrics;
+- animation duration/easing;
+- Light/Dark behavior;
+- semantics role and state descriptions;
+- RTL and font-scale expectations;
+- Android sample scenarios;
+- website page outline and iframe slug;
+- platform dependencies and why the implementation belongs in `commonMain` or `androidMain`;
+- component-specific physical-device checks.
+
+Any Android-only requirement must be explicit. Keep Android types out of public API.
+
+## Step 3: Choose the source set
+
+Default path:
+
+```text
+elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/<component>/
+```
+
+Use `androidMain` only when the implementation genuinely requires Android APIs or Android resources.
+
+When platform behavior is needed:
+
+1. define the smallest stable common contract;
+2. implement the Android behavior in `androidMain`;
+3. prefer dependency injection or a narrow interface;
+4. use `expect` / `actual` only when compile-time platform specialization is the clearest design;
+5. document the fallback and Android acceptance checks.
+
+Never create `elegant-ui/src/main`.
+
+## Step 4: Implement foundations and source
 
 Required rules:
 
 - Follow the parameter order in `AGENTS.md`.
-- Use semantic values from `ElegantTheme` and foundation/component defaults.
-- Add raw color values only in the theme/foundation layer.
-- Use `@Immutable` only for truly immutable state/color/metric models.
+- Required behavior/state comes first, then `Modifier`, state flags, visual configuration, optional slots, and main content last.
+- Use semantic values from `ElegantTheme` and foundations.
+- Add raw colors only to the theme/foundation layer.
+- Use `@Immutable` only for truly immutable values.
 - Centralize state-to-visual resolution.
-- Keep content slots composable and keep the main content lambda last.
-- Use the correct semantics `Role` and expose state.
+- Expose `ElegantXxxDefaults` and `ElegantXxxColors` when reusable visual configuration exists.
+- Use correct semantics roles and state descriptions.
 - Enforce at least a 48dp interactive root.
-- Disable interaction during loading or other non-interactive transitional states.
-- Preserve Light/Dark parity.
-- Respect RTL for directional content.
-- Add public KDoc for the composable, public enums, defaults, and public data classes.
-- Do not expose raw Material styling as the Elegant UI contract.
+- Disable duplicate interaction during loading or transition states.
+- Preserve Light/Dark and RTL behavior.
+- Add public KDoc to all public declarations.
+- Do not expose Android platform types from common/public signatures.
+- Do not expose an unmodified Material component as the Elegant UI contract.
 
-Create `ElegantXxxDefaults` and `ElegantXxxColors` when the component has reusable visual configuration. Do not add a parameter merely because Figma contains a token; public parameters represent supported product-level customization.
+Add common tests for stable enums, pure state logic, or public contract behavior. Platform behavior belongs in the matching platform test source set when enabled.
 
-## Step 5: Add the Sample Demo and Registration
+## Step 5: Run the KMP boundary check
 
-The sample must make physical-device validation possible without reading source.
+Run:
 
-1. Follow the current sample architecture. Extract `sample/.../component/{Name}Demo.kt` when the entry point would otherwise become unwieldy.
-2. Register the component in sample navigation or the main screen.
-3. Show the default configuration.
-4. Show every public style/variant and size.
-5. Show disabled and component-specific edge states.
-6. Add interactive state so callbacks, selection, loading, expansion, drag, or input can be tested.
-7. Make Light/Dark switching available.
-8. Avoid demo-only hardcoded colors; consume `ElegantTheme`.
-9. Include concise on-device instructions for checks that are not visually obvious.
+```bash
+./scripts/validate-kmp-boundaries.sh
+```
 
-A website preview, screenshot, or Compose Preview is insufficient because the delivery gate is a real APK.
+The check must fail when:
 
-## Step 6: Add the Bilingual Website Content
+- `commonMain` imports `android.*`;
+- `commonMain` imports known Android-only AndroidX APIs;
+- the legacy library `src/main` layout returns.
 
-Create or update:
+Also inspect public declarations manually for Android types that grep cannot identify reliably.
+
+## Step 6: Add and register the Android sample
+
+The sample is the source of truth for physical interaction.
+
+1. Add a focused demo screen or section.
+2. Register it in the sample entry/navigation.
+3. Show default, every public style/variant, every size, disabled, loading, error, selected, or other applicable states.
+4. Add interactive state so callbacks and state transitions can be tested.
+5. Keep Light/Dark switching available.
+6. Use Elegant UI semantic values rather than demo-only color constants.
+7. Add concise on-device instructions for non-obvious checks.
+
+A website iframe or Compose Preview does not replace the sample APK.
+
+## Step 7: Add bilingual Miuix-format website pages
+
+Create:
 
 ```text
 docs/components/{slug}.md
 docs/zh_CN/components/{slug}.md
 ```
 
-The pages must correspond one to one, use the real public API, and follow the Miuix component-documentation template.
+Use the fixed order.
 
-### Required English structure
+### English
 
 ```markdown
 # ComponentName
 
-`ComponentName` is ...
+One concise introduction paragraph.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id={slug}" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" ... src="../compose/index.html?id={slug}" ...></iframe>
 
 ## Import
 ## Basic Usage
-## Component-Specific Types or Behavior
+## Component-specific types or behavior
 ## Component States
 ## Properties
 ### ComponentName Properties
-### Public Enum / Defaults / Colors subsections when they exist
+### Public enums / defaults / colors when present
 ## Advanced Usage
 ```
 
-### Required Simplified Chinese structure
-
-Use the same order and examples, with these fixed headings:
+### Simplified Chinese
 
 ```markdown
 # ComponentName
+
+一段简洁介绍。
+
+<iframe id="demoIframe" ... src="../../compose/index.html?id={slug}" ...></iframe>
+
 ## 引入
 ## 基本用法
 ## 组件特有类型或行为
 ## 组件状态
 ## 属性
 ### ComponentName 属性
-### 已公开枚举 / Defaults / Colors 子章节（存在时）
+### 已公开枚举 / Defaults / Colors
 ## 进阶用法
 ```
 
-The Chinese iframe source is `../../compose/index.html?id={slug}`.
+Rules:
 
-### Documentation rules
-
-- Keep the introduction to one concise paragraph describing purpose and supported forms.
-- Place the iframe immediately after the introduction; do not add a separate `Demo` heading.
-- Use component-specific top-level sections only between Basic Usage and Component States, such as `Button Types` or `Selection Modes`.
-- Property tables use exactly: property name, type, description, default value, required.
+- The iframe immediately follows the introduction; do not add a separate Demo heading.
+- Property tables use property name, type, description, default value, required.
 - Document every public parameter in signature order.
-- Document public enums, defaults objects, colors classes, constants, and factory methods under `## Properties` when they actually exist.
-- Put size metrics in the public size/defaults subsection instead of a standalone top-level Sizes section.
-- Keep accessibility, RTL, physical-device, and repository-policy checklists in source KDoc, sample guidance, `AGENTS.md`, and `VALIDATION.md`; do not append them as generic top-level component-doc sections.
-- Do not document planned APIs or private implementation models.
-- English and Chinese Kotlin block counts and API identifiers must match.
+- Document every public enum, defaults member, colors field/model, constant, and factory that users need.
+- Keep both locale Kotlin block counts and API identifiers aligned.
+- Do not document planned platform APIs.
+- Use the platform-support guide to state that Android is the only supported target.
 
-### Iframe demo
+## Step 8: Register the iframe demo and discovery points
 
-Register or update the component visual demo in:
+Update:
 
 ```text
 docs/public/compose/index.html
+docs/.vitepress/config.ts
+docs/components/index.md
+docs/zh_CN/components/index.md
 ```
 
-The demo is selected by `?id={slug}`. Add one renderer and one `demoRenderers` registry entry per component.
+The iframe renderer must:
 
-Demo requirements:
+- register `?id={slug}`;
+- work as a standalone static page;
+- expose meaningful variants and states;
+- support Light/Dark when applicable;
+- remain keyboard accessible and responsive;
+- state that the Android APK is the behavioral source of truth;
+- avoid pretending to reproduce behavior a browser mock cannot represent faithfully.
 
-- Work as a standalone static page copied by VitePress from `docs/public/`.
-- Support Light/Dark when the Android component does.
-- Expose meaningful public variants and states.
-- Remain keyboard accessible and responsive inside the iframe.
-- State inside the demo that the Android APK is the source of truth for Compose semantics and device behavior.
-- Do not fake behavior that cannot be represented faithfully in a browser.
+Update README links when the active milestone changes.
 
-## Step 7: Register Website Navigation and Indexes
+## Step 9: Update device validation
 
-A component page is not complete until all website discovery points are updated:
+Update `VALIDATION.md` with:
 
-1. Add the English link to the correct category in `docs/.vitepress/config.ts`.
-2. Add the Simplified Chinese link to the matching category and order.
-3. Add the component row/card to `docs/components/index.md`.
-4. Add the mirrored row/card to `docs/zh_CN/components/index.md`.
-5. Confirm locale switching preserves the equivalent route.
-6. Confirm `docs/public/compose/index.html` contains the `{slug}` demo renderer and registry entry.
-7. Update README website/component links when the active milestone changes.
+- device model and Android version;
+- display and font scale;
+- Light/Dark;
+- hierarchy, spacing, typography, and contrast;
+- touch target, press, focus, keyboard, screen reader, and RTL;
+- loading/duplicate-action behavior;
+- component-specific gestures or input;
+- observations and acceptance decision.
 
-Never add only one locale, one sidebar, or one component index.
+## Step 10: Verify documentation and builds
 
-## Step 8: Update Physical-Device Validation
-
-Update `VALIDATION.md` for the active component milestone. Preserve general checks and add component-specific checks, including installation, Light/Dark, hierarchy, touch target, focus/press feedback, duplicate-action prevention, font scaling, landscape, RTL, and component-specific gesture/keyboard/screen-reader/haptic behavior.
-
-Require the tester to record device model, Android version, display scale, font scale, and observations.
-
-## Step 9: Verify Website and Android Builds
-
-Run locally when the environment supports it:
+Run when the environment supports them:
 
 ```bash
+./scripts/validate-kmp-boundaries.sh
+
 cd docs
 npm install
+npm run docs:check
 npm run docs:build
 cd ..
 
-gradle check --stacktrace --no-daemon
-gradle lint --stacktrace --no-daemon
-gradle :sample:assembleDebug :elegant-ui:assembleRelease --stacktrace --no-daemon
+gradle :elegant-ui:build --stacktrace --no-daemon
+gradle :elegant-ui:publishAllPublicationsToBuildRepository --stacktrace --no-daemon
+gradle :sample:assembleDebug --stacktrace --no-daemon
+gradle check lint --stacktrace --no-daemon
 ```
 
-Website verification must confirm:
+Confirm:
 
-- No broken Markdown/Vue imports.
-- English and Chinese pages both build.
-- Sidebar links resolve.
-- Locale switch reaches the mirrored page.
-- Every component iframe resolves to `compose/index.html?id={slug}` and the demo registry recognizes the slug.
-- GitHub Pages uses base `/elegant-ui/`.
+- `elegant-ui/build/repo/` contains root KMP metadata, POMs, sources, and an Android AAR;
+- `sample/build/outputs/apk/debug/sample-debug.apk` exists;
+- both locales build and route correctly;
+- the component slug resolves in the iframe registry;
+- the **Documentation** workflow succeeds;
+- the **Android Build** workflow uploads `elegant-ui-maven-repository`, a direct Android AAR, and the sample APK.
 
-Then push the coherent component milestone and verify both workflows:
+Do not claim success for commands that were not executed.
 
-- **Documentation** builds the VitePress site and deploys GitHub Pages on `main`.
-- **Android Build** produces the APK, AAR, and checksums.
+## Step 11: Physical-device gate
 
-Required Android artifacts:
+Have the user install the latest successful APK and complete `VALIDATION.md`. Classify feedback as functional, accessibility, visual, Android/device, or preference. Fix accepted defects, rebuild affected workflows, and repeat validation.
 
-```text
-sample/build/outputs/apk/debug/sample-debug.apk
-elegant-ui/build/outputs/aar/elegant-ui-release.aar
+## Consumer compatibility check
+
+For public API changes, verify all supported Android consumption paths remain valid:
+
+```kotlin
+implementation(project(":elegant-ui"))
+implementation("io.github.vallind:elegant-ui:0.1.0-SNAPSHOT")
 ```
 
-Never describe static parsing or visual inspection as a successful website or Android build.
+The first is for the same build. The second is for Maven Local, the CI Maven repository artifact, and future Maven Central releases. Avoid instructions that require consumers to copy only an AAR.
 
-## Step 10: Physical-Device Gate
+## Commit style
 
-Have the user install the latest successful APK artifact and complete `VALIDATION.md`.
-
-Classify feedback as functional, accessibility, visual, device/platform, or preference. Fix accepted defects, rebuild both affected workflows, and repeat device validation. Do not begin the next component until the active component is accepted.
-
-## Commit Style
-
-Use Conventional Commit style. A normal component milestone is one coherent commit:
+Use one coherent Conventional Commit milestone:
 
 ```text
 feat(component): add icon button closed loop
@@ -271,25 +294,24 @@ Use narrower follow-ups only when necessary:
 
 ```text
 fix(icon-button): preserve focus ring in dark theme
-docs(icon-button): align website preview and Compose states
+docs(icon-button): align website and Compose states
 ```
 
-## Completion Checklist
+## Completion checklist
 
-A component lands only when all applicable touchpoints are complete:
+A component lands only when:
 
-1. Component contract is locked.
-2. Semantic/foundation/component tokens are added or reused correctly.
-3. Library source and public KDoc are complete.
-4. Sample demo is added and registered in the APK.
-5. English website page is complete.
-6. Simplified Chinese website page mirrors English.
-7. The Miuix-style iframe is present in both locale pages and the component is registered in `docs/public/compose/index.html`.
-8. Both locale sidebars register the component.
-9. Both component overview pages register the component.
-10. README/project status is updated when the milestone changed.
-11. `VALIDATION.md` covers the component.
-12. The VitePress website builds and the Documentation workflow succeeds.
-13. Android GitHub Actions produces APK and AAR artifacts.
-14. Physical-device results are recorded and accepted.
-15. No unrelated component work is included.
+1. Contract and source-set decision are locked.
+2. Common-first source and public KDoc are complete.
+3. No Android platform types leak into common/public API.
+4. KMP boundary validation passes.
+5. Tokens, defaults, colors, states, and common tests are complete.
+6. Android sample demo is registered and interactive.
+7. English and Chinese Miuix-format pages match the real API.
+8. Iframe demo, both sidebars, and both indexes are updated.
+9. `VALIDATION.md` covers the component.
+10. Documentation CI succeeds.
+11. KMP build and Maven publication succeed.
+12. Android CI produces Maven, AAR, and APK artifacts.
+13. Physical-device validation is accepted.
+14. No speculative target or next-component work is included.

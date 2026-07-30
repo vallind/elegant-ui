@@ -18,10 +18,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.ArrowForward
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -79,7 +75,7 @@ private fun ButtonDemoApp() {
                         fontWeight = FontWeight.SemiBold,
                     )
                     Text(
-                        text = "Button · 真机验证版",
+                        text = "Button · KMP-ready Android 验证版",
                         color = colors.textSecondary,
                     )
                 }
@@ -95,8 +91,8 @@ private fun ButtonDemoApp() {
                     onClick = { loading = !loading },
                     style = ElegantButtonStyle.Primary,
                     loading = loading,
-                    leadingIcon = { Icon(Icons.Rounded.Add, contentDescription = null) },
-                    trailingIcon = { Icon(Icons.Rounded.ArrowForward, contentDescription = null) },
+                    leadingIcon = { Text("+") },
+                    trailingIcon = { Text("→") },
                 ) { Text(if (loading) "Loading" else "Toggle loading") }
                 ElegantButton(
                     onClick = {},
@@ -110,8 +106,8 @@ private fun ButtonDemoApp() {
                 ElegantButton(
                     onClick = { tapCount++ },
                     style = ElegantButtonStyle.Secondary,
-                    leadingIcon = { Icon(Icons.Rounded.Add, contentDescription = null) },
-                    trailingIcon = { Icon(Icons.Rounded.ArrowForward, contentDescription = null) },
+                    leadingIcon = { Text("+") },
+                    trailingIcon = { Text("→") },
                 ) { Text("With icons") }
                 ElegantButton(
                     onClick = {},
@@ -125,7 +121,7 @@ private fun ButtonDemoApp() {
                 ElegantButton(
                     onClick = { tapCount++ },
                     style = ElegantButtonStyle.Tertiary,
-                    trailingIcon = { Icon(Icons.Rounded.ArrowForward, contentDescription = null) },
+                    trailingIcon = { Text("→") },
                 ) { Text("Learn more") }
             }
 
