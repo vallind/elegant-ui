@@ -101,11 +101,13 @@ private fun ButtonShowcase() {
                     verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
                 ) {
                     ShowcaseHeader(
+                        compact = compact,
                         darkTheme = darkTheme,
                         onDarkThemeChange = { darkTheme = it },
                     )
 
                     DemoCard(
+                        compact = compact,
                         eyebrow = "FOUNDATIONS",
                         title = "Clear action hierarchy",
                         description = "Three emphasis levels share one optical rhythm across every target.",
@@ -152,6 +154,7 @@ private fun ButtonShowcase() {
                     }
 
                     DemoCard(
+                        compact = compact,
                         eyebrow = "IN CONTEXT",
                         title = "Ready to publish",
                         description = "Actions stay balanced inside a realistic confirmation surface.",
@@ -181,6 +184,7 @@ private fun ButtonShowcase() {
                     }
 
                     DemoCard(
+                        compact = compact,
                         eyebrow = "STATES",
                         title = "Interaction feedback",
                         description = "Hover, press, keyboard focus, loading, and disabled states remain distinct.",
@@ -221,45 +225,81 @@ private fun ButtonShowcase() {
 
 @Composable
 private fun ShowcaseHeader(
+    compact: Boolean,
+    darkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
+) {
+    if (compact) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        ) {
+            HeaderTitle()
+            ThemeToggle(
+                darkTheme = darkTheme,
+                onDarkThemeChange = onDarkThemeChange,
+            )
+        }
+    } else {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            HeaderTitle(Modifier.weight(1f))
+            ThemeToggle(
+                darkTheme = darkTheme,
+                onDarkThemeChange = onDarkThemeChange,
+            )
+        }
+    }
+}
+
+@Composable
+private fun HeaderTitle(
+    modifier: Modifier = Modifier,
+) {
+    val colors = ElegantTheme.colors
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+    ) {
+        Text(
+            text = "Elegant Button",
+            color = colors.textPrimary,
+            fontSize = 28.sp,
+            lineHeight = 34.sp,
+            fontWeight = FontWeight.SemiBold,
+            letterSpacing = (-0.4).sp,
+        )
+        Text(
+            text = "One shared contract · Android · Desktop · Web",
+            modifier = Modifier.fillMaxWidth(),
+            color = colors.textSecondary,
+            style = ElegantTheme.typography.bodyMedium,
+        )
+    }
+}
+
+@Composable
+private fun ThemeToggle(
     darkTheme: Boolean,
     onDarkThemeChange: (Boolean) -> Unit,
 ) {
     val colors = ElegantTheme.colors
-    FlowRow(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-        itemVerticalAlignment = Alignment.CenterVertically,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
-            Text(
-                text = "Elegant Button",
-                color = colors.textPrimary,
-                fontSize = 28.sp,
-                lineHeight = 34.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = (-0.4).sp,
-            )
-            Text(
-                text = "One shared contract · Android · Desktop · Web",
-                color = colors.textSecondary,
-                style = ElegantTheme.typography.bodyMedium,
-            )
-        }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-        ) {
-            Text(
-                text = if (darkTheme) "Dark" else "Light",
-                color = colors.textSecondary,
-                style = ElegantTheme.typography.bodyMedium,
-            )
-            Switch(
-                checked = darkTheme,
-                onCheckedChange = onDarkThemeChange,
-            )
-        }
+        Text(
+            text = if (darkTheme) "Dark" else "Light",
+            color = colors.textSecondary,
+            style = ElegantTheme.typography.bodyMedium,
+        )
+        Switch(
+            checked = darkTheme,
+            onCheckedChange = onDarkThemeChange,
+        )
     }
 }
 
@@ -292,7 +332,10 @@ private fun ConfirmationSurface() {
                 tint = colors.textInverse,
             )
         }
-        Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs)) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+        ) {
             Text(
                 text = "Button milestone",
                 color = colors.textPrimary,
@@ -332,6 +375,7 @@ private fun SizeRow(
 
 @Composable
 private fun DemoCard(
+    compact: Boolean,
     eyebrow: String,
     title: String,
     description: String,
@@ -350,7 +394,7 @@ private fun DemoCard(
                 color = colors.borderDefault,
                 shape = RoundedCornerShape(ElegantRadius.lg),
             )
-            .padding(ElegantSpacing.xxl),
+            .padding(if (compact) ElegantSpacing.xl else ElegantSpacing.xxl),
         verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
     ) {
         Text(
@@ -361,7 +405,10 @@ private fun DemoCard(
             fontWeight = FontWeight.SemiBold,
             letterSpacing = 1.sp,
         )
-        Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+        ) {
             Text(
                 text = title,
                 color = colors.textPrimary,
@@ -369,6 +416,7 @@ private fun DemoCard(
             )
             Text(
                 text = description,
+                modifier = Modifier.fillMaxWidth(),
                 color = colors.textSecondary,
                 style = ElegantTheme.typography.bodyMedium,
             )
