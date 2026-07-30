@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elegant UI Demo</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --canvas: #f5f5f8;
+      --surface: #ffffff;
+      --surface-raised: #ffffff;
+      --surface-sunken: #ececf2;
+      --text-primary: #202028;
+      --text-secondary: #696976;
+      --text-tertiary: #8b8b98;
+      --text-inverse: #ffffff;
+      --border: #d9d9e2;
+      --border-strong: #b7b7c4;
+      --primary: #6253e8;
+      --primary-pressed: #493bbd;
+      --focus: #8b7fff;
+      --subtle: #f1f1f6;
+    }
+    [data-theme="dark"] {
+      --canvas: #111116;
+      --surface: #19191f;
+      --surface-raised: #202027;
+      --surface-sunken: #111116;
+      --text-primary: #f5f5f8;
+      --text-secondary: #c2c2cc;
+      --text-tertiary: #898995;
+      --text-inverse: #15151a;
+      --border: #363640;
+      --border-strong: #555561;
+      --primary: #a99eff;
+      --primary-pressed: #7c6cf2;
+      --focus: #c0b8ff;
+      --subtle: #25252d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--canvas);
+      color: var(--text-primary);
+    }
+    button, select { font: inherit; }
+    .shell {
+      min-height: 100vh;
+      padding: 24px;
+      display: grid;
+      gap: 20px;
+      align-content: start;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .title { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+    .controls { display: flex; flex-wrap: wrap; gap: 8px; }
+    .control {
+      border: 1px solid var(--border);
+      background: var(--surface-raised);
+      color: var(--text-primary);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+    .panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 24px;
+      display: grid;
+      gap: 24px;
+      box-shadow: 0 18px 60px rgba(20, 18, 40, 0.08);
+    }
+    .group { display: grid; gap: 12px; }
+    .group-label { color: var(--text-secondary); font-size: 12px; font-weight: 650; }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .touch-target {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .elegant-button {
+      appearance: none;
+      border: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--gap);
+      min-width: var(--min-width);
+      height: var(--height);
+      padding: 0 var(--padding-x);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+      transition: background 120ms ease, color 120ms ease, border-color 120ms ease, transform 120ms ease;
+    }
+    .elegant-button:active:not(:disabled) { transform: scale(0.985); }
+    .elegant-button.primary { background: var(--primary); color: var(--text-inverse); }
+    .elegant-button.primary:active:not(:disabled) { background: var(--primary-pressed); }
+    .elegant-button.secondary { background: var(--surface-raised); color: var(--text-primary); border: 1px solid var(--border); }
+    .elegant-button.secondary:active:not(:disabled) { background: var(--subtle); border-color: var(--border-strong); }
+    .elegant-button.tertiary { background: transparent; color: var(--primary); }
+    .elegant-button.tertiary:active:not(:disabled) { background: var(--subtle); }
+    .elegant-button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .elegant-button:disabled { background: var(--surface-sunken); color: var(--text-tertiary); cursor: not-allowed; }
+    .elegant-button.tertiary:disabled { background: transparent; }
+    .elegant-button.small { --height: 36px; --min-width: 64px; --padding-x: 12px; --radius: 10px; --gap: 6px; }
+    .elegant-button.medium { --height: 40px; --min-width: 72px; --padding-x: 16px; --radius: 12px; --gap: 8px; }
+    .elegant-button.large { --height: 48px; --min-width: 80px; --padding-x: 20px; --radius: 14px; --gap: 8px; }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spin 700ms linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .note { color: var(--text-secondary); font-size: 12px; line-height: 1.55; }
+    .error { margin: auto; padding: 32px; color: #d14343; }
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+  <script>
+    const params = new URLSearchParams(window.location.search)
+    const demoId = params.get('id') || 'button'
+    const app = document.querySelector('#app')
+
+    function buttonMarkup(style, size, label, options = {}) {
+      const disabled = options.disabled ? 'disabled' : ''
+      const spinner = options.loading ? '<span class="spinner" aria-hidden="true"></span>' : ''
+      return `<span class="touch-target"><button class="elegant-button ${style} ${size}" ${disabled}>${spinner}${label}</button></span>`
+    }
+
+    function renderButtonDemo() {
+      app.innerHTML = `
+        <section class="shell" data-theme="light">
+          <div class="toolbar">
+            <div class="title">ElegantButton</div>
+            <div class="controls">
+              <select class="control" id="theme" aria-label="Theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+              </select>
+              <select class="control" id="size" aria-label="Size">
+                <option value="small">Small</option>
+                <option value="medium" selected>Medium</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="group">
+              <div class="group-label">Button Types</div>
+              <div class="row" id="types"></div>
+            </div>
+            <div class="group">
+              <div class="group-label">Component States</div>
+              <div class="row" id="states"></div>
+            </div>
+          </div>
+          <p class="note">This browser demo mirrors the public visual contract. The Android sample APK remains the source of truth for Compose interaction, semantics, focus, and device behavior.</p>
+        </section>`
+
+      const shell = app.querySelector('.shell')
+      const theme = app.querySelector('#theme')
+      const size = app.querySelector('#size')
+      const render = () => {
+        shell.dataset.theme = theme.value
+        const value = size.value
+        app.querySelector('#types').innerHTML = [
+          buttonMarkup('primary', value, 'Primary Button'),
+          buttonMarkup('secondary', value, 'Secondary Button'),
+          buttonMarkup('tertiary', value, 'Tertiary Button'),
+        ].join('')
+        app.querySelector('#states').innerHTML = [
+          buttonMarkup('primary', value, 'Enabled'),
+          buttonMarkup('primary', value, 'Disabled', { disabled: true }),
+          buttonMarkup('primary', value, 'Loading', { disabled: true, loading: true }),
+        ].join('')
+      }
+      theme.addEventListener('change', render)
+      size.addEventListener('change', render)
+      render()
+    }
+
+    const demoRenderers = {
+      button: renderButtonDemo,
+    }
+
+    const renderer = demoRenderers[demoId]
+    if (renderer) renderer()
+    else app.innerHTML = `<p class="error">Unknown component demo: ${demoId}</p>`
+  </script>
+</body>
+</html>

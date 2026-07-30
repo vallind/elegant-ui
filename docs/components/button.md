@@ -1,8 +1,8 @@
 # Button
 
-`ElegantButton` triggers an immediate action. It provides three emphasis levels, three sizes, complete interaction states, optional icon slots, and a minimum 48dp touch target.
+`ElegantButton` is a basic interactive component in Elegant UI, used to trigger actions or events. It provides primary, secondary, and tertiary button types, three sizes, optional icon slots, disabled behavior, and a built-in loading state.
 
-<ButtonPreview />
+<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 
@@ -12,94 +12,129 @@ import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
 ```
 
-## Basic usage
+## Basic Usage
+
+The Button component can be used to trigger an action:
 
 ```kotlin
 ElegantButton(
-    onClick = { /* action */ },
+    onClick = { /* Handle click event */ },
 ) {
-    Text("Continue")
+    Text("Button")
 }
 ```
 
-## Styles
+## Button Types
 
-### Primary
+Elegant UI provides button types for different levels of emphasis.
 
-Use once per surface or task for the dominant action.
+### Primary Button
+
+Use the primary button for the dominant action in a task or surface.
 
 ```kotlin
 ElegantButton(
-    onClick = { /* action */ },
+    onClick = { /* Handle click event */ },
     style = ElegantButtonStyle.Primary,
 ) {
-    Text("Continue")
+    Text("Primary Button")
 }
 ```
 
-### Secondary
+### Secondary Button
 
-Use for supporting actions that still need a visible container.
+Use the secondary button for supporting actions that still require a visible container.
 
 ```kotlin
 ElegantButton(
-    onClick = { /* action */ },
+    onClick = { /* Handle click event */ },
     style = ElegantButtonStyle.Secondary,
 ) {
-    Text("Save draft")
+    Text("Secondary Button")
 }
 ```
 
-### Tertiary
+### Tertiary Button
 
-Use for low-emphasis or contextual actions.
+Use the tertiary button for low-emphasis or contextual actions.
 
 ```kotlin
 ElegantButton(
-    onClick = { /* action */ },
+    onClick = { /* Handle click event */ },
     style = ElegantButtonStyle.Tertiary,
 ) {
-    Text("Learn more")
+    Text("Tertiary Button")
 }
 ```
 
-## Sizes
+## Component States
 
-| Size | Visual height | Minimum touch height | Horizontal padding |
-| --- | ---: | ---: | ---: |
-| `Small` | 36dp | 48dp | 12dp |
-| `Medium` | 40dp | 48dp | 16dp |
-| `Large` | 48dp | 48dp | 20dp |
+### Disabled State
 
 ```kotlin
 ElegantButton(
-    onClick = { /* action */ },
-    size = ElegantButtonSize.Large,
+    onClick = { /* Handle click event */ },
+    enabled = false,
 ) {
-    Text("Create account")
+    Text("Disabled Button")
 }
 ```
 
-## States
+## Properties
 
-Default, pressed, focused, disabled, and loading states are supported. Disabled and loading buttons prevent duplicate activation.
+### ElegantButton Properties
+
+| Property Name | Type | Description | Default Value | Required |
+| --- | --- | --- | --- | --- |
+| `onClick` | `() -> Unit` | Callback triggered when the button accepts a click | - | Yes |
+| `modifier` | `Modifier` | Modifier applied to the 48dp minimum touch-target container | `Modifier` | No |
+| `style` | `ElegantButtonStyle` | Visual emphasis type of the button | `ElegantButtonStyle.Primary` | No |
+| `size` | `ElegantButtonSize` | Visual size and internal metrics | `ElegantButtonSize.Medium` | No |
+| `enabled` | `Boolean` | Whether the button can accept user interaction | `true` | No |
+| `loading` | `Boolean` | Shows progress and prevents duplicate activation | `false` | No |
+| `leadingIcon` | `(@Composable () -> Unit)?` | Optional icon or content before the label | `null` | No |
+| `trailingIcon` | `(@Composable () -> Unit)?` | Optional icon or content after the label | `null` | No |
+| `content` | `@Composable () -> Unit` | Composable content displayed as the button label | - | Yes |
+
+### ElegantButtonStyle Values
+
+| Value | Description |
+| --- | --- |
+| `Primary` | Highest-emphasis action with the primary interactive container |
+| `Secondary` | Supporting action with a raised container and visible border |
+| `Tertiary` | Low-emphasis action with a transparent default container |
+
+### ElegantButtonSize Values
+
+| Value | Visual Height | Minimum Touch Height | Horizontal Padding | Icon Size |
+| --- | --- | --- | --- | --- |
+| `Small` | `36.dp` | `48.dp` | `12.dp` | `16.dp` |
+| `Medium` | `40.dp` | `48.dp` | `16.dp` | `18.dp` |
+| `Large` | `48.dp` | `48.dp` | `20.dp` | `20.dp` |
+
+## Advanced Usage
+
+### Button with Icon
 
 ```kotlin
 ElegantButton(
-    onClick = { /* action */ },
-    loading = true,
+    onClick = { /* Handle click event */ },
+    leadingIcon = {
+        Icon(
+            imageVector = Icons.Default.Add,
+            contentDescription = null,
+        )
+    },
 ) {
-    Text("Submitting")
+    Text("Create")
 }
 ```
 
-## Icons
-
-Leading and trailing icons are content slots rather than style variants.
+### Button with Leading and Trailing Icons
 
 ```kotlin
 ElegantButton(
-    onClick = { /* action */ },
+    onClick = { /* Handle click event */ },
     leadingIcon = {
         Icon(
             imageVector = Icons.Default.Add,
@@ -113,32 +148,26 @@ ElegantButton(
         )
     },
 ) {
-    Text("Create")
+    Text("Continue")
 }
 ```
 
-## Parameters
+### Loading State Button
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `onClick` | `() -> Unit` | required | Invoked for an accepted activation |
-| `modifier` | `Modifier` | `Modifier` | Applied to the touch-target container |
-| `style` | `ElegantButtonStyle` | `Primary` | Visual emphasis level |
-| `size` | `ElegantButtonSize` | `Medium` | Visual size and internal metrics |
-| `enabled` | `Boolean` | `true` | Enables user interaction |
-| `loading` | `Boolean` | `false` | Shows progress and blocks activation |
-| `leadingIcon` | `(@Composable () -> Unit)?` | `null` | Optional leading content |
-| `trailingIcon` | `(@Composable () -> Unit)?` | `null` | Optional trailing content |
-| `content` | `@Composable () -> Unit` | required | Main button label/content |
+```kotlin
+var isLoading by remember { mutableStateOf(false) }
+val scope = rememberCoroutineScope()
 
-## Accessibility
-
-- The touch target is at least 48dp even when the visible button is smaller.
-- Compose semantics expose the button role and disabled state.
-- Loading exposes a state description while preserving the button role.
-- Decorative icons use `contentDescription = null`.
-- Directional icons and start/end padding must respect RTL.
-
-## Physical-device checks
-
-Verify visual hierarchy, press feedback, focus visibility, loading and disabled behavior, font scaling, landscape, RTL, and Light/Dark contrast using the latest sample APK artifact.
+ElegantButton(
+    onClick = {
+        isLoading = true
+        scope.launch {
+            delay(2000)
+            isLoading = false
+        }
+    },
+    loading = isLoading,
+) {
+    Text(if (isLoading) "Submitting" else "Submit")
+}
+```

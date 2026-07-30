@@ -1,6 +1,6 @@
 ---
 name: create-component
-description: Create or complete an Elegant UI Android Jetpack Compose component through the full repository workflow: visual/API contract, semantic tokens, library source, sample demo and registration, synchronized English and Simplified Chinese VitePress website pages, website navigation and preview, GitHub Actions website/APK/AAR builds, and physical-device validation. Use whenever the user asks to add, create, scaffold, implement, or finish a component or composable in vallind/elegant-ui, including requests that only name the component such as "add IconButton", "new component", "添加组件", "新建组件", or "实现 Checkbox".
+description: Create or complete an Elegant UI Android Jetpack Compose component through the full repository workflow: visual/API contract, semantic tokens, library source, sample demo and registration, synchronized English and Simplified Chinese VitePress pages using the Miuix component-documentation template, iframe demo registration, website navigation, GitHub Actions website/APK/AAR builds, and physical-device validation. Use whenever the user asks to add, create, scaffold, implement, or finish a component or composable in vallind/elegant-ui, including requests that only name the component such as "add IconButton", "new component", "添加组件", "新建组件", or "实现 Checkbox".
 ---
 
 # Create an Elegant UI Component
@@ -49,7 +49,7 @@ Choose the closest reference by behavior, not visual resemblance:
 | Foundation dimensions | `elegant-ui/.../theme/ElegantTokens.kt` | spacing/radius naming and reuse |
 | Physical-device demo | `sample/.../MainActivity.kt` | visible state matrix, theme switch, interaction checks |
 | Bilingual website page | `docs/components/button.md` and `docs/zh_CN/components/button.md` | one-to-one structure and API fidelity |
-| Website preview | `docs/.vitepress/theme/components/ButtonPreview.vue` | isolated CSS variables, SSR safety, bilingual labels, explicit Android-runtime disclaimer |
+| Website demo | `docs/public/compose/index.html?id=button` | Miuix-style iframe contract, query-id registry, Light/Dark and meaningful states, Android-runtime disclaimer |
 
 ## Step 3: Define the Component Contract
 
@@ -65,7 +65,7 @@ Before code, write a compact implementation contract in notes or the active plan
 - Semantics role, state descriptions, and disabled behavior.
 - Sample scenarios.
 - English/Chinese website outline.
-- Website preview behavior and limitations.
+- Iframe demo behavior, query-id registry entry, and limitations.
 - Sidebar category and component overview row.
 - Physical-device checks unique to the component.
 
@@ -124,45 +124,76 @@ docs/components/{slug}.md
 docs/zh_CN/components/{slug}.md
 ```
 
-The pages must correspond one to one and use the real public API. Follow this section order when applicable:
+The pages must correspond one to one, use the real public API, and follow the Miuix component-documentation template.
 
-1. Purpose and usage guidance.
-2. Interactive or visual preview.
-3. Import statement.
-4. Basic example.
-5. Styles/variants.
-6. Sizes and dimensions.
-7. States and interaction behavior.
-8. Icons, slots, or controlled-state examples.
-9. Parameter table.
-10. `ElegantXxxDefaults` and `ElegantXxxColors` documentation.
-11. Advanced usage.
-12. Accessibility and RTL guidance.
-13. Physical-device checks.
+### Required English structure
 
-Do not document planned APIs. Verify snippets against the actual signature.
+```markdown
+# ComponentName
 
-### Website preview
+`ComponentName` is ...
 
-When a useful representation is possible, create or reuse:
+<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id={slug}" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
-```text
-docs/.vitepress/theme/components/{Name}Preview.vue
+## Import
+## Basic Usage
+## Component-Specific Types or Behavior
+## Component States
+## Properties
+### ComponentName Properties
+### Public Enum / Defaults / Colors subsections when they exist
+## Advanced Usage
 ```
 
-Then register a new preview component in `docs/.vitepress/theme/index.ts` and embed it in both locale pages.
+### Required Simplified Chinese structure
 
-Preview requirements:
+Use the same order and examples, with these fixed headings:
 
-- SSR-safe: do not read `window`, `document`, storage, or browser-only APIs during module evaluation or setup.
-- Bilingual: derive labels from VitePress locale data or accept localized props.
-- Theme-aware: support Light/Dark when the Android component does.
-- State-complete enough to review public variants and meaningful states.
-- Isolated: use scoped styles and website-specific CSS variables; do not leak styles globally.
-- Honest: state that the web preview is a visual aid and the Android APK remains the interaction source of truth.
-- Maintainable: prefer one reusable preview shell over duplicated page-specific HTML.
+```markdown
+# ComponentName
+## 引入
+## 基本用法
+## 组件特有类型或行为
+## 组件状态
+## 属性
+### ComponentName 属性
+### 已公开枚举 / Defaults / Colors 子章节（存在时）
+## 进阶用法
+```
 
-A component whose behavior cannot be represented faithfully on the web may use a static matrix or sample screenshot instead; document the limitation rather than faking Android behavior.
+The Chinese iframe source is `../../compose/index.html?id={slug}`.
+
+### Documentation rules
+
+- Keep the introduction to one concise paragraph describing purpose and supported forms.
+- Place the iframe immediately after the introduction; do not add a separate `Demo` heading.
+- Use component-specific top-level sections only between Basic Usage and Component States, such as `Button Types` or `Selection Modes`.
+- Property tables use exactly: property name, type, description, default value, required.
+- Document every public parameter in signature order.
+- Document public enums, defaults objects, colors classes, constants, and factory methods under `## Properties` when they actually exist.
+- Put size metrics in the public size/defaults subsection instead of a standalone top-level Sizes section.
+- Keep accessibility, RTL, physical-device, and repository-policy checklists in source KDoc, sample guidance, `AGENTS.md`, and `VALIDATION.md`; do not append them as generic top-level component-doc sections.
+- Do not document planned APIs or private implementation models.
+- English and Chinese Kotlin block counts and API identifiers must match.
+
+### Iframe demo
+
+Register or update the component visual demo in:
+
+```text
+docs/public/compose/index.html
+```
+
+The demo is selected by `?id={slug}`. Add one renderer and one `demoRenderers` registry entry per component.
+
+Demo requirements:
+
+- Work as a standalone static page copied by VitePress from `docs/public/`.
+- Support Light/Dark when the Android component does.
+- Expose meaningful public variants and states.
+- Remain keyboard accessible and responsive inside the iframe.
+- State inside the demo that the Android APK is the source of truth for Compose semantics and device behavior.
+- Do not fake behavior that cannot be represented faithfully in a browser.
 
 ## Step 7: Register Website Navigation and Indexes
 
@@ -173,7 +204,8 @@ A component page is not complete until all website discovery points are updated:
 3. Add the component row/card to `docs/components/index.md`.
 4. Add the mirrored row/card to `docs/zh_CN/components/index.md`.
 5. Confirm locale switching preserves the equivalent route.
-6. Update README website/component links when the active milestone changes.
+6. Confirm `docs/public/compose/index.html` contains the `{slug}` demo renderer and registry entry.
+7. Update README website/component links when the active milestone changes.
 
 Never add only one locale, one sidebar, or one component index.
 
@@ -204,7 +236,7 @@ Website verification must confirm:
 - English and Chinese pages both build.
 - Sidebar links resolve.
 - Locale switch reaches the mirrored page.
-- Preview components render without SSR errors.
+- Every component iframe resolves to `compose/index.html?id={slug}` and the demo registry recognizes the slug.
 - GitHub Pages uses base `/elegant-ui/`.
 
 Then push the coherent component milestone and verify both workflows:
@@ -252,7 +284,7 @@ A component lands only when all applicable touchpoints are complete:
 4. Sample demo is added and registered in the APK.
 5. English website page is complete.
 6. Simplified Chinese website page mirrors English.
-7. Interactive/static website preview is added or an explicit limitation is documented.
+7. The Miuix-style iframe is present in both locale pages and the component is registered in `docs/public/compose/index.html`.
 8. Both locale sidebars register the component.
 9. Both component overview pages register the component.
 10. README/project status is updated when the milestone changed.

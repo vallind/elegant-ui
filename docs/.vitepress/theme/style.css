@@ -72,3 +72,28 @@
 .vp-doc :not(pre) > code {
   border-radius: 6px;
 }
+
+/* Miuix-compatible component demo contract. The Markdown keeps the same
+ * absolute iframe declaration used by Miuix; the theme presents it as a
+ * contained documentation preview on all viewport sizes. */
+#demoIframe {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  display: block;
+  width: 100% !important;
+  height: 620px !important;
+  margin: 24px 0 32px;
+  border: 1px solid var(--vp-c-divider) !important;
+  border-radius: 20px;
+  background: var(--vp-c-bg-soft);
+  box-shadow: 0 18px 48px rgba(30, 27, 55, 0.08);
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  #demoIframe {
+    height: 700px !important;
+    border-radius: 16px;
+  }
+}

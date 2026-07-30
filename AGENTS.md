@@ -185,7 +185,7 @@ Use `.claude/skills/create-component/SKILL.md` for the detailed procedure. Every
 4. Add a sample-app demo and register it in the sample experience.
 5. Add matching English and Simplified Chinese website pages under `docs/components/` and `docs/zh_CN/components/`.
 6. Register the component in both website sidebars and both component overview pages.
-7. Add or update an interactive website preview when the component can be represented faithfully without pretending it is the Android runtime.
+7. Add or update the component demo rendered by `docs/public/compose/index.html` and embed it through the Miuix-style iframe contract in both locale pages.
 8. Update milestone/status and physical-device validation material where applicable.
 9. Pass the VitePress documentation build and the clean Android GitHub Actions build that produces the sample APK and library AAR.
 10. Install the APK on a physical Android device and record acceptance or actionable defects.
@@ -198,12 +198,15 @@ A source file alone is not a completed component.
 - Guide pages follow the same mirror rule under `docs/guide/` and `docs/zh_CN/guide/`.
 - English and Chinese pages must have the same section order, code examples, API names, tables, and behavioral claims.
 - Every delivered component must be registered in the English and Chinese sidebars in `docs/.vitepress/config.ts` and in both component overview pages.
-- Component pages should follow the mature-library structure: purpose, interactive or visual demo, import, basic usage, variants, sizes, states, parameters, defaults/colors when public, advanced usage, accessibility, and physical-device checks.
-- Website previews are documentation aids. They must not claim to be the Android Compose runtime, and they must not replace the sample APK or physical-device gate.
-- Reuse globally registered Vue preview components from `docs/.vitepress/theme/components/` when several pages need the same documentation UI pattern.
+- Component pages follow the Miuix API-documentation contract rather than a design-specification essay. The required order is: `# Component`, one concise introduction paragraph, the `demoIframe`, `## Import`, `## Basic Usage`, component-specific type/behavior sections, `## Component States`, `## Properties`, related public enums/defaults/colors, and `## Advanced Usage`.
+- Use this exact English iframe contract: `<iframe id="demoIframe" ... src="../compose/index.html?id={slug}" ...></iframe>`. The Chinese mirror uses `../../compose/index.html?id={slug}`.
+- Do not add separate top-level `Sizes`, `Accessibility`, `RTL`, or `Physical-device checks` sections to component pages merely to repeat project policy. Put size metrics in the relevant public-type/defaults table, behavior in examples/properties, and acceptance criteria in `VALIDATION.md`.
+- Property tables use the Miuix column order: property name, type, description, default value, required. Document every public parameter and only public parameters.
+- When public enums, defaults objects, colors classes, or constants exist, document them as subsections under `## Properties`; never invent a public defaults API for documentation symmetry.
+- Browser demos are registered in `docs/public/compose/index.html` and selected with the `id` query parameter. They are visual documentation aids, not the Android Compose runtime, and never replace the sample APK or physical-device gate.
 - Code examples must compile against the current public API. Do not document planned parameters as if they already exist.
 - Use `dp`, `sp`, API identifiers, and enum values consistently across both languages.
-- Run `cd docs && npm run docs:check` and `npm run docs:build` before handoff. A Markdown-only change is incomplete if navigation, locale routing, or the VitePress build is broken.
+- Run `cd docs && npm run docs:check` and `npm run docs:build` before handoff. A Markdown-only change is incomplete if navigation, locale routing, iframe demo registration, or the VitePress build is broken.
 - Update README website links and current milestone information when a component becomes the active or accepted milestone.
 
 ## Testing and Verification
