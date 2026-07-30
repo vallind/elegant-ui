@@ -48,7 +48,11 @@ import com.elegant.compose.showcase.generated.resources.check_rounded
 import com.elegant.compose.showcase.generated.resources.delete_rounded
 import com.elegant.compose.showcase.generated.resources.edit_rounded
 import com.elegant.compose.showcase.generated.resources.more_vert_rounded
+import com.elegant.compose.showcase.generated.resources.person_rounded
 import com.elegant.compose.showcase.generated.resources.share_rounded
+import com.elegant.compose.ui.avatar.ElegantAvatar
+import com.elegant.compose.ui.avatar.ElegantAvatarColors
+import com.elegant.compose.ui.avatar.ElegantAvatarSize
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
@@ -62,7 +66,7 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
-internal val SupportedShowcaseComponentIds: Set<String> = setOf("button", "icon-button")
+internal val SupportedShowcaseComponentIds: Set<String> = setOf("button", "icon-button", "avatar")
 
 /**
  * Shared component showcase used by Android, Desktop JVM, and Web/Wasm launchers.
@@ -77,6 +81,7 @@ public fun ElegantShowcaseApp(
     when (componentId) {
         "button" -> ButtonShowcase()
         "icon-button" -> IconButtonShowcase()
+        "avatar" -> AvatarShowcase()
         else -> UnknownComponent(componentId)
     }
 }
@@ -301,6 +306,125 @@ private fun IconButtonShowcase() {
 
             Text(
                 text = "Accepted actions  $actionCount",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun AvatarShowcase() {
+    ShowcasePage(title = "Elegant Avatar") { compact ->
+        val colors = ElegantTheme.colors
+        val accentColors = ElegantAvatarColors(
+            containerColor = colors.interactivePrimary,
+            contentColor = colors.textInverse,
+            borderColor = colors.interactivePrimaryPressed,
+        )
+        val neutralColors = ElegantAvatarColors(
+            containerColor = colors.surfaceSunken,
+            contentColor = colors.textSecondary,
+            borderColor = colors.borderDefault,
+        )
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Identity at every density",
+            description = "Three optical sizes keep initials centered and recognizable.",
+        ) {
+            Text(
+                text = "Size scale",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            AvatarSizeRow()
+
+            Text(
+                text = "Tone",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantAvatar(name = "Ada Lovelace")
+                ElegantAvatar(
+                    name = "Noah Williams",
+                    colors = accentColors,
+                )
+                ElegantAvatar(
+                    name = "林晓",
+                    colors = neutralColors,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A calm team roster",
+            description = "Identity, supporting text, and compact actions stay visually balanced.",
+        ) {
+            TeamMemberRow(
+                name = "Maya Chen",
+                role = "Product designer",
+                avatarColors = accentColors,
+            )
+            TeamMemberRow(
+                name = "Elliot Stone",
+                role = "Compose engineer",
+                avatarColors = neutralColors,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FALLBACKS",
+            title = "Useful before an image arrives",
+            description = "Generated initials, explicit labels, and custom visual content share one frame.",
+        ) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantAvatar(name = "Grace Hopper")
+                ElegantAvatar(
+                    name = "Elegant UI",
+                    initials = "EU",
+                    colors = accentColors,
+                )
+                ElegantAvatar(
+                    name = "Guest",
+                    contentDescription = "Guest profile",
+                    colors = neutralColors,
+                ) {
+                    ResourceIcon(
+                        resource = Res.drawable.person_rounded,
+                        modifier = Modifier.size(22.dp),
+                    )
+                }
+                ElegantAvatar(
+                    name = "Decorative workspace",
+                    contentDescription = null,
+                    colors = neutralColors,
+                ) {
+                    Text(
+                        text = "◆",
+                        color = colors.textSecondary,
+                        style = ElegantTheme.typography.labelLarge,
+                    )
+                }
+            }
+
+            Text(
+                text = "Custom content remains clipped by the same shape and owns no duplicate label.",
                 color = colors.textSecondary,
                 style = ElegantTheme.typography.bodyMedium,
             )
@@ -544,6 +668,77 @@ private fun IconButtonSizeRow(
             style = ElegantIconButtonStyle.Primary,
             size = ElegantIconButtonSize.Large,
             onClick = onClick,
+        )
+    }
+}
+
+@Composable
+private fun AvatarSizeRow() {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        itemVerticalAlignment = Alignment.CenterVertically,
+    ) {
+        ElegantAvatar(
+            name = "Small avatar",
+            initials = "S",
+            size = ElegantAvatarSize.Small,
+        )
+        ElegantAvatar(
+            name = "Medium avatar",
+            initials = "M",
+            size = ElegantAvatarSize.Medium,
+        )
+        ElegantAvatar(
+            name = "Large avatar",
+            initials = "L",
+            size = ElegantAvatarSize.Large,
+        )
+    }
+}
+
+@Composable
+private fun TeamMemberRow(
+    name: String,
+    role: String,
+    avatarColors: ElegantAvatarColors,
+) {
+    val colors = ElegantTheme.colors
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = colors.backgroundSubtle,
+                shape = RoundedCornerShape(ElegantRadius.md),
+            )
+            .padding(ElegantSpacing.lg),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ElegantAvatar(
+            name = name,
+            colors = avatarColors,
+        )
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+        ) {
+            Text(
+                text = name,
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.labelLarge,
+            )
+            Text(
+                text = role,
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+        ShowcaseIconButton(
+            resource = Res.drawable.more_vert_rounded,
+            contentDescription = "More actions for $name",
+            onClick = {},
         )
     }
 }

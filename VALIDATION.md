@@ -88,13 +88,13 @@ Automated checks:
 - [x] Button regression contracts and IconButton contracts pass on Desktop JVM
 - [x] `:elegant-ui` and `:showcase` compile for Android, Desktop JVM, and Web/Wasm
 - [x] KMP boundary validation passes
-- [ ] Android sample APK assembles
+- [x] Android sample APK assembles in GitHub Actions
 - [x] Desktop JVM distributable builds
 - [x] Web/Wasm browser distribution builds
 - [x] KMP publication contains Android, Desktop JVM, and Web/Wasm variants
 - [x] English and Simplified Chinese documentation checks and builds pass
-- [ ] GitHub Actions Multiplatform Build succeeds
-- [ ] GitHub Actions Documentation succeeds
+- [x] GitHub Actions Multiplatform Build succeeds (`30584457095`)
+- [x] GitHub Actions Documentation succeeds (`30584456944`)
 
 Platform acceptance checks:
 
@@ -116,3 +116,44 @@ Local environment notes:
 - GitHub Actions remains authoritative for the clean browser-test and Android-sample results.
 
 Record platform acceptance or actionable defects before beginning the Avatar milestone.
+
+## Avatar milestone
+
+Automated checks:
+
+- [x] Stable sizes, generated initials, fallback behavior, and metrics have `commonTest` coverage
+- [x] Avatar, Button, and IconButton contracts pass on Desktop JVM
+- [x] `:elegant-ui` and `:showcase` compile for Android, Desktop JVM, and Web/Wasm
+- [x] KMP boundary validation passes
+- [ ] Android sample APK assembles
+- [x] Desktop JVM distributable builds
+- [x] Web/Wasm browser distribution builds
+- [x] KMP publication contains root metadata plus Android, Desktop JVM, and Web/Wasm variants
+- [x] English and Simplified Chinese Miuix-format pages are structurally aligned
+- [x] Documentation checks and VitePress build pass
+- [ ] GitHub Actions Multiplatform Build succeeds
+- [ ] GitHub Actions Documentation succeeds
+
+Platform acceptance checks:
+
+- [ ] Android density, font scale, RTL, TalkBack image semantics, and Light/Dark accepted
+- [ ] Desktop high DPI, window resize, screen-reader semantics, and Light/Dark accepted
+- [ ] Web viewport resize, browser zoom, screen-reader semantics, and Light/Dark accepted
+
+Routes and compositions:
+
+- [x] Shared registry recognizes `button`, `icon-button`, and `avatar`
+- [x] Avatar composes with IconButton inside the shared team-roster example
+- [ ] `?id=avatar` loads the real Compose Web/Wasm showcase in the documentation iframe
+
+Local environment notes:
+
+- Avatar is implemented entirely in `commonMain`; no platform adapters or platform types are used.
+- Remote image loading, click behavior, presence, and badges remain separate composition concerns.
+- `:elegant-ui:build` and `:showcase:build` reached all target compilation and Desktop tests,
+  then stopped because ChromeHeadless is unavailable in Termux for Wasm browser tests.
+- `:sample:assembleDebug` stopped while downloading `androidx.core:core-ktx:1.19.0` because
+  the local Java client could not complete a TLS handshake with Google Maven.
+- GitHub Actions remains authoritative for clean browser tests, Android assembly, artifacts, and Pages.
+
+Record platform acceptance or actionable defects before beginning the Badge milestone.
