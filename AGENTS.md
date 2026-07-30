@@ -25,6 +25,9 @@ The repository currently uses the system Gradle executable in CI. Use the Gradle
 | Run Android lint | `gradle lint --stacktrace --no-daemon` |
 | Install sample on a connected device | `gradle :sample:installDebug` |
 | List available tasks | `gradle tasks` |
+| Run documentation website | `cd docs && npm install && npm run docs:dev` |
+| Validate bilingual website registration | `cd docs && npm run docs:check` |
+| Build documentation website | `cd docs && npm install && npm run docs:build` |
 
 GitHub Actions is the authoritative clean build until the repository includes a checked-in Gradle Wrapper and local Android SDK configuration is known to be equivalent.
 
@@ -36,9 +39,12 @@ GitHub Actions is the authoritative clean build until the repository includes a 
 | `elegant-ui/src/main/java/com/elegant/compose/ui/theme/` | Color scheme, theme entry point, spacing, radius, and future design tokens |
 | `elegant-ui/src/main/java/com/elegant/compose/ui/<component>/` | One package per component family, such as `button/` |
 | `sample/` | Installable physical-device demo application |
-| `docs/` | English component documentation |
-| `docs/zh/` | Simplified Chinese documentation; structure and examples mirror English |
+| `docs/` | VitePress documentation website root and English content |
+| `docs/components/` | English component pages; one Markdown page per delivered component |
+| `docs/zh_CN/` | Simplified Chinese mirror of English guide and component pages |
+| `docs/.vitepress/` | Website configuration, custom theme, globally registered demos, and styles |
 | `.github/workflows/android.yml` | Clean APK/AAR build and artifact upload |
+| `.github/workflows/docs.yml` | VitePress build and GitHub Pages deployment |
 | `PROJECT_BRIEF.md` | Locked project scope, V1 list, and project-level design/API principles |
 | `FLOW.md` | Delivery sequence from contract through device acceptance |
 | `VALIDATION.md` | Current physical-device acceptance checklist |
@@ -177,21 +183,28 @@ Use `.claude/skills/create-component/SKILL.md` for the detailed procedure. Every
 2. Add or update semantic/component tokens.
 3. Implement the library source and public KDoc.
 4. Add a sample-app demo and register it in the sample experience.
-5. Add matching English and Simplified Chinese documentation.
-6. Update milestone/status and physical-device validation material where applicable.
-7. Pass a clean GitHub Actions build that produces the sample APK and library AAR.
-8. Install the APK on a physical Android device and record acceptance or actionable defects.
+5. Add matching English and Simplified Chinese website pages under `docs/components/` and `docs/zh_CN/components/`.
+6. Register the component in both website sidebars and both component overview pages.
+7. Add or update an interactive website preview when the component can be represented faithfully without pretending it is the Android runtime.
+8. Update milestone/status and physical-device validation material where applicable.
+9. Pass the VitePress documentation build and the clean Android GitHub Actions build that produces the sample APK and library AAR.
+10. Install the APK on a physical Android device and record acceptance or actionable defects.
 
 A source file alone is not a completed component.
 
-## Documentation Rules
+## Documentation Website Rules
 
-- English lives in `docs/`; Simplified Chinese lives in `docs/zh/`.
+- The website uses VitePress. English pages live at `docs/components/{slug}.md`; Simplified Chinese pages live at `docs/zh_CN/components/{slug}.md`.
+- Guide pages follow the same mirror rule under `docs/guide/` and `docs/zh_CN/guide/`.
 - English and Chinese pages must have the same section order, code examples, API names, tables, and behavioral claims.
-- Document the component purpose, import, basic usage, variants, sizes, states, parameters, defaults/colors when public, accessibility, and device-validation notes.
+- Every delivered component must be registered in the English and Chinese sidebars in `docs/.vitepress/config.ts` and in both component overview pages.
+- Component pages should follow the mature-library structure: purpose, interactive or visual demo, import, basic usage, variants, sizes, states, parameters, defaults/colors when public, advanced usage, accessibility, and physical-device checks.
+- Website previews are documentation aids. They must not claim to be the Android Compose runtime, and they must not replace the sample APK or physical-device gate.
+- Reuse globally registered Vue preview components from `docs/.vitepress/theme/components/` when several pages need the same documentation UI pattern.
 - Code examples must compile against the current public API. Do not document planned parameters as if they already exist.
 - Use `dp`, `sp`, API identifiers, and enum values consistently across both languages.
-- Update README links and current milestone information when a component becomes the active or accepted milestone.
+- Run `cd docs && npm run docs:check` and `npm run docs:build` before handoff. A Markdown-only change is incomplete if navigation, locale routing, or the VitePress build is broken.
+- Update README website links and current milestone information when a component becomes the active or accepted milestone.
 
 ## Testing and Verification
 
@@ -200,9 +213,10 @@ Before handoff, perform every applicable check:
 1. `gradle check --stacktrace --no-daemon`
 2. `gradle lint --stacktrace --no-daemon`
 3. `gradle :sample:assembleDebug :elegant-ui:assembleRelease --stacktrace --no-daemon`
-4. Confirm expected APK and AAR output paths exist.
-5. Inspect GitHub Actions rather than assuming a local static check proves the Android build.
-6. Install the APK on a physical device and complete `VALIDATION.md` for the active milestone.
+4. `cd docs && npm install && npm run docs:build`
+5. Confirm expected APK, AAR, and `docs/.vitepress/dist/` output paths exist.
+6. Inspect both **Android Build** and **Documentation** GitHub Actions rather than assuming local static checks prove clean builds or deployment.
+7. Install the APK on a physical device and complete `VALIDATION.md` for the active milestone.
 
 When a check cannot run, state exactly why and leave it unverified. Do not replace a missing compiler/build result with a syntax-only claim.
 
@@ -213,6 +227,8 @@ When a check cannot run, state exactly why and leave it unverified. Do not repla
 - Do not reduce the interactive root below a 48dp touch target.
 - Do not keep a button or action clickable while loading.
 - Do not add English-only or Chinese-only component documentation.
+- Do not add a component website page without updating both locale sidebars and both component overview pages.
+- Do not describe a web preview as the actual Android Compose implementation.
 - Do not silently change a locked public API to make an implementation easier.
 - Do not copy source, package names, visual assets, or branding from reference component libraries. References are for engineering process and quality standards only.
 - Do not edit generated build outputs or commit `.gradle/`, `build/`, IDE state, or `local.properties`.
@@ -242,7 +258,9 @@ A component is done only when:
 - Theme values are semantic and Light/Dark behavior is complete.
 - Semantics, focus, disabled/loading behavior, RTL, and touch target are addressed.
 - The sample exposes the meaningful variants and states.
-- English and Chinese docs match the implementation and each other.
-- Clean CI produces both APK and AAR artifacts.
+- English and Chinese website pages match the implementation and each other.
+- Both locale sidebars and component overview pages register the component.
+- The VitePress site builds successfully and the Documentation workflow can deploy it.
+- Clean Android CI produces both APK and AAR artifacts.
 - Physical-device results are recorded and accepted.
 - No unrelated component work is bundled into the milestone.

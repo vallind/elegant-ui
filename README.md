@@ -6,6 +6,31 @@ A refined Android component library built with Kotlin and Jetpack Compose.
 
 Design reference: Apple HIG spatial restraint × Linear clarity × Ant Design precision × Material 3 system thinking.
 
+## Documentation
+
+The bilingual VitePress website follows the same content architecture as mature Compose component libraries: guide pages, component overview, one page per component, synchronized English/Chinese navigation, interactive visual previews, and GitHub Pages deployment.
+
+- Website: <https://vallind.github.io/elegant-ui/>
+- English components: [docs/components/](docs/components/)
+- 简体中文组件: [docs/zh_CN/components/](docs/zh_CN/components/)
+
+Run locally:
+
+```bash
+cd docs
+npm install
+npm run docs:dev
+```
+
+Build the website:
+
+```bash
+cd docs
+npm run docs:build
+```
+
+After the workflow is committed, enable **Settings → Pages → Build and deployment → Source: GitHub Actions** once for the repository.
+
 ## Current milestone
 
 Button component closed-loop implementation:
@@ -17,8 +42,9 @@ Button component closed-loop implementation:
 - Light and dark themes
 - 48dp minimum touch target
 - Installable sample APK built by GitHub Actions
+- Bilingual documentation website page and interactive visual preview
 
-## Build
+## Android build
 
 ```bash
 gradle :sample:assembleDebug :elegant-ui:assembleRelease
@@ -35,6 +61,3 @@ Artifacts:
 2. Download `elegant-compose-button-demo-apk` from **Artifacts**.
 3. Extract and install `sample-debug.apk` on an Android 7.0+ device.
 4. Verify press feedback, touch target, light/dark modes, loading, disabled state, typography, and spacing.
-
-Chinese documentation: [docs/zh/button.md](docs/zh/button.md)  
-English documentation: [docs/button.md](docs/button.md)

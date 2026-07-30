@@ -7,3 +7,10 @@ local.properties
 captures/
 .externalNativeBuild/
 .cxx/
+
+# Documentation website
+docs/node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+# Local generation metadata
+.file-manifest
