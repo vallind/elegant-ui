@@ -1,0 +1,71 @@
+name: Android Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build APK and AAR
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.5.0"
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Build debug APK and release AAR
+        run: >-
+          gradle
+          :sample:assembleDebug
+          :elegant-ui:assembleRelease
+          --stacktrace
+          --no-daemon
+
+      - name: Generate SHA-256 checksums
+        shell: bash
+        run: |
+          sha256sum sample/build/outputs/apk/debug/sample-debug.apk > sample-debug.apk.sha256
+          sha256sum elegant-ui/build/outputs/aar/elegant-ui-release.aar > elegant-ui-release.aar.sha256
+
+      - name: Upload installable APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-compose-button-demo-apk
+          path: |
+            sample/build/outputs/apk/debug/sample-debug.apk
+            sample-debug.apk.sha256
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload library AAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-compose-button-aar
+          path: |
+            elegant-ui/build/outputs/aar/elegant-ui-release.aar
+            elegant-ui-release.aar.sha256
+          if-no-files-found: error
+          retention-days: 14
