@@ -33,19 +33,34 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: "9.5.0"
+          gradle-version: "9.3.1"
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: Validate KMP source boundaries
         run: ./scripts/validate-kmp-boundaries.sh
 
-      - name: Build, test, publish Maven repository, and assemble APK
+      - name: Build and test KMP library
         run: >-
           gradle
           :elegant-ui:build
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Publish KMP Maven repository
+        run: >-
+          gradle
           :elegant-ui:publishAllPublicationsToBuildRepository
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Assemble Android sample APK
+        run: >-
+          gradle
           :sample:assembleDebug
           --stacktrace
+          --warning-mode all
           --no-daemon
 
       - name: Extract Android AAR and generate checksums
