@@ -28,16 +28,19 @@ internal val DefaultElegantTypography = ElegantTypography(
         fontSize = 12.sp,
         lineHeight = 16.sp,
         fontWeight = FontWeight.Medium,
+        letterSpacing = 0.2.sp,
     ),
     labelMedium = TextStyle(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         fontWeight = FontWeight.Medium,
+        letterSpacing = 0.1.sp,
     ),
     labelLarge = TextStyle(
         fontSize = 16.sp,
         lineHeight = 22.sp,
         fontWeight = FontWeight.SemiBold,
+        letterSpacing = 0.sp,
     ),
     bodyMedium = TextStyle(
         fontSize = 14.sp,

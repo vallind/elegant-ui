@@ -1,6 +1,6 @@
 # Button
 
-`ElegantButton` 是 Elegant UI 中的基础交互组件，用于触发操作或事件。它提供主要、次要和三级按钮类型、三种尺寸、可选图标插槽、禁用行为以及内置加载状态。
+`ElegantButton` 是 Elegant UI 中经过细化的跨平台操作组件。它提供主要、次要和三级强调层级、三种光学调校尺寸、指针悬停、触控按压、键盘焦点、可选图标插槽以及宽度稳定的加载状态。
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -10,6 +10,7 @@
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonColors
 import com.elegant.compose.ui.button.ElegantButtonDefaults
+import com.elegant.compose.ui.button.ElegantButtonElevation
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
 ```
@@ -71,6 +72,8 @@ ElegantButton(
 
 ## 组件状态
 
+悬停、按压和键盘焦点反馈会通过共享交互源自动解析。主要按钮在悬停时轻微抬升、按压时自然回落，所有类型都保留清晰的焦点环。
+
 ### 禁用状态
 
 ```kotlin
@@ -82,6 +85,10 @@ ElegantButton(
 }
 ```
 
+### 加载状态
+
+加载时会保留标签与图标的原始测量尺寸，在中央覆盖进度指示器、阻止重复触发，并提供可自定义的无障碍状态说明。
+
 ## 属性
 
 ### ElegantButton 属性
@@ -92,9 +99,13 @@ ElegantButton(
 | `modifier` | `Modifier` | 应用于最小 48dp 触控区域容器的修饰符 | `Modifier` | 否 |
 | `enabled` | `Boolean` | 按钮是否可以接受用户交互 | `true` | 否 |
 | `loading` | `Boolean` | 显示进度并阻止重复触发 | `false` | 否 |
+| `loadingStateDescription` | `String` | 加载时播报的本地化无障碍状态 | `"Loading"` | 否 |
+| `interactionSource` | `MutableInteractionSource?` | 用于观察悬停、按压和焦点的可选提升交互源 | `null` | 否 |
 | `style` | `ElegantButtonStyle` | 按钮的视觉强调类型 | `ElegantButtonStyle.Primary` | 否 |
 | `size` | `ElegantButtonSize` | 可视尺寸与内部度量 | `ElegantButtonSize.Medium` | 否 |
-| `colors` | `ElegantButtonColors` | 主题感知的状态颜色与边框度量 | `ElegantButtonDefaults.colors(style)` | 否 |
+| `shape` | `Shape` | 经过光学调校的容器形状 | `ElegantButtonDefaults.shape(size)` | 否 |
+| `colors` | `ElegantButtonColors` | 主题感知的默认、悬停、按压、聚焦和禁用颜色 | `ElegantButtonDefaults.colors(style)` | 否 |
+| `elevation` | `ElegantButtonElevation` | 感知交互状态的层级模型 | `ElegantButtonDefaults.elevation(style)` | 否 |
 | `leadingIcon` | `(@Composable () -> Unit)?` | 标签前的可选图标或内容 | `null` | 否 |
 | `trailingIcon` | `(@Composable () -> Unit)?` | 标签后的可选图标或内容 | `null` | 否 |
 | `content` | `@Composable () -> Unit` | 显示为按钮标签的可组合内容 | - | 是 |
@@ -121,11 +132,20 @@ ElegantButton(
 | --- | --- | --- |
 | `MinimumTouchHeight` | `Dp` | 所有尺寸统一使用的最小交互根高度 |
 | `AnimationDurationMillis` | `Int` | 标准状态过渡时长 |
+| `PressAnimationDurationMillis` | `Int` | 即时按压反馈时长 |
+| `HoveredScale` | `Float` | 克制的指针悬停缩放比例 |
+| `PressedScale` | `Float` | 克制的按压缩放比例 |
 | `colors(style)` | `ElegantButtonColors` | 返回指定按钮类型的主题感知颜色 |
+| `shape(size)` | `Shape` | 返回指定尺寸的光学调校形状 |
+| `elevation(style)` | `ElegantButtonElevation` | 返回指定类型的交互层级模型 |
 
 ### ElegantButtonColors
 
-`ElegantButtonColors` 包含默认、按压、聚焦和禁用状态下的容器色、内容色、边框色与边框宽度。应先调用 `ElegantButtonDefaults.colors(style)`，再通过 `copy(...)` 只覆盖产品明确支持的视觉值。
+`ElegantButtonColors` 包含默认、悬停、按压、聚焦和禁用状态下的容器色、内容色、边框色与边框宽度。应先调用 `ElegantButtonDefaults.colors(style)`，再通过 `copy(...)` 只覆盖产品明确支持的视觉值。
+
+### ElegantButtonElevation
+
+`ElegantButtonElevation` 集中管理默认、悬停、按压、聚焦和禁用层级。主要操作具有轻微静止阴影，悬停或聚焦时抬升，按压时回落；次要和三级操作保持更克制的层级。
 
 ## 进阶用法
 
@@ -198,7 +218,8 @@ ElegantButton(
         }
     },
     loading = isLoading,
+    loadingStateDescription = "提交中",
 ) {
-    Text(if (isLoading) "提交中" else "提交")
+    Text("提交")
 }
 ```

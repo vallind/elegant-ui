@@ -40,3 +40,23 @@ public object ElegantRadius {
     /** Fully rounded shape token. */
     public val full: Dp = 999.dp
 }
+
+/** Motion-duration tokens shared by interactive Elegant UI components. */
+public object ElegantMotion {
+    /** Immediate feedback for a pointer or touch press. */
+    public const val fastDurationMillis: Int = 90
+    /** Standard transition for hover, focus, and state changes. */
+    public const val standardDurationMillis: Int = 160
+    /** Emphasized transition for larger content changes. */
+    public const val emphasizedDurationMillis: Int = 220
+}
+
+/** Tonal elevation tokens shared by Elegant UI components. */
+public object ElegantElevation {
+    /** Flat elements without a cast shadow. */
+    public val none: Dp = 0.dp
+    /** Resting elevation for subtly raised controls. */
+    public val low: Dp = 1.dp
+    /** Hover or focus elevation for interactive controls. */
+    public val medium: Dp = 3.dp
+}

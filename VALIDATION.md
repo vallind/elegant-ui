@@ -16,8 +16,11 @@ Build: Button Android / Desktop / Web milestone `0.1.0-SNAPSHOT`
 - [ ] Primary, Secondary, and Tertiary hierarchy is clear
 - [ ] Small, Medium, and Large proportions are balanced
 - [ ] Light and Dark themes preserve hierarchy and contrast
-- [ ] Pressed, focused, loading, and disabled states are recognizable
+- [ ] Hovered, pressed, focused, loading, and disabled states are recognizable
+- [ ] Pointer hover raises without changing layout or hit-target geometry
+- [ ] Touch press shows ripple and restrained scale feedback
 - [ ] Loading prevents duplicate activation
+- [ ] Loading preserves the resting button width
 - [ ] Leading and trailing content align correctly
 - [ ] Custom `ElegantButtonColors` preserve contrast and focus indication
 

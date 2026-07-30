@@ -1,7 +1,9 @@
 package com.elegant.compose.showcase
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -11,10 +13,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,13 +32,25 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.elegant.compose.showcase.generated.resources.Res
+import com.elegant.compose.showcase.generated.resources.add_rounded
+import com.elegant.compose.showcase.generated.resources.arrow_forward_rounded
+import com.elegant.compose.showcase.generated.resources.check_rounded
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
+import com.elegant.compose.ui.theme.ElegantRadius
+import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 internal val SupportedShowcaseComponentIds: Set<String> = setOf("button")
 
@@ -65,95 +83,226 @@ private fun ButtonShowcase() {
                 .fillMaxSize()
                 .background(colors.backgroundCanvas),
         ) {
-            val horizontalPadding = if (maxWidth < 480.dp) 12.dp else 20.dp
+            val compact = maxWidth < 600.dp
+            val pagePadding = if (compact) ElegantSpacing.lg else ElegantSpacing.xxxl
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .statusBarsPadding()
-                    .padding(horizontal = horizontalPadding, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(18.dp),
+                    .padding(horizontal = pagePadding, vertical = ElegantSpacing.xl),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                FlowRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    itemVerticalAlignment = Alignment.CenterVertically,
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .widthIn(max = 880.dp),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
                 ) {
-                    Column {
+                    ShowcaseHeader(
+                        darkTheme = darkTheme,
+                        onDarkThemeChange = { darkTheme = it },
+                    )
+
+                    DemoCard(
+                        eyebrow = "FOUNDATIONS",
+                        title = "Clear action hierarchy",
+                        description = "Three emphasis levels share one optical rhythm across every target.",
+                    ) {
                         Text(
-                            text = "Elegant UI",
-                            color = colors.textPrimary,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.SemiBold,
-                        )
-                        Text(
-                            text = "Button - Android / Desktop / Web",
+                            text = "Size scale",
+                            style = ElegantTheme.typography.bodyMedium,
                             color = colors.textSecondary,
                         )
+                        SizeRow(
+                            style = ElegantButtonStyle.Primary,
+                            onClick = { tapCount++ },
+                        )
+
+                        Text(
+                            text = "Emphasis",
+                            style = ElegantTheme.typography.bodyMedium,
+                            color = colors.textSecondary,
+                        )
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                        ) {
+                            ElegantButton(
+                                onClick = { tapCount++ },
+                                leadingIcon = { ResourceIcon(Res.drawable.add_rounded) },
+                            ) {
+                                Text("Create")
+                            }
+                            ElegantButton(
+                                onClick = { tapCount++ },
+                                style = ElegantButtonStyle.Secondary,
+                            ) {
+                                Text("Review")
+                            }
+                            ElegantButton(
+                                onClick = { tapCount++ },
+                                style = ElegantButtonStyle.Tertiary,
+                                trailingIcon = { ForwardIcon() },
+                            ) {
+                                Text("Learn more")
+                            }
+                        }
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Dark", color = colors.textSecondary)
-                        Switch(checked = darkTheme, onCheckedChange = { darkTheme = it })
+
+                    DemoCard(
+                        eyebrow = "IN CONTEXT",
+                        title = "Ready to publish",
+                        description = "Actions stay balanced inside a realistic confirmation surface.",
+                    ) {
+                        ConfirmationSurface()
+
+                        FlowRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                        ) {
+                            ElegantButton(
+                                onClick = { tapCount++ },
+                                style = ElegantButtonStyle.Secondary,
+                            ) {
+                                Text("Save draft")
+                            }
+                            ElegantButton(
+                                onClick = { loading = !loading },
+                                loading = loading,
+                                loadingStateDescription = "Publishing",
+                                leadingIcon = { ResourceIcon(Res.drawable.check_rounded) },
+                            ) {
+                                Text("Publish changes")
+                            }
+                        }
                     }
-                }
 
-                DemoCard(title = "Primary actions") {
-                    SizeRow(style = ElegantButtonStyle.Primary, onClick = { tapCount++ })
-                    ElegantButton(
-                        onClick = { loading = !loading },
-                        style = ElegantButtonStyle.Primary,
-                        loading = loading,
-                        leadingIcon = { Text("+") },
-                        trailingIcon = { Text(">") },
-                    ) { Text(if (loading) "Loading" else "Toggle loading") }
-                    ElegantButton(
-                        onClick = {},
-                        style = ElegantButtonStyle.Primary,
-                        enabled = false,
-                    ) { Text("Disabled") }
-                }
+                    DemoCard(
+                        eyebrow = "STATES",
+                        title = "Interaction feedback",
+                        description = "Hover, press, keyboard focus, loading, and disabled states remain distinct.",
+                    ) {
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                        ) {
+                            ElegantButton(
+                                onClick = { tapCount++ },
+                                style = ElegantButtonStyle.Secondary,
+                                leadingIcon = { ResourceIcon(Res.drawable.add_rounded) },
+                                trailingIcon = { ForwardIcon() },
+                            ) {
+                                Text("With icons")
+                            }
+                            ElegantButton(
+                                onClick = {},
+                                enabled = false,
+                            ) {
+                                Text("Disabled")
+                            }
+                        }
 
-                DemoCard(title = "Secondary actions") {
-                    SizeRow(style = ElegantButtonStyle.Secondary, onClick = { tapCount++ })
-                    ElegantButton(
-                        onClick = { tapCount++ },
-                        style = ElegantButtonStyle.Secondary,
-                        leadingIcon = { Text("+") },
-                        trailingIcon = { Text(">") },
-                    ) { Text("With icons") }
-                    ElegantButton(
-                        onClick = {},
-                        style = ElegantButtonStyle.Secondary,
-                        enabled = false,
-                    ) { Text("Disabled") }
-                }
+                        Text(
+                            text = "Accepted actions  $tapCount",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
 
-                DemoCard(title = "Tertiary actions") {
-                    SizeRow(style = ElegantButtonStyle.Tertiary, onClick = { tapCount++ })
-                    ElegantButton(
-                        onClick = { tapCount++ },
-                        style = ElegantButtonStyle.Tertiary,
-                        trailingIcon = { Text(">") },
-                    ) { Text("Learn more") }
+                    Spacer(Modifier.height(ElegantSpacing.md))
                 }
-
-                DemoCard(title = "Interaction check") {
-                    Text(
-                        text = "Tap count: $tapCount",
-                        color = colors.textPrimary,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                    )
-                    Text(
-                        text = "Verify press, focus, keyboard, loading, disabled, sizing, and Light/Dark behavior.",
-                        color = colors.textSecondary,
-                    )
-                }
-
-                Spacer(Modifier.height(24.dp))
             }
+        }
+    }
+}
+
+@Composable
+private fun ShowcaseHeader(
+    darkTheme: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit,
+) {
+    val colors = ElegantTheme.colors
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        itemVerticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+            Text(
+                text = "Elegant Button",
+                color = colors.textPrimary,
+                fontSize = 28.sp,
+                lineHeight = 34.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = (-0.4).sp,
+            )
+            Text(
+                text = "One shared contract · Android · Desktop · Web",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        ) {
+            Text(
+                text = if (darkTheme) "Dark" else "Light",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            Switch(
+                checked = darkTheme,
+                onCheckedChange = onDarkThemeChange,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ConfirmationSurface() {
+    val colors = ElegantTheme.colors
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = colors.surfaceHover,
+                shape = RoundedCornerShape(ElegantRadius.md),
+            )
+            .padding(ElegantSpacing.lg),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .background(
+                    color = colors.interactivePrimary,
+                    shape = RoundedCornerShape(ElegantRadius.sm),
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            ResourceIcon(
+                resource = Res.drawable.check_rounded,
+                modifier = Modifier.size(18.dp),
+                tint = colors.textInverse,
+            )
+        }
+        Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs)) {
+            Text(
+                text = "Button milestone",
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.titleMedium,
+            )
+            Text(
+                text = "Interaction and visual tokens are synchronized across supported targets.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
         }
     }
 }
@@ -165,8 +314,9 @@ private fun SizeRow(
 ) {
     FlowRow(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        itemVerticalAlignment = Alignment.CenterVertically,
     ) {
         ElegantButton(onClick = onClick, style = style, size = ElegantButtonSize.Small) {
             Text("Small")
@@ -182,25 +332,74 @@ private fun SizeRow(
 
 @Composable
 private fun DemoCard(
+    eyebrow: String,
     title: String,
+    description: String,
     content: @Composable () -> Unit,
 ) {
     val colors = ElegantTheme.colors
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colors.surfaceRaised, RoundedCornerShape(18.dp))
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+            .background(
+                color = colors.surfaceRaised,
+                shape = RoundedCornerShape(ElegantRadius.lg),
+            )
+            .border(
+                width = 1.dp,
+                color = colors.borderDefault,
+                shape = RoundedCornerShape(ElegantRadius.lg),
+            )
+            .padding(ElegantSpacing.xxl),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
     ) {
         Text(
-            text = title,
-            color = colors.textPrimary,
-            fontSize = 16.sp,
+            text = eyebrow,
+            color = colors.interactivePrimary,
+            fontSize = 11.sp,
+            lineHeight = 14.sp,
             fontWeight = FontWeight.SemiBold,
+            letterSpacing = 1.sp,
         )
+        Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+            Text(
+                text = title,
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.titleMedium,
+            )
+            Text(
+                text = description,
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
         content()
     }
+}
+
+@Composable
+private fun ResourceIcon(
+    resource: DrawableResource,
+    modifier: Modifier = Modifier,
+    tint: Color = LocalContentColor.current,
+) {
+    Icon(
+        painter = painterResource(resource),
+        contentDescription = null,
+        modifier = modifier.fillMaxSize(),
+        tint = tint,
+    )
+}
+
+@Composable
+private fun ForwardIcon() {
+    val direction = LocalLayoutDirection.current
+    ResourceIcon(
+        resource = Res.drawable.arrow_forward_rounded,
+        modifier = Modifier.graphicsLayer {
+            scaleX = if (direction == LayoutDirection.Rtl) -1f else 1f
+        },
+    )
 }
 
 @Composable
@@ -211,11 +410,19 @@ private fun UnknownComponent(componentId: String) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(colors.backgroundCanvas)
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+                .padding(ElegantSpacing.xxxl),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
         ) {
-            Text("Unknown component", color = colors.textPrimary, fontSize = 22.sp)
-            Text(componentId, color = colors.textSecondary)
+            Text(
+                text = "Unknown component",
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.titleMedium,
+            )
+            Text(
+                text = componentId,
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
         }
     }
 }

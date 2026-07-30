@@ -34,10 +34,15 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.components.resources)
         }
 
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
     }
+}
+
+compose.resources {
+    packageOfResClass = "com.elegant.compose.showcase.generated.resources"
 }

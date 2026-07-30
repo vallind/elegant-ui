@@ -39,6 +39,10 @@ public data class ElegantColors(
     val interactivePrimaryPressed: Color,
     /** Keyboard or accessibility focus-ring color. */
     val focusRing: Color,
+    /** Hovered surface for pointer-driven interaction. */
+    val surfaceHover: Color = surfaceRaised,
+    /** Hovered primary interactive color. */
+    val interactivePrimaryHover: Color = interactivePrimary,
 )
 
 internal val ElegantLightColors = ElegantColors(
@@ -46,6 +50,7 @@ internal val ElegantLightColors = ElegantColors(
     backgroundSubtle = Color(0xFFF1F1F3),
     surfaceDefault = Color(0xFFFFFFFF),
     surfaceRaised = Color(0xFFFFFFFF),
+    surfaceHover = Color(0xFFF5F3FF),
     surfaceSunken = Color(0xFFEDEEF1),
     textPrimary = Color(0xFF17181A),
     textSecondary = Color(0xFF6E727A),
@@ -54,8 +59,9 @@ internal val ElegantLightColors = ElegantColors(
     borderDefault = Color(0xFFE1E2E6),
     borderStrong = Color(0xFFC5C8CF),
     interactivePrimary = Color(0xFF6C4EFF),
-    interactivePrimaryPressed = Color(0xFF5739D8),
-    focusRing = Color(0xFF9B8AFF),
+    interactivePrimaryHover = Color(0xFF765DFF),
+    interactivePrimaryPressed = Color(0xFF5840D6),
+    focusRing = Color(0xFFA99CFF),
 )
 
 internal val ElegantDarkColors = ElegantColors(
@@ -63,6 +69,7 @@ internal val ElegantDarkColors = ElegantColors(
     backgroundSubtle = Color(0xFF17191E),
     surfaceDefault = Color(0xFF191B20),
     surfaceRaised = Color(0xFF202229),
+    surfaceHover = Color(0xFF292633),
     surfaceSunken = Color(0xFF121318),
     textPrimary = Color(0xFFF6F7F9),
     textSecondary = Color(0xFFA9ADB5),
@@ -71,6 +78,7 @@ internal val ElegantDarkColors = ElegantColors(
     borderDefault = Color(0xFF343740),
     borderStrong = Color(0xFF50545F),
     interactivePrimary = Color(0xFF8B78FF),
-    interactivePrimaryPressed = Color(0xFF725EE8),
-    focusRing = Color(0xFFAA9BFF),
+    interactivePrimaryHover = Color(0xFF9888FF),
+    interactivePrimaryPressed = Color(0xFF735FE4),
+    focusRing = Color(0xFFB4A9FF),
 )

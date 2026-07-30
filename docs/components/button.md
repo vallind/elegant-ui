@@ -1,6 +1,6 @@
 # Button
 
-`ElegantButton` is a basic interactive component in Elegant UI, used to trigger actions or events. It provides primary, secondary, and tertiary button types, three sizes, optional icon slots, disabled behavior, and a built-in loading state.
+`ElegantButton` is a polished cross-platform action component in Elegant UI. It provides primary, secondary, and tertiary emphasis, three optically tuned sizes, pointer hover, touch press, keyboard focus, optional icon slots, and a width-stable loading state.
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -10,6 +10,7 @@
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonColors
 import com.elegant.compose.ui.button.ElegantButtonDefaults
+import com.elegant.compose.ui.button.ElegantButtonElevation
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
 ```
@@ -71,6 +72,8 @@ ElegantButton(
 
 ## Component States
 
+Hover, press, and keyboard focus feedback are resolved automatically from the shared interaction source. Primary buttons subtly raise on hover and settle on press; all styles keep a visible focus ring.
+
 ### Disabled State
 
 ```kotlin
@@ -82,6 +85,10 @@ ElegantButton(
 }
 ```
 
+### Loading State
+
+Loading keeps the measured label and icon content in place, overlays a centered progress indicator, prevents duplicate activation, and exposes a customizable accessibility description.
+
 ## Properties
 
 ### ElegantButton Properties
@@ -92,9 +99,13 @@ ElegantButton(
 | `modifier` | `Modifier` | Modifier applied to the 48dp minimum touch-target container | `Modifier` | No |
 | `enabled` | `Boolean` | Whether the button can accept user interaction | `true` | No |
 | `loading` | `Boolean` | Shows progress and prevents duplicate activation | `false` | No |
+| `loadingStateDescription` | `String` | Localized accessibility state announced while loading | `"Loading"` | No |
+| `interactionSource` | `MutableInteractionSource?` | Optional hoisted source for observing hover, press, and focus | `null` | No |
 | `style` | `ElegantButtonStyle` | Visual emphasis type of the button | `ElegantButtonStyle.Primary` | No |
 | `size` | `ElegantButtonSize` | Visual size and internal metrics | `ElegantButtonSize.Medium` | No |
-| `colors` | `ElegantButtonColors` | Theme-aware state colors and border metrics | `ElegantButtonDefaults.colors(style)` | No |
+| `shape` | `Shape` | Optically tuned container shape | `ElegantButtonDefaults.shape(size)` | No |
+| `colors` | `ElegantButtonColors` | Theme-aware default, hovered, pressed, focused, and disabled colors | `ElegantButtonDefaults.colors(style)` | No |
+| `elevation` | `ElegantButtonElevation` | State-aware tonal elevation model | `ElegantButtonDefaults.elevation(style)` | No |
 | `leadingIcon` | `(@Composable () -> Unit)?` | Optional icon or content before the label | `null` | No |
 | `trailingIcon` | `(@Composable () -> Unit)?` | Optional icon or content after the label | `null` | No |
 | `content` | `@Composable () -> Unit` | Composable content displayed as the button label | - | Yes |
@@ -121,11 +132,20 @@ ElegantButton(
 | --- | --- | --- |
 | `MinimumTouchHeight` | `Dp` | Minimum interactive root height used by every size |
 | `AnimationDurationMillis` | `Int` | Standard state-transition duration |
+| `PressAnimationDurationMillis` | `Int` | Immediate press-response duration |
+| `HoveredScale` | `Float` | Restrained pointer-hover scale |
+| `PressedScale` | `Float` | Restrained press scale |
 | `colors(style)` | `ElegantButtonColors` | Returns theme-aware colors for a button style |
+| `shape(size)` | `Shape` | Returns the optically tuned shape for a size |
+| `elevation(style)` | `ElegantButtonElevation` | Returns the interaction elevation model for a style |
 
 ### ElegantButtonColors
 
-`ElegantButtonColors` contains default, pressed, focused, and disabled container, content, border, and border-width values. Start with `ElegantButtonDefaults.colors(style)` and use `copy(...)` to override only product-supported values.
+`ElegantButtonColors` contains default, hovered, pressed, focused, and disabled container, content, border, and border-width values. Start with `ElegantButtonDefaults.colors(style)` and use `copy(...)` to override only product-supported values.
+
+### ElegantButtonElevation
+
+`ElegantButtonElevation` centralizes default, hovered, pressed, focused, and disabled elevation. Primary actions use a subtle resting shadow, rise on hover or focus, and settle on press; secondary and tertiary actions remain quieter.
 
 ## Advanced Usage
 
@@ -198,7 +218,8 @@ ElegantButton(
         }
     },
     loading = isLoading,
+    loadingStateDescription = "Submitting",
 ) {
-    Text(if (isLoading) "Submitting" else "Submit")
+    Text("Submit")
 }
 ```
