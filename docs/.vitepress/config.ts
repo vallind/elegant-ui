@@ -120,7 +120,7 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    logo: '/logo.svg',
+    logo: `${base}logo.svg`,
     siteTitle: 'Elegant UI',
     search: { provider: 'local' },
     socialLinks: [

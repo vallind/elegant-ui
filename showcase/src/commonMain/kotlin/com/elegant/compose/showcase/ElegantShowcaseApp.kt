@@ -2,6 +2,7 @@ package com.elegant.compose.showcase
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -59,92 +60,100 @@ private fun ButtonShowcase() {
 
     ElegantTheme(darkTheme = darkTheme) {
         val colors = ElegantTheme.colors
-        Column(
+        BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colors.backgroundCanvas)
-                .verticalScroll(rememberScrollState())
-                .statusBarsPadding()
-                .padding(horizontal = 20.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(18.dp),
+                .background(colors.backgroundCanvas),
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+            val horizontalPadding = if (maxWidth < 480.dp) 12.dp else 20.dp
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .statusBarsPadding()
+                    .padding(horizontal = horizontalPadding, vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(18.dp),
             ) {
-                Column {
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    itemVerticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column {
+                        Text(
+                            text = "Elegant UI",
+                            color = colors.textPrimary,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                        Text(
+                            text = "Button · Android / Desktop / Web",
+                            color = colors.textSecondary,
+                        )
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("Dark", color = colors.textSecondary)
+                        Switch(checked = darkTheme, onCheckedChange = { darkTheme = it })
+                    }
+                }
+
+                DemoCard(title = "Primary · 主要操作") {
+                    SizeRow(style = ElegantButtonStyle.Primary, onClick = { tapCount++ })
+                    ElegantButton(
+                        onClick = { loading = !loading },
+                        style = ElegantButtonStyle.Primary,
+                        loading = loading,
+                        leadingIcon = { Text("+") },
+                        trailingIcon = { Text("→") },
+                    ) { Text(if (loading) "Loading" else "Toggle loading") }
+                    ElegantButton(
+                        onClick = {},
+                        style = ElegantButtonStyle.Primary,
+                        enabled = false,
+                    ) { Text("Disabled") }
+                }
+
+                DemoCard(title = "Secondary · 次要操作") {
+                    SizeRow(style = ElegantButtonStyle.Secondary, onClick = { tapCount++ })
+                    ElegantButton(
+                        onClick = { tapCount++ },
+                        style = ElegantButtonStyle.Secondary,
+                        leadingIcon = { Text("+") },
+                        trailingIcon = { Text("→") },
+                    ) { Text("With icons") }
+                    ElegantButton(
+                        onClick = {},
+                        style = ElegantButtonStyle.Secondary,
+                        enabled = false,
+                    ) { Text("Disabled") }
+                }
+
+                DemoCard(title = "Tertiary · 低强调操作") {
+                    SizeRow(style = ElegantButtonStyle.Tertiary, onClick = { tapCount++ })
+                    ElegantButton(
+                        onClick = { tapCount++ },
+                        style = ElegantButtonStyle.Tertiary,
+                        trailingIcon = { Text("→") },
+                    ) { Text("Learn more") }
+                }
+
+                DemoCard(title = "Interaction check") {
                     Text(
-                        text = "Elegant UI",
+                        text = "Tap count: $tapCount",
                         color = colors.textPrimary,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
                     )
                     Text(
-                        text = "Button · Android / Desktop / Web",
+                        text = "Verify press, focus, keyboard, loading, disabled, sizing, and Light/Dark behavior.",
                         color = colors.textSecondary,
                     )
                 }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Dark", color = colors.textSecondary)
-                    Switch(checked = darkTheme, onCheckedChange = { darkTheme = it })
-                }
-            }
 
-            DemoCard(title = "Primary · 主要操作") {
-                SizeRow(style = ElegantButtonStyle.Primary, onClick = { tapCount++ })
-                ElegantButton(
-                    onClick = { loading = !loading },
-                    style = ElegantButtonStyle.Primary,
-                    loading = loading,
-                    leadingIcon = { Text("+") },
-                    trailingIcon = { Text("→") },
-                ) { Text(if (loading) "Loading" else "Toggle loading") }
-                ElegantButton(
-                    onClick = {},
-                    style = ElegantButtonStyle.Primary,
-                    enabled = false,
-                ) { Text("Disabled") }
+                Spacer(Modifier.height(24.dp))
             }
-
-            DemoCard(title = "Secondary · 次要操作") {
-                SizeRow(style = ElegantButtonStyle.Secondary, onClick = { tapCount++ })
-                ElegantButton(
-                    onClick = { tapCount++ },
-                    style = ElegantButtonStyle.Secondary,
-                    leadingIcon = { Text("+") },
-                    trailingIcon = { Text("→") },
-                ) { Text("With icons") }
-                ElegantButton(
-                    onClick = {},
-                    style = ElegantButtonStyle.Secondary,
-                    enabled = false,
-                ) { Text("Disabled") }
-            }
-
-            DemoCard(title = "Tertiary · 低强调操作") {
-                SizeRow(style = ElegantButtonStyle.Tertiary, onClick = { tapCount++ })
-                ElegantButton(
-                    onClick = { tapCount++ },
-                    style = ElegantButtonStyle.Tertiary,
-                    trailingIcon = { Text("→") },
-                ) { Text("Learn more") }
-            }
-
-            DemoCard(title = "Interaction check") {
-                Text(
-                    text = "Tap count: $tapCount",
-                    color = colors.textPrimary,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                )
-                Text(
-                    text = "Verify press, focus, keyboard, loading, disabled, sizing, and Light/Dark behavior.",
-                    color = colors.textSecondary,
-                )
-            }
-
-            Spacer(Modifier.height(24.dp))
         }
     }
 }

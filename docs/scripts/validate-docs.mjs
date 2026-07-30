@@ -10,6 +10,10 @@ const showcaseSource = await readFile(
   join(repositoryRoot, 'showcase', 'src', 'commonMain', 'kotlin', 'com', 'elegant', 'compose', 'showcase', 'ElegantShowcaseApp.kt'),
   'utf8',
 )
+const webIndex = await readFile(
+  join(repositoryRoot, 'web-sample', 'src', 'wasmJsMain', 'resources', 'index.html'),
+  'utf8',
+)
 
 const requiredGuideSlugs = [
   'getting-started',
@@ -31,6 +35,10 @@ const chineseSlugs = await componentSlugs(chineseDir)
 const fail = (message) => {
   console.error(`Documentation validation failed: ${message}`)
   process.exitCode = 1
+}
+
+if (!webIndex.includes('<script src="web-sample.js"></script>')) {
+  fail('Compose Web index does not load the generated web-sample.js application bundle')
 }
 
 const assertHeadingsInOrder = (slug, locale, page, headings) => {
