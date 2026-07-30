@@ -19,6 +19,16 @@ Elegant UI is a refined Compose Multiplatform component library. Android, Deskto
 - Work on one component milestone at a time. Do not begin the next component before all required gates pass.
 - Verify unstable tooling facts against current official Kotlin, Compose Multiplatform, Android, Gradle, VitePress, and GitHub Actions documentation.
 
+## Change workflow
+
+- For a significant component, foundation, or release change, keep a short working plan updated until the milestone closes.
+- Use `.claude/skills/create-component/SKILL.md` for new components, material component refinements, and unnamed “continue the library” requests.
+- Before changing an available component, build an impact map covering its public API, pure contract logic, shared primitives, showcase route, both documentation pages, and downstream completed components.
+- For a bug fix, reproduce the failure with the narrowest meaningful test or showcase state, fix the lowest responsible layer, and keep a regression test when the behavior can be expressed deterministically.
+- For a public API or behavior change, update source, tests, showcase usage, English and Chinese API documentation, and validation notes in the same milestone.
+- Do not mix opportunistic refactors, dependency upgrades, unrelated component work, or formatting churn into a component milestone.
+- Use the progress indexes as the scope ledger and the create-component skill’s completed-reference catalog as the implementation routing table. Add a newly completed component to that catalog in the same milestone.
+
 ## Component library evolution
 
 The existing per-component workflow and definition of done remain the delivery authority. Library growth adds sequencing and reuse rules; it does not weaken or replace any component gate.
@@ -52,6 +62,8 @@ For every component family:
 Button is the initial repository reference for delivery shape and action-component quality. Future completed components become the preferred reference for their own family. Copy the closed-loop structure—source, tests, showcase, documentation, validation, and publication—not component-specific code or assumptions.
 
 Figma is not part of the default repository workflow. Do not create, connect, read, or update Figma assets unless the user explicitly approves a separate Figma milestone.
+
+No screenshot or visual-evidence artifact is a repository completion gate. Perform visual and interaction review on the real launchers when available, record the result or limitation in `VALIDATION.md`, and do not require committed screenshots, pixel-diff baselines, or a separate evidence approval step.
 
 ## Repository map
 
@@ -145,6 +157,49 @@ Requirements:
 - Do not expose an unmodified Material component as the Elegant UI public contract.
 - Preserve binary/source compatibility deliberately; document breaking changes during `0.x`.
 
+Additional API rules:
+
+- Prefer controlled state plus callbacks for mutable behavior. Convenience state holders may be added only when their ownership and save/restore behavior are explicit.
+- Avoid boolean combinations that permit contradictory states. Use a stable enum or immutable state model when states are mutually exclusive.
+- Keep user-facing semantic descriptions caller-configurable and localizable; do not bury required accessibility wording in private implementation.
+- Apply the caller’s `modifier` exactly once to the public root unless the KDoc explicitly documents a different contract.
+- Keep slot responsibilities precise. Components own spacing, alignment, default content color, and default text style around slots; slot content owns its internal drawing.
+- Expose `interactionSource` only when observing or controlling interactions is part of the useful public contract, and keep its null/default convention aligned within the component family.
+- Prefer additive overloads or defaulted trailing parameters. Avoid overloads whose lambda or default combinations are ambiguous at Kotlin call sites.
+- Keep implementation-only metrics and resolvers internal. Public customization should express product intent rather than expose layout machinery.
+
+## State and interaction contract
+
+Freeze state precedence before implementation. For competing interaction visuals, use this baseline unless the family contract documents a reason to differ:
+
+1. disabled or transition-locked interaction;
+2. pressed or dragged;
+3. keyboard focused;
+4. pointer hovered;
+5. resting.
+
+Selected, checked, error, loading, expanded, and indeterminate are semantic states, not interchangeable interaction visuals. Define how they combine with the precedence above, ensure they remain announced where applicable, and test the resolver directly.
+
+- Disabled and loading states must not invoke callbacks.
+- Loading must preserve layout where replacement content would otherwise cause visible jumps.
+- Focus treatment must remain visible in Light and Dark themes and must not rely only on color when another affordance is practical.
+- Hover effects may enrich Desktop and Web but must not be required to understand or operate the component.
+- Press motion must not shrink the actual hit target or move neighboring layout.
+- Directional behavior must use layout direction; do not hardcode left/right when start/end is intended.
+- Components that open overlays must define dismissal, focus capture, focus restoration, escape/back handling, and outside-click behavior before implementation.
+
+## Compose implementation discipline
+
+- Keep side effects out of composition. Use effects only for lifecycle-bound work and key them only with values read by the effect.
+- Use `rememberUpdatedState` for values read by long-lived effects or remembered callbacks; do not add it to ordinary direct callback forwarding.
+- Use `@NonRestartableComposable` only for thin delegates that read no state themselves.
+- `@Immutable` requires genuinely immutable fields. Lambda-bearing models are not immutable merely because their properties are `val`.
+- Standard `List`, `Set`, and `Map` parameters are unstable to Compose. Prefer stable models, immutable collections when already supported, or clearly documented caller-owned identity; do not add a dependency solely to decorate one API.
+- Avoid unnecessary intrinsic measurement, subcomposition, allocation in drawing/layout loops, and state objects recreated on every recomposition.
+- Hoist reusable pure logic out of composables so state precedence, formatting, measurement choices, and fallback behavior can be tested in `commonTest`.
+- Reuse Material or foundation implementation primitives internally only when they are available to all supported targets and can be fully themed and semantically adapted. Elegant UI remains the public contract.
+- Add a new dependency only when the active component cannot reasonably use existing Compose/Kotlin facilities; verify Android, Desktop, and Wasm compatibility before accepting it.
+
 ## Foundations and visual rules
 
 - Use semantic values from `ElegantTheme`; raw colors belong only in foundation/theme files.
@@ -154,6 +209,16 @@ Requirements:
 - The interactive root must meet a 48dp minimum target unless a stricter platform rule applies.
 - Loading or transition states must prevent duplicate activation.
 - Do not encode platform-specific input assumptions into shared visuals.
+
+Refinement is part of implementation, not a later re-skin:
+
+- establish one clear primary element and keep secondary information quieter;
+- tune optical alignment, icon-to-label spacing, baseline rhythm, and shape proportions instead of relying only on geometric centering;
+- keep component density intentional across size variants rather than scaling every metric by one factor;
+- make hover, focus, press, selected, error, disabled, and loading differences visible but restrained;
+- test long content, empty content, custom slots, RTL, large font scale, narrow width, and dark surfaces where the contract permits them;
+- avoid decorative borders, shadows, gradients, or motion that do not communicate hierarchy or state;
+- demonstrate at least one realistic composition with already available components when the component is designed to compose with them.
 
 ## Accessibility and input
 
@@ -176,6 +241,8 @@ For every new component:
 - add a stable lowercase slug;
 - register the slug in the shared `when`/registry;
 - render the same state matrix on Android, Desktop, and Web;
+- show public variants in labeled groups and include at least one realistic cross-component composition when applicable;
+- keep content responsive without assuming a fixed documentation iframe width;
 - keep platform launchers thin;
 - avoid duplicating component demo UI in launcher modules.
 
@@ -233,6 +300,14 @@ For shared foundations and component families:
 - add regression coverage when fixing a state-priority, sizing, focus, selection, dismissal, or adaptive-layout defect;
 - test representative compositions such as icon plus label, field plus validation, selection inside a collection, and overlay trigger plus focus restoration when those contracts exist;
 - keep manual platform acceptance explicit where automation is not yet available.
+
+Test behavior rather than implementation trivia:
+
+- pure resolvers cover every state and precedence branch;
+- enums and defaults cover stable public values that consumers may depend on;
+- fallback, formatting, range coercion, selection, and dismissal logic cover boundaries and invalid-but-representable input;
+- layout tests are required only when a layout contract can regress and the repository has a reliable cross-platform harness;
+- do not assert private call order, animation frame-by-frame values, or exact implementation structure unless those are the contract.
 
 ## CI and artifacts
 
