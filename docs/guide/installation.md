@@ -1,74 +1,54 @@
 # Installation
 
-Elegant UI uses a common-first Kotlin Multiplatform library module while Android remains the only supported runtime target. Android applications consume it like a normal Gradle dependency.
+Elegant UI publishes Android, Desktop JVM, and Web/Wasm variants from one Kotlin Multiplatform coordinate.
 
 ::: warning Current distribution status
-The public Maven Central coordinate is reserved but not released yet. Use a project dependency, the CI Maven repository artifact, or `publishToMavenLocal` until a signed release is available.
+The Maven Central coordinate is reserved but not released yet. Use a project dependency, `publishToMavenLocal`, or the Maven repository artifact produced by **Multiplatform Build**.
 :::
 
 ## Same repository
 
-For an Android application in the same Gradle build:
+Use the project dependency from a matching KMP source set:
 
 ```kotlin
-// app/build.gradle.kts
-dependencies {
-    implementation(project(":elegant-ui"))
-}
-```
-
-The included `:sample` application uses this form.
-
-## Maven Local
-
-Publish the complete KMP metadata and Android AAR to your local Maven repository:
-
-```bash
-gradle :elegant-ui:publishToMavenLocal
-```
-
-Add `mavenLocal()` to the consuming project's repositories:
-
-```kotlin
-// settings.gradle.kts
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-}
-```
-
-Then depend on the root multiplatform coordinate:
-
-```kotlin
-// app/build.gradle.kts
-dependencies {
-    implementation("io.github.vallind:elegant-ui:0.1.0-SNAPSHOT")
-}
-```
-
-Gradle reads Kotlin Multiplatform module metadata and selects the Android variant automatically.
-
-## GitHub Actions Maven artifact
-
-The **Android Build** workflow uploads `elegant-ui-maven-repository`. Download and extract it into a directory such as `third-party/elegant-ui-repo`, then register that directory:
-
-```kotlin
-// settings.gradle.kts
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven {
-            url = uri(rootDir.resolve("third-party/elegant-ui-repo"))
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":elegant-ui"))
         }
     }
 }
 ```
 
-Use the same dependency coordinate:
+A standalone Android application can use:
+
+```kotlin
+dependencies {
+    implementation(project(":elegant-ui"))
+}
+```
+
+## Maven Local
+
+Publish every supported variant:
+
+```bash
+gradle :elegant-ui:publishToMavenLocal
+```
+
+Register `mavenLocal()` and depend on the root multiplatform coordinate:
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("io.github.vallind:elegant-ui:0.1.0-SNAPSHOT")
+        }
+    }
+}
+```
+
+For a standalone Android app:
 
 ```kotlin
 dependencies {
@@ -76,20 +56,29 @@ dependencies {
 }
 ```
 
-This artifact contains the root KMP publication, Gradle module metadata, POM files, sources, and the Android AAR. Keep the directory intact rather than copying only the AAR.
+Gradle selects the Android, Desktop JVM, or Web/Wasm variant from Kotlin Multiplatform metadata.
+
+## GitHub Actions Maven artifact
+
+The **Multiplatform Build** workflow uploads `elegant-ui-maven-repository`. Extract it, register the directory as a Maven repository, and use the same coordinate. Keep the repository intact because it contains root metadata plus Android AAR, Desktop JVM, and Web/Wasm publications.
 
 ## Future Maven Central release
 
-After release signing and publishing are configured, consumers will only need:
+After release signing is configured:
 
 ```kotlin
-dependencies {
+commonMain.dependencies {
     implementation("io.github.vallind:elegant-ui:<version>")
 }
 ```
 
-The coordinate is intended to remain stable when Desktop, iOS, or Web targets are added later.
+## Platform sample artifacts
 
-## Temporary direct AAR use
+The same workflow also uploads:
 
-The workflow also exposes a standalone Android AAR for inspection and emergency testing. Direct AAR use is not the supported long-term integration path because it does not carry complete dependency metadata.
+- `elegant-ui-android-sample`
+- `elegant-ui-desktop-sample-linux`
+- `elegant-ui-web-sample`
+- `elegant-ui-android-aar`
+
+The Maven repository is the supported integration handoff; direct platform files are validation artifacts.

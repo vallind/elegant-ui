@@ -13,7 +13,7 @@ android {
         minSdk = 24
         targetSdk = 37
         versionCode = 1
-        versionName = "0.1.0-kmp-ready"
+        versionName = "0.1.0-multiplatform"
     }
 
     buildFeatures {
@@ -32,13 +32,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":elegant-ui"))
+    implementation(project(":showcase"))
     implementation("androidx.core:core-ktx:1.19.0")
     implementation("androidx.activity:activity-compose:1.13.0")
-
+    implementation(compose.runtime)
     implementation(compose.ui)
-    implementation(compose.uiToolingPreview)
-    implementation(compose.foundation)
-    implementation(compose.material3)
     debugImplementation(compose.uiTooling)
 }

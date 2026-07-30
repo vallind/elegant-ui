@@ -1,277 +1,260 @@
-# Elegant UI
+# Elegant UI repository guidance
 
-Elegant UI is a refined Compose component library with a common-first Kotlin Multiplatform architecture. Android is the only configured and supported runtime target today. The repository contains the reusable `:elegant-ui` KMP library, an installable Android `:sample` application, synchronized English and Simplified Chinese documentation, and GitHub Actions workflows for documentation, Android artifacts, Maven publications, and physical-device validation.
+Elegant UI is a refined Compose Multiplatform component library. Android, Desktop JVM, and Web/Wasm are supported targets. The repository contains the published `:elegant-ui` KMP library, a shared `:showcase`, three platform launchers, synchronized English and Simplified Chinese documentation, and GitHub Actions for multiplatform artifacts and GitHub Pages.
 
-The visual direction is elegant, premium, restrained, modern, and precise. Figma is the visual source of truth when available, but unavailable Figma automation must not block implementation, CI, or device testing.
+## Platform contract
 
-## Non-negotiable platform statement
+- **Android:** supported, API 24+
+- **Desktop JVM:** supported on current 64-bit macOS, Windows, and Linux environments supported by Compose Multiplatform
+- **Web/Wasm:** supported on modern browsers with WasmGC
+- **iOS:** out of scope; do not add iOS targets, source sets, APIs, samples, or claims without a separate approved milestone
+- A component is incomplete when it fails to compile or demonstrate its public contract on any supported target.
+- Keep the public API shared. Platform-specific behavior may adapt input modality and system integration, but not silently change component meaning.
 
-- **Supported:** Android API 24+
-- **Planned, not supported:** Desktop JVM, iOS, Web/Wasm
-- `commonMain` means the API and implementation are designed to be shareable. It does not mean every platform is already supported.
-- Do not claim a platform is supported until its Gradle target, clean CI, sample, tests, documentation, release variant, and platform acceptance checks exist.
-- The Android `:sample` remains a separate `com.android.application` module. Do not try to turn it into the KMP library module.
+## Authority and scope
 
-## Quick start
+- This file is the single repository-wide engineering authority. `CLAUDE.md` references it.
+- Read the closest source, tests, sample, docs pages, and workflows before editing.
+- Preserve the project’s original design language. Reference mature projects for process and quality, never for brand or copied implementation.
+- Work on one component milestone at a time. Do not begin the next component before all required gates pass.
+- Verify unstable tooling facts against current official Kotlin, Compose Multiplatform, Android, Gradle, VitePress, and GitHub Actions documentation.
 
-- Write a short plan before a new component, public API change, source-set migration, or meaningful refactor.
-- Read the closest existing component and both locale pages before introducing a new API.
-- Complete one component end to end. Do not begin the next V1 component until the current one passes CI and physical-device validation.
-- Put shareable component code in `commonMain` by default. Platform-specific code requires a documented reason.
-- Run KMP boundary validation, Gradle checks, documentation checks, and the relevant clean builds before handoff.
-- Consult current official Android, Kotlin, Compose Multiplatform, Gradle, and VitePress documentation for unstable tooling facts.
-- Never describe a static parse, mock browser demo, or unexecuted task as a successful build.
+## Repository map
 
-## Key commands
+| Path | Responsibility |
+| --- | --- |
+| `elegant-ui/src/commonMain/` | Public components, tokens, state, defaults, semantics, shared behavior |
+| `elegant-ui/src/commonTest/` | Platform-independent contract and pure-state tests |
+| `elegant-ui/src/androidMain/` | Android-only adapters and manifest |
+| `elegant-ui/src/desktopMain/` | Desktop-only adapters when genuinely required |
+| `elegant-ui/src/wasmJsMain/` | Browser-only adapters when genuinely required |
+| `showcase/src/commonMain/` | Shared component gallery and component-slug registry |
+| `sample/` | Android application launcher and physical-device validation |
+| `desktop-sample/` | Desktop JVM launcher and keyboard/mouse/window validation |
+| `web-sample/` | Compose Web/Wasm launcher and documentation iframe runtime |
+| `docs/` | VitePress website, English root and `zh_CN` mirror |
+| `scripts/validate-kmp-boundaries.sh` | Source-set and platform-target boundary checks |
+| `.github/workflows/android.yml` | Multiplatform build and artifact workflow |
+| `.github/workflows/docs.yml` | Compose Web demo + VitePress Pages workflow |
 
-The repository currently uses the system Gradle executable in CI. Replace `gradle` with `./gradlew` after the wrapper is checked in.
+## Required commands
 
-| Action | Command |
-| :--- | :--- |
-| Validate common/platform boundaries | `./scripts/validate-kmp-boundaries.sh` |
-| Compile and test the KMP library | `gradle :elegant-ui:build --stacktrace --no-daemon` |
-| Build Android sample APK | `gradle :sample:assembleDebug --stacktrace --no-daemon` |
-| Publish library to build-local Maven repo | `gradle :elegant-ui:publishAllPublicationsToBuildRepository --stacktrace --no-daemon` |
-| Publish for another local project | `gradle :elegant-ui:publishToMavenLocal --stacktrace --no-daemon` |
-| Run all verification tasks | `gradle check --stacktrace --no-daemon` |
-| Run Android lint | `gradle lint --stacktrace --no-daemon` |
-| Install sample on a connected device | `gradle :sample:installDebug` |
-| Validate bilingual website | `cd docs && npm run docs:check` |
-| Run documentation website | `cd docs && npm install && npm run docs:dev` |
-| Build documentation website | `cd docs && npm install && npm run docs:build` |
+```bash
+./scripts/validate-kmp-boundaries.sh
 
-GitHub Actions is the authoritative clean build until the repository includes a Gradle Wrapper and the local Android SDK is known to match CI.
+gradle :elegant-ui:build --stacktrace --no-daemon
+gradle :showcase:build --stacktrace --no-daemon
+gradle :elegant-ui:publishAllPublicationsToBuildRepository --stacktrace --no-daemon
+gradle :sample:assembleDebug --stacktrace --no-daemon
+gradle :desktop-sample:createDistributable --stacktrace --no-daemon
+gradle :web-sample:wasmJsBrowserDistribution --stacktrace --no-daemon
 
-## Repository structure
+cd docs
+npm install
+npm run docs:check
+npm run docs:build
+```
 
-| Path | Purpose |
-| :--- | :--- |
-| `elegant-ui/` | KMP library module and public Elegant UI API |
-| `elegant-ui/src/commonMain/kotlin/` | Default location for foundations and reusable Compose components |
-| `elegant-ui/src/commonTest/kotlin/` | Platform-independent contract and pure behavior tests |
-| `elegant-ui/src/androidMain/` | Android-only adapters, manifest, resources, or implementations |
-| `elegant-ui/src/androidHostTest/` | Android-specific host tests when a component needs them |
-| `elegant-ui/src/androidDeviceTest/` | Future Android device tests when enabled |
-| `sample/` | Installable Android application used for physical-device acceptance |
-| `docs/` | VitePress website root and English content |
-| `docs/zh_CN/` | Simplified Chinese mirror |
-| `docs/public/compose/index.html` | Miuix-style iframe visual demo registry |
-| `scripts/validate-kmp-boundaries.sh` | Fails when common code imports Android-only APIs or legacy source paths return |
-| `.github/workflows/android.yml` | KMP build, Maven publication, APK/AAR packaging, and artifacts |
-| `.github/workflows/docs.yml` | Documentation validation, build, and GitHub Pages deployment |
-| `PROJECT_BRIEF.md` | Locked scope and platform strategy |
-| `FLOW.md` | Per-component delivery sequence |
-| `VALIDATION.md` | Physical-device acceptance checklist |
-| `.claude/skills/` | Repeatable repository workflows |
+Only claim a command passed when it actually ran successfully. GitHub Actions is the authoritative clean environment when local Android SDK, browser runtime, or packaging tools are unavailable.
 
 ## Source-set policy
 
-Library packages live under:
+1. Put public Composables, theme values, state models, defaults, semantic behavior, and reusable animation/layout logic in `commonMain`.
+2. Use `androidMain`, `desktopMain`, or `wasmJsMain` only for APIs that cannot be expressed with common Compose Multiplatform APIs.
+3. Define the smallest stable common contract before adding platform implementations.
+4. Prefer dependency injection or a narrow interface. Use `expect`/`actual` only when compile-time specialization is the clearest design.
+5. Never recreate `elegant-ui/src/main` or `showcase/src/main`.
 
-```text
-elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/
-├── theme/
-├── button/
-└── <component>/
-```
+Common/public code must not expose or import:
 
-Use this decision order:
+- Android framework types such as `Context`, `Activity`, `Drawable`, `View`, or resource IDs
+- Desktop-only AWT or Swing types
+- browser DOM, `kotlinx.browser`, or `org.w3c.dom` types
+- platform path, window, clipboard, or lifecycle objects without a narrow abstraction
 
-1. **`commonMain`** — default for public Composables, tokens, state models, defaults, animation logic, semantics, and shared layout.
-2. **`androidMain`** — only when an implementation requires Android APIs or Android resources.
-3. **Future platform source sets** — add only together with the target, CI, sample, documentation, and acceptance criteria.
-4. **`expect` / `actual`** — use only for a narrow platform capability with a stable common contract. Do not use it merely to hide avoidable platform coupling.
+`androidx.compose.*` APIs are allowed only when the artifact is available to Compose Multiplatform `commonMain`.
 
-Do not recreate `elegant-ui/src/main`. The Android-KMP plugin uses KMP source-set directories.
+## Component API contract
 
-## KMP public API boundary
+Use this public parameter order:
 
-Public declarations in `commonMain` must not expose Android platform types, including:
+1. required behavior/state parameters
+2. `modifier: Modifier = Modifier`
+3. state flags and controlled values
+4. visual configuration such as style, size, colors, shape
+5. optional slots
+6. primary `content` lambda last
 
-- `android.content.Context`
-- `android.app.Activity`
-- `android.graphics.*`
-- `android.graphics.drawable.Drawable`
-- Android `View` types
-- Android-only resource identifiers
-
-Compose packages under `androidx.compose.*` are allowed when supplied by Compose Multiplatform and available to `commonMain`.
-
-When platform behavior is unavoidable:
-
-- define a narrow semantic interface in `commonMain`;
-- implement it in `androidMain`;
-- keep platform objects out of component signatures;
-- document fallback behavior and test the Android implementation;
-- do not pretend the adapter exists on planned targets.
-
-## Dependency and version policy
-
-- The library uses Kotlin Multiplatform, the official Android-KMP library plugin, Compose Multiplatform, and the Compose compiler plugin.
-- The Compose compiler plugin version must match the Kotlin plugin version.
-- Use Compose Multiplatform dependencies in `commonMain`; do not add AndroidX-only dependencies there.
-- Android-only dependencies belong in `androidMain` or the Android sample.
-- Prefer `api` only when a dependency's types are part of the public contract or consumers need them to compose content. Prefer `implementation` otherwise.
-- Material 3 may be used as implementation infrastructure, but Elegant UI owns its public visual system. Do not expose raw Material components as Elegant components.
-- Version upgrades require current official compatibility verification and a clean CI build.
-
-## Design and token rules
-
-- Components consume semantic values from `ElegantTheme`, typography, spacing, radius, motion, and component-specific defaults.
-- Raw colors belong in foundation/theme files. Do not scatter hexadecimal values through component implementations or sample screens.
-- Light and dark themes are equal requirements.
-- Preserve a calm hierarchy: one dominant primary action, restrained secondary containers, and low-emphasis tertiary actions.
-- Use the Figma specification when available. When unavailable, use the locked contract and continue through Compose, CI, and device validation.
-- Public names, KDoc, and documentation use Elegant UI terminology and do not claim another design system's brand.
-
-## Kotlin and Compose style
-
-- Use explicit `public` for public API.
-- Use trailing commas in multiline declarations and calls.
-- Prefer immutable state models and annotate only truly immutable values with `@Immutable`.
-- Centralize state-to-visual resolution rather than scattering state branches through layout code.
-- Use `remember` only for values that should survive recomposition or are expensive to recreate.
-- Use stable, descriptive animation labels.
-- Avoid intrinsic measurement and custom `Layout` unless standard primitives cannot satisfy the contract.
-- Keep imports sorted and remove unused imports.
-- Public API requires KDoc.
-- Common code must remain free of Android-only imports.
-
-## Public API conventions
-
-### Composable parameter order
-
-Use this order unless a component has a documented reason to differ:
+Example:
 
 ```kotlin
 @Composable
 public fun ElegantComponent(
-    // 1. Required state and behavior
     value: Value,
     onValueChange: (Value) -> Unit,
-    // 2. Modifier
     modifier: Modifier = Modifier,
-    // 3. State flags
     enabled: Boolean = true,
     loading: Boolean = false,
-    // 4. Visual configuration
     style: ElegantComponentStyle = ElegantComponentStyle.Default,
-    size: ElegantComponentSize = ElegantComponentSize.Medium,
-    colors: ElegantComponentColors = ElegantComponentDefaults.colors(style),
-    // 5. Optional slots
+    colors: ElegantComponentColors = ElegantComponentDefaults.colors(),
     leadingContent: (@Composable () -> Unit)? = null,
-    trailingContent: (@Composable () -> Unit)? = null,
-    // 6. Main content, always last
     content: @Composable () -> Unit,
 )
 ```
 
-Required state callbacks remain adjacent to their values when that improves comprehension.
+Requirements:
 
-### Defaults and colors
+- Add public KDoc to every public declaration.
+- Use `@Immutable` only for values that are actually immutable.
+- Complex visual APIs expose `ElegantXxxDefaults` and `ElegantXxxColors` or an equivalent immutable state model.
+- Centralize state-to-visual resolution.
+- Do not expose an unmodified Material component as the Elegant UI public contract.
+- Preserve binary/source compatibility deliberately; document breaking changes during `0.x`.
 
-- A component with reusable dimensions, shapes, motion, or colors exposes `ElegantXxxDefaults`.
-- Complex visual state uses a truly immutable `ElegantXxxColors` or equivalent model.
-- Theme-aware factory functions are composable.
-- Public customization represents stable design-system decisions, not raw Figma primitive IDs.
-- Document defaults, colors, enums, and public constants in both locale pages.
+## Foundations and visual rules
 
-### State and semantics
+- Use semantic values from `ElegantTheme`; raw colors belong only in foundation/theme files.
+- Use a 4dp spacing grid unless the component contract explicitly documents an exception.
+- Support Light and Dark themes.
+- Preserve hierarchy, contrast, typography, radius, and motion across all supported targets.
+- The interactive root must meet a 48dp minimum target unless a stricter platform rule applies.
+- Loading or transition states must prevent duplicate activation.
+- Do not encode platform-specific input assumptions into shared visuals.
 
-Each applicable component handles:
+## Accessibility and input
 
-- default;
-- pressed;
-- focused;
-- selected or checked;
-- disabled;
-- loading;
-- error;
-- RTL;
-- large font scale;
-- keyboard and screen-reader behavior.
+Every interactive component must define correct Compose semantics, role, selected/disabled/error/loading state, and useful state descriptions.
 
-Interactive roots must meet the 48dp minimum touch target unless a stricter platform requirement applies. Loading states must prevent duplicate activation. Use the correct semantics role and expose meaningful state descriptions.
+Validate by platform:
 
-## Android-only support policy
+- **Android:** touch, hardware keyboard, TalkBack, font scale, density, RTL, Light/Dark.
+- **Desktop:** mouse hover/press, keyboard activation, focus traversal, high DPI, window resize, Light/Dark.
+- **Web/Wasm:** pointer, keyboard activation, browser focus, viewport resize, browser zoom, Light/Dark, supported screen-reader behavior where applicable.
 
-Android is the release gate during `0.x`:
+A browser visual approximation is not accepted. The documentation iframe is built from the real `:web-sample` Compose Web/Wasm application.
 
-- `:sample` must build and install;
-- GitHub Actions must produce a debug APK;
-- the KMP publication must contain an Android AAR and Gradle module metadata;
-- the user must complete `VALIDATION.md` on a named Android device;
-- failures on Android block the next component.
+## Shared showcase contract
 
-Planned platform code must not be added speculatively. A future target is introduced through a dedicated architecture milestone, not as incidental component work.
+`showcase/src/commonMain/.../ElegantShowcaseApp.kt` is the single component-demo registry.
 
-## Consumer integration contract
+For every new component:
 
-Supported Android integration methods:
+- add a stable lowercase slug;
+- register the slug in the shared `when`/registry;
+- render the same state matrix on Android, Desktop, and Web;
+- keep platform launchers thin;
+- avoid duplicating component demo UI in launcher modules.
 
-1. Same build: `implementation(project(":elegant-ui"))`
-2. Separate local project: `gradle :elegant-ui:publishToMavenLocal`
-3. CI handoff: download the complete `elegant-ui-maven-repository` artifact and register it as a Maven repository
-4. Future stable release: `implementation("io.github.vallind:elegant-ui:<version>")`
+Platform launchers may supply platform context such as the Web query parameter, window title, or Android Activity lifecycle, but must call the shared showcase.
 
-The root Maven coordinate is `io.github.vallind:elegant-ui`. Consumers should use the complete KMP Maven publication rather than copying a standalone AAR. The direct AAR is for inspection or temporary emergency testing only.
+## Miuix-format component documentation
 
-## Component documentation contract
-
-Every delivered component must include:
-
-- English page: `docs/components/{slug}.md`
-- Simplified Chinese mirror: `docs/zh_CN/components/{slug}.md`
-- Miuix-style iframe demo registered by `?id={slug}`
-- matching sidebars and component indexes
-- real imports, examples, property table, enums/defaults/colors, states, and advanced usage
-
-Required page order:
+Each component creates both:
 
 ```text
-Introduction
-iframe demo
+docs/components/{slug}.md
+docs/zh_CN/components/{slug}.md
+```
+
+Required top-level order:
+
+```text
+# ComponentName
+introduction
+iframe
 Import / 引入
 Basic Usage / 基本用法
-Component-specific types or behavior
+component-specific types or behavior
 Component States / 组件状态
 Properties / 属性
 Advanced Usage / 进阶用法
 ```
 
-The browser demo is a visual aid. It is not the Compose runtime and does not replace the Android APK or physical-device gate.
+Rules:
 
-## Verification order
+- Place the iframe directly after the introduction; do not add a separate Demo heading.
+- Use `../compose/index.html?id={slug}` for English and `../../compose/index.html?id={slug}` for Chinese.
+- The iframe must load the real Compose Web/Wasm build generated from `:web-sample`.
+- Property tables use property name, type, description, default value, required.
+- Document public parameters in signature order and cover all public enums, Defaults, Colors, constants, and factories users need.
+- Keep English and Chinese Kotlin example counts and API identifiers aligned.
+- Update both sidebars and both component indexes.
 
-Before handoff:
+## Testing requirements
 
-1. `./scripts/validate-kmp-boundaries.sh`
-2. `cd docs && npm run docs:check`
-3. `cd docs && npm run docs:build`
-4. `gradle :elegant-ui:build --stacktrace --no-daemon`
-5. `gradle :elegant-ui:publishAllPublicationsToBuildRepository --stacktrace --no-daemon`
-6. `gradle :sample:assembleDebug --stacktrace --no-daemon`
-7. `gradle check lint --stacktrace --no-daemon`
-8. Confirm the Maven repository contains Gradle metadata, POMs, sources, and an Android AAR.
-9. Confirm the sample APK exists.
-10. Verify **Android Build** and **Documentation** GitHub Actions.
-11. Install the latest APK and record physical-device results.
+For each component:
 
-If an environment cannot execute a required command, state exactly what was not run and defer authority to CI. Never infer success from syntax checks alone.
+- add `commonTest` coverage for stable enums, pure state resolution, and contract logic;
+- add platform tests when behavior depends on a platform adapter;
+- compile all three targets;
+- exercise the shared showcase on all three launchers;
+- verify Web query routing for the component slug;
+- keep platform-specific validation recorded in `VALIDATION.md`.
 
-## Completion definition
+Do not add empty or tautological tests merely to satisfy a file-count requirement.
 
-A component is complete only when:
+## CI and artifacts
 
-1. The public/state/visual/platform contract is locked.
-2. Common-first source and public KDoc are complete.
-3. KMP boundary validation passes.
-4. Tokens/defaults/colors are complete.
-5. Android sample demo is registered and interactive.
-6. English and Chinese pages match the real API.
-7. The iframe demo and both discovery indexes are updated.
-8. `VALIDATION.md` covers component-specific checks.
-9. Documentation CI succeeds.
-10. KMP/Android CI succeeds and publishes Maven, AAR, and APK artifacts.
-11. Physical-device validation is accepted.
-12. No unrelated next-component work is included.
+The **Multiplatform Build** workflow must produce:
+
+- `elegant-ui-maven-repository` containing root KMP metadata and Android/Desktop/Web publications
+- `elegant-ui-android-aar`
+- `elegant-ui-android-sample`
+- `elegant-ui-desktop-sample-linux`
+- `elegant-ui-web-sample`
+
+The **Documentation** workflow must:
+
+1. build `:web-sample:wasmJsBrowserDistribution`;
+2. copy the real distribution into `docs/public/compose`;
+3. run documentation validation;
+4. build VitePress;
+5. deploy GitHub Pages on `main` pushes.
+
+## Consumer contract
+
+Supported same-build dependency:
+
+```kotlin
+implementation(project(":elegant-ui"))
+```
+
+Supported KMP publication dependency:
+
+```kotlin
+commonMain.dependencies {
+    implementation("io.github.vallind:elegant-ui:0.1.0-SNAPSHOT")
+}
+```
+
+Standalone Android apps may use the same coordinate in `dependencies`. Do not instruct consumers to guess target-suffixed artifacts or copy only an AAR for normal integration.
+
+## Component definition of done
+
+A component lands only when:
+
+1. Public API, states, visual contract, and slug are locked.
+2. Shared implementation and KDoc are complete.
+3. Platform types do not leak into common/public API.
+4. Semantic tokens, Defaults/Colors, state resolution, and tests are complete.
+5. KMP boundary validation passes.
+6. Shared showcase registration covers all public variants and states.
+7. Android, Desktop, and Web launchers compile and display the component.
+8. Android touch/TalkBack checks are accepted.
+9. Desktop keyboard/mouse/focus/window checks are accepted.
+10. Web keyboard/pointer/focus/viewport checks are accepted.
+11. English and Chinese Miuix-format pages match the real API.
+12. The real Compose Web iframe, both sidebars, and both indexes are updated.
+13. Maven publication contains all supported variants.
+14. Both GitHub Actions workflows succeed.
+15. No unrelated next-component or iOS work is included.
+
+## Commit style
+
+Use one coherent Conventional Commit per milestone:
+
+```text
+feat(component): add icon button across android desktop and web
+fix(button): preserve keyboard focus on web
+build(kmp): repair desktop and wasm publications
+```

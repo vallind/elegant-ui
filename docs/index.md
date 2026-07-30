@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: Elegant UI
-  text: Refined Android components
-  tagline: A restrained, modern Jetpack Compose library with semantic tokens, complete states, bilingual documentation, and physical-device validation.
+  text: Refined multiplatform components
+  tagline: A restrained Compose Multiplatform library for Android, Desktop JVM, and Web/Wasm with semantic tokens, complete states, bilingual documentation, and platform validation.
   image:
     src: /logo.svg
     alt: Elegant UI
@@ -21,9 +21,9 @@ features:
     title: Calm by design
     details: Generous spacing, disciplined hierarchy, quiet color, precise type, and natural motion.
   - icon: ◫
-    title: Compose-native
-    details: Kotlin-first APIs, semantic defaults, immutable models, complete interaction states, and accessible semantics.
+    title: One shared Compose contract
+    details: Kotlin-first APIs, semantic defaults, immutable models, and shared UI across Android, Desktop, and Web.
   - icon: ◎
-    title: Closed-loop quality
-    details: Every component ships with a sample, bilingual website page, CI artifacts, and a physical-device checklist.
+    title: Three-platform quality
+    details: Every component ships with a shared showcase, bilingual pages, real Compose Web demo, CI artifacts, and platform acceptance checks.
 ---

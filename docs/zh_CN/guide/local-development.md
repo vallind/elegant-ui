@@ -1,12 +1,8 @@
 # 本地联调
 
-以下方式适用于 Elegant UI 与另一个 Android 应用同时开发的场景。
+以下方式适用于 Elegant UI 与 Android、Desktop JVM 或 Web/Wasm 应用同步开发。
 
 ## Composite Build
-
-当应用和组件库位于不同仓库、但希望源码改动立即生效时，可使用 Composite Build。
-
-在使用方项目的 `settings.gradle.kts` 中包含组件库构建，并映射发布坐标：
 
 ```kotlin
 includeBuild("../elegant-ui") {
@@ -17,24 +13,32 @@ includeBuild("../elegant-ui") {
 }
 ```
 
-应用仍保留正常依赖声明：
-
-```kotlin
-implementation("io.github.vallind:elegant-ui:0.1.0-SNAPSHOT")
-```
+使用方在匹配的源码集中继续保留正式发布坐标。
 
 ## Maven Local 循环
 
 ```bash
-# 在 Elegant UI 仓库
+# Elegant UI
 gradle :elegant-ui:publishToMavenLocal
 
-# 在使用方 Android 应用
+# Android 使用方
 gradle :app:assembleDebug
+
+# Desktop 使用方
+gradle :desktopApp:run
+
+# Web/Wasm 使用方
+gradle :webApp:wasmJsBrowserDevelopmentRun
 ```
 
-Snapshot 版本可能被缓存；若使用方没有读取到新发布内容，可增加 `--refresh-dependencies`。
+若使用方没有读取到新 Snapshot，可增加 `--refresh-dependencies`。
 
-## 真机验证
+## 仓库内示例
 
-仓库内的 `:sample` 仍是真机验收的标准入口。业务应用可以验证接入效果，但不能替代 `VALIDATION.md` 中的组件状态矩阵与验收记录。
+```bash
+gradle :sample:assembleDebug
+gradle :desktop-sample:run
+gradle :web-sample:wasmJsBrowserDevelopmentRun
+```
+
+三个入口共用 `:showcase`，确保相同组件矩阵在三端运行。

@@ -1,22 +1,26 @@
 # Platform support
 
-Elegant UI is structured for Kotlin Multiplatform without overstating runtime support.
+Elegant UI is a Compose Multiplatform component library with three supported targets.
 
-| Platform | Status | Source set | Acceptance requirement |
+| Platform | Status | Library target | Acceptance requirement |
 | --- | --- | --- | --- |
-| Android | Supported | `commonMain` + `androidMain` | Clean CI, sample APK, physical-device validation |
-| Desktop JVM | Planned | Future `desktopMain` | Compile, desktop sample, tests, published variant |
-| iOS | Planned | Future `iosMain` | Simulator/device build, accessibility review, published variant |
-| Web/Wasm | Planned | Future `wasmJsMain` | Browser build, keyboard/accessibility review, published variant |
+| Android | Supported | `android` | Clean CI, sample APK, touch/accessibility review, physical-device validation |
+| Desktop JVM | Supported | `jvm("desktop")` | Clean CI, distributable sample, keyboard/mouse/focus validation |
+| Web/Wasm | Supported | `wasmJs` | Clean CI, browser distribution, keyboard/focus/responsive validation |
+| iOS | Out of scope | None | No source set, publication, sample, or compatibility promise |
 
-## Common-first does not mean multi-platform support
+## Shared API contract
 
-Components are implemented in `commonMain` whenever their API and behavior can be shared safely. A platform is only marked supported after its target, CI, sample, tests, documentation, and release artifact all exist.
+Public components, tokens, state models, defaults, and most interaction behavior live in `commonMain`. Platform-specific source sets are limited to adapters that cannot be expressed through common Compose APIs.
 
-## Public API boundary
+Public component signatures must not expose Android classes, Swing/AWT classes, browser DOM objects, or other platform types. Platform-specific integrations belong behind narrow common contracts.
 
-Public component signatures must not expose Android platform types such as `Context`, `Activity`, `Drawable`, or `android.graphics` classes. Android-only integrations belong in `androidMain` behind narrow common interfaces when needed.
+## Platform behavior
 
-## Current compatibility promise
+The public API and semantic state model remain consistent across all supported targets. Input modality and system integration may adapt:
 
-During `0.x`, Android is the only compatibility target. Future targets should reuse the same component names and core parameters, but platform-specific behavior may be introduced through additive APIs or scoped adapters.
+- Android: touch, hardware keyboard, TalkBack, density and font scale.
+- Desktop JVM: mouse, keyboard, focus traversal, window resize and high-DPI rendering.
+- Web/Wasm: keyboard, pointer, browser focus, viewport resize and WasmGC-capable browsers.
+
+A component is incomplete when it compiles on only one or two supported targets.

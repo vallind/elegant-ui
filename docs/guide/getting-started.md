@@ -1,21 +1,34 @@
 # Getting started
 
-Elegant UI is a common-first Kotlin Multiplatform Compose library with Android as its first and currently only supported runtime target. The repository includes the reusable `:elegant-ui` module and an installable Android `:sample` application.
+Elegant UI is a Compose Multiplatform component library for Android, Desktop JVM, and Web/Wasm. Public components live in `commonMain`; thin platform launchers reuse one shared `:showcase`.
 
 ::: warning Current status
-Elegant UI is under active `0.x` development. Public APIs may evolve before the first stable release. Code in `commonMain` is KMP-ready, but Desktop, iOS, and Web are not supported yet.
+Elegant UI is under active `0.x` development. Public APIs may evolve before the first stable release. iOS is not part of the current support contract.
 :::
 
 ## Requirements
 
-- Android 7.0 (API 24) or later
-- Kotlin and Compose
-- JDK 17 for the Android/KMP build
+- Android 7.0 (API 24) or later for Android consumers
+- A 64-bit desktop environment supported by Compose Multiplatform
+- A modern browser with WasmGC for Web/Wasm
+- JDK 17 for KMP and Desktop packaging
 - Node.js 22 or later for the documentation website
 
 ## Add the library
 
-For a module in the same Gradle build:
+KMP application:
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":elegant-ui"))
+        }
+    }
+}
+```
+
+Standalone Android application:
 
 ```kotlin
 dependencies {
@@ -23,7 +36,7 @@ dependencies {
 }
 ```
 
-For another repository, use Maven Local or the Maven repository artifact produced by GitHub Actions. See [Installation](./installation) for complete setup.
+For another repository, use Maven Local or the `elegant-ui-maven-repository` Actions artifact. See [Installation](./installation).
 
 ## Apply the theme
 
@@ -32,8 +45,6 @@ ElegantTheme {
     AppContent()
 }
 ```
-
-Use semantic values from `ElegantTheme`, `ElegantSpacing`, and `ElegantRadius` rather than hardcoded visual values.
 
 ## Use a component
 
@@ -47,33 +58,32 @@ ElegantButton(
 }
 ```
 
-## Run the Android sample
+## Run the samples
 
 ```bash
 gradle :sample:installDebug
+gradle :desktop-sample:run
+gradle :web-sample:wasmJsBrowserDevelopmentRun
 ```
 
-The **Android Build** workflow also uploads an installable sample APK, a complete Maven repository, and a direct Android AAR.
+All launchers use the shared `:showcase` component matrix.
 
-## Verify KMP boundaries
+## Verify boundaries
 
 ```bash
 ./scripts/validate-kmp-boundaries.sh
 ```
 
-This prevents Android-only imports from leaking into `commonMain` and prevents the legacy library `src/main` layout from returning.
+The script blocks Android, Desktop-only, and browser-only APIs from leaking into common code and verifies all three targets and sample modules remain configured.
 
 ## Run this website
 
+Build the real Compose Web demo first:
+
 ```bash
+gradle :web-sample:wasmJsBrowserDistribution
 cd docs
 npm install
 npm run docs:check
 npm run docs:dev
-```
-
-Build the static site with:
-
-```bash
-npm run docs:build
 ```

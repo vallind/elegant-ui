@@ -1,31 +1,13 @@
 ---
 name: create-component
-description: Create or complete one Elegant UI component through the Android-first, common-first Kotlin Multiplatform workflow: contract, commonMain source, semantic tokens, public KDoc, Android sample, synchronized Miuix-format English and Simplified Chinese website pages, iframe demo registration, KMP boundary checks, Maven/APK/AAR GitHub Actions artifacts, and physical-device validation. Use for requests such as add IconButton, implement Checkbox, 新建组件, 添加组件, or finish a component milestone.
+description: Deliver one Elegant UI component across Android, Desktop JVM, and Web/Wasm with commonMain source, tests, shared showcase registration, Miuix-format bilingual website pages, real Compose Web iframe, KMP publication, CI artifacts, and platform acceptance. Use for add IconButton, implement Checkbox, 新建组件, 添加组件, or finish a component milestone.
 ---
 
 # Create an Elegant UI component
 
-Complete one component as a reviewable, installable, bilingual milestone. Android is the only supported runtime target. Write shareable code in `commonMain`; do not add speculative Desktop, iOS, or Web implementations.
+Complete one component as a reviewable, published, three-platform milestone. Android, Desktop JVM, and Web/Wasm are all supported. iOS is out of scope.
 
-## Outcome
-
-A successful component milestone includes:
-
-- public Compose API in `commonMain`;
-- semantic tokens, defaults, colors, state resolution, KDoc, and tests;
-- Android sample demo and registration;
-- English and Simplified Chinese Miuix-format component pages;
-- iframe visual demo registered by component slug;
-- both locale sidebars and component indexes;
-- KMP boundary validation;
-- KMP build and Maven publication;
-- Android APK and extracted AAR artifacts;
-- documentation deployment;
-- physical-device acceptance.
-
-Do not begin the next component until all applicable gates pass.
-
-## Step 1: Inspect the repository
+## 1. Inspect the repository
 
 Read:
 
@@ -33,116 +15,96 @@ Read:
 - `PROJECT_BRIEF.md`
 - `FLOW.md`
 - `VALIDATION.md`
-- the closest component in `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/`
-- both locale pages for that component family
-- `docs/public/compose/index.html`
+- the closest implementation in `elegant-ui/src/commonMain/`
+- the shared registry in `showcase/src/commonMain/.../ElegantShowcaseApp.kt`
+- the matching English and Chinese component pages
 - `.github/workflows/android.yml`
 - `.github/workflows/docs.yml`
 
-Confirm the current platform statement remains:
+Confirm these targets remain present in both `:elegant-ui` and `:showcase`:
 
 ```text
-Android: supported
-Desktop JVM: planned
- iOS: planned
-Web/Wasm: planned
+android
+jvm("desktop")
+wasmJs
 ```
 
-Do not add another target as part of ordinary component work.
-
-## Step 2: Write a compact contract
+## 2. Freeze the component contract
 
 Record:
 
-- component purpose;
-- public function signature and parameter order;
-- public enums, state holders, defaults, and colors;
+- purpose and non-goals;
+- public signature and parameter order;
+- public enums, state holders, Defaults, and Colors;
 - full state matrix and mutually exclusive states;
 - semantic token additions;
-- minimum touch target and visible metrics;
-- animation duration/easing;
+- visible metrics and minimum interactive target;
+- motion duration/easing;
 - Light/Dark behavior;
 - semantics role and state descriptions;
-- RTL and font-scale expectations;
-- Android sample scenarios;
-- website page outline and iframe slug;
-- platform dependencies and why the implementation belongs in `commonMain` or `androidMain`;
-- component-specific physical-device checks.
+- Android touch/TalkBack checks;
+- Desktop mouse/keyboard/focus/window checks;
+- Web pointer/keyboard/focus/viewport checks;
+- documentation slug and Miuix page outline.
 
-Any Android-only requirement must be explicit. Keep Android types out of public API.
+## 3. Choose source sets
 
-## Step 3: Choose the source set
-
-Default path:
+Default implementation path:
 
 ```text
 elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/<component>/
 ```
 
-Use `androidMain` only when the implementation genuinely requires Android APIs or Android resources.
+Use platform source sets only for unavoidable platform APIs:
 
-When platform behavior is needed:
+```text
+elegant-ui/src/androidMain/
+elegant-ui/src/desktopMain/
+elegant-ui/src/wasmJsMain/
+```
 
-1. define the smallest stable common contract;
-2. implement the Android behavior in `androidMain`;
-3. prefer dependency injection or a narrow interface;
-4. use `expect` / `actual` only when compile-time platform specialization is the clearest design;
-5. document the fallback and Android acceptance checks.
+Never expose Android, AWT/Swing, browser DOM, or other platform objects from shared public signatures.
 
-Never create `elegant-ui/src/main`.
-
-## Step 4: Implement foundations and source
-
-Required rules:
+## 4. Implement source and foundations
 
 - Follow the parameter order in `AGENTS.md`.
-- Required behavior/state comes first, then `Modifier`, state flags, visual configuration, optional slots, and main content last.
-- Use semantic values from `ElegantTheme` and foundations.
-- Add raw colors only to the theme/foundation layer.
-- Use `@Immutable` only for truly immutable values.
-- Centralize state-to-visual resolution.
-- Expose `ElegantXxxDefaults` and `ElegantXxxColors` when reusable visual configuration exists.
-- Use correct semantics roles and state descriptions.
-- Enforce at least a 48dp interactive root.
-- Disable duplicate interaction during loading or transition states.
-- Preserve Light/Dark and RTL behavior.
-- Add public KDoc to all public declarations.
-- Do not expose Android platform types from common/public signatures.
-- Do not expose an unmodified Material component as the Elegant UI contract.
+- Use semantic tokens from `ElegantTheme`.
+- Add `ElegantXxxDefaults` and immutable visual/state models when needed.
+- Centralize state resolution.
+- Add complete public KDoc.
+- Use correct semantics and state descriptions.
+- Enforce the minimum interactive target.
+- Prevent duplicate activation during loading/transition states.
+- Preserve Light/Dark, RTL, density, font scale, high DPI, browser zoom, and viewport resizing.
+- Do not wrap and re-export a Material component without an Elegant UI contract.
 
-Add common tests for stable enums, pure state logic, or public contract behavior. Platform behavior belongs in the matching platform test source set when enabled.
+Add meaningful `commonTest` coverage for stable and pure logic.
 
-## Step 5: Run the KMP boundary check
-
-Run:
+## 5. Run boundary validation
 
 ```bash
 ./scripts/validate-kmp-boundaries.sh
 ```
 
-The check must fail when:
+It must reject platform imports in common code, missing targets, missing sample modules, and legacy `src/main` layouts in KMP modules.
 
-- `commonMain` imports `android.*`;
-- `commonMain` imports known Android-only AndroidX APIs;
-- the legacy library `src/main` layout returns.
+## 6. Register the shared showcase
 
-Also inspect public declarations manually for Android types that grep cannot identify reliably.
+Update `showcase/src/commonMain/.../ElegantShowcaseApp.kt`:
 
-## Step 6: Add and register the Android sample
+- register `"{slug}" -> ...`;
+- render default, every public style and size, disabled, loading, error, selected, and other applicable states;
+- include interactive state transitions;
+- keep the demo UI shared rather than copied into platform launchers;
+- preserve Light/Dark switching.
 
-The sample is the source of truth for physical interaction.
+Keep launchers thin:
 
-1. Add a focused demo screen or section.
-2. Register it in the sample entry/navigation.
-3. Show default, every public style/variant, every size, disabled, loading, error, selected, or other applicable states.
-4. Add interactive state so callbacks and state transitions can be tested.
-5. Keep Light/Dark switching available.
-6. Use Elegant UI semantic values rather than demo-only color constants.
-7. Add concise on-device instructions for non-obvious checks.
+- `sample` launches the shared showcase on Android;
+- `desktop-sample` launches it in a desktop window;
+- `web-sample` reads `?id={slug}` and launches it through `ComposeViewport`.
 
-A website iframe or Compose Preview does not replace the sample APK.
-
-## Step 7: Add bilingual Miuix-format website pages
+## 7. Add bilingual Miuix-format pages
 
 Create:
 
@@ -151,167 +113,85 @@ docs/components/{slug}.md
 docs/zh_CN/components/{slug}.md
 ```
 
-Use the fixed order.
+Use the fixed order:
 
-### English
-
-```markdown
+```text
 # ComponentName
-
-One concise introduction paragraph.
-
-<iframe id="demoIframe" ... src="../compose/index.html?id={slug}" ...></iframe>
-
-## Import
-## Basic Usage
-## Component-specific types or behavior
-## Component States
-## Properties
-### ComponentName Properties
-### Public enums / defaults / colors when present
-## Advanced Usage
+introduction
+iframe
+Import / 引入
+Basic Usage / 基本用法
+component-specific types or behavior
+Component States / 组件状态
+Properties / 属性
+Advanced Usage / 进阶用法
 ```
 
-### Simplified Chinese
+Use:
 
-```markdown
-# ComponentName
-
-一段简洁介绍。
-
-<iframe id="demoIframe" ... src="../../compose/index.html?id={slug}" ...></iframe>
-
-## 引入
-## 基本用法
-## 组件特有类型或行为
-## 组件状态
-## 属性
-### ComponentName 属性
-### 已公开枚举 / Defaults / Colors
-## 进阶用法
+```html
+src="../compose/index.html?id={slug}"
+src="../../compose/index.html?id={slug}"
 ```
 
-Rules:
+Document every public parameter in signature order and every user-facing enum, Defaults, Colors, constant, and factory. Keep both locales structurally synchronized.
 
-- The iframe immediately follows the introduction; do not add a separate Demo heading.
-- Property tables use property name, type, description, default value, required.
-- Document every public parameter in signature order.
-- Document every public enum, defaults member, colors field/model, constant, and factory that users need.
-- Keep both locale Kotlin block counts and API identifiers aligned.
-- Do not document planned platform APIs.
-- Use the platform-support guide to state that Android is the only supported target.
-
-## Step 8: Register the iframe demo and discovery points
+## 8. Update website discovery
 
 Update:
 
 ```text
-docs/public/compose/index.html
 docs/.vitepress/config.ts
 docs/components/index.md
 docs/zh_CN/components/index.md
 ```
 
-The iframe renderer must:
+The documentation iframe must be the actual `:web-sample` Compose Web/Wasm distribution. Do not add a separate HTML imitation of component behavior.
 
-- register `?id={slug}`;
-- work as a standalone static page;
-- expose meaningful variants and states;
-- support Light/Dark when applicable;
-- remain keyboard accessible and responsive;
-- state that the Android APK is the behavioral source of truth;
-- avoid pretending to reproduce behavior a browser mock cannot represent faithfully.
+## 9. Verify all targets
 
-Update README links when the active milestone changes.
-
-## Step 9: Update device validation
-
-Update `VALIDATION.md` with:
-
-- device model and Android version;
-- display and font scale;
-- Light/Dark;
-- hierarchy, spacing, typography, and contrast;
-- touch target, press, focus, keyboard, screen reader, and RTL;
-- loading/duplicate-action behavior;
-- component-specific gestures or input;
-- observations and acceptance decision.
-
-## Step 10: Verify documentation and builds
-
-Run when the environment supports them:
+Run when available:
 
 ```bash
 ./scripts/validate-kmp-boundaries.sh
+
+gradle :elegant-ui:build --stacktrace --no-daemon
+gradle :showcase:build --stacktrace --no-daemon
+gradle :elegant-ui:publishAllPublicationsToBuildRepository --stacktrace --no-daemon
+gradle :sample:assembleDebug --stacktrace --no-daemon
+gradle :desktop-sample:createDistributable --stacktrace --no-daemon
+gradle :web-sample:wasmJsBrowserDistribution --stacktrace --no-daemon
 
 cd docs
 npm install
 npm run docs:check
 npm run docs:build
-cd ..
-
-gradle :elegant-ui:build --stacktrace --no-daemon
-gradle :elegant-ui:publishAllPublicationsToBuildRepository --stacktrace --no-daemon
-gradle :sample:assembleDebug --stacktrace --no-daemon
-gradle check lint --stacktrace --no-daemon
 ```
 
-Confirm:
+Verify the Maven repository contains root metadata plus Android, Desktop JVM, and Web/Wasm publications.
 
-- `elegant-ui/build/repo/` contains root KMP metadata, POMs, sources, and an Android AAR;
-- `sample/build/outputs/apk/debug/sample-debug.apk` exists;
-- both locales build and route correctly;
-- the component slug resolves in the iframe registry;
-- the **Documentation** workflow succeeds;
-- the **Android Build** workflow uploads `elegant-ui-maven-repository`, a direct Android AAR, and the sample APK.
+## 10. Platform acceptance
 
-Do not claim success for commands that were not executed.
+Update `VALIDATION.md` and complete applicable checks:
 
-## Step 11: Physical-device gate
+- Android: physical device, touch, hardware keyboard, TalkBack, font scale, RTL.
+- Desktop: mouse, keyboard, focus traversal, resize, high DPI, Linux CI distributable.
+- Web: modern WasmGC browser, pointer, keyboard, focus, browser zoom, responsive viewport.
 
-Have the user install the latest successful APK and complete `VALIDATION.md`. Classify feedback as functional, accessibility, visual, Android/device, or preference. Fix accepted defects, rebuild affected workflows, and repeat validation.
-
-## Consumer compatibility check
-
-For public API changes, verify all supported Android consumption paths remain valid:
-
-```kotlin
-implementation(project(":elegant-ui"))
-implementation("io.github.vallind:elegant-ui:0.1.0-SNAPSHOT")
-```
-
-The first is for the same build. The second is for Maven Local, the CI Maven repository artifact, and future Maven Central releases. Avoid instructions that require consumers to copy only an AAR.
-
-## Commit style
-
-Use one coherent Conventional Commit milestone:
-
-```text
-feat(component): add icon button closed loop
-```
-
-Use narrower follow-ups only when necessary:
-
-```text
-fix(icon-button): preserve focus ring in dark theme
-docs(icon-button): align website and Compose states
-```
+A component is not complete if any supported platform is skipped without an explicit, approved exception.
 
 ## Completion checklist
 
-A component lands only when:
-
-1. Contract and source-set decision are locked.
-2. Common-first source and public KDoc are complete.
-3. No Android platform types leak into common/public API.
-4. KMP boundary validation passes.
-5. Tokens, defaults, colors, states, and common tests are complete.
-6. Android sample demo is registered and interactive.
-7. English and Chinese Miuix-format pages match the real API.
-8. Iframe demo, both sidebars, and both indexes are updated.
-9. `VALIDATION.md` covers the component.
-10. Documentation CI succeeds.
-11. KMP build and Maven publication succeed.
-12. Android CI produces Maven, AAR, and APK artifacts.
-13. Physical-device validation is accepted.
-14. No speculative target or next-component work is included.
+1. Contract and slug are locked.
+2. Shared source and KDoc are complete.
+3. No platform types leak into common/public API.
+4. Boundary validation passes.
+5. Tokens, Defaults/Colors, state logic, and tests are complete.
+6. Shared showcase registration is interactive and complete.
+7. Android, Desktop, and Web builds succeed.
+8. English and Chinese pages match the API.
+9. Real Compose Web iframe, both sidebars, and both indexes are updated.
+10. KMP Maven publication includes all three variants.
+11. Multiplatform and Documentation workflows succeed.
+12. Platform acceptance is recorded.
+13. No unrelated next-component or iOS work is included.

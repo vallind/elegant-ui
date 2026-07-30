@@ -1,24 +1,23 @@
 # Delivery flow
 
-Figma remains the visual source of truth, but it does not block implementation.
-
-Android is the only supported runtime target. Library code is common-first so future targets can be added without changing core component APIs.
+Elegant UI supports Android, Desktop JVM, and Web/Wasm. Figma remains a visual reference but does not block implementation.
 
 For each component:
 
-1. Freeze the visual, API, state, accessibility, source-set, and website contract.
-2. Confirm the implementation belongs in `commonMain`; document any required Android adapter.
-3. Implement semantic tokens, defaults/colors, public KDoc, shared behavior, and common tests.
-4. Run KMP boundary validation.
-5. Add and register the Android physical-device sample demo.
-6. Add matching English and Simplified Chinese Miuix-format pages.
-7. Add or update the iframe visual demo, both locale sidebars, and both component indexes.
-8. Run documentation validation and the VitePress build.
-9. Build the KMP library, publish the build-local Maven repository, and assemble the Android sample APK.
-10. Push one coherent component milestone.
-11. GitHub Actions deploys documentation and uploads Maven, AAR, and APK artifacts.
-12. The user installs the APK on a physical Android device and reports observations.
-13. Fix documentation, visual, interaction, accessibility, KMP-boundary, or Android-specific defects.
-14. Mark the component complete and begin the next component.
+1. Freeze the visual, API, state, semantics, slug, source-set, and platform acceptance contract.
+2. Implement shareable source, semantic tokens, Defaults/Colors, KDoc, and common tests in `commonMain`.
+3. Add narrowly scoped platform adapters only when common Compose APIs are insufficient.
+4. Run multiplatform boundary validation.
+5. Register the component and full state matrix once in the shared `:showcase`.
+6. Build and inspect Android, Desktop, and Web launchers.
+7. Add matching English and Simplified Chinese Miuix-format pages.
+8. Ensure the iframe loads the real `:web-sample` Compose Web/Wasm build.
+9. Update both locale sidebars and component indexes.
+10. Run documentation checks and build VitePress.
+11. Build the library, publish the KMP Maven repository, and package all platform samples.
+12. Push one coherent component milestone.
+13. GitHub Actions deploys documentation and uploads Maven, Android, Desktop, and Web artifacts.
+14. Complete Android touch/TalkBack, Desktop keyboard/mouse/focus, and Web keyboard/pointer/viewport validation.
+15. Fix accepted defects, rerun affected gates, and close the component milestone.
 
-A component is not complete until both CI workflows pass and physical-device validation is accepted. Planned Desktop, iOS, or Web targets are separate architecture milestones and must not be added speculatively during component delivery.
+A component is not complete until all three supported targets and both CI workflows pass. iOS is outside the current roadmap and must not be added incidentally.

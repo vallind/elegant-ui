@@ -53,7 +53,7 @@ const chineseSidebar = {
 
 export default defineConfig({
   title: 'Elegant UI',
-  description: 'Refined Android components with a common-first Kotlin Multiplatform foundation.',
+  description: 'Refined Compose Multiplatform components for Android, Desktop JVM, and Web/Wasm.',
   base,
   cleanUrls: true,
   lastUpdated: true,
@@ -90,7 +90,7 @@ export default defineConfig({
       lang: 'zh-CN',
       link: '/zh_CN/',
       title: 'Elegant UI',
-      description: '以 Android 为首个正式目标、采用 common-first KMP 架构的精致 Compose 组件库。',
+      description: '面向 Android、Desktop JVM 与 Web/Wasm 的精致 Compose Multiplatform 组件库。',
       themeConfig: {
         nav: [
           { text: '指南', link: '/zh_CN/guide/getting-started' },

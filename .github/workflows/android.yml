@@ -1,4 +1,4 @@
-name: Android Build
+name: Multiplatform Build
 
 on:
   workflow_dispatch:
@@ -11,14 +11,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: android-${{ github.ref }}
+  group: multiplatform-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
-    name: Build KMP library and Android sample
+    name: Build Android, Desktop, and Web
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -36,10 +36,10 @@ jobs:
           gradle-version: "9.3.1"
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
-      - name: Validate KMP source boundaries
+      - name: Validate multiplatform source boundaries
         run: ./scripts/validate-kmp-boundaries.sh
 
-      - name: Build and test KMP library
+      - name: Build and test component library
         run: >-
           gradle
           :elegant-ui:build
@@ -47,7 +47,15 @@ jobs:
           --warning-mode all
           --no-daemon
 
-      - name: Publish KMP Maven repository
+      - name: Build shared showcase
+        run: >-
+          gradle
+          :showcase:build
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Publish complete KMP Maven repository
         run: >-
           gradle
           :elegant-ui:publishAllPublicationsToBuildRepository
@@ -63,7 +71,23 @@ jobs:
           --warning-mode all
           --no-daemon
 
-      - name: Extract Android AAR and generate checksums
+      - name: Create Desktop distributable
+        run: >-
+          gradle
+          :desktop-sample:createDistributable
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Build Web/Wasm distribution
+        run: >-
+          gradle
+          :web-sample:wasmJsBrowserDistribution
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Collect artifacts and checksums
         shell: bash
         run: |
           set -euo pipefail
@@ -79,18 +103,37 @@ jobs:
           sha256sum dist/elegant-ui-android.aar > dist/elegant-ui-android.aar.sha256
           sha256sum sample/build/outputs/apk/debug/sample-debug.apk > dist/sample-debug.apk.sha256
 
+          test -d desktop-sample/build/compose/binaries/main/app
+          test -d web-sample/build/dist/wasmJs/productionExecutable
+
           (
             cd elegant-ui/build/repo
             find . -type f -print0 | sort -z | xargs -0 sha256sum
           ) > dist/elegant-ui-maven-repository.sha256
 
-      - name: Upload installable Android APK
+      - name: Upload Android sample APK
         uses: actions/upload-artifact@v4
         with:
-          name: elegant-ui-sample-apk
+          name: elegant-ui-android-sample
           path: |
             sample/build/outputs/apk/debug/sample-debug.apk
             dist/sample-debug.apk.sha256
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Desktop sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-ui-desktop-sample-linux
+          path: desktop-sample/build/compose/binaries/main/app/**
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Web/Wasm sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-ui-web-sample
+          path: web-sample/build/dist/wasmJs/productionExecutable/**
           if-no-files-found: error
           retention-days: 14
 

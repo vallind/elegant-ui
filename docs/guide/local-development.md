@@ -1,12 +1,8 @@
 # Local development
 
-Use these workflows when developing Elegant UI together with another Android application.
+Use these workflows when developing Elegant UI together with Android, Desktop JVM, or Web/Wasm applications.
 
 ## Composite build
-
-A composite build is useful when the application and library live in separate repositories but should resolve source changes immediately.
-
-In the consuming project's `settings.gradle.kts`, include the library build and map the published coordinate:
 
 ```kotlin
 includeBuild("../elegant-ui") {
@@ -17,24 +13,32 @@ includeBuild("../elegant-ui") {
 }
 ```
 
-The app can keep its normal dependency declaration:
-
-```kotlin
-implementation("io.github.vallind:elegant-ui:0.1.0-SNAPSHOT")
-```
+The consuming application keeps the published coordinate in its matching source set.
 
 ## Maven Local loop
 
 ```bash
-# In Elegant UI
+# Elegant UI
 gradle :elegant-ui:publishToMavenLocal
 
-# In the consuming Android application
+# Android consumer
 gradle :app:assembleDebug
+
+# Desktop consumer
+gradle :desktopApp:run
+
+# Web/Wasm consumer
+gradle :webApp:wasmJsBrowserDevelopmentRun
 ```
 
-Because snapshot versions may be cached, use `--refresh-dependencies` when the consuming build does not observe a newly published local snapshot.
+Use `--refresh-dependencies` when a consuming build does not observe a new snapshot.
 
-## Physical-device verification
+## Repository samples
 
-The repository `:sample` app remains the canonical acceptance surface. A consuming application can verify integration, but it does not replace the component state matrix and checks recorded in `VALIDATION.md`.
+```bash
+gradle :sample:assembleDebug
+gradle :desktop-sample:run
+gradle :web-sample:wasmJsBrowserDevelopmentRun
+```
+
+The shared UI lives in `:showcase`, so the same component matrix is exercised by all three launchers.

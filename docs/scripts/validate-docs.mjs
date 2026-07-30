@@ -1,11 +1,15 @@
 import { readdir, readFile } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const docsRoot = dirname(dirname(fileURLToPath(import.meta.url)))
+const repositoryRoot = resolve(docsRoot, '..')
 const englishDir = join(docsRoot, 'components')
 const chineseDir = join(docsRoot, 'zh_CN', 'components')
-const demoDocument = await readFile(join(docsRoot, 'public', 'compose', 'index.html'), 'utf8')
+const showcaseSource = await readFile(
+  join(repositoryRoot, 'showcase', 'src', 'commonMain', 'kotlin', 'com', 'elegant', 'compose', 'showcase', 'ElegantShowcaseApp.kt'),
+  'utf8',
+)
 
 const requiredGuideSlugs = [
   'getting-started',
@@ -14,7 +18,6 @@ const requiredGuideSlugs = [
   'platform-support',
   'design-principles',
 ]
-
 
 const componentSlugs = async (directory) =>
   (await readdir(directory))
@@ -85,15 +88,18 @@ for (const slug of requiredGuideSlugs) {
   }
 }
 
+const installation = await readFile(join(docsRoot, 'guide', 'installation.md'), 'utf8')
+const platformSupport = await readFile(join(docsRoot, 'guide', 'platform-support.md'), 'utf8')
+const combinedGuides = `${installation}\n${platformSupport}`
+
 for (const requiredText of [
   'io.github.vallind:elegant-ui:0.1.0-SNAPSHOT',
   'elegant-ui-maven-repository',
-  'only supported runtime target',
+  'Android',
+  'Desktop JVM',
+  'Web/Wasm',
 ]) {
-  const installation = await readFile(join(docsRoot, 'guide', 'installation.md'), 'utf8')
-  const platformSupport = await readFile(join(docsRoot, 'guide', 'platform-support.md'), 'utf8')
-  const combined = `${installation}\n${platformSupport}`
-  if (!combined.includes(requiredText)) {
+  if (!combinedGuides.includes(requiredText)) {
     fail(`English consumer/platform guides are missing required contract text: ${requiredText}`)
   }
 }
@@ -168,9 +174,8 @@ for (const slug of englishSlugs) {
     }
   }
 
-  const demoRegistryPattern = new RegExp(`\\b${slug}\\s*:\\s*[A-Za-z_$][\\w$]*`)
-  if (!demoRegistryPattern.test(demoDocument)) {
-    fail(`${slug} is missing from docs/public/compose/index.html demoRenderers`)
+  if (!showcaseSource.includes(`"${slug}" ->`)) {
+    fail(`${slug} is missing from the shared Compose showcase registry`)
   }
 
   const englishKotlinBlocks = (englishPage.match(/```kotlin/g) ?? []).length
@@ -184,6 +189,6 @@ for (const slug of englishSlugs) {
 
 if (!process.exitCode) {
   console.log(
-    `Documentation validation passed for ${englishSlugs.length} Miuix-format component page(s) and ${requiredGuideSlugs.length} bilingual guide pair(s).`,
+    `Documentation validation passed for ${englishSlugs.length} Miuix-format component page(s), ${requiredGuideSlugs.length} bilingual guide pair(s), and the shared Compose Web registry.`,
   )
 }

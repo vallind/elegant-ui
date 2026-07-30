@@ -30,8 +30,8 @@ public object ElegantTheme {
 /**
  * Provides Elegant UI colors and typography to [content].
  *
- * Android is the only configured target today. The implementation lives in `commonMain` so future
- * Compose Multiplatform targets can reuse the same visual contract without changing component APIs.
+ * Android, Desktop JVM, and Web/Wasm share this implementation from `commonMain`, preserving
+ * one visual and semantic contract across supported targets.
  */
 @Composable
 public fun ElegantTheme(

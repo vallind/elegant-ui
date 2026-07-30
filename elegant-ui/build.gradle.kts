@@ -31,6 +31,16 @@ kotlin {
         }
     }
 
+    jvm("desktop") {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
+    wasmJs {
+        browser()
+    }
+
     sourceSets {
         commonMain.dependencies {
             api(compose.runtime)

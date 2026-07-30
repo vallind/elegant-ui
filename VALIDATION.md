@@ -1,42 +1,78 @@
-# Physical-device validation checklist
+# Multiplatform validation checklist
 
-Build: Button KMP-ready Android milestone `0.1.0-SNAPSHOT`
+Build: Button Android / Desktop / Web milestone `0.1.0-SNAPSHOT`
 
-## Environment record
+## Build record
+
+- Commit / workflow run:
+- KMP Maven artifact:
+- Android artifact:
+- Desktop artifact:
+- Web artifact / deployed URL:
+- Observations:
+
+## Shared visual contract
+
+- [ ] Primary, Secondary, and Tertiary hierarchy is clear
+- [ ] Small, Medium, and Large proportions are balanced
+- [ ] Light and Dark themes preserve hierarchy and contrast
+- [ ] Pressed, focused, loading, and disabled states are recognizable
+- [ ] Loading prevents duplicate activation
+- [ ] Leading and trailing content align correctly
+- [ ] Custom `ElegantButtonColors` preserve contrast and focus indication
+
+## Android
+
+Environment:
 
 - Device model:
 - Android version:
-- Display size/density:
-- Display scale:
+- Density / display scale:
 - Font scale:
-- APK workflow run / commit:
-- Observations:
 
-## Installation and integration
+Checks:
 
-- [ ] Latest `elegant-ui-sample-apk` artifact installs and launches
-- [ ] Sample is built against `project(":elegant-ui")` after the commonMain migration
-- [ ] No crash during Light/Dark switching
-- [ ] No missing classes or resources from the KMP Android publication
+- [ ] Latest `elegant-ui-android-sample` installs and launches
+- [ ] Interactive roots are at least 48dp and easy to tap
+- [ ] Hardware keyboard can focus and activate controls
+- [ ] TalkBack announces role, label, disabled, and loading state
+- [ ] Increased font scale remains usable
+- [ ] RTL and landscape layouts remain usable
 
-## Button visual and interaction checks
+## Desktop JVM
 
-- [ ] Primary, Secondary, and Tertiary hierarchy is clear
-- [ ] Small, Medium, and Large proportions feel balanced
-- [ ] Every button is easy to tap one-handed and the interactive root is at least 48dp
-- [ ] Pressed feedback is visible but restrained
-- [ ] Focus feedback remains visible in Light and Dark themes
-- [ ] Loading prevents duplicate taps and exposes a meaningful state description
-- [ ] Disabled state is recognizable and cannot activate
-- [ ] Leading/trailing icons align optically with labels
-- [ ] Custom `ElegantButtonColors` do not break contrast or focus indication
+Environment:
 
-## Adaptation and accessibility
+- OS / version:
+- JDK:
+- Display scale:
 
-- [ ] Text remains readable at increased system font scale
-- [ ] Layout remains usable in landscape
-- [ ] Directional content behaves correctly in RTL
-- [ ] TalkBack announces button role, disabled/loading state, and label correctly
-- [ ] Keyboard or hardware focus can reach and activate interactive buttons where supported
+Checks:
+
+- [ ] `elegant-ui-desktop-sample-linux` or a local distributable launches
+- [ ] Mouse hover/press behavior is restrained and clear
+- [ ] Tab/Shift+Tab focus traversal is predictable
+- [ ] Enter/Space activates focused controls
+- [ ] Focus ring remains visible in Light and Dark themes
+- [ ] Window resizing and high-DPI scaling remain usable
+
+## Web/Wasm
+
+Environment:
+
+- Browser / version:
+- OS:
+- Browser zoom:
+- Viewport sizes:
+
+Checks:
+
+- [ ] `elegant-ui-web-sample` or the deployed documentation iframe loads
+- [ ] `?id=button` resolves the Button showcase
+- [ ] Pointer and keyboard activation work
+- [ ] Browser focus remains visible
+- [ ] Narrow and wide viewports remain usable
+- [ ] Browser zoom does not clip essential content
+- [ ] Loading and disabled behavior match Android and Desktop semantics
 
 Record acceptance or actionable defects before beginning the next component.

@@ -1,22 +1,26 @@
 # 平台支持
 
-Elegant UI 已按 Kotlin Multiplatform 组织工程，但不会把“可迁移”误写成“已经支持”。
+Elegant UI 是面向三个正式目标的 Compose Multiplatform 组件库。
 
-| 平台 | 状态 | Source set | 验收要求 |
+| 平台 | 状态 | 组件库 target | 验收要求 |
 | --- | --- | --- | --- |
-| Android | 已支持 | `commonMain` + `androidMain` | 干净 CI、Sample APK、真机验收 |
-| Desktop JVM | 计划中 | 未来 `desktopMain` | 编译、桌面 Sample、测试、发布变体 |
-| iOS | 计划中 | 未来 `iosMain` | 模拟器/真机构建、无障碍检查、发布变体 |
-| Web/Wasm | 计划中 | 未来 `wasmJsMain` | 浏览器构建、键盘/无障碍检查、发布变体 |
+| Android | 已支持 | `android` | CI 通过、Sample APK、触控与无障碍检查、真机验收 |
+| Desktop JVM | 已支持 | `jvm("desktop")` | CI 通过、可运行桌面示例、键盘/鼠标/焦点验收 |
+| Web/Wasm | 已支持 | `wasmJs` | CI 通过、浏览器分发包、键盘/焦点/响应式验收 |
+| iOS | 不在当前范围 | 无 | 不提供源码集、发布产物、示例或兼容承诺 |
 
-## common-first 不等于已经支持多平台
+## 共享 API 契约
 
-只要 API 与行为能够安全共享，组件就优先放在 `commonMain`。只有某个平台已经具备 target、CI、Sample、测试、文档和发布产物时，才可以标记为已支持。
+公开组件、Token、状态模型、Defaults 与大部分交互行为位于 `commonMain`。只有无法通过通用 Compose API 表达的能力，才能进入平台源码集。
 
-## 公共 API 边界
+公开组件签名不得暴露 Android 类型、Swing/AWT 类型、浏览器 DOM 对象或其他平台类型。平台集成必须通过窄接口隔离。
 
-公共组件签名不得暴露 `Context`、`Activity`、`Drawable` 或 `android.graphics` 等 Android 平台类型。确实需要 Android 能力时，应在 `androidMain` 中实现，并通过窄接口与 common 层连接。
+## 平台行为
 
-## 当前兼容承诺
+三个目标保持一致的公开 API 与语义状态模型，但输入方式和系统集成可以适配：
 
-`0.x` 阶段只对 Android 提供兼容承诺。未来平台应复用相同组件名和核心参数，平台差异通过新增 API 或范围明确的适配器提供。
+- Android：触控、硬件键盘、TalkBack、密度与字体缩放。
+- Desktop JVM：鼠标、键盘、焦点遍历、窗口缩放与高 DPI。
+- Web/Wasm：键盘、指针、浏览器焦点、视口缩放与支持 WasmGC 的浏览器。
+
+组件若只在一个或两个正式目标上通过编译与验收，就不能视为完成。

@@ -1,21 +1,34 @@
 # 快速开始
 
-Elegant UI 是采用 common-first Kotlin Multiplatform 架构的 Compose 组件库，Android 是首个且当前唯一正式支持的运行目标。仓库包含可复用的 `:elegant-ui` 模块和可安装的 Android `:sample` 应用。
+Elegant UI 是面向 Android、Desktop JVM 与 Web/Wasm 的 Compose Multiplatform 组件库。公开组件位于 `commonMain`，三个轻量平台入口共用同一个 `:showcase`。
 
 ::: warning 当前状态
-Elegant UI 仍处于 `0.x` 开发阶段，首个稳定版前公共 API 可能调整。代码已进入 `commonMain`，但 Desktop、iOS 和 Web 目前仍未正式支持。
+Elegant UI 仍处于 `0.x` 开发阶段，首个稳定版前公共 API 可能调整。iOS 不在当前支持范围内。
 :::
 
 ## 环境要求
 
-- Android 7.0（API 24）或更高版本
-- Kotlin 与 Compose
-- Android/KMP 构建使用 JDK 17
+- Android 使用方需要 Android 7.0（API 24）或更高版本
+- Compose Multiplatform 支持的 64 位桌面环境
+- 支持 WasmGC 的现代浏览器
+- KMP 与 Desktop 打包使用 JDK 17
 - 文档网站使用 Node.js 22 或更高版本
 
 ## 添加组件库
 
-同一个 Gradle 工程内直接依赖模块：
+KMP 应用：
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":elegant-ui"))
+        }
+    }
+}
+```
+
+独立 Android 应用：
 
 ```kotlin
 dependencies {
@@ -23,7 +36,7 @@ dependencies {
 }
 ```
 
-不同仓库请使用 Maven Local 或 GitHub Actions 生成的 Maven 仓库产物。完整配置见[安装与依赖](./installation)。
+不同仓库请使用 Maven Local 或 Actions 生成的 `elegant-ui-maven-repository`。完整配置见[安装与依赖](./installation)。
 
 ## 应用主题
 
@@ -32,8 +45,6 @@ ElegantTheme {
     AppContent()
 }
 ```
-
-视觉值应来自 `ElegantTheme`、`ElegantSpacing` 与 `ElegantRadius` 等语义 Token，避免在业务代码中散落硬编码颜色和尺寸。
 
 ## 使用组件
 
@@ -47,33 +58,32 @@ ElegantButton(
 }
 ```
 
-## 运行 Android Sample
+## 运行三端示例
 
 ```bash
 gradle :sample:installDebug
+gradle :desktop-sample:run
+gradle :web-sample:wasmJsBrowserDevelopmentRun
 ```
 
-**Android Build** 工作流也会上传可安装 APK、完整 Maven 仓库和独立 Android AAR。
+三个入口均使用共享 `:showcase` 组件矩阵。
 
-## 检查 KMP 边界
+## 检查源码边界
 
 ```bash
 ./scripts/validate-kmp-boundaries.sh
 ```
 
-该脚本会阻止 Android-only import 进入 `commonMain`，并阻止组件库恢复旧的 `src/main` 目录结构。
+脚本会阻止 Android、Desktop-only 和浏览器专用 API 泄漏到通用代码，并检查三个 target 与示例模块持续存在。
 
 ## 运行文档网站
 
+先构建真实 Compose Web Demo：
+
 ```bash
+gradle :web-sample:wasmJsBrowserDistribution
 cd docs
 npm install
 npm run docs:check
 npm run docs:dev
-```
-
-构建静态网站：
-
-```bash
-npm run docs:build
 ```
