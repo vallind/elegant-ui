@@ -19,6 +19,40 @@ Elegant UI is a refined Compose Multiplatform component library. Android, Deskto
 - Work on one component milestone at a time. Do not begin the next component before all required gates pass.
 - Verify unstable tooling facts against current official Kotlin, Compose Multiplatform, Android, Gradle, VitePress, and GitHub Actions documentation.
 
+## Component library evolution
+
+The existing per-component workflow and definition of done remain the delivery authority. Library growth adds sequencing and reuse rules; it does not weaken or replace any component gate.
+
+- `docs/components/index.md` and `docs/zh_CN/components/index.md` are the synchronized V1 scope and progress ledger.
+- Keep component names, groups, purposes, order, and statuses aligned between both indexes.
+- Mark a component `Available` / `已完成` only in the milestone that satisfies the complete component definition of done.
+- A `Planned` component does not justify placeholder APIs, empty tests, stub documentation pages, or speculative source sets.
+- Keep exactly one active component milestone. When asked to continue the library without naming a component, select the first planned component whose dependencies are already stable.
+- A specifically requested component may take priority, but any missing shared prerequisite must be completed inside the same milestone or called out before implementation.
+- Finish, validate, document, commit, push, and observe both workflows for the active milestone before selecting the next component.
+
+Build the library in dependency-aware layers:
+
+1. **Foundations:** semantic colors, typography, spacing, shape, motion, elevation, interaction, focus, selection, field, collection, and overlay primitives.
+2. **Actions and simple display:** Button is the completed reference; then IconButton, Divider, Badge, Avatar, and Tag as their dependencies allow.
+3. **Fields and selection:** Input, Checkbox, Radio, Switch, Slider, and Select, sharing field, validation, selection, and keyboard contracts.
+4. **Surfaces and feedback:** Card, List, EmptyState, Tooltip, Modal, and Drawer, sharing surface, focus restoration, dismissal, and overlay behavior.
+5. **Data and navigation:** Table, Tabs, Breadcrumb, Navbar, and Sidebar, reusing collection, selection, focus, and adaptive-layout primitives.
+
+Add a shared primitive only when the active component needs it. Keep its contract narrow, test it independently, and migrate completed components when the new primitive replaces duplicated behavior. Do not build an unused framework in anticipation of future components.
+
+For every component family:
+
+- reuse established size names, interaction states, semantic colors, motion curves, icon metrics, and accessibility vocabulary;
+- keep equivalent parameters in the same relative signature order;
+- prefer shared internal resolvers over copied state precedence;
+- test representative cross-component composition, not only isolated rendering;
+- keep customization intentional through Defaults, Colors, state models, and named slots without exposing implementation internals.
+
+Button is the initial repository reference for delivery shape and action-component quality. Future completed components become the preferred reference for their own family. Copy the closed-loop structure—source, tests, showcase, documentation, validation, and publication—not component-specific code or assumptions.
+
+Figma is not part of the default repository workflow. Do not create, connect, read, or update Figma assets unless the user explicitly approves a separate Figma milestone.
+
 ## Repository map
 
 | Path | Responsibility |
@@ -193,6 +227,13 @@ For each component:
 
 Do not add empty or tautological tests merely to satisfy a file-count requirement.
 
+For shared foundations and component families:
+
+- run the tests and showcase routes of every completed component affected by a token, resolver, or primitive change;
+- add regression coverage when fixing a state-priority, sizing, focus, selection, dismissal, or adaptive-layout defect;
+- test representative compositions such as icon plus label, field plus validation, selection inside a collection, and overlay trigger plus focus restoration when those contracts exist;
+- keep manual platform acceptance explicit where automation is not yet available.
+
 ## CI and artifacts
 
 The **Multiplatform Build** workflow must produce:
@@ -229,6 +270,17 @@ commonMain.dependencies {
 
 Standalone Android apps may use the same coordinate in `dependencies`. Do not instruct consumers to guess target-suffixed artifacts or copy only an AAR for normal integration.
 
+## API and release evolution
+
+- Treat every public declaration as a library-wide contract, even during `0.x`.
+- Prefer additive changes and defaulted trailing parameters. Do not reorder or silently reinterpret existing parameters.
+- Deprecate before removal whenever compatibility permits, and document the migration in both locales.
+- Review all completed components when changing shared tokens, typography, shapes, motion, interaction semantics, or foundation state models.
+- Keep component-family naming consistent; do not introduce synonyms for an existing style, size, state, or slot concept without a migration reason.
+- Avoid dependency cycles between foundations and components. Higher-level components may depend on lower-level primitives, never the reverse.
+- Add automated API/binary compatibility validation as a dedicated release milestone before declaring a stable `1.0` API.
+- A release is not ready when a component marked available is missing from the publication, showcase registry, bilingual documentation, or either workflow artifact set.
+
 ## Component definition of done
 
 A component lands only when:
@@ -248,6 +300,21 @@ A component lands only when:
 13. Maven publication contains all supported variants.
 14. Both GitHub Actions workflows succeed.
 15. No unrelated next-component or iOS work is included.
+
+## V1 library definition of done
+
+Elegant UI V1 is complete only when:
+
+1. Every component listed in both component indexes is marked available in both locales.
+2. Every available component independently satisfies the component definition of done.
+3. Shared foundations replace avoidable family-level duplication and have direct contract tests.
+4. Action, field, selection, surface, overlay, collection, feedback, and navigation families use consistent naming and state precedence.
+5. Representative cross-component compositions work on Android, Desktop JVM, and Web/Wasm.
+6. All public APIs remain consumable from the root KMP publication coordinate.
+7. The complete shared showcase is navigable by stable slugs on all three launchers.
+8. English and Chinese indexes, sidebars, component pages, API identifiers, and examples remain synchronized.
+9. Full-library builds, publications, samples, documentation validation, and both GitHub Actions workflows succeed together.
+10. No planned V1 component is represented by a placeholder implementation or documentation-only claim.
 
 ## Commit style
 
