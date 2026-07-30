@@ -13,7 +13,7 @@ kotlin {
         compileSdk = 37
         minSdk = 24
 
-        compilerOptions.configure {
+        compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }

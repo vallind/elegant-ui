@@ -15,9 +15,11 @@ kotlin {
     }
 
     sourceSets {
-        desktopMain.dependencies {
-            implementation(project(":showcase"))
-            implementation(compose.desktop.currentOs)
+        val desktopMain by getting {
+            dependencies {
+                implementation(project(":showcase"))
+                implementation(compose.desktop.currentOs)
+            }
         }
     }
 }
