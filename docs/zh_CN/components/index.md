@@ -7,7 +7,7 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | 组件 | 用途 | 状态 |
 | --- | --- | --- |
 | [Button 按钮](./button) | 通过三种强调层级触发即时操作 | 已完成 |
-| IconButton | 紧凑图标操作 | 计划中 |
+| [IconButton 图标按钮](./icon-button) | 触发紧凑且无障碍的图标操作 | 已完成 |
 | Avatar | 表示人物或实体 | 计划中 |
 | Badge | 显示状态或数量 | 计划中 |
 | Divider | 分隔内容区域 | 计划中 |

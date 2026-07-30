@@ -1,9 +1,9 @@
-package com.elegant.compose.ui.button
+package com.elegant.compose.ui.iconbutton
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -14,18 +14,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -41,11 +35,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.internal.action.ActionStateColors
@@ -56,63 +50,66 @@ import com.elegant.compose.ui.theme.ElegantElevation
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantTheme
 
-/** Visual-emphasis variants supported by [ElegantButton]. */
-public enum class ElegantButtonStyle {
-    /** Dominant action for the current task or surface. */
+/** Visual-emphasis variants supported by [ElegantIconButton]. */
+public enum class ElegantIconButtonStyle {
+    /** Dominant compact action with a primary-color container. */
     Primary,
 
-    /** Supporting action with a visible container and border. */
+    /** Supporting compact action with a raised container and border. */
     Secondary,
 
-    /** Low-emphasis action with a transparent default container. */
+    /** Low-emphasis compact action with a transparent resting container. */
     Tertiary,
 }
 
-/** Visual size presets supported by [ElegantButton]. */
-public enum class ElegantButtonSize {
-    /** 36dp visual height inside a 48dp minimum touch target. */
+/** Visual size presets supported by [ElegantIconButton]. */
+public enum class ElegantIconButtonSize {
+    /** 32dp visual container and 16dp icon inside a 48dp interaction target. */
     Small,
 
-    /** 40dp visual height inside a 48dp minimum touch target. */
+    /** 40dp visual container and 20dp icon inside a 48dp interaction target. */
     Medium,
 
-    /** 48dp visual and touch height. */
+    /** 48dp visual container and 24dp icon matching the interaction target. */
     Large,
 }
 
 /**
- * State colors and border metrics used by [ElegantButton].
+ * State colors and border metrics used by [ElegantIconButton].
  *
- * Use [ElegantButtonDefaults.colors] for theme-aware defaults, then use [copy] for supported
+ * Use [ElegantIconButtonDefaults.colors] for theme-aware defaults and [copy] for intentional
  * product-level customization.
  *
- * @property containerColor default container color.
+ * @property containerColor resting container color.
  * @property hoveredContainerColor hovered container color.
  * @property pressedContainerColor pressed container color.
  * @property disabledContainerColor disabled container color.
- * @property contentColor default content color.
- * @property hoveredContentColor hovered content color.
- * @property pressedContentColor pressed content color.
- * @property disabledContentColor disabled content color.
- * @property borderColor default border color.
+ * @property contentColor resting icon color.
+ * @property hoveredContentColor hovered icon color.
+ * @property pressedContentColor pressed icon color.
+ * @property disabledContentColor disabled icon color.
+ * @property borderColor resting border color.
  * @property hoveredBorderColor hovered border color.
  * @property pressedBorderColor pressed border color.
  * @property focusedBorderColor focused border color.
  * @property disabledBorderColor disabled border color.
- * @property borderWidth default border width.
+ * @property borderWidth resting border width.
  * @property pressedBorderWidth pressed border width.
  * @property focusedBorderWidth focused border width.
  * @property disabledBorderWidth disabled border width.
  */
 @Immutable
-public data class ElegantButtonColors(
+public data class ElegantIconButtonColors(
     val containerColor: Color,
+    val hoveredContainerColor: Color,
     val pressedContainerColor: Color,
     val disabledContainerColor: Color,
     val contentColor: Color,
+    val hoveredContentColor: Color,
     val pressedContentColor: Color,
     val disabledContentColor: Color,
     val borderColor: Color,
+    val hoveredBorderColor: Color,
     val pressedBorderColor: Color,
     val focusedBorderColor: Color,
     val disabledBorderColor: Color,
@@ -120,22 +117,19 @@ public data class ElegantButtonColors(
     val pressedBorderWidth: Dp,
     val focusedBorderWidth: Dp,
     val disabledBorderWidth: Dp,
-    val hoveredContainerColor: Color = containerColor,
-    val hoveredContentColor: Color = contentColor,
-    val hoveredBorderColor: Color = borderColor,
 )
 
 /**
- * Elevation values used by [ElegantButton] interaction states.
+ * Elevation values used by [ElegantIconButton] interaction states.
  *
  * @property defaultElevation resting elevation.
- * @property hoveredElevation elevation while a pointer hovers the button.
- * @property pressedElevation elevation while the button is pressed.
- * @property focusedElevation elevation while keyboard focus is visible.
- * @property disabledElevation elevation while interaction is disabled.
+ * @property hoveredElevation pointer-hover elevation.
+ * @property pressedElevation pressed elevation.
+ * @property focusedElevation keyboard-focus elevation.
+ * @property disabledElevation disabled elevation.
  */
 @Immutable
-public data class ElegantButtonElevation(
+public data class ElegantIconButtonElevation(
     val defaultElevation: Dp,
     val hoveredElevation: Dp,
     val pressedElevation: Dp,
@@ -143,31 +137,31 @@ public data class ElegantButtonElevation(
     val disabledElevation: Dp,
 )
 
-/** Theme-aware defaults for [ElegantButton]. */
-public object ElegantButtonDefaults {
-    /** Minimum interactive root height used by every button size. */
-    public val MinimumTouchHeight: Dp = 48.dp
+/** Theme-aware defaults for [ElegantIconButton]. */
+public object ElegantIconButtonDefaults {
+    /** Minimum width and height of every interactive root. */
+    public val MinimumTouchSize: Dp = 48.dp
 
-    /** Standard state-transition duration. */
+    /** Standard hover, focus, and state-transition duration. */
     public const val AnimationDurationMillis: Int = ElegantMotion.standardDurationMillis
 
     /** Immediate press-response duration. */
     public const val PressAnimationDurationMillis: Int = ElegantMotion.fastDurationMillis
 
-    /** Subtle pointer-hover scale that preserves layout dimensions. */
-    public const val HoveredScale: Float = 1.008f
+    /** Subtle hover scale that preserves layout geometry. */
+    public const val HoveredScale: Float = 1.025f
 
-    /** Restrained pressed scale that preserves the 48dp interactive target. */
-    public const val PressedScale: Float = 0.985f
+    /** Restrained pressed scale that preserves the interaction target. */
+    public const val PressedScale: Float = 0.94f
 
     /** Returns theme-aware colors for [style]. */
     @Composable
     public fun colors(
-        style: ElegantButtonStyle = ElegantButtonStyle.Primary,
-    ): ElegantButtonColors {
+        style: ElegantIconButtonStyle = ElegantIconButtonStyle.Tertiary,
+    ): ElegantIconButtonColors {
         val colors = ElegantTheme.colors
         return when (style) {
-            ElegantButtonStyle.Primary -> ElegantButtonColors(
+            ElegantIconButtonStyle.Primary -> ElegantIconButtonColors(
                 containerColor = colors.interactivePrimary,
                 hoveredContainerColor = colors.interactivePrimaryHover,
                 pressedContainerColor = colors.interactivePrimaryPressed,
@@ -187,7 +181,7 @@ public object ElegantButtonDefaults {
                 disabledBorderWidth = 0.dp,
             )
 
-            ElegantButtonStyle.Secondary -> ElegantButtonColors(
+            ElegantIconButtonStyle.Secondary -> ElegantIconButtonColors(
                 containerColor = colors.surfaceRaised,
                 hoveredContainerColor = colors.surfaceHover,
                 pressedContainerColor = colors.backgroundSubtle,
@@ -207,13 +201,13 @@ public object ElegantButtonDefaults {
                 disabledBorderWidth = 1.dp,
             )
 
-            ElegantButtonStyle.Tertiary -> ElegantButtonColors(
+            ElegantIconButtonStyle.Tertiary -> ElegantIconButtonColors(
                 containerColor = Color.Transparent,
                 hoveredContainerColor = colors.surfaceHover,
                 pressedContainerColor = colors.backgroundSubtle,
                 disabledContainerColor = Color.Transparent,
-                contentColor = colors.interactivePrimary,
-                hoveredContentColor = colors.interactivePrimaryHover,
+                contentColor = colors.textSecondary,
+                hoveredContentColor = colors.textPrimary,
                 pressedContentColor = colors.interactivePrimary,
                 disabledContentColor = colors.textTertiary,
                 borderColor = Color.Transparent,
@@ -229,18 +223,19 @@ public object ElegantButtonDefaults {
         }
     }
 
-    /** Returns the optically tuned default shape for [size]. */
-    public fun shape(size: ElegantButtonSize = ElegantButtonSize.Medium): Shape = when (size) {
-        ElegantButtonSize.Small -> RoundedCornerShape(10.dp)
-        ElegantButtonSize.Medium -> RoundedCornerShape(12.dp)
-        ElegantButtonSize.Large -> RoundedCornerShape(14.dp)
-    }
+    /** Returns the optically tuned shape for [size]. */
+    public fun shape(size: ElegantIconButtonSize = ElegantIconButtonSize.Medium): Shape =
+        when (size) {
+            ElegantIconButtonSize.Small -> RoundedCornerShape(10.dp)
+            ElegantIconButtonSize.Medium -> RoundedCornerShape(12.dp)
+            ElegantIconButtonSize.Large -> RoundedCornerShape(14.dp)
+        }
 
     /** Returns the interaction elevation model for [style]. */
     public fun elevation(
-        style: ElegantButtonStyle = ElegantButtonStyle.Primary,
-    ): ElegantButtonElevation = when (style) {
-        ElegantButtonStyle.Primary -> ElegantButtonElevation(
+        style: ElegantIconButtonStyle = ElegantIconButtonStyle.Tertiary,
+    ): ElegantIconButtonElevation = when (style) {
+        ElegantIconButtonStyle.Primary -> ElegantIconButtonElevation(
             defaultElevation = ElegantElevation.low,
             hoveredElevation = ElegantElevation.medium,
             pressedElevation = ElegantElevation.none,
@@ -248,7 +243,7 @@ public object ElegantButtonDefaults {
             disabledElevation = ElegantElevation.none,
         )
 
-        ElegantButtonStyle.Secondary -> ElegantButtonElevation(
+        ElegantIconButtonStyle.Secondary -> ElegantIconButtonElevation(
             defaultElevation = ElegantElevation.none,
             hoveredElevation = ElegantElevation.low,
             pressedElevation = ElegantElevation.none,
@@ -256,7 +251,7 @@ public object ElegantButtonDefaults {
             disabledElevation = ElegantElevation.none,
         )
 
-        ElegantButtonStyle.Tertiary -> ElegantButtonElevation(
+        ElegantIconButtonStyle.Tertiary -> ElegantIconButtonElevation(
             defaultElevation = ElegantElevation.none,
             hoveredElevation = ElegantElevation.none,
             pressedElevation = ElegantElevation.none,
@@ -267,55 +262,53 @@ public object ElegantButtonDefaults {
 }
 
 @Immutable
-internal data class ButtonMetrics(
-    val visualHeight: Dp,
-    val minWidth: Dp,
-    val horizontalPadding: Dp,
+internal data class IconButtonMetrics(
+    val visualSize: Dp,
     val iconSize: Dp,
-    val gap: Dp,
 )
 
 /**
- * Displays an Elegant UI action button.
+ * Displays an Elegant UI icon-only action.
  *
- * @param onClick callback invoked when the button accepts an activation.
+ * The required [contentDescription] names the action for accessibility services; decorative icons
+ * inside [content] should therefore use a null description.
+ *
+ * @param onClick callback invoked when the icon button accepts an activation.
+ * @param contentDescription localized accessibility name for the action.
  * @param modifier modifier applied to the 48dp minimum interactive root.
  * @param enabled whether user interaction is accepted.
  * @param loading whether progress is shown and interaction is temporarily disabled.
  * @param loadingStateDescription localized accessibility description announced while loading.
- * @param interactionSource optional hoisted interaction source for observing or controlling state.
+ * @param interactionSource optional hoisted interaction source for observing interaction state.
  * @param style visual-emphasis variant.
- * @param size visual size preset.
+ * @param size visual container and icon size preset.
  * @param shape optically tuned container shape.
  * @param colors state colors and border metrics.
- * @param elevation state-aware tonal elevation model.
- * @param leadingIcon optional content before the label.
- * @param trailingIcon optional content after the label.
- * @param content button label or custom content.
+ * @param elevation state-aware elevation model.
+ * @param content icon content rendered at the size owned by [size].
  */
 @Composable
-public fun ElegantButton(
+public fun ElegantIconButton(
     onClick: () -> Unit,
+    contentDescription: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     loading: Boolean = false,
     loadingStateDescription: String = "Loading",
     interactionSource: MutableInteractionSource? = null,
-    style: ElegantButtonStyle = ElegantButtonStyle.Primary,
-    size: ElegantButtonSize = ElegantButtonSize.Medium,
-    shape: Shape = ElegantButtonDefaults.shape(size),
-    colors: ElegantButtonColors = ElegantButtonDefaults.colors(style),
-    elevation: ElegantButtonElevation = ElegantButtonDefaults.elevation(style),
-    leadingIcon: (@Composable () -> Unit)? = null,
-    trailingIcon: (@Composable () -> Unit)? = null,
+    style: ElegantIconButtonStyle = ElegantIconButtonStyle.Tertiary,
+    size: ElegantIconButtonSize = ElegantIconButtonSize.Medium,
+    shape: Shape = ElegantIconButtonDefaults.shape(size),
+    colors: ElegantIconButtonColors = ElegantIconButtonDefaults.colors(style),
+    elevation: ElegantIconButtonElevation = ElegantIconButtonDefaults.elevation(style),
     content: @Composable () -> Unit,
 ) {
     val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
-    val metrics = metricsFor(size)
-    val visuals = resolveButtonVisuals(
+    val metrics = iconButtonMetricsFor(size)
+    val visuals = resolveIconButtonVisuals(
         colors = colors,
         elevation = elevation,
         enabled = enabled,
@@ -327,58 +320,59 @@ public fun ElegantButton(
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
         animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
+            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
             easing = FastOutSlowInEasing,
         ),
-        label = "ElegantButtonContainer",
+        label = "ElegantIconButtonContainer",
     )
     val animatedContent by animateColorAsState(
         targetValue = visuals.content,
         animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
+            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
             easing = FastOutSlowInEasing,
         ),
-        label = "ElegantButtonContent",
+        label = "ElegantIconButtonContent",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
         animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
+            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
             easing = FastOutSlowInEasing,
         ),
-        label = "ElegantButtonBorder",
+        label = "ElegantIconButtonBorder",
     )
     val animatedBorderWidth by animateDpAsState(
         targetValue = visuals.borderWidth,
         animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
+            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
             easing = FastOutSlowInEasing,
         ),
-        label = "ElegantButtonBorderWidth",
+        label = "ElegantIconButtonBorderWidth",
     )
     val animatedElevation by animateDpAsState(
         targetValue = visuals.elevation,
         animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
+            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
             easing = FastOutSlowInEasing,
         ),
-        label = "ElegantButtonElevation",
+        label = "ElegantIconButtonElevation",
     )
     val animatedScale by animateFloatAsState(
         targetValue = visuals.scale,
         animationSpec = tween(
             durationMillis = if (pressed) {
-                ElegantButtonDefaults.PressAnimationDurationMillis
+                ElegantIconButtonDefaults.PressAnimationDurationMillis
             } else {
-                ElegantButtonDefaults.AnimationDurationMillis
+                ElegantIconButtonDefaults.AnimationDurationMillis
             },
             easing = FastOutSlowInEasing,
         ),
-        label = "ElegantButtonScale",
+        label = "ElegantIconButtonScale",
     )
 
     val interactive = enabled && !loading
     val semanticModifier = Modifier.semantics(mergeDescendants = true) {
+        this.contentDescription = contentDescription
         role = Role.Button
         if (!interactive) disabled()
         if (loading) stateDescription = loadingStateDescription
@@ -387,7 +381,10 @@ public fun ElegantButton(
     Box(
         modifier = modifier
             .then(semanticModifier)
-            .defaultMinSize(minHeight = ElegantButtonDefaults.MinimumTouchHeight)
+            .defaultMinSize(
+                minWidth = ElegantIconButtonDefaults.MinimumTouchSize,
+                minHeight = ElegantIconButtonDefaults.MinimumTouchSize,
+            )
             .clickable(
                 enabled = interactive,
                 role = Role.Button,
@@ -417,43 +414,24 @@ public fun ElegantButton(
                     shape = shape,
                     clip = false,
                 )
-                .defaultMinSize(
-                    minWidth = metrics.minWidth,
-                    minHeight = metrics.visualHeight,
-                )
+                .size(metrics.visualSize)
                 .clip(shape)
                 .background(animatedContainer)
                 .indication(
                     interactionSource = resolvedInteractionSource,
                     indication = ripple(color = animatedContent),
                 )
-                .then(borderModifier)
-                .padding(horizontal = metrics.horizontalPadding),
+                .then(borderModifier),
             contentAlignment = Alignment.Center,
         ) {
-            Row(
-                modifier = Modifier.alpha(if (loading) 0f else 1f),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                CompositionLocalProvider(LocalContentColor provides animatedContent) {
-                    if (leadingIcon != null) {
-                        Box(Modifier.size(metrics.iconSize), contentAlignment = Alignment.Center) {
-                            leadingIcon()
-                        }
-                        Spacer(Modifier.width(metrics.gap))
-                    }
-
-                    ProvideTextStyle(textStyleFor(size)) {
-                        content()
-                    }
-
-                    if (trailingIcon != null) {
-                        Spacer(Modifier.width(metrics.gap))
-                        Box(Modifier.size(metrics.iconSize), contentAlignment = Alignment.Center) {
-                            trailingIcon()
-                        }
-                    }
+            CompositionLocalProvider(LocalContentColor provides animatedContent) {
+                Box(
+                    modifier = Modifier
+                        .size(metrics.iconSize)
+                        .alpha(if (loading) 0f else 1f),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    content()
                 }
             }
 
@@ -468,42 +446,26 @@ public fun ElegantButton(
     }
 }
 
-internal fun metricsFor(size: ElegantButtonSize): ButtonMetrics = when (size) {
-    ElegantButtonSize.Small -> ButtonMetrics(
-        visualHeight = 36.dp,
-        minWidth = 64.dp,
-        horizontalPadding = 12.dp,
+internal fun iconButtonMetricsFor(size: ElegantIconButtonSize): IconButtonMetrics = when (size) {
+    ElegantIconButtonSize.Small -> IconButtonMetrics(
+        visualSize = 32.dp,
         iconSize = 16.dp,
-        gap = 6.dp,
     )
 
-    ElegantButtonSize.Medium -> ButtonMetrics(
-        visualHeight = 40.dp,
-        minWidth = 72.dp,
-        horizontalPadding = 16.dp,
-        iconSize = 18.dp,
-        gap = 8.dp,
-    )
-
-    ElegantButtonSize.Large -> ButtonMetrics(
-        visualHeight = 48.dp,
-        minWidth = 80.dp,
-        horizontalPadding = 20.dp,
+    ElegantIconButtonSize.Medium -> IconButtonMetrics(
+        visualSize = 40.dp,
         iconSize = 20.dp,
-        gap = 8.dp,
+    )
+
+    ElegantIconButtonSize.Large -> IconButtonMetrics(
+        visualSize = 48.dp,
+        iconSize = 24.dp,
     )
 }
 
-@Composable
-private fun textStyleFor(size: ElegantButtonSize): TextStyle = when (size) {
-    ElegantButtonSize.Small -> ElegantTheme.typography.labelSmall
-    ElegantButtonSize.Medium -> ElegantTheme.typography.labelMedium
-    ElegantButtonSize.Large -> ElegantTheme.typography.labelLarge
-}
-
-internal fun resolveButtonVisuals(
-    colors: ElegantButtonColors,
-    elevation: ElegantButtonElevation,
+internal fun resolveIconButtonVisuals(
+    colors: ElegantIconButtonColors,
+    elevation: ElegantIconButtonElevation,
     enabled: Boolean,
     pressed: Boolean,
     hovered: Boolean,
@@ -539,6 +501,6 @@ internal fun resolveButtonVisuals(
     pressed = pressed,
     hovered = hovered,
     focused = focused,
-    hoveredScale = ElegantButtonDefaults.HoveredScale,
-    pressedScale = ElegantButtonDefaults.PressedScale,
+    hoveredScale = ElegantIconButtonDefaults.HoveredScale,
+    pressedScale = ElegantIconButtonDefaults.PressedScale,
 )

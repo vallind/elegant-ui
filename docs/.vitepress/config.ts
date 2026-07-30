@@ -22,6 +22,7 @@ const englishSidebar = {
       items: [
         { text: 'Overview', link: '/components/' },
         { text: 'Button', link: '/components/button' },
+        { text: 'IconButton', link: '/components/icon-button' },
       ],
     },
   ],
@@ -46,6 +47,7 @@ const chineseSidebar = {
       items: [
         { text: '总览', link: '/zh_CN/components/' },
         { text: 'Button 按钮', link: '/zh_CN/components/button' },
+        { text: 'IconButton 图标按钮', link: '/zh_CN/components/icon-button' },
       ],
     },
   ],

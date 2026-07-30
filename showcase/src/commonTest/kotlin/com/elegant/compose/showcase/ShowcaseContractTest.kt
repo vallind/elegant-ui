@@ -6,6 +6,6 @@ import kotlin.test.assertEquals
 internal class ShowcaseContractTest {
     @Test
     fun supportedComponentSlugsRemainStable() {
-        assertEquals(setOf("button"), SupportedShowcaseComponentIds)
+        assertEquals(setOf("button", "icon-button"), SupportedShowcaseComponentIds)
     }
 }

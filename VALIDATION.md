@@ -79,3 +79,40 @@ Checks:
 - [ ] Loading and disabled behavior match Android and Desktop semantics
 
 Record acceptance or actionable defects before beginning the next component.
+
+## IconButton milestone
+
+Automated checks:
+
+- [x] Shared pure state priority and size metrics have `commonTest` coverage
+- [x] Button regression contracts and IconButton contracts pass on Desktop JVM
+- [x] `:elegant-ui` and `:showcase` compile for Android, Desktop JVM, and Web/Wasm
+- [x] KMP boundary validation passes
+- [ ] Android sample APK assembles
+- [x] Desktop JVM distributable builds
+- [x] Web/Wasm browser distribution builds
+- [x] KMP publication contains Android, Desktop JVM, and Web/Wasm variants
+- [x] English and Simplified Chinese documentation checks and builds pass
+- [ ] GitHub Actions Multiplatform Build succeeds
+- [ ] GitHub Actions Documentation succeeds
+
+Platform acceptance checks:
+
+- [ ] Android touch target, keyboard activation, TalkBack, font scale, density, RTL, and Light/Dark accepted
+- [ ] Desktop hover/press, keyboard activation, focus traversal, high DPI, resize, and Light/Dark accepted
+- [ ] Web pointer, keyboard activation, browser focus, viewport resize, zoom, and Light/Dark accepted
+
+Routes:
+
+- [x] Shared registry recognizes `button` and `icon-button`
+- [ ] `?id=icon-button` loads the real Compose Web/Wasm showcase in the documentation iframe
+
+Local environment notes:
+
+- `:elegant-ui:build` and `:showcase:build` reached all target compilation and Desktop tests,
+  then stopped because ChromeHeadless is unavailable in Termux for Wasm browser tests.
+- `:sample:assembleDebug` stopped while downloading `androidx.core:core-ktx:1.19.0` because
+  the local Java client could not complete a TLS handshake with Google Maven.
+- GitHub Actions remains authoritative for the clean browser-test and Android-sample results.
+
+Record platform acceptance or actionable defects before beginning the Avatar milestone.

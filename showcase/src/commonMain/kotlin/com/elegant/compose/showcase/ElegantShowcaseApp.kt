@@ -25,6 +25,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -44,16 +45,24 @@ import com.elegant.compose.showcase.generated.resources.Res
 import com.elegant.compose.showcase.generated.resources.add_rounded
 import com.elegant.compose.showcase.generated.resources.arrow_forward_rounded
 import com.elegant.compose.showcase.generated.resources.check_rounded
+import com.elegant.compose.showcase.generated.resources.delete_rounded
+import com.elegant.compose.showcase.generated.resources.edit_rounded
+import com.elegant.compose.showcase.generated.resources.more_vert_rounded
+import com.elegant.compose.showcase.generated.resources.share_rounded
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
+import com.elegant.compose.ui.iconbutton.ElegantIconButton
+import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
+import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
 import com.elegant.compose.ui.theme.ElegantRadius
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
-internal val SupportedShowcaseComponentIds: Set<String> = setOf("button")
+internal val SupportedShowcaseComponentIds: Set<String> = setOf("button", "icon-button")
 
 /**
  * Shared component showcase used by Android, Desktop JVM, and Web/Wasm launchers.
@@ -67,15 +76,246 @@ public fun ElegantShowcaseApp(
 ) {
     when (componentId) {
         "button" -> ButtonShowcase()
+        "icon-button" -> IconButtonShowcase()
         else -> UnknownComponent(componentId)
     }
 }
 
 @Composable
 private fun ButtonShowcase() {
-    var darkTheme by rememberSaveable { mutableStateOf(false) }
     var loading by rememberSaveable { mutableStateOf(false) }
     var tapCount by remember { mutableIntStateOf(0) }
+
+    ShowcasePage(title = "Elegant Button") { compact ->
+        val colors = ElegantTheme.colors
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Clear action hierarchy",
+            description = "Three emphasis levels share one optical rhythm across every target.",
+        ) {
+            Text(
+                text = "Size scale",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            SizeRow(
+                style = ElegantButtonStyle.Primary,
+                onClick = { tapCount++ },
+            )
+
+            Text(
+                text = "Emphasis",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            ) {
+                ElegantButton(
+                    onClick = { tapCount++ },
+                    leadingIcon = { ResourceIcon(Res.drawable.add_rounded) },
+                ) {
+                    Text("Create")
+                }
+                ElegantButton(
+                    onClick = { tapCount++ },
+                    style = ElegantButtonStyle.Secondary,
+                ) {
+                    Text("Review")
+                }
+                ElegantButton(
+                    onClick = { tapCount++ },
+                    style = ElegantButtonStyle.Tertiary,
+                    trailingIcon = { ForwardIcon() },
+                ) {
+                    Text("Learn more")
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Ready to publish",
+            description = "Actions stay balanced inside a realistic confirmation surface.",
+        ) {
+            ConfirmationSurface()
+
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            ) {
+                ElegantButton(
+                    onClick = { tapCount++ },
+                    style = ElegantButtonStyle.Secondary,
+                ) {
+                    Text("Save draft")
+                }
+                ElegantButton(
+                    onClick = { loading = !loading },
+                    loading = loading,
+                    loadingStateDescription = "Publishing",
+                    leadingIcon = { ResourceIcon(Res.drawable.check_rounded) },
+                ) {
+                    Text("Publish changes")
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Interaction feedback",
+            description = "Hover, press, keyboard focus, loading, and disabled states remain distinct.",
+        ) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            ) {
+                ElegantButton(
+                    onClick = { tapCount++ },
+                    style = ElegantButtonStyle.Secondary,
+                    leadingIcon = { ResourceIcon(Res.drawable.add_rounded) },
+                    trailingIcon = { ForwardIcon() },
+                ) {
+                    Text("With icons")
+                }
+                ElegantButton(
+                    onClick = {},
+                    enabled = false,
+                ) {
+                    Text("Disabled")
+                }
+            }
+
+            Text(
+                text = "Accepted actions  $tapCount",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun IconButtonShowcase() {
+    var loading by rememberSaveable { mutableStateOf(false) }
+    var actionCount by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(loading) {
+        if (loading) {
+            delay(900)
+            loading = false
+        }
+    }
+
+    ShowcasePage(title = "Elegant IconButton") { compact ->
+        val colors = ElegantTheme.colors
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Compact actions, one rhythm",
+            description = "Three sizes and emphasis levels preserve a 48dp interaction target.",
+        ) {
+            Text(
+                text = "Size scale",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            IconButtonSizeRow(onClick = { actionCount++ })
+
+            Text(
+                text = "Emphasis",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            ) {
+                ShowcaseIconButton(
+                    resource = Res.drawable.edit_rounded,
+                    contentDescription = "Edit",
+                    style = ElegantIconButtonStyle.Primary,
+                    onClick = { actionCount++ },
+                )
+                ShowcaseIconButton(
+                    resource = Res.drawable.share_rounded,
+                    contentDescription = "Share",
+                    style = ElegantIconButtonStyle.Secondary,
+                    onClick = { actionCount++ },
+                )
+                ShowcaseIconButton(
+                    resource = Res.drawable.more_vert_rounded,
+                    contentDescription = "More options",
+                    style = ElegantIconButtonStyle.Tertiary,
+                    onClick = { actionCount++ },
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A toolbar that stays quiet",
+            description = "Icon actions support nearby content without competing with it.",
+        ) {
+            CompactToolbar(
+                compact = compact,
+                onAction = { actionCount++ },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Feedback without ambiguity",
+            description = "Loading and disabled actions retain their geometry and accessible name.",
+        ) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            ) {
+                ElegantIconButton(
+                    onClick = { loading = true },
+                    contentDescription = "Refresh actions",
+                    loading = loading,
+                    loadingStateDescription = "Refreshing actions",
+                    style = ElegantIconButtonStyle.Primary,
+                ) {
+                    ResourceIcon(Res.drawable.check_rounded)
+                }
+                ShowcaseIconButton(
+                    resource = Res.drawable.delete_rounded,
+                    contentDescription = "Delete",
+                    enabled = false,
+                    style = ElegantIconButtonStyle.Secondary,
+                    onClick = {},
+                )
+            }
+
+            Text(
+                text = "Accepted actions  $actionCount",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun ShowcasePage(
+    title: String,
+    content: @Composable (compact: Boolean) -> Unit,
+) {
+    var darkTheme by rememberSaveable { mutableStateOf(false) }
 
     ElegantTheme(darkTheme = darkTheme) {
         val colors = ElegantTheme.colors
@@ -107,122 +347,12 @@ private fun ButtonShowcase() {
                     verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
                 ) {
                     ShowcaseHeader(
+                        title = title,
                         compact = compact,
                         darkTheme = darkTheme,
                         onDarkThemeChange = { darkTheme = it },
                     )
-
-                    DemoCard(
-                        compact = compact,
-                        eyebrow = "FOUNDATIONS",
-                        title = "Clear action hierarchy",
-                        description = "Three emphasis levels share one optical rhythm across every target.",
-                    ) {
-                        Text(
-                            text = "Size scale",
-                            style = ElegantTheme.typography.bodyMedium,
-                            color = colors.textSecondary,
-                        )
-                        SizeRow(
-                            style = ElegantButtonStyle.Primary,
-                            onClick = { tapCount++ },
-                        )
-
-                        Text(
-                            text = "Emphasis",
-                            style = ElegantTheme.typography.bodyMedium,
-                            color = colors.textSecondary,
-                        )
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-                            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-                        ) {
-                            ElegantButton(
-                                onClick = { tapCount++ },
-                                leadingIcon = { ResourceIcon(Res.drawable.add_rounded) },
-                            ) {
-                                Text("Create")
-                            }
-                            ElegantButton(
-                                onClick = { tapCount++ },
-                                style = ElegantButtonStyle.Secondary,
-                            ) {
-                                Text("Review")
-                            }
-                            ElegantButton(
-                                onClick = { tapCount++ },
-                                style = ElegantButtonStyle.Tertiary,
-                                trailingIcon = { ForwardIcon() },
-                            ) {
-                                Text("Learn more")
-                            }
-                        }
-                    }
-
-                    DemoCard(
-                        compact = compact,
-                        eyebrow = "IN CONTEXT",
-                        title = "Ready to publish",
-                        description = "Actions stay balanced inside a realistic confirmation surface.",
-                    ) {
-                        ConfirmationSurface()
-
-                        FlowRow(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-                            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-                        ) {
-                            ElegantButton(
-                                onClick = { tapCount++ },
-                                style = ElegantButtonStyle.Secondary,
-                            ) {
-                                Text("Save draft")
-                            }
-                            ElegantButton(
-                                onClick = { loading = !loading },
-                                loading = loading,
-                                loadingStateDescription = "Publishing",
-                                leadingIcon = { ResourceIcon(Res.drawable.check_rounded) },
-                            ) {
-                                Text("Publish changes")
-                            }
-                        }
-                    }
-
-                    DemoCard(
-                        compact = compact,
-                        eyebrow = "STATES",
-                        title = "Interaction feedback",
-                        description = "Hover, press, keyboard focus, loading, and disabled states remain distinct.",
-                    ) {
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-                            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-                        ) {
-                            ElegantButton(
-                                onClick = { tapCount++ },
-                                style = ElegantButtonStyle.Secondary,
-                                leadingIcon = { ResourceIcon(Res.drawable.add_rounded) },
-                                trailingIcon = { ForwardIcon() },
-                            ) {
-                                Text("With icons")
-                            }
-                            ElegantButton(
-                                onClick = {},
-                                enabled = false,
-                            ) {
-                                Text("Disabled")
-                            }
-                        }
-
-                        Text(
-                            text = "Accepted actions  $tapCount",
-                            color = colors.textSecondary,
-                            style = ElegantTheme.typography.bodyMedium,
-                        )
-                    }
-
-                    Spacer(Modifier.height(ElegantSpacing.md))
+                    content(compact)
                 }
             }
         }
@@ -231,6 +361,7 @@ private fun ButtonShowcase() {
 
 @Composable
 private fun ShowcaseHeader(
+    title: String,
     compact: Boolean,
     darkTheme: Boolean,
     onDarkThemeChange: (Boolean) -> Unit,
@@ -240,7 +371,7 @@ private fun ShowcaseHeader(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
         ) {
-            HeaderTitle()
+            HeaderTitle(title = title)
             ThemeToggle(
                 darkTheme = darkTheme,
                 onDarkThemeChange = onDarkThemeChange,
@@ -252,7 +383,10 @@ private fun ShowcaseHeader(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            HeaderTitle(Modifier.weight(1f))
+            HeaderTitle(
+                title = title,
+                modifier = Modifier.weight(1f),
+            )
             ThemeToggle(
                 darkTheme = darkTheme,
                 onDarkThemeChange = onDarkThemeChange,
@@ -263,6 +397,7 @@ private fun ShowcaseHeader(
 
 @Composable
 private fun HeaderTitle(
+    title: String,
     modifier: Modifier = Modifier,
 ) {
     val colors = ElegantTheme.colors
@@ -271,7 +406,7 @@ private fun HeaderTitle(
         verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
     ) {
         Text(
-            text = "Elegant Button",
+            text = title,
             color = colors.textPrimary,
             fontSize = 28.sp,
             lineHeight = 34.sp,
@@ -376,6 +511,141 @@ private fun SizeRow(
         ElegantButton(onClick = onClick, style = style, size = ElegantButtonSize.Large) {
             Text("Large")
         }
+    }
+}
+
+@Composable
+private fun IconButtonSizeRow(
+    onClick: () -> Unit,
+) {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        itemVerticalAlignment = Alignment.CenterVertically,
+    ) {
+        ShowcaseIconButton(
+            resource = Res.drawable.edit_rounded,
+            contentDescription = "Edit small item",
+            style = ElegantIconButtonStyle.Primary,
+            size = ElegantIconButtonSize.Small,
+            onClick = onClick,
+        )
+        ShowcaseIconButton(
+            resource = Res.drawable.edit_rounded,
+            contentDescription = "Edit medium item",
+            style = ElegantIconButtonStyle.Primary,
+            size = ElegantIconButtonSize.Medium,
+            onClick = onClick,
+        )
+        ShowcaseIconButton(
+            resource = Res.drawable.edit_rounded,
+            contentDescription = "Edit large item",
+            style = ElegantIconButtonStyle.Primary,
+            size = ElegantIconButtonSize.Large,
+            onClick = onClick,
+        )
+    }
+}
+
+@Composable
+private fun CompactToolbar(
+    compact: Boolean,
+    onAction: () -> Unit,
+) {
+    val colors = ElegantTheme.colors
+    val content: @Composable (Modifier) -> Unit = { modifier ->
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+        ) {
+            Text(
+                text = "Release notes",
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.titleMedium,
+            )
+            Text(
+                text = "Updated just now",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+    }
+    val actions: @Composable () -> Unit = {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ShowcaseIconButton(
+                resource = Res.drawable.edit_rounded,
+                contentDescription = "Edit release notes",
+                style = ElegantIconButtonStyle.Secondary,
+                onClick = onAction,
+            )
+            ShowcaseIconButton(
+                resource = Res.drawable.share_rounded,
+                contentDescription = "Share release notes",
+                onClick = onAction,
+            )
+            ShowcaseIconButton(
+                resource = Res.drawable.more_vert_rounded,
+                contentDescription = "More release note actions",
+                onClick = onAction,
+            )
+        }
+    }
+
+    if (compact) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = colors.surfaceHover,
+                    shape = RoundedCornerShape(ElegantRadius.md),
+                )
+                .padding(ElegantSpacing.lg),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        ) {
+            content(Modifier.fillMaxWidth())
+            actions()
+        }
+    } else {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = colors.surfaceHover,
+                    shape = RoundedCornerShape(ElegantRadius.md),
+                )
+                .padding(ElegantSpacing.lg),
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            content(Modifier.weight(1f))
+            actions()
+        }
+    }
+}
+
+@Composable
+private fun ShowcaseIconButton(
+    resource: DrawableResource,
+    contentDescription: String,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    style: ElegantIconButtonStyle = ElegantIconButtonStyle.Tertiary,
+    size: ElegantIconButtonSize = ElegantIconButtonSize.Medium,
+    onClick: () -> Unit,
+) {
+    ElegantIconButton(
+        onClick = onClick,
+        contentDescription = contentDescription,
+        modifier = modifier,
+        enabled = enabled,
+        style = style,
+        size = size,
+    ) {
+        ResourceIcon(resource)
     }
 }
 

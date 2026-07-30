@@ -6,8 +6,8 @@ import kotlin.test.assertTrue
 
 internal class ShowcaseRegistryTest {
     @Test
-    fun buttonSlugRemainsTheSingleSharedMilestone() {
-        assertEquals(setOf("button"), SupportedShowcaseComponentIds)
+    fun componentSlugsRemainStableAndPortable() {
+        assertEquals(setOf("button", "icon-button"), SupportedShowcaseComponentIds)
         assertTrue(SupportedShowcaseComponentIds.all { slug -> slug == slug.lowercase() })
     }
 }
