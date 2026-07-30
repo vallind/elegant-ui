@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -85,19 +85,20 @@ private fun ButtonShowcase() {
         ) {
             val compact = maxWidth < 600.dp
             val pagePadding = if (compact) ElegantSpacing.lg else ElegantSpacing.xxxl
+            val contentWidth = (maxWidth - pagePadding * 2)
+                .coerceAtMost(880.dp)
+                .coerceAtLeast(0.dp)
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .statusBarsPadding()
-                    .padding(horizontal = pagePadding, vertical = ElegantSpacing.xl),
+                    .padding(vertical = ElegantSpacing.xl),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .widthIn(max = 880.dp),
+                    modifier = Modifier.width(contentWidth),
                     verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
                 ) {
                     ShowcaseHeader(
