@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +26,7 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -63,6 +65,12 @@ import com.elegant.compose.ui.badge.ElegantCountBadge
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
+import com.elegant.compose.ui.divider.ElegantDivider
+import com.elegant.compose.ui.divider.ElegantDividerEmphasis
+import com.elegant.compose.ui.divider.ElegantDividerLabelPosition
+import com.elegant.compose.ui.divider.ElegantDividerOrientation
+import com.elegant.compose.ui.divider.ElegantDividerStyle
+import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
@@ -74,7 +82,7 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 internal val SupportedShowcaseComponentIds: Set<String> =
-    setOf("button", "icon-button", "avatar", "badge")
+    setOf("button", "icon-button", "avatar", "badge", "divider")
 
 /**
  * Shared component showcase used by Android, Desktop JVM, and Web/Wasm launchers.
@@ -91,6 +99,7 @@ public fun ElegantShowcaseApp(
         "icon-button" -> IconButtonShowcase()
         "avatar" -> AvatarShowcase()
         "badge" -> BadgeShowcase()
+        "divider" -> DividerShowcase()
         else -> UnknownComponent(componentId)
     }
 }
@@ -543,6 +552,103 @@ private fun BadgeShowcase() {
 }
 
 @Composable
+private fun DividerShowcase() {
+    ShowcasePage(title = "Elegant Divider") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Separation without visual noise",
+            description = "Subtle and strong emphasis combine with solid or dashed strokes on the same semantic rhythm.",
+        ) {
+            Text(
+                text = "Subtle solid",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantDivider()
+
+            Text(
+                text = "Strong solid",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantDivider(emphasis = ElegantDividerEmphasis.Strong)
+
+            Text(
+                text = "Subtle dashed",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantDivider(style = ElegantDividerStyle.Dashed)
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "LABELS",
+            title = "Logical alignment with owned rhythm",
+            description = "Labels stay optically centered, preserve their own semantics, and mirror start/end placement in RTL.",
+        ) {
+            for (position in ElegantDividerLabelPosition.entries) {
+                ElegantLabeledDivider(labelPosition = position) {
+                    Text(position.name)
+                }
+            }
+
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+                ElegantLabeledDivider(
+                    labelPosition = ElegantDividerLabelPosition.Start,
+                    style = ElegantDividerStyle.Dashed,
+                    emphasis = ElegantDividerEmphasis.Strong,
+                ) {
+                    Text("RTL · Start")
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Structure that supports content",
+            description = "Horizontal and vertical boundaries compose with existing identity components without becoming interactive.",
+        ) {
+            DividerRosterPreview()
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(88.dp)
+                    .background(
+                        color = colors.backgroundSubtle,
+                        shape = RoundedCornerShape(ElegantRadius.md),
+                    )
+                    .padding(ElegantSpacing.lg),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                DividerMetric(
+                    value = "24",
+                    label = "Components",
+                    modifier = Modifier.weight(1f),
+                )
+                ElegantDivider(
+                    modifier = Modifier.fillMaxHeight(),
+                    orientation = ElegantDividerOrientation.Vertical,
+                    emphasis = ElegantDividerEmphasis.Strong,
+                )
+                DividerMetric(
+                    value = "3",
+                    label = "Platforms",
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
 private fun ShowcasePage(
     title: String,
     content: @Composable (compact: Boolean) -> Unit,
@@ -588,6 +694,97 @@ private fun ShowcasePage(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun DividerRosterPreview() {
+    val colors = ElegantTheme.colors
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = colors.backgroundSubtle,
+                shape = RoundedCornerShape(ElegantRadius.md),
+            )
+            .padding(horizontal = ElegantSpacing.lg),
+    ) {
+        DividerRosterRow(
+            name = "Maya Chen",
+            role = "Design systems",
+            initials = "MC",
+        )
+        ElegantDivider(
+            modifier = Modifier.padding(start = 52.dp),
+            contentDescription = "Next team member",
+        )
+        DividerRosterRow(
+            name = "Noah Williams",
+            role = "Multiplatform engineering",
+            initials = "NW",
+        )
+    }
+}
+
+@Composable
+private fun DividerRosterRow(
+    name: String,
+    role: String,
+    initials: String,
+) {
+    val colors = ElegantTheme.colors
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = ElegantSpacing.lg),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ElegantAvatar(
+            name = name,
+            initials = initials,
+            size = ElegantAvatarSize.Small,
+        )
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+        ) {
+            Text(
+                text = name,
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.labelLarge,
+            )
+            Text(
+                text = role,
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+    }
+}
+
+@Composable
+private fun DividerMetric(
+    value: String,
+    label: String,
+    modifier: Modifier = Modifier,
+) {
+    val colors = ElegantTheme.colors
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+    ) {
+        Text(
+            text = value,
+            color = colors.textPrimary,
+            style = ElegantTheme.typography.titleMedium,
+        )
+        Text(
+            text = label,
+            color = colors.textSecondary,
+            style = ElegantTheme.typography.bodyMedium,
+        )
     }
 }
 

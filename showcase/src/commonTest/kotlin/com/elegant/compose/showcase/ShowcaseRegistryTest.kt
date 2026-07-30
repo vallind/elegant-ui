@@ -8,7 +8,7 @@ internal class ShowcaseRegistryTest {
     @Test
     fun componentSlugsRemainStableAndPortable() {
         assertEquals(
-            setOf("button", "icon-button", "avatar", "badge"),
+            setOf("button", "icon-button", "avatar", "badge", "divider"),
             SupportedShowcaseComponentIds,
         )
         assertTrue(SupportedShowcaseComponentIds.all { slug -> slug == slug.lowercase() })

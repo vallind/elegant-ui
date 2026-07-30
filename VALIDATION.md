@@ -173,8 +173,8 @@ Automated checks:
 - [x] The Desktop publication contains the Badge public API and the root sources publication contains `ElegantBadge.kt`
 - [x] English and Simplified Chinese Miuix-format pages are structurally aligned
 - [x] Documentation validation and VitePress build pass with the real Compose Web distribution
-- [ ] GitHub Actions Multiplatform Build succeeds
-- [ ] GitHub Actions Documentation succeeds
+- [x] GitHub Actions Multiplatform Build succeeds (`30588644363`)
+- [x] GitHub Actions Documentation succeeds (`30588643461`)
 
 Platform acceptance checks:
 
@@ -206,3 +206,53 @@ Local environment notes:
   Pages deployment.
 
 Record platform acceptance or actionable defects before beginning the Divider milestone.
+
+## Divider milestone
+
+Automated checks:
+
+- [x] Stable orientations, styles, emphasis levels, logical label positions, invalid dimensions, and theme-role resolution have `commonTest` coverage
+- [x] Divider, Badge, Avatar, Button, IconButton, shared action, showcase routing, and theme contracts pass on Desktop JVM
+- [x] `:elegant-ui` and `:showcase` compile separately for Android, Desktop JVM, and Web/Wasm
+- [x] KMP boundary validation passes
+- [ ] Android sample APK assembles in the local environment
+- [x] Desktop JVM distributable builds
+- [x] Web/Wasm browser distribution builds
+- [x] KMP publication contains root metadata plus Android, Desktop JVM, and Web/Wasm variants
+- [x] The Desktop publication contains the Divider public API and the root sources publication contains `ElegantDivider.kt`
+- [x] English and Simplified Chinese Miuix-format pages have aligned Kotlin examples and public identifiers
+- [x] Documentation validation and VitePress build pass with the real Compose Web distribution
+- [ ] GitHub Actions Multiplatform Build succeeds
+- [ ] GitHub Actions Documentation succeeds
+
+Platform acceptance checks:
+
+- [ ] Android density, RTL, TalkBack decorative/named semantics, font scale, and Light/Dark accepted
+- [ ] Desktop high DPI, window resize, screen-reader semantics, and Light/Dark accepted
+- [ ] Web viewport resize, browser zoom, screen-reader semantics, RTL, and Light/Dark accepted
+
+Routes and compositions:
+
+- [x] Shared registry recognizes `button`, `icon-button`, `avatar`, `badge`, and `divider`
+- [x] Showcase covers both orientations, both styles, both emphasis levels, all three logical label positions, and RTL
+- [x] Divider composes with Avatar and constrained metric content without adding interaction behavior
+- [ ] `?id=divider` loads the real Compose Web/Wasm showcase in a supported browser
+
+Local environment notes:
+
+- Divider is implemented entirely in `commonMain`; no platform adapters, platform types, new
+  dependencies, interactive state, or motion were required.
+- `:elegant-ui:compileAndroidMain`, `:showcase:compileAndroidMain`, the two Desktop test tasks,
+  and all four Wasm main/test compilation tasks succeeded as separately scheduled platform gates.
+- `:elegant-ui:build` and `:showcase:build` completed Android, Desktop, and Wasm compilation plus
+  Android/Desktop tests, then stopped only because ChromeHeadless is unavailable in Termux.
+- `:sample:assembleDebug` stopped while resolving `androidx.core:core-ktx:1.19.0` because the local
+  Java client could not complete a TLS handshake with Google Maven, including an unrestricted
+  network retry.
+- `:elegant-ui:publishAllPublicationsToBuildRepository`,
+  `:desktop-sample:createDistributable`, and `:web-sample:wasmJsBrowserDistribution` succeeded.
+- `npm install --no-audit --no-fund`, `npm run docs:check`, and `npm run docs:build` succeeded.
+- GitHub Actions remains authoritative for browser tests, Android assembly, final artifacts, and
+  Pages deployment. Screenshot and pixel-diff evidence are not completion gates for this milestone.
+
+Record platform acceptance or actionable defects before beginning the Tag milestone.
