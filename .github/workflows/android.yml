@@ -15,8 +15,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build Android, Desktop, and Web
+  validate:
+    name: Validate multiplatform boundaries
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate multiplatform source boundaries
+        run: ./scripts/validate-kmp-boundaries.sh
+
+  library:
+    name: Test and publish multiplatform library
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
@@ -35,9 +47,6 @@ jobs:
         with:
           gradle-version: "9.3.1"
           cache-read-only: ${{ github.event_name == 'pull_request' }}
-
-      - name: Validate multiplatform source boundaries
-        run: ./scripts/validate-kmp-boundaries.sh
 
       - name: Build and test component library
         run: >-
@@ -63,31 +72,7 @@ jobs:
           --warning-mode all
           --no-daemon
 
-      - name: Assemble Android sample APK
-        run: >-
-          gradle
-          :sample:assembleDebug
-          --stacktrace
-          --warning-mode all
-          --no-daemon
-
-      - name: Create Desktop distributable
-        run: >-
-          gradle
-          :desktop-sample:createDistributable
-          --stacktrace
-          --warning-mode all
-          --no-daemon
-
-      - name: Build Web/Wasm distribution
-        run: >-
-          gradle
-          :web-sample:wasmJsBrowserDistribution
-          --stacktrace
-          --warning-mode all
-          --no-daemon
-
-      - name: Collect artifacts and checksums
+      - name: Collect publication artifacts and checksums
         shell: bash
         run: |
           set -euo pipefail
@@ -101,41 +86,11 @@ jobs:
 
           cp "$aar_path" dist/elegant-ui-android.aar
           sha256sum dist/elegant-ui-android.aar > dist/elegant-ui-android.aar.sha256
-          sha256sum sample/build/outputs/apk/debug/sample-debug.apk > dist/sample-debug.apk.sha256
-
-          test -d desktop-sample/build/compose/binaries/main/app
-          test -d web-sample/build/dist/wasmJs/productionExecutable
 
           (
             cd elegant-ui/build/repo
             find . -type f -print0 | sort -z | xargs -0 sha256sum
           ) > dist/elegant-ui-maven-repository.sha256
-
-      - name: Upload Android sample APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: elegant-ui-android-sample
-          path: |
-            sample/build/outputs/apk/debug/sample-debug.apk
-            dist/sample-debug.apk.sha256
-          if-no-files-found: error
-          retention-days: 14
-
-      - name: Upload Desktop sample
-        uses: actions/upload-artifact@v4
-        with:
-          name: elegant-ui-desktop-sample-linux
-          path: desktop-sample/build/compose/binaries/main/app/**
-          if-no-files-found: error
-          retention-days: 14
-
-      - name: Upload Web/Wasm sample
-        uses: actions/upload-artifact@v4
-        with:
-          name: elegant-ui-web-sample
-          path: web-sample/build/dist/wasmJs/productionExecutable/**
-          if-no-files-found: error
-          retention-days: 14
 
       - name: Upload complete KMP Maven repository
         uses: actions/upload-artifact@v4
@@ -154,5 +109,124 @@ jobs:
           path: |
             dist/elegant-ui-android.aar
             dist/elegant-ui-android.aar.sha256
+          if-no-files-found: error
+          retention-days: 14
+
+  android:
+    name: Build Android sample
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.3.1"
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Assemble Android sample APK
+        run: >-
+          gradle
+          :sample:assembleDebug
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Create Android sample checksum
+        run: >-
+          sha256sum
+          sample/build/outputs/apk/debug/sample-debug.apk
+          > sample/build/outputs/apk/debug/sample-debug.apk.sha256
+
+      - name: Upload Android sample APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-ui-android-sample
+          path: |
+            sample/build/outputs/apk/debug/sample-debug.apk
+            sample/build/outputs/apk/debug/sample-debug.apk.sha256
+          if-no-files-found: error
+          retention-days: 14
+
+  desktop:
+    name: Build Desktop sample
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.3.1"
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Create Desktop distributable
+        run: >-
+          gradle
+          :desktop-sample:createDistributable
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Upload Desktop sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-ui-desktop-sample-linux
+          path: desktop-sample/build/compose/binaries/main/app/**
+          if-no-files-found: error
+          retention-days: 14
+
+  web:
+    name: Build Web/Wasm sample
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.3.1"
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Build Web/Wasm distribution
+        run: >-
+          gradle
+          :web-sample:wasmJsBrowserDistribution
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Upload Web/Wasm sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-ui-web-sample
+          path: web-sample/build/dist/wasmJs/productionExecutable/**
           if-no-files-found: error
           retention-days: 14
