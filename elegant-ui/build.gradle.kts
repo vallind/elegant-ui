@@ -17,7 +17,7 @@ kotlin {
         compileSdk = 37
         minSdk = 24
 
-        compilerOptions.configure {
+        compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
 
@@ -50,7 +50,7 @@ publishing {
     repositories {
         maven {
             name = "Build"
-            url = layout.buildDirectory.dir("repo")
+            url = layout.buildDirectory.dir("repo").get().asFile.toURI()
         }
     }
 }
