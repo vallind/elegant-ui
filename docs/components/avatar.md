@@ -61,7 +61,7 @@ ElegantAvatar(
 )
 ```
 
-Remote loading, click behavior, presence state, and status badges are intentionally separate concerns. Compose an image loader, `ElegantIconButton`, or the future Badge component around the avatar instead of hiding those contracts inside it.
+Remote loading, click behavior, presence state, and status badges are intentionally separate concerns. Compose an image loader or `ElegantIconButton` with `ElegantBadgeBox` around the avatar instead of hiding those contracts inside it.
 
 ## Properties
 

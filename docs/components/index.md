@@ -9,7 +9,7 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Button](./button) | Trigger immediate actions with three emphasis levels | Available |
 | [IconButton](./icon-button) | Trigger compact, accessible icon actions | Available |
 | [Avatar](./avatar) | Represent a person or entity with initials or custom content | Available |
-| Badge | Display status or count | Planned |
+| [Badge](./badge) | Display status or count | Available |
 | Divider | Separate content regions | Planned |
 | Tag | Label or classify content | Planned |
 | Tooltip | Explain compact controls | Planned |

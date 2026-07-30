@@ -11,6 +11,7 @@ Choose references by responsibility. A milestone may use one component for behav
 | Button | Text actions, loading actions, action emphasis, leading/trailing slots | controlled activation, 48dp target, interaction precedence, three styles and sizes, loading layout stability, shared action visuals | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/button/ElegantButton.kt`, `elegant-ui/src/commonTest/kotlin/com/elegant/compose/ui/button/ElegantButtonContractTest.kt`, `docs/components/button.md`, `docs/zh_CN/components/button.md` |
 | IconButton | Compact or icon-only actions | required accessible name, icon ownership, compact visual inside a 48dp target, loading and interaction parity with Button | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/iconbutton/ElegantIconButton.kt`, `elegant-ui/src/commonTest/kotlin/com/elegant/compose/ui/iconbutton/ElegantIconButtonContractTest.kt`, `docs/components/icon-button.md`, `docs/zh_CN/components/icon-button.md` |
 | Avatar | Non-interactive identity and simple display components | content fallback, decorative versus named semantics, size-specific typography, custom content slot, pure text resolution | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/avatar/ElegantAvatar.kt`, `elegant-ui/src/commonTest/kotlin/com/elegant/compose/ui/avatar/ElegantAvatarContractTest.kt`, `docs/components/avatar.md`, `docs/zh_CN/components/avatar.md` |
+| Badge | Compact status, counts, and content overlays | non-interactive semantics, semantic status tones, count coercion and overflow, logical RTL placement, overlay composition without changing content measurement | `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/badge/ElegantBadge.kt`, `elegant-ui/src/commonTest/kotlin/com/elegant/compose/ui/badge/ElegantBadgeContractTest.kt`, `docs/components/badge.md`, `docs/zh_CN/components/badge.md` |
 
 ## Shared references
 
@@ -23,6 +24,7 @@ Choose references by responsibility. A milestone may use one component for behav
 
 - For a new action, start with Button or IconButton and reuse the shared action resolver when its state model matches.
 - For a non-interactive display primitive, start with Avatar and remove identity-specific assumptions.
+- For compact status, numeric overflow, or corner overlays, start with Badge and preserve its non-interactive and logical-placement contracts.
 - For a component family not represented here, use the closest available component for repository delivery shape, inspect current Compose Multiplatform primitives, and define the new family contract inside the active milestone.
 - Do not copy dimensions, styles, state names, or slots merely because a reference has them. Reuse conventions only when they express the same product meaning.
 

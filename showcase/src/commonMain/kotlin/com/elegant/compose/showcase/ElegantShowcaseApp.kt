@@ -53,6 +53,13 @@ import com.elegant.compose.showcase.generated.resources.share_rounded
 import com.elegant.compose.ui.avatar.ElegantAvatar
 import com.elegant.compose.ui.avatar.ElegantAvatarColors
 import com.elegant.compose.ui.avatar.ElegantAvatarSize
+import com.elegant.compose.ui.badge.ElegantBadge
+import com.elegant.compose.ui.badge.ElegantBadgeBox
+import com.elegant.compose.ui.badge.ElegantBadgeDot
+import com.elegant.compose.ui.badge.ElegantBadgePlacement
+import com.elegant.compose.ui.badge.ElegantBadgeSize
+import com.elegant.compose.ui.badge.ElegantBadgeStyle
+import com.elegant.compose.ui.badge.ElegantCountBadge
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
@@ -66,7 +73,8 @@ import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
-internal val SupportedShowcaseComponentIds: Set<String> = setOf("button", "icon-button", "avatar")
+internal val SupportedShowcaseComponentIds: Set<String> =
+    setOf("button", "icon-button", "avatar", "badge")
 
 /**
  * Shared component showcase used by Android, Desktop JVM, and Web/Wasm launchers.
@@ -82,6 +90,7 @@ public fun ElegantShowcaseApp(
         "button" -> ButtonShowcase()
         "icon-button" -> IconButtonShowcase()
         "avatar" -> AvatarShowcase()
+        "badge" -> BadgeShowcase()
         else -> UnknownComponent(componentId)
     }
 }
@@ -435,6 +444,105 @@ private fun AvatarShowcase() {
 }
 
 @Composable
+private fun BadgeShowcase() {
+    var updateCount by rememberSaveable { mutableIntStateOf(3) }
+
+    ShowcasePage(title = "Elegant Badge") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Status with precise emphasis",
+            description = "Five semantic tones and three optical sizes stay compact without becoming vague.",
+        ) {
+            Text(
+                text = "Semantic styles",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            BadgeStyleRow()
+
+            Text(
+                text = "Size scale",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            BadgeSizeRow()
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Signals that support content",
+            description = "Presence and counts compose around existing controls without changing their measured size.",
+        ) {
+            BadgeCompositionPreview(updateCount = updateCount)
+
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            ) {
+                ElegantButton(
+                    onClick = { updateCount = (updateCount + 1).coerceAtMost(12) },
+                    size = ElegantButtonSize.Small,
+                ) {
+                    Text("Add update")
+                }
+                ElegantButton(
+                    onClick = { updateCount = 0 },
+                    style = ElegantButtonStyle.Secondary,
+                    size = ElegantButtonSize.Small,
+                ) {
+                    Text("Clear")
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "MODES",
+            title = "Dots, counts, and logical corners",
+            description = "Zero visibility, overflow formatting, and start/end placement remain predictable.",
+        ) {
+            Text(
+                text = "Count boundaries",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantCountBadge(count = 0, showZero = true)
+                ElegantCountBadge(count = 8)
+                ElegantCountBadge(count = 42, style = ElegantBadgeStyle.Positive)
+                ElegantCountBadge(count = 120, style = ElegantBadgeStyle.Critical)
+            }
+
+            Text(
+                text = "Logical placement",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                BadgePlacementPreview(ElegantBadgePlacement.TopStart)
+                BadgePlacementPreview(ElegantBadgePlacement.TopEnd)
+                BadgePlacementPreview(ElegantBadgePlacement.BottomStart)
+                BadgePlacementPreview(ElegantBadgePlacement.BottomEnd)
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
 private fun ShowcasePage(
     title: String,
     content: @Composable (compact: Boolean) -> Unit,
@@ -694,6 +802,155 @@ private fun AvatarSizeRow() {
             name = "Large avatar",
             initials = "L",
             size = ElegantAvatarSize.Large,
+        )
+    }
+}
+
+@Composable
+private fun BadgeStyleRow() {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        itemVerticalAlignment = Alignment.CenterVertically,
+    ) {
+        for (style in ElegantBadgeStyle.entries) {
+            ElegantBadge(style = style) {
+                Text(style.name)
+            }
+        }
+    }
+}
+
+@Composable
+private fun BadgeSizeRow() {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        itemVerticalAlignment = Alignment.CenterVertically,
+    ) {
+        ElegantBadge(size = ElegantBadgeSize.Small) {
+            Text("Small")
+        }
+        ElegantBadge(size = ElegantBadgeSize.Medium) {
+            Text("Medium")
+        }
+        ElegantBadge(size = ElegantBadgeSize.Large) {
+            Text("Large")
+        }
+    }
+}
+
+@Composable
+private fun BadgeCompositionPreview(
+    updateCount: Int,
+) {
+    val colors = ElegantTheme.colors
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        itemVerticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            modifier = Modifier
+                .background(
+                    color = colors.backgroundSubtle,
+                    shape = RoundedCornerShape(ElegantRadius.md),
+                )
+                .padding(ElegantSpacing.lg),
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ElegantBadgeBox(
+                badge = {
+                    ElegantBadgeDot(
+                        contentDescription = "Online",
+                        style = ElegantBadgeStyle.Positive,
+                    )
+                },
+                placement = ElegantBadgePlacement.BottomEnd,
+            ) {
+                ElegantAvatar(name = "Maya Chen")
+            }
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs)) {
+                Text(
+                    text = "Maya Chen",
+                    color = colors.textPrimary,
+                    style = ElegantTheme.typography.labelLarge,
+                )
+                Text(
+                    text = "Available",
+                    color = colors.textSecondary,
+                    style = ElegantTheme.typography.bodyMedium,
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .background(
+                    color = colors.backgroundSubtle,
+                    shape = RoundedCornerShape(ElegantRadius.md),
+                )
+                .padding(ElegantSpacing.lg),
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ElegantBadgeBox(
+                badge = {
+                    ElegantCountBadge(
+                        count = updateCount,
+                        maxCount = 9,
+                        contentDescription = "$updateCount unread updates",
+                        size = ElegantBadgeSize.Small,
+                    )
+                },
+            ) {
+                ShowcaseIconButton(
+                    resource = Res.drawable.person_rounded,
+                    contentDescription = "Team updates",
+                    style = ElegantIconButtonStyle.Secondary,
+                    onClick = {},
+                )
+            }
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs)) {
+                Text(
+                    text = "Team updates",
+                    color = colors.textPrimary,
+                    style = ElegantTheme.typography.labelLarge,
+                )
+                Text(
+                    text = if (updateCount == 0) "All caught up" else "$updateCount waiting",
+                    color = colors.textSecondary,
+                    style = ElegantTheme.typography.bodyMedium,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun BadgePlacementPreview(
+    placement: ElegantBadgePlacement,
+) {
+    ElegantBadgeBox(
+        badge = {
+            ElegantBadgeDot(
+                contentDescription = placement.name,
+                style = ElegantBadgeStyle.Positive,
+                size = ElegantBadgeSize.Small,
+            )
+        },
+        placement = placement,
+    ) {
+        ElegantAvatar(
+            name = placement.name,
+            initials = placement.name
+                .filter(Char::isUpperCase)
+                .take(2),
+            size = ElegantAvatarSize.Small,
         )
     }
 }

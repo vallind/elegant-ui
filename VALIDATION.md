@@ -125,14 +125,14 @@ Automated checks:
 - [x] Avatar, Button, and IconButton contracts pass on Desktop JVM
 - [x] `:elegant-ui` and `:showcase` compile for Android, Desktop JVM, and Web/Wasm
 - [x] KMP boundary validation passes
-- [ ] Android sample APK assembles
+- [x] Android sample APK assembles in GitHub Actions
 - [x] Desktop JVM distributable builds
 - [x] Web/Wasm browser distribution builds
 - [x] KMP publication contains root metadata plus Android, Desktop JVM, and Web/Wasm variants
 - [x] English and Simplified Chinese Miuix-format pages are structurally aligned
 - [x] Documentation checks and VitePress build pass
-- [ ] GitHub Actions Multiplatform Build succeeds
-- [ ] GitHub Actions Documentation succeeds
+- [x] GitHub Actions Multiplatform Build succeeds (`30585914525`)
+- [x] GitHub Actions Documentation succeeds (`30585914506`)
 
 Platform acceptance checks:
 
@@ -157,3 +157,52 @@ Local environment notes:
 - GitHub Actions remains authoritative for clean browser tests, Android assembly, artifacts, and Pages.
 
 Record platform acceptance or actionable defects before beginning the Badge milestone.
+
+## Badge milestone
+
+Automated checks:
+
+- [x] Stable styles, sizes, logical placements, count coercion, overflow formatting, theme-role resolution, and 4.5:1 text contrast have `commonTest` coverage
+- [x] Badge, theme, Avatar, Button, and IconButton contracts pass on Desktop JVM
+- [x] `:elegant-ui` and `:showcase` compile for Android, Desktop JVM, and Web/Wasm
+- [x] KMP boundary validation passes
+- [ ] Android sample APK assembles in the local environment
+- [x] Desktop JVM distributable builds
+- [x] Web/Wasm browser distribution builds
+- [x] KMP publication contains root metadata plus Android, Desktop JVM, and Web/Wasm variants
+- [x] The Desktop publication contains the Badge public API and the root sources publication contains `ElegantBadge.kt`
+- [x] English and Simplified Chinese Miuix-format pages are structurally aligned
+- [x] Documentation validation and VitePress build pass with the real Compose Web distribution
+- [ ] GitHub Actions Multiplatform Build succeeds
+- [ ] GitHub Actions Documentation succeeds
+
+Platform acceptance checks:
+
+- [ ] Android density, font scale, RTL, TalkBack status/count semantics, and Light/Dark accepted
+- [ ] Desktop high DPI, window resize, screen-reader semantics, and Light/Dark accepted
+- [ ] Web viewport resize, browser zoom, screen-reader semantics, RTL, and Light/Dark accepted
+
+Routes and compositions:
+
+- [x] Shared registry recognizes `button`, `icon-button`, `avatar`, and `badge`
+- [x] Badge composes with Avatar and IconButton without changing their measured interaction size
+- [x] All five semantic styles, three optical sizes, count boundaries, and four logical placements appear in the shared showcase
+- [ ] `?id=badge` loads the real Compose Web/Wasm showcase in a supported browser
+
+Local environment notes:
+
+- Badge is implemented entirely in `commonMain`; no platform adapters or platform types are used.
+- Positive, Warning, and Critical semantic color roles were added as defaulted trailing
+  `ElegantColors` properties. Existing source construction remains compatible; the primary
+  constructor ABI may change during the documented `0.x` snapshot period.
+- `:elegant-ui:build` and `:showcase:build` reached Android, Desktop, and Wasm compilation plus
+  Desktop and Android tests, then stopped because ChromeHeadless is unavailable in Termux.
+- `:sample:assembleDebug` stopped while resolving `androidx.core:core-ktx:1.19.0` because the local
+  Java client could not complete a TLS handshake with Google Maven.
+- `:elegant-ui:publishAllPublicationsToBuildRepository`,
+  `:desktop-sample:createDistributable`, and `:web-sample:wasmJsBrowserDistribution` succeeded.
+- `npm install --no-audit --no-fund`, `npm run docs:check`, and `npm run docs:build` succeeded.
+- GitHub Actions remains authoritative for clean browser tests, Android assembly, artifacts, and
+  Pages deployment.
+
+Record platform acceptance or actionable defects before beginning the Divider milestone.

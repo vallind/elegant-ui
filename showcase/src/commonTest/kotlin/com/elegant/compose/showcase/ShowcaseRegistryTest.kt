@@ -7,7 +7,10 @@ import kotlin.test.assertTrue
 internal class ShowcaseRegistryTest {
     @Test
     fun componentSlugsRemainStableAndPortable() {
-        assertEquals(setOf("button", "icon-button", "avatar"), SupportedShowcaseComponentIds)
+        assertEquals(
+            setOf("button", "icon-button", "avatar", "badge"),
+            SupportedShowcaseComponentIds,
+        )
         assertTrue(SupportedShowcaseComponentIds.all { slug -> slug == slug.lowercase() })
     }
 }

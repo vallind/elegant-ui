@@ -43,6 +43,18 @@ public data class ElegantColors(
     val surfaceHover: Color = surfaceRaised,
     /** Hovered primary interactive color. */
     val interactivePrimaryHover: Color = interactivePrimary,
+    /** Positive status container or indicator color. */
+    val statusPositive: Color = interactivePrimary,
+    /** Text and icon color shown on positive status containers. */
+    val onStatusPositive: Color = textInverse,
+    /** Warning status container or indicator color. */
+    val statusWarning: Color = interactivePrimary,
+    /** Text and icon color shown on warning status containers. */
+    val onStatusWarning: Color = textInverse,
+    /** Critical status container or indicator color. */
+    val statusCritical: Color = interactivePrimary,
+    /** Text and icon color shown on critical status containers. */
+    val onStatusCritical: Color = textInverse,
 )
 
 internal val ElegantLightColors = ElegantColors(
@@ -62,6 +74,12 @@ internal val ElegantLightColors = ElegantColors(
     interactivePrimaryHover = Color(0xFF765DFF),
     interactivePrimaryPressed = Color(0xFF5840D6),
     focusRing = Color(0xFFA99CFF),
+    statusPositive = Color(0xFF147D64),
+    onStatusPositive = Color(0xFFFFFFFF),
+    statusWarning = Color(0xFF965C00),
+    onStatusWarning = Color(0xFFFFFFFF),
+    statusCritical = Color(0xFFC63D52),
+    onStatusCritical = Color(0xFFFFFFFF),
 )
 
 internal val ElegantDarkColors = ElegantColors(
@@ -81,4 +99,10 @@ internal val ElegantDarkColors = ElegantColors(
     interactivePrimaryHover = Color(0xFF9888FF),
     interactivePrimaryPressed = Color(0xFF735FE4),
     focusRing = Color(0xFFB4A9FF),
+    statusPositive = Color(0xFF55D6A2),
+    onStatusPositive = Color(0xFF07251A),
+    statusWarning = Color(0xFFF2B84B),
+    onStatusWarning = Color(0xFF2D2100),
+    statusCritical = Color(0xFFFF8FA3),
+    onStatusCritical = Color(0xFF300A11),
 )

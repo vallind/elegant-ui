@@ -61,7 +61,7 @@ ElegantAvatar(
 )
 ```
 
-远程加载、点击行为、在线状态和状态徽标是有意分离的职责。应在头像周围组合图片加载器、`ElegantIconButton` 或后续 Badge 组件，而不是把这些契约隐藏进 Avatar 内部。
+远程加载、点击行为、在线状态和状态徽标是有意分离的职责。应在头像周围通过 `ElegantBadgeBox` 组合图片加载器或 `ElegantIconButton`，而不是把这些契约隐藏进 Avatar 内部。
 
 ## 属性
 
