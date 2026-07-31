@@ -76,6 +76,7 @@ import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
+import com.elegant.compose.ui.radio.ElegantRadio
 import com.elegant.compose.ui.tag.ElegantTag
 import com.elegant.compose.ui.tag.ElegantTagSize
 import com.elegant.compose.ui.tag.ElegantTagStyle
@@ -96,6 +97,7 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "avatar",
         "badge",
         "divider",
+        "radio",
         "tag",
         "tooltip",
     )
@@ -116,6 +118,7 @@ public fun ElegantShowcaseApp(
         "avatar" -> AvatarShowcase()
         "badge" -> BadgeShowcase()
         "divider" -> DividerShowcase()
+        "radio" -> RadioShowcase()
         "tag" -> TagShowcase()
         "tooltip" -> TooltipShowcase()
         else -> UnknownComponent(componentId)
@@ -976,6 +979,11 @@ private fun InputShowcase() {
     var query by rememberSaveable { mutableStateOf("") }
 
     ShowcasePage(title = "Elegant Input") { compact ->
+
+private fun RadioShowcase() {
+    var accent by rememberSaveable { mutableStateOf("Violet") }
+
+    ShowcasePage(title = "Elegant Radio") { compact ->
         val colors = ElegantTheme.colors
 
         DemoCard(
@@ -1050,6 +1058,27 @@ private fun InputShowcase() {
                 maxLength = 20,
                 supportingText = "${bio.length}/20",
             )
+
+            title = "One choice from a set",
+            description = "A 20dp circular indicator fills with an animated dot while the 48dp row stays the interactive target.",
+        ) {
+            Text(
+                text = "Basic",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                ElegantRadio(
+                    selected = true,
+                    onSelect = {},
+                    label = "Selected",
+                )
+                ElegantRadio(
+                    selected = false,
+                    onSelect = {},
+                    label = "Unselected",
+                )
+            }
         }
 
         DemoCard(
@@ -1082,6 +1111,49 @@ private fun InputShowcase() {
                     contentDescription = "Run search",
                     style = ElegantIconButtonStyle.Primary,
                     onClick = {},
+
+            title = "A group that stays exclusive",
+            description = "Radios share one selection state, so exactly one option is chosen at a time.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                for (candidate in listOf("Violet", "Indigo", "Teal")) {
+                    ElegantRadio(
+                        selected = accent == candidate,
+                        onSelect = { accent = candidate },
+                        label = "$candidate accent",
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Selected, unselected, and disabled",
+            description = "Disabled radios keep their selection visible with quiet theme colors and announce no interaction.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                ElegantRadio(
+                    selected = true,
+                    onSelect = { accent = "Violet" },
+                    label = "Violet",
+                )
+                ElegantRadio(
+                    selected = false,
+                    onSelect = { accent = "Indigo" },
+                    label = "Indigo",
+                )
+                ElegantRadio(
+                    selected = true,
+                    onSelect = {},
+                    enabled = false,
+                    label = "Unavailable",
+                )
+                ElegantRadio(
+                    selected = false,
+                    onSelect = {},
+                    enabled = false,
+                    label = "Not offered",
                 )
             }
         }
@@ -1091,7 +1163,6 @@ private fun InputShowcase() {
 }
 
 @Composable
-
 private fun BadgeDot(color: Color) {
     Box(
         modifier = Modifier
