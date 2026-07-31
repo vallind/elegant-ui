@@ -12,11 +12,17 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Badge](./badge) | Display status or count | Available |
 | [Divider](./divider) | Separate content regions | Available |
 | [Tag](./tag) | Label or classify content | Available |
-| Tooltip | Explain compact controls | Planned |
+| [Tooltip](./tooltip) | Explain compact controls | Available |
 
 ## Forms
 
-Input, Select, Checkbox, Switch, Radio, and Slider are planned for V1.
+| Component | Purpose | Status |
+| --- | --- | --- |
+| [Input](./input) | Collect text input | Available |
+| [Checkbox](./checkbox) | Toggle a boolean option | Available |
+| [Radio](./radio) | Choose one option from a set | Available |
+
+Select, Switch, and Slider are planned for V1.
 
 ## Content
 

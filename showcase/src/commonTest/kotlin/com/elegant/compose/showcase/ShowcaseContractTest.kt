@@ -14,6 +14,10 @@ internal class ShowcaseContractTest {
                 "badge",
                 "divider",
                 "tag",
+                "tooltip",
+                "input",
+                "checkbox",
+                "radio",
             ),
             SupportedShowcaseComponentIds,
         )

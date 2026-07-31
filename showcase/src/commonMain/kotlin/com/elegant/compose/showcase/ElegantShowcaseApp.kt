@@ -65,6 +65,7 @@ import com.elegant.compose.ui.badge.ElegantCountBadge
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
+import com.elegant.compose.ui.checkbox.ElegantCheckbox
 import com.elegant.compose.ui.divider.ElegantDivider
 import com.elegant.compose.ui.divider.ElegantDividerEmphasis
 import com.elegant.compose.ui.divider.ElegantDividerLabelPosition
@@ -97,9 +98,11 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "avatar",
         "badge",
         "divider",
+        "tooltip",
+        "input",
+        "checkbox",
         "radio",
         "tag",
-        "tooltip",
     )
 
 /**
@@ -118,9 +121,11 @@ public fun ElegantShowcaseApp(
         "avatar" -> AvatarShowcase()
         "badge" -> BadgeShowcase()
         "divider" -> DividerShowcase()
+        "tooltip" -> TooltipShowcase()
+        "input" -> InputShowcase()
+        "checkbox" -> CheckboxShowcase()
         "radio" -> RadioShowcase()
         "tag" -> TagShowcase()
-        "tooltip" -> TooltipShowcase()
         else -> UnknownComponent(componentId)
     }
 }
@@ -979,11 +984,6 @@ private fun InputShowcase() {
     var query by rememberSaveable { mutableStateOf("") }
 
     ShowcasePage(title = "Elegant Input") { compact ->
-
-private fun RadioShowcase() {
-    var accent by rememberSaveable { mutableStateOf("Violet") }
-
-    ShowcasePage(title = "Elegant Radio") { compact ->
         val colors = ElegantTheme.colors
 
         DemoCard(
@@ -1058,27 +1058,6 @@ private fun RadioShowcase() {
                 maxLength = 20,
                 supportingText = "${bio.length}/20",
             )
-
-            title = "One choice from a set",
-            description = "A 20dp circular indicator fills with an animated dot while the 48dp row stays the interactive target.",
-        ) {
-            Text(
-                text = "Basic",
-                style = ElegantTheme.typography.bodyMedium,
-                color = colors.textSecondary,
-            )
-            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
-                ElegantRadio(
-                    selected = true,
-                    onSelect = {},
-                    label = "Selected",
-                )
-                ElegantRadio(
-                    selected = false,
-                    onSelect = {},
-                    label = "Unselected",
-                )
-            }
         }
 
         DemoCard(
@@ -1111,7 +1090,257 @@ private fun RadioShowcase() {
                     contentDescription = "Run search",
                     style = ElegantIconButtonStyle.Primary,
                     onClick = {},
+                )
+            }
+        }
 
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun CheckboxShowcase() {
+    var notifications by rememberSaveable { mutableStateOf(true) }
+    var autoUpdates by rememberSaveable { mutableStateOf(false) }
+    var productTips by rememberSaveable { mutableStateOf(false) }
+    var emailUpdates by rememberSaveable { mutableStateOf(true) }
+    var announcements by rememberSaveable { mutableStateOf(false) }
+
+    ShowcasePage(title = "Elegant Checkbox") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Selection with one rhythm",
+            description = "A 20dp rounded box animates its checkmark and keeps a 48dp interactive target.",
+        ) {
+            Text(
+                text = "Basic",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantCheckbox(
+                    checked = false,
+                    onCheckedChange = {},
+                    label = "Unchecked",
+                )
+                ElegantCheckbox(
+                    checked = true,
+                    onCheckedChange = {},
+                    label = "Checked",
+                )
+                ElegantCheckbox(
+                    checked = true,
+                    onCheckedChange = {},
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Settings that stay scannable",
+            description = "Checkbox rows pair a label with supporting text inside a calm settings surface.",
+        ) {
+            CheckboxSettingsPreview(
+                notifications = notifications,
+                onNotificationsChange = { notifications = it },
+                autoUpdates = autoUpdates,
+                onAutoUpdatesChange = { autoUpdates = it },
+                productTips = productTips,
+                onProductTipsChange = { productTips = it },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Checked, unchecked, and disabled",
+            description = "Interaction states stay distinct and disabled rows never invoke callbacks.",
+        ) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantCheckbox(
+                    checked = true,
+                    onCheckedChange = {},
+                    label = "Checked",
+                )
+                ElegantCheckbox(
+                    checked = false,
+                    onCheckedChange = {},
+                    label = "Unchecked",
+                )
+                ElegantCheckbox(
+                    checked = true,
+                    onCheckedChange = {},
+                    enabled = false,
+                    label = "Disabled checked",
+                )
+                ElegantCheckbox(
+                    checked = false,
+                    onCheckedChange = {},
+                    enabled = false,
+                    label = "Disabled",
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "CONTROLLED",
+            title = "State owned by the caller",
+            description = "A dependent checkbox stays disabled until its parent preference is accepted.",
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+            ) {
+                ElegantCheckbox(
+                    checked = emailUpdates,
+                    onCheckedChange = { emailUpdates = it },
+                    label = "Email updates",
+                )
+                ElegantCheckbox(
+                    checked = announcements,
+                    onCheckedChange = { announcements = it },
+                    enabled = emailUpdates,
+                    label = "Announcements",
+                )
+            }
+            Text(
+                text = "Email ${if (emailUpdates) "on" else "off"} · Announcements ${if (announcements) "on" else "off"}",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun CheckboxSettingsPreview(
+    notifications: Boolean,
+    onNotificationsChange: (Boolean) -> Unit,
+    autoUpdates: Boolean,
+    onAutoUpdatesChange: (Boolean) -> Unit,
+    productTips: Boolean,
+    onProductTipsChange: (Boolean) -> Unit,
+) {
+    val colors = ElegantTheme.colors
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = colors.backgroundSubtle,
+                shape = RoundedCornerShape(ElegantRadius.md),
+            )
+            .padding(horizontal = ElegantSpacing.lg),
+    ) {
+        CheckboxSettingRow(
+            label = "Push notifications",
+            supporting = "Product and security alerts",
+            checked = notifications,
+            onCheckedChange = onNotificationsChange,
+        )
+        ElegantDivider(contentDescription = "Next notification setting")
+        CheckboxSettingRow(
+            label = "Automatic updates",
+            supporting = "Install new versions overnight",
+            checked = autoUpdates,
+            onCheckedChange = onAutoUpdatesChange,
+        )
+        ElegantDivider(contentDescription = "Next notification setting")
+        CheckboxSettingRow(
+            label = "Product tips",
+            supporting = "Occasional usage guidance",
+            checked = productTips,
+            onCheckedChange = onProductTipsChange,
+        )
+    }
+}
+
+@Composable
+private fun CheckboxSettingRow(
+    label: String,
+    supporting: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    val colors = ElegantTheme.colors
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+        ) {
+            Text(
+                text = label,
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.labelLarge,
+            )
+            Text(
+                text = supporting,
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+        ElegantCheckbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+        )
+    }
+}
+
+@Composable
+private fun RadioShowcase() {
+    var accent by rememberSaveable { mutableStateOf("Violet") }
+
+    ShowcasePage(title = "Elegant Radio") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "One choice from a set",
+            description = "A 20dp circular indicator fills with an animated dot while the 48dp row stays the interactive target.",
+        ) {
+            Text(
+                text = "Basic",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                ElegantRadio(
+                    selected = true,
+                    onSelect = {},
+                    label = "Selected",
+                )
+                ElegantRadio(
+                    selected = false,
+                    onSelect = {},
+                    label = "Unselected",
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
             title = "A group that stays exclusive",
             description = "Radios share one selection state, so exactly one option is chosen at a time.",
         ) {
@@ -1163,6 +1392,7 @@ private fun RadioShowcase() {
 }
 
 @Composable
+
 private fun BadgeDot(color: Color) {
     Box(
         modifier = Modifier

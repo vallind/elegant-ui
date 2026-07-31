@@ -12,11 +12,17 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Badge 徽标](./badge) | 显示状态或数量 | 已完成 |
 | [Divider 分割线](./divider) | 分隔内容区域 | 已完成 |
 | [Tag](./tag) | 标记或分类内容 | 已完成 |
-| Tooltip | 解释紧凑控件 | 计划中 |
+| [Tooltip](./tooltip) | 解释紧凑控件 | 已完成 |
 
 ## 表单组件
 
-Input、Select、Checkbox、Switch、Radio 与 Slider 已纳入 V1 计划。
+| 组件 | 用途 | 状态 |
+| --- | --- | --- |
+| [Input](./input) | 收集文本输入 | 已完成 |
+| [Checkbox](./checkbox) | 切换布尔选项 | 已完成 |
+| [Radio](./radio) | 从一组中选择一项 | 已完成 |
+
+Select、Switch 与 Slider 已纳入 V1 计划。
 
 ## 内容组件
 

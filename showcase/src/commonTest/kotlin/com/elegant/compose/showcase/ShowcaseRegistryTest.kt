@@ -15,6 +15,10 @@ internal class ShowcaseRegistryTest {
                 "badge",
                 "divider",
                 "tag",
+                "tooltip",
+                "input",
+                "checkbox",
+                "radio",
             ),
             SupportedShowcaseComponentIds,
         )
