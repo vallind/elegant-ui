@@ -256,3 +256,50 @@ Local environment notes:
   Pages deployment. Screenshot and pixel-diff evidence are not completion gates for this milestone.
 
 Record platform acceptance or actionable defects before beginning the Tag milestone.
+
+## V1 library milestone
+
+Automated checks:
+
+- [x] All 23 V1 components are implemented in `commonMain` with KDoc, `ElegantXxxDefaults`, `ElegantXxxColors`, and pure internal resolvers
+- [x] Every component has meaningful `commonTest` contract coverage (state precedence, coercion, geometry, colors, defaults); all Desktop tests pass
+- [x] Library and showcase compile on Android, Desktop JVM, and Web/Wasm in every worktree gate and in the final integration
+- [x] KMP boundary validation passes (`bash scripts/validate-kmp-boundaries.sh`)
+- [x] Shared showcase registers all 23 slugs; registration tests and `docs:check` route verification pass
+- [x] English and Simplified Chinese pages for all 23 components are structurally aligned (23 Miuix-format page pairs validated)
+- [x] Component indexes and VitePress sidebars list all 23 components in both locales
+- [x] `docs:check` passes; VitePress build completes with the real Compose Web distribution copied into `docs/public/compose`
+- [x] KMP publication to the build repository succeeds (`:elegant-ui:publishAllPublicationsToBuildRepository`)
+- [x] Desktop distributable and Web/Wasm browser distribution build successfully
+- [ ] Android sample APK assembles locally (aapt2 binary is not runnable under Termux)
+- [ ] GitHub Actions Multiplatform Build succeeds (pending push)
+- [ ] GitHub Actions Documentation succeeds (pending push)
+
+Platform acceptance checks:
+
+- [ ] Android touch targets, keyboard, TalkBack, font scale, RTL, and Light/Dark accepted on device
+- [ ] Desktop hover/press, keyboard activation, focus traversal, high DPI, and Light/Dark accepted
+- [ ] Web pointer/keyboard, viewport resize, browser zoom, and Light/Dark accepted in a real browser
+
+Routes and compositions:
+
+- [x] All 23 component slugs resolve through `?id={slug}` in the Web sample
+- [x] Representative cross-component compositions appear in the shared showcase (settings rows, rosters, form rows, toolbars, navigation rails, tables, confirmations)
+- [ ] Each component is visually reviewed on the real launchers
+
+Local environment notes:
+
+- Components were delivered in parallel git worktrees (batches of 4-5), each gated by
+  Android/Desktop/Wasm compilation plus Desktop tests before merge; the showcase, indexes,
+  sidebars, and registration tests were integrated centrally in one final change.
+- `:elegant-ui:build` and `:showcase:build` stop at `wasmJsBrowserTest` because ChromeHeadless is
+  unavailable in Termux; all compile tasks and Desktop/Android tests inside them succeed.
+- `:sample:assembleDebug` fails in `processDebugResources` because the bundled aapt2 binary is not
+  runnable on this host; GitHub Actions remains authoritative for Android assembly.
+- `:elegant-ui:publishAllPublicationsToBuildRepository`, `:desktop-sample:createDistributable`, and
+  `:web-sample:wasmJsBrowserDistribution` succeeded.
+- `npm install`, `docs:check`, and the VitePress build succeeded (vitepress invoked via
+  `node node_modules/vitepress/bin/vitepress.js build` because `/usr/bin/env` shebangs do not
+  resolve on this host).
+- GitHub Actions remains authoritative for browser tests, Android assembly, final artifacts, and
+  Pages deployment. Screenshot and pixel-diff evidence are not completion gates.
