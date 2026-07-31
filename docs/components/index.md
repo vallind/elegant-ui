@@ -22,12 +22,26 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Checkbox](./checkbox) | Toggle a boolean option | Available |
 | [Radio](./radio) | Choose one option from a set | Available |
 
-Select, Switch, and Slider are planned for V1.
+| [Select](./select) | Choose one option from a list | Available |
+| [Switch](./switch) | Toggle a boolean option | Available |
+| [Slider](./slider) | Pick a value from a range | Available |
 
 ## Content
 
-Card, List, Table, EmptyState, Modal, and Drawer are planned for V1.
+| Component | Purpose | Status |
+| --- | --- | --- |
+| [Card](./card) | Group content in a surface | Available |
+| [List](./list) | Present rows of related content | Available |
+| [EmptyState](./empty-state) | Explain an empty region | Available |
+| [Modal](./modal) | Focus a task in a centered surface | Available |
+| [Drawer](./drawer) | Reveal navigation or filters from an edge | Available |
+| [Table](./table) | Present tabular data | Available |
 
 ## Navigation
 
-Navbar, Sidebar, Tabs, and Breadcrumb are planned for V1.
+| Component | Purpose | Status |
+| --- | --- | --- |
+| [Navbar](./navbar) | Anchor top-level navigation | Available |
+| [Sidebar](./sidebar) | Anchor secondary navigation | Available |
+| [Tabs](./tabs) | Switch between related views | Available |
+| [Breadcrumb](./breadcrumb) | Show the current location | Available |

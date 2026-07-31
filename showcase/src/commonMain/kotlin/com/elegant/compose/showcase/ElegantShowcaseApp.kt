@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -62,9 +63,13 @@ import com.elegant.compose.ui.badge.ElegantBadgePlacement
 import com.elegant.compose.ui.badge.ElegantBadgeSize
 import com.elegant.compose.ui.badge.ElegantBadgeStyle
 import com.elegant.compose.ui.badge.ElegantCountBadge
+import com.elegant.compose.ui.breadcrumb.ElegantBreadcrumb
+import com.elegant.compose.ui.breadcrumb.ElegantBreadcrumbItem
 import com.elegant.compose.ui.button.ElegantButton
 import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
+import com.elegant.compose.ui.card.ElegantCard
+import com.elegant.compose.ui.card.ElegantCardStyle
 import com.elegant.compose.ui.checkbox.ElegantCheckbox
 import com.elegant.compose.ui.divider.ElegantDivider
 import com.elegant.compose.ui.divider.ElegantDividerEmphasis
@@ -72,12 +77,30 @@ import com.elegant.compose.ui.divider.ElegantDividerLabelPosition
 import com.elegant.compose.ui.divider.ElegantDividerOrientation
 import com.elegant.compose.ui.divider.ElegantDividerStyle
 import com.elegant.compose.ui.divider.ElegantLabeledDivider
+import com.elegant.compose.ui.drawer.ElegantDrawer
+import com.elegant.compose.ui.drawer.ElegantDrawerPlacement
+import com.elegant.compose.ui.emptystate.ElegantEmptyState
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
 import com.elegant.compose.ui.input.ElegantInput
 import com.elegant.compose.ui.input.ElegantInputStyle
+import com.elegant.compose.ui.list.ElegantList
+import com.elegant.compose.ui.list.ElegantListItem
+import com.elegant.compose.ui.modal.ElegantModal
+import com.elegant.compose.ui.navbar.ElegantNavbar
 import com.elegant.compose.ui.radio.ElegantRadio
+import com.elegant.compose.ui.select.ElegantSelect
+import com.elegant.compose.ui.select.ElegantSelectOption
+import com.elegant.compose.ui.sidebar.ElegantSidebar
+import com.elegant.compose.ui.sidebar.ElegantSidebarItem
+import com.elegant.compose.ui.slider.ElegantSlider
+import com.elegant.compose.ui.switch.ElegantSwitch
+import com.elegant.compose.ui.table.ElegantTable
+import com.elegant.compose.ui.table.ElegantTableColumn
+import com.elegant.compose.ui.table.ElegantTableRow
+import com.elegant.compose.ui.tabs.ElegantTab
+import com.elegant.compose.ui.tabs.ElegantTabRow
 import com.elegant.compose.ui.tag.ElegantTag
 import com.elegant.compose.ui.tag.ElegantTagSize
 import com.elegant.compose.ui.tag.ElegantTagStyle
@@ -87,6 +110,7 @@ import com.elegant.compose.ui.theme.ElegantTheme
 import com.elegant.compose.ui.tooltip.ElegantTooltip
 import com.elegant.compose.ui.tooltip.ElegantTooltipBox
 import com.elegant.compose.ui.tooltip.ElegantTooltipPlacement
+import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -102,6 +126,19 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "input",
         "checkbox",
         "radio",
+        "switch",
+        "slider",
+        "select",
+        "card",
+        "list",
+        "empty-state",
+        "modal",
+        "drawer",
+        "table",
+        "tabs",
+        "breadcrumb",
+        "navbar",
+        "sidebar",
         "tag",
     )
 
@@ -125,6 +162,19 @@ public fun ElegantShowcaseApp(
         "input" -> InputShowcase()
         "checkbox" -> CheckboxShowcase()
         "radio" -> RadioShowcase()
+        "switch" -> SwitchShowcase()
+        "slider" -> SliderShowcase()
+        "select" -> SelectShowcase()
+        "card" -> CardShowcase()
+        "list" -> ListShowcase()
+        "empty-state" -> EmptyStateShowcase()
+        "modal" -> ModalShowcase()
+        "drawer" -> DrawerShowcase()
+        "table" -> TableShowcase()
+        "tabs" -> TabsShowcase()
+        "breadcrumb" -> BreadcrumbShowcase()
+        "navbar" -> NavbarShowcase()
+        "sidebar" -> SidebarShowcase()
         "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
@@ -2162,6 +2212,1338 @@ private fun ForwardIcon() {
             scaleX = if (direction == LayoutDirection.Rtl) -1f else 1f
         },
     )
+}
+
+@Composable
+private fun SwitchShowcase() {
+    var wifi by rememberSaveable { mutableStateOf(true) }
+    var bluetooth by rememberSaveable { mutableStateOf(false) }
+    var batterySaver by rememberSaveable { mutableStateOf(false) }
+
+    ShowcasePage(title = "Elegant Switch") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "On and off with one tap",
+            description = "A 44dp capsule track slides a 16dp thumb while the 48dp row stays the interactive target.",
+        ) {
+            Text(
+                text = "Basic",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantSwitch(
+                    checked = false,
+                    onCheckedChange = {},
+                    label = "Off",
+                )
+                ElegantSwitch(
+                    checked = true,
+                    onCheckedChange = {},
+                    label = "On",
+                )
+                ElegantSwitch(
+                    checked = true,
+                    onCheckedChange = {},
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "On, off, and disabled",
+            description = "Interaction states stay distinct and disabled switches never invoke callbacks.",
+        ) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantSwitch(
+                    checked = true,
+                    onCheckedChange = {},
+                    label = "On",
+                )
+                ElegantSwitch(
+                    checked = false,
+                    onCheckedChange = {},
+                    label = "Off",
+                )
+                ElegantSwitch(
+                    checked = true,
+                    onCheckedChange = {},
+                    enabled = false,
+                    label = "Disabled on",
+                )
+                ElegantSwitch(
+                    checked = false,
+                    onCheckedChange = {},
+                    enabled = false,
+                    label = "Disabled",
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Settings that stay scannable",
+            description = "Switch rows pair a label with supporting text inside a calm settings surface.",
+        ) {
+            SwitchSettingsPreview(
+                wifi = wifi,
+                onWifiChange = { wifi = it },
+                bluetooth = bluetooth,
+                onBluetoothChange = { bluetooth = it },
+                batterySaver = batterySaver,
+                onBatterySaverChange = { batterySaver = it },
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SwitchSettingsPreview(
+    wifi: Boolean,
+    onWifiChange: (Boolean) -> Unit,
+    bluetooth: Boolean,
+    onBluetoothChange: (Boolean) -> Unit,
+    batterySaver: Boolean,
+    onBatterySaverChange: (Boolean) -> Unit,
+) {
+    val colors = ElegantTheme.colors
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = colors.backgroundSubtle,
+                shape = RoundedCornerShape(ElegantRadius.md),
+            )
+            .padding(horizontal = ElegantSpacing.lg),
+    ) {
+        SwitchSettingRow(
+            label = "Wi-Fi",
+            supporting = "Join known networks automatically",
+            checked = wifi,
+            onCheckedChange = onWifiChange,
+        )
+        ElegantDivider(contentDescription = "Next switch setting")
+        SwitchSettingRow(
+            label = "Bluetooth",
+            supporting = "Share audio and connect devices",
+            checked = bluetooth,
+            onCheckedChange = onBluetoothChange,
+        )
+        ElegantDivider(contentDescription = "Next switch setting")
+        SwitchSettingRow(
+            label = "Battery saver",
+            supporting = "Limit background activity",
+            checked = batterySaver,
+            onCheckedChange = onBatterySaverChange,
+        )
+    }
+}
+
+@Composable
+private fun SwitchSettingRow(
+    label: String,
+    supporting: String,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    val colors = ElegantTheme.colors
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+        ) {
+            Text(
+                text = label,
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.labelLarge,
+            )
+            Text(
+                text = supporting,
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+        ElegantSwitch(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+        )
+    }
+}
+
+@Composable
+private fun SliderShowcase() {
+    var volume by rememberSaveable { mutableStateOf(0.5f) }
+    var level by remember { mutableIntStateOf(2) }
+    var brightness by rememberSaveable { mutableStateOf(0.7f) }
+
+    ShowcasePage(title = "Elegant Slider") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Continuous value selection",
+            description = "Drag anywhere on the track or tap to jump; the thumb follows the reported value.",
+        ) {
+            Text(
+                text = "Volume ${(volume * 100).roundToInt()}%",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            ElegantSlider(
+                value = volume,
+                onValueChange = { volume = it },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STEPS",
+            title = "Discrete positions",
+            description = "Steps snap the value to evenly spaced positions between the endpoints.",
+        ) {
+            Text(
+                text = "Level $level of 4",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            ElegantSlider(
+                value = level.toFloat(),
+                onValueChange = { level = it.roundToInt() },
+                valueRange = 0f..4f,
+                steps = 4,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled",
+            description = "Disabled sliders keep their value visible with quiet theme colors.",
+        ) {
+            ElegantSlider(
+                value = 0.5f,
+                onValueChange = {},
+                enabled = false,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A setting with its value",
+            description = "A label row reads the current value next to the slider.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "Brightness",
+                    style = ElegantTheme.typography.labelMedium,
+                    color = colors.textPrimary,
+                )
+                Text(
+                    text = "${(brightness * 100).roundToInt()}%",
+                    style = ElegantTheme.typography.labelMedium,
+                    color = colors.textSecondary,
+                )
+            }
+            ElegantSlider(
+                value = brightness,
+                onValueChange = { brightness = it },
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SelectShowcase() {
+    var release by rememberSaveable { mutableStateOf("0.1") }
+    val releases = listOf(
+        ElegantSelectOption(text = "0.1 - Foundations", value = "0.1"),
+        ElegantSelectOption(text = "0.2 - Forms", value = "0.2"),
+        ElegantSelectOption(text = "0.3 - Content", value = "0.3"),
+        ElegantSelectOption(text = "0.4 - Navigation", value = "0.4", enabled = false),
+    )
+    val selectedOption = releases.firstOrNull { it.value == release }
+
+    ShowcasePage(title = "Elegant Select") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "One choice from a menu",
+            description = "The field mirrors the input rhythm while the menu owns keyboard navigation and dismissal.",
+        ) {
+            ElegantSelect(
+                selectedOption = selectedOption,
+                onOptionSelected = { release = it.value },
+                options = releases,
+                label = "Release",
+                placeholder = "Choose a release",
+                supportingText = "Stable releases are listed first.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Error and disabled",
+            description = "Error borders and text stay consistent with the input family.",
+        ) {
+            ElegantSelect(
+                selectedOption = null,
+                onOptionSelected = {},
+                options = releases,
+                label = "Target",
+                placeholder = "Required",
+                isError = true,
+                errorText = "Choose a target release.",
+            )
+            ElegantSelect(
+                selectedOption = selectedOption,
+                onOptionSelected = {},
+                options = releases,
+                label = "Archived release",
+                enabled = false,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A form with a select",
+            description = "Input and Select share one field rhythm inside a form surface.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantInput(
+                    value = release,
+                    onValueChange = { release = it },
+                    label = "Release note",
+                    placeholder = "What changed",
+                )
+                ElegantSelect(
+                    selectedOption = selectedOption,
+                    onOptionSelected = { release = it.value },
+                    options = releases,
+                    label = "Release",
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun CardShowcase() {
+    var openCount by remember { mutableIntStateOf(0) }
+
+    ShowcasePage(title = "Elegant Card") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STYLES",
+            title = "Three surface treatments",
+            description = "Filled, Outlined, and Elevated cards share one content contract.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantCard(style = ElegantCardStyle.Filled) {
+                    Column(Modifier.padding(ElegantSpacing.xl)) {
+                        Text("Filled", style = ElegantTheme.typography.labelLarge)
+                        Text(
+                            text = "The default surface for content blocks.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+                ElegantCard(style = ElegantCardStyle.Outlined) {
+                    Column(Modifier.padding(ElegantSpacing.xl)) {
+                        Text("Outlined", style = ElegantTheme.typography.labelLarge)
+                        Text(
+                            text = "A bordered surface that separates without weight.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+                ElegantCard(style = ElegantCardStyle.Elevated) {
+                    Column(Modifier.padding(ElegantSpacing.xl)) {
+                        Text("Elevated", style = ElegantTheme.typography.labelLarge)
+                        Text(
+                            text = "A raised surface for floating content.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "INTERACTIVE",
+            title = "Cards that respond",
+            description = "Passing onClick adds hover, press, focus, and ripple without changing layout.",
+        ) {
+            ElegantCard(
+                onClick = { openCount++ },
+                style = ElegantCardStyle.Outlined,
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(ElegantSpacing.xl),
+                    horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    ElegantAvatar(name = "Maya Chen", initials = "MC")
+                    Column(Modifier.weight(1f)) {
+                        Text("Open project", style = ElegantTheme.typography.labelLarge)
+                        Text(
+                            text = "Tap the card to open the workspace.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                    Text(
+                        text = "$openCount",
+                        color = colors.textSecondary,
+                        style = ElegantTheme.typography.bodyMedium,
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A profile surface",
+            description = "Cards compose with identity and compact actions.",
+        ) {
+            ElegantCard(style = ElegantCardStyle.Filled) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(ElegantSpacing.xl),
+                    horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    ElegantAvatar(name = "Maya Chen", initials = "MC")
+                    Column(Modifier.weight(1f)) {
+                        Text("Maya Chen", style = ElegantTheme.typography.labelLarge)
+                        Text(
+                            text = "Product designer",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                    ShowcaseIconButton(
+                        resource = Res.drawable.more_vert_rounded,
+                        contentDescription = "More profile actions",
+                        onClick = {},
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun ListShowcase() {
+    var selectedSettings by remember { mutableIntStateOf(0) }
+    var selectedMember by remember { mutableIntStateOf(0) }
+
+    ShowcasePage(title = "Elegant List") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Rows with rhythm",
+            description = "Items stack without spacing; each row owns its padding and two-line structure.",
+        ) {
+            ElegantList {
+                ElegantListItem(
+                    title = { Text("General") },
+                    supportingText = { Text("Appearance, storage, and performance") },
+                )
+                ElegantListItem(
+                    title = { Text("Notifications") },
+                    supportingText = { Text("Badges, sounds, and summary") },
+                )
+                ElegantListItem(
+                    title = { Text("Account") },
+                    supportingText = { Text("Sign-in, privacy, and security") },
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "LEADING & TRAILING",
+            title = "Slots on both ends",
+            description = "Leading and trailing content sit in 20dp boxes with 16dp gaps.",
+        ) {
+            ElegantList {
+                ElegantListItem(
+                    leadingContent = { ResourceIcon(Res.drawable.person_rounded) },
+                    title = { Text("Profile") },
+                    supportingText = { Text("Photo, name, and contact details") },
+                    trailingContent = { ResourceIcon(Res.drawable.arrow_forward_rounded) },
+                )
+                ElegantListItem(
+                    leadingContent = { ResourceIcon(Res.drawable.edit_rounded) },
+                    title = { Text("Edit details") },
+                    supportingText = { Text("Keep your information current") },
+                    trailingContent = {
+                        ShowcaseIconButton(
+                            resource = Res.drawable.more_vert_rounded,
+                            contentDescription = "More account actions",
+                            onClick = {},
+                        )
+                    },
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "INTERACTIVE",
+            title = "Selectable rows",
+            description = "Selected rows tint with the theme accent; press and hover animate the container.",
+        ) {
+            ElegantList {
+                ElegantListItem(
+                    title = { Text("Wi-Fi") },
+                    supportingText = { Text("Home network") },
+                    onClick = { selectedSettings = 0 },
+                    selected = selectedSettings == 0,
+                )
+                ElegantListItem(
+                    title = { Text("Bluetooth") },
+                    supportingText = { Text("On") },
+                    onClick = { selectedSettings = 1 },
+                    selected = selectedSettings == 1,
+                )
+                ElegantListItem(
+                    title = { Text("Airplane mode") },
+                    supportingText = { Text("Not available while flying") },
+                    onClick = {},
+                    enabled = false,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Team roster",
+            description = "Avatar, two-line identity, and selection inside one list.",
+        ) {
+            ElegantList {
+                ElegantListItem(
+                    leadingContent = {
+                        ElegantAvatar(
+                            name = "Maya Chen",
+                            initials = "MC",
+                            size = ElegantAvatarSize.Small,
+                        )
+                    },
+                    title = { Text("Maya Chen") },
+                    supportingText = { Text("Design systems lead") },
+                    onClick = { selectedMember = 0 },
+                    selected = selectedMember == 0,
+                )
+                ElegantListItem(
+                    leadingContent = {
+                        ElegantAvatar(
+                            name = "Noah Williams",
+                            initials = "NW",
+                            size = ElegantAvatarSize.Small,
+                        )
+                    },
+                    title = { Text("Noah Williams") },
+                    supportingText = { Text("Multiplatform engineering") },
+                    onClick = { selectedMember = 1 },
+                    selected = selectedMember == 1,
+                )
+                ElegantListItem(
+                    leadingContent = {
+                        ElegantAvatar(
+                            name = "Ava Rodriguez",
+                            initials = "AR",
+                            size = ElegantAvatarSize.Small,
+                        )
+                    },
+                    title = { Text("Ava Rodriguez") },
+                    supportingText = { Text("Accessibility research") },
+                    onClick = { selectedMember = 2 },
+                    selected = selectedMember == 2,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyStateShowcase() {
+    ShowcasePage(title = "Elegant EmptyState") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "The default message",
+            description = "Icon, title, and description stack in a centered, non-interactive composition.",
+        ) {
+            ElegantEmptyState(
+                icon = {
+                    ResourceIcon(
+                        resource = Res.drawable.check_rounded,
+                        modifier = Modifier.size(28.dp),
+                    )
+                },
+                title = "All caught up",
+                description = "No unread conversations. New activity will appear here.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "ACTION",
+            title = "Guide the next step",
+            description = "The action slot hosts a primary call to action below the description.",
+        ) {
+            ElegantEmptyState(
+                icon = {
+                    ResourceIcon(
+                        resource = Res.drawable.add_rounded,
+                        modifier = Modifier.size(28.dp),
+                    )
+                },
+                title = "Start your first project",
+                description = "Create a workspace to begin organizing your work.",
+                action = {
+                    ElegantButton(onClick = {}) {
+                        Text("New project")
+                    }
+                },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "An empty inbox surface",
+            description = "The centered layout fills the width of its host surface.",
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = colors.backgroundSubtle,
+                        shape = RoundedCornerShape(ElegantRadius.md),
+                    ),
+            ) {
+                ElegantEmptyState(
+                    icon = {
+                        ResourceIcon(
+                            resource = Res.drawable.person_rounded,
+                            modifier = Modifier.size(28.dp),
+                        )
+                    },
+                    title = "Inbox zero",
+                    description = "Every conversation has been handled. Enjoy the quiet.",
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun ModalShowcase() {
+    ShowcasePage(title = "Elegant Modal") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A controlled overlay",
+            description = "ElegantModal renders the scrim, the 480dp-capped surface, and 24dp padding; the caller owns title, description, and actions.",
+        ) {
+            var visible by remember { mutableStateOf(false) }
+
+            Text(
+                text = "Tap the trigger to open a centered modal surface.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantButton(onClick = { visible = true }) {
+                Text("Open modal")
+            }
+
+            ElegantModal(
+                visible = visible,
+                onDismissRequest = { visible = false },
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                        Text(
+                            text = "Delete project?",
+                            style = ElegantTheme.typography.titleMedium,
+                        )
+                        Text(
+                            text = "This action cannot be undone.",
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md, Alignment.End),
+                    ) {
+                        ElegantButton(
+                            onClick = { visible = false },
+                            style = ElegantButtonStyle.Secondary,
+                        ) {
+                            Text("Cancel")
+                        }
+                        ElegantButton(onClick = { visible = false }) {
+                            Text("Delete")
+                        }
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A confirmation flow",
+            description = "Scrim click, back/Escape, Cancel, and Delete all leave the modal closed under caller control.",
+        ) {
+            var pending by remember { mutableStateOf(false) }
+            var confirmed by remember { mutableStateOf(false) }
+
+            Text(
+                text = if (confirmed) "File deleted." else "Tap delete to confirm a destructive action.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantButton(
+                onClick = { pending = true },
+                style = if (confirmed) ElegantButtonStyle.Secondary else ElegantButtonStyle.Primary,
+            ) {
+                Text("Delete file")
+            }
+
+            ElegantModal(
+                visible = pending,
+                onDismissRequest = { pending = false },
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                        Text(
+                            text = "Delete this file?",
+                            style = ElegantTheme.typography.titleMedium,
+                        )
+                        Text(
+                            text = "The file is removed permanently.",
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md, Alignment.End),
+                    ) {
+                        ElegantButton(
+                            onClick = { pending = false },
+                            style = ElegantButtonStyle.Secondary,
+                        ) {
+                            Text("Cancel")
+                        }
+                        ElegantButton(
+                            onClick = {
+                                pending = false
+                                confirmed = true
+                            },
+                        ) {
+                            Text("Delete")
+                        }
+                    }
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun DrawerShowcase() {
+    var startVisible by remember { mutableStateOf(false) }
+    var endVisible by remember { mutableStateOf(false) }
+
+    ShowcasePage(title = "Elegant Drawer") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Modal side panel",
+            description = "A scrim-backed panel that slides in from the logical start edge.",
+        ) {
+            ElegantButton(onClick = { startVisible = true }) {
+                Text("Open drawer")
+            }
+            Text(
+                text = "Dismiss by scrim click, Escape, or the back key.",
+                color = ElegantTheme.colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "PLACEMENT",
+            title = "End placement",
+            description = "The same panel slides in from the logical end edge.",
+        ) {
+            ElegantButton(onClick = { endVisible = true }) {
+                Text("Open end drawer")
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Navigation drawer",
+            description = "A profile header and menu items inside the scrolling panel.",
+        ) {
+            Text(
+                text = "Open the start drawer to see the navigation pattern.",
+                color = ElegantTheme.colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+
+        ElegantDrawer(
+            visible = startVisible,
+            onDismissRequest = { startVisible = false },
+        ) {
+            Column {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    ElegantAvatar(name = "Maya Chen", initials = "MC")
+                    Column(Modifier.padding(start = ElegantSpacing.lg)) {
+                        Text("Maya Chen")
+                        Text("maya@elegant.com")
+                    }
+                }
+                ElegantDivider(Modifier.padding(vertical = ElegantSpacing.md))
+                Text("Inbox")
+                Text("Starred")
+                Text("Sent mail")
+                ElegantDivider(Modifier.padding(vertical = ElegantSpacing.md))
+                Text("Settings")
+                Text("Help")
+            }
+        }
+
+        ElegantDrawer(
+            visible = endVisible,
+            onDismissRequest = { endVisible = false },
+            placement = ElegantDrawerPlacement.End,
+        ) {
+            Column {
+                Text("Filters")
+                Text("Price")
+                Text("Rating")
+                Text("Availability")
+            }
+        }
+    }
+}
+
+@Composable
+private fun TableShowcase() {
+    ShowcasePage(title = "Elegant Table") { compact ->
+        val componentColumns = listOf(
+            ElegantTableColumn(title = "Component"),
+            ElegantTableColumn(title = "Family", textAlign = TextAlign.Center),
+            ElegantTableColumn(title = "Status", textAlign = TextAlign.End),
+        )
+        val componentRows = listOf(
+            ElegantTableRow(cells = listOf("Button", "Action", "Available")),
+            ElegantTableRow(cells = listOf("Divider", "Display", "Available")),
+            ElegantTableRow(cells = listOf("Modal", "Overlay", "In progress")),
+            ElegantTableRow(cells = listOf("Table", "Display", "New")),
+        )
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Tabular data on one rhythm",
+            description = "A bordered grid keeps the header, separators, and data rows aligned without interaction overhead.",
+        ) {
+            ElegantTable(columns = componentColumns, rows = componentRows)
+        }
+
+        val weightedColumns = listOf(
+            ElegantTableColumn(title = "Release", weight = 1.4f),
+            ElegantTableColumn(title = "Components", weight = 1f, textAlign = TextAlign.End),
+            ElegantTableColumn(title = "Platforms", weight = 1.2f, textAlign = TextAlign.Center),
+        )
+        val weightedRows = listOf(
+            ElegantTableRow(cells = listOf("0.1", "4", "3")),
+            ElegantTableRow(cells = listOf("0.2", "9", "3")),
+            ElegantTableRow(cells = listOf("0.3", "16", "3")),
+        )
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "WEIGHT",
+            title = "Proportional columns with per-column alignment",
+            description = "Weights share the available width while alignment keeps numerals comparable.",
+        ) {
+            ElegantTable(columns = weightedColumns, rows = weightedRows)
+        }
+
+        val metricColumns = listOf(
+            ElegantTableColumn(title = "Metric", width = 144.dp),
+            ElegantTableColumn(title = "Value", textAlign = TextAlign.End),
+        )
+        val metricRows = listOf(
+            ElegantTableRow(cells = listOf("Available components", "16")),
+            ElegantTableRow(cells = listOf("Supported platforms", "3")),
+            ElegantTableRow(cells = listOf("Tests passing", "412")),
+        )
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Metrics that read at a glance",
+            description = "A fixed identity column keeps labels stable while the flexible column fills the rest.",
+        ) {
+            ElegantTable(columns = metricColumns, rows = metricRows)
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun TabsShowcase() {
+    var selected by rememberSaveable { mutableStateOf(0) }
+    val colors = ElegantTheme.colors
+
+    ShowcasePage(title = "Elegant Tabs") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Fixed tabs switch one content area",
+            description = "Equal-width tabs keep the selection in a single controlled state.",
+        ) {
+            val tabs = listOf(
+                ElegantTab("Overview"),
+                ElegantTab("Projects"),
+                ElegantTab("Settings"),
+            )
+            ElegantTabRow(
+                tabs = tabs,
+                selectedIndex = selected,
+                onSelect = { selected = it },
+            )
+            Text(
+                text = "Showing ${tabs[selected.coerceIn(tabs.indices)].text}",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+                modifier = Modifier.padding(top = ElegantSpacing.lg),
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "SCROLLABLE",
+            title = "Many tabs at natural width",
+            description = "Scrollable tabs keep their width and wrap with the arrow keys.",
+        ) {
+            ElegantTabRow(
+                tabs = listOf(
+                    ElegantTab("Design"),
+                    ElegantTab("Engineering"),
+                    ElegantTab("Multiplatform"),
+                    ElegantTab("Release"),
+                    ElegantTab("Docs"),
+                    ElegantTab("Community"),
+                ),
+                selectedIndex = selected,
+                onSelect = { selected = it },
+                scrollable = true,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled tabs stay visible",
+            description = "A disabled tab keeps its slot and announces its state without callbacks.",
+        ) {
+            ElegantTabRow(
+                tabs = listOf(
+                    ElegantTab("General"),
+                    ElegantTab("Security", enabled = false),
+                    ElegantTab("Billing"),
+                ),
+                selectedIndex = selected,
+                onSelect = { selected = it },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Tabs above a list",
+            description = "The selected tab drives the items shown below the strip.",
+        ) {
+            ElegantTabRow(
+                tabs = listOf(ElegantTab("Members"), ElegantTab("Activity")),
+                selectedIndex = selected,
+                onSelect = { selected = it },
+            )
+            val members = listOf("Maya Chen", "Noah Williams", "Ava Johnson")
+            val activities = listOf(
+                "Maya pushed to main",
+                "Noah closed issue #42",
+                "Ava merged PR #128",
+            )
+            Column(
+                modifier = Modifier.padding(top = ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+            ) {
+                for (item in if (selected == 0) members else activities) {
+                    Text(
+                        text = item,
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textPrimary,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BreadcrumbShowcase() {
+    ShowcasePage(title = "Elegant Breadcrumb") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Hierarchy with a live trail",
+            description = "The trailing entry reads as the current page while earlier entries stay clickable links.",
+        ) {
+            var path by remember { mutableStateOf(listOf("Home", "Library", "Compose")) }
+
+            Column {
+                ElegantBreadcrumb(
+                    items = path.map { ElegantBreadcrumbItem(it) },
+                    onItemClick = { index -> path = path.take(index + 1) },
+                )
+                Spacer(Modifier.height(ElegantSpacing.sm))
+                Text(
+                    text = "Tap an entry to rewind the trail.",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = colors.textSecondary,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled and non-interactive entries",
+            description = "Disabled entries stay visible but never activate; without a callback the trail is a pure location display.",
+        ) {
+            Column {
+                ElegantBreadcrumb(
+                    items = listOf(
+                        ElegantBreadcrumbItem("Home"),
+                        ElegantBreadcrumbItem("Drafts", enabled = false),
+                        ElegantBreadcrumbItem("Current draft"),
+                    ),
+                    onItemClick = {},
+                )
+                Spacer(Modifier.height(ElegantSpacing.lg))
+                ElegantBreadcrumb(
+                    items = listOf(
+                        ElegantBreadcrumbItem("Home"),
+                        ElegantBreadcrumbItem("Settings"),
+                    ),
+                )
+                Spacer(Modifier.height(ElegantSpacing.sm))
+                Text(
+                    text = "The second trail has no callback, so every entry is plain text.",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = colors.textSecondary,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Breadcrumb above a document title",
+            description = "The current entry pairs with the page heading to anchor navigation.",
+        ) {
+            Column {
+                ElegantBreadcrumb(
+                    items = listOf(
+                        ElegantBreadcrumbItem("Home"),
+                        ElegantBreadcrumbItem("Guides"),
+                        ElegantBreadcrumbItem("Breadcrumb"),
+                    ),
+                    onItemClick = {},
+                )
+                Spacer(Modifier.height(ElegantSpacing.xs))
+                Text(
+                    text = "Breadcrumb",
+                    style = ElegantTheme.typography.titleMedium,
+                )
+                Spacer(Modifier.height(ElegantSpacing.xs))
+                Text(
+                    text = "Trailing entries read as the document title.",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = colors.textSecondary,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun NavbarShowcase() {
+    ShowcasePage(title = "Elegant Navbar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Top app bar",
+            description = "A 56dp bar with an optional navigation icon, a caller-styled title, and trailing actions separated by a 4dp item gap.",
+        ) {
+            ElegantNavbar(
+                navigationIcon = {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.person_rounded,
+                        contentDescription = "Profile",
+                        onClick = {},
+                    )
+                },
+                title = {
+                    Text(
+                        text = "Home",
+                        style = ElegantTheme.typography.titleMedium,
+                    )
+                },
+                actions = {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.share_rounded,
+                        contentDescription = "Share",
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.more_vert_rounded,
+                        contentDescription = "More options",
+                        onClick = {},
+                    )
+                },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Document page",
+            description = "A navbar sits above a divider and body content, while actions stay in the trailing row.",
+        ) {
+            Column {
+                ElegantNavbar(
+                    navigationIcon = {
+                        ShowcaseIconButton(
+                            resource = Res.drawable.arrow_forward_rounded,
+                            contentDescription = "Back",
+                            onClick = {},
+                        )
+                    },
+                    title = {
+                        Text(
+                            text = "Release notes",
+                            style = ElegantTheme.typography.titleMedium,
+                        )
+                    },
+                    actions = {
+                        ShowcaseIconButton(
+                            resource = Res.drawable.edit_rounded,
+                            contentDescription = "Edit",
+                            onClick = {},
+                        )
+                        ShowcaseIconButton(
+                            resource = Res.drawable.check_rounded,
+                            contentDescription = "Publish",
+                            onClick = {},
+                        )
+                    },
+                )
+                ElegantDivider()
+                Text(
+                    text = "A document page that places a navbar above a divider and body content.",
+                    modifier = Modifier.padding(ElegantSpacing.xl),
+                    color = ElegantTheme.colors.textSecondary,
+                    style = ElegantTheme.typography.bodyMedium,
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SidebarShowcase() {
+    var selected by remember { mutableStateOf(0) }
+
+    ShowcasePage(title = "Elegant Sidebar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Controlled destination list",
+            description = "A fixed-width rail with a selected index, header and footer slots, and animated item states.",
+        ) {
+            ElegantSidebar(
+                selectedIndex = selected,
+                onSelect = { selected = it },
+                items = listOf(
+                    ElegantSidebarItem("Overview"),
+                    ElegantSidebarItem("Analytics"),
+                    ElegantSidebarItem("Reports"),
+                    ElegantSidebarItem("Billing"),
+                ),
+                header = {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        ElegantAvatar(name = "Maya Chen", initials = "MC")
+                        Column {
+                            Text("Maya Chen")
+                            Text("Design systems")
+                        }
+                    }
+                },
+                footer = {
+                    Text("Settings")
+                },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled and non-interactive",
+            description = "Per-item enabled flags keep disabled entries resting, and dropping onSelect renders plain text.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
+            ) {
+                ElegantSidebar(
+                    selectedIndex = 1,
+                    onSelect = {},
+                    items = listOf(
+                        ElegantSidebarItem("Inbox"),
+                        ElegantSidebarItem("Archived"),
+                        ElegantSidebarItem("Trash", enabled = false),
+                    ),
+                )
+                ElegantSidebar(
+                    selectedIndex = null,
+                    onSelect = null,
+                    items = listOf(
+                        ElegantSidebarItem("Read-only A"),
+                        ElegantSidebarItem("Read-only B"),
+                    ),
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Navigation beside content",
+            description = "The sidebar anchors a layout row while content flows next to it.",
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(280.dp)
+                    .background(ElegantTheme.colors.backgroundSubtle),
+            ) {
+                ElegantSidebar(
+                    selectedIndex = selected,
+                    onSelect = { selected = it },
+                    items = listOf(
+                        ElegantSidebarItem("Dashboard"),
+                        ElegantSidebarItem("Projects"),
+                        ElegantSidebarItem("Team"),
+                    ),
+                    header = {
+                        Text("Acme Corp")
+                    },
+                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(ElegantSpacing.xl),
+                ) {
+                    Text("Dashboard", style = ElegantTheme.typography.titleMedium)
+                    Text("Welcome back, Maya.", style = ElegantTheme.typography.bodyMedium)
+                }
+            }
+        }
+    }
 }
 
 @Composable

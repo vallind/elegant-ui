@@ -22,12 +22,26 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Checkbox](./checkbox) | 切换布尔选项 | 已完成 |
 | [Radio](./radio) | 从一组中选择一项 | 已完成 |
 
-Select、Switch 与 Slider 已纳入 V1 计划。
+| [Select](./select) | 从列表中选择一项 | 已完成 |
+| [Switch](./switch) | 切换布尔选项 | 已完成 |
+| [Slider](./slider) | 从范围中选取数值 | 已完成 |
 
 ## 内容组件
 
-Card、List、Table、EmptyState、Modal 与 Drawer 已纳入 V1 计划。
+| 组件 | 用途 | 状态 |
+| --- | --- | --- |
+| [Card](./card) | 在表面中分组内容 | 已完成 |
+| [List](./list) | 展示相关内容行 | 已完成 |
+| [EmptyState](./empty-state) | 解释空内容区域 | 已完成 |
+| [Modal](./modal) | 在居中表面聚焦任务 | 已完成 |
+| [Drawer](./drawer) | 从边缘展开导航或筛选 | 已完成 |
+| [Table](./table) | 展示表格数据 | 已完成 |
 
 ## 导航组件
 
-Navbar、Sidebar、Tabs 与 Breadcrumb 已纳入 V1 计划。
+| 组件 | 用途 | 状态 |
+| --- | --- | --- |
+| [Navbar](./navbar) | 锚定顶级导航 | 已完成 |
+| [Sidebar](./sidebar) | 锚定次级导航 | 已完成 |
+| [Tabs](./tabs) | 切换相关视图 | 已完成 |
+| [Breadcrumb](./breadcrumb) | 显示当前位置 | 已完成 |
