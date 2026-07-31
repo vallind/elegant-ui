@@ -80,6 +80,9 @@ import com.elegant.compose.ui.tag.ElegantTagStyle
 import com.elegant.compose.ui.theme.ElegantRadius
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.tooltip.ElegantTooltip
+import com.elegant.compose.ui.tooltip.ElegantTooltipBox
+import com.elegant.compose.ui.tooltip.ElegantTooltipPlacement
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -92,6 +95,7 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "badge",
         "divider",
         "tag",
+        "tooltip",
     )
 
 /**
@@ -111,6 +115,7 @@ public fun ElegantShowcaseApp(
         "badge" -> BadgeShowcase()
         "divider" -> DividerShowcase()
         "tag" -> TagShowcase()
+        "tooltip" -> TooltipShowcase()
         else -> UnknownComponent(componentId)
     }
 }
@@ -782,6 +787,180 @@ private fun TagShowcase() {
         }
 
         Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun TooltipShowcase() {
+    ShowcasePage(title = "Elegant Tooltip") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "PLACEMENTS",
+            title = "Logical around the anchor",
+            description = "Top, bottom, start, and end placements hover, focus, or long-press their compact controls.",
+        ) {
+            Text(
+                text = "Hover, focus, or long-press an action to reveal its tooltip.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            ) {
+                TooltipPlacementPreview(ElegantTooltipPlacement.Top)
+                TooltipPlacementPreview(ElegantTooltipPlacement.Bottom)
+                TooltipPlacementPreview(ElegantTooltipPlacement.Start)
+                TooltipPlacementPreview(ElegantTooltipPlacement.End)
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A toolbar that explains itself",
+            description = "Icon-only actions carry short labels without permanent clutter.",
+        ) {
+            TooltipToolbar(compact = compact)
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "VARIANT",
+            title = "The standard tooltip surface",
+            description = "ElegantTooltip renders the raised label surface for the popup slot or inline.",
+        ) {
+            Text(
+                text = "Inline surface",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantTooltip(text = "This is an ElegantTooltip surface")
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun TooltipPlacementPreview(
+    placement: ElegantTooltipPlacement,
+) {
+    ElegantTooltipBox(
+        tooltip = {
+            ElegantTooltip(text = "${placement.name} placement")
+        },
+        placement = placement,
+    ) {
+        ElegantButton(
+            onClick = {},
+            style = ElegantButtonStyle.Secondary,
+            size = ElegantButtonSize.Small,
+        ) {
+            Text(placement.name)
+        }
+    }
+}
+
+@Composable
+private fun TooltipToolbar(
+    compact: Boolean,
+) {
+    val colors = ElegantTheme.colors
+    val content: @Composable (Modifier) -> Unit = { modifier ->
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+        ) {
+            Text(
+                text = "Release notes",
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.titleMedium,
+            )
+            Text(
+                text = "Updated just now",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+    }
+    val actions: @Composable () -> Unit = {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            TooltipIconButton(
+                resource = Res.drawable.edit_rounded,
+                contentDescription = "Edit release notes",
+                tooltipText = "Edit",
+                style = ElegantIconButtonStyle.Secondary,
+            )
+            TooltipIconButton(
+                resource = Res.drawable.share_rounded,
+                contentDescription = "Share release notes",
+                tooltipText = "Share",
+            )
+            TooltipIconButton(
+                resource = Res.drawable.more_vert_rounded,
+                contentDescription = "More release note actions",
+                tooltipText = "More",
+            )
+        }
+    }
+
+    if (compact) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = colors.surfaceHover,
+                    shape = RoundedCornerShape(ElegantRadius.md),
+                )
+                .padding(ElegantSpacing.lg),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        ) {
+            content(Modifier.fillMaxWidth())
+            actions()
+        }
+    } else {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = colors.surfaceHover,
+                    shape = RoundedCornerShape(ElegantRadius.md),
+                )
+                .padding(ElegantSpacing.lg),
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            content(Modifier.weight(1f))
+            actions()
+        }
+    }
+}
+
+@Composable
+private fun TooltipIconButton(
+    resource: DrawableResource,
+    contentDescription: String,
+    tooltipText: String,
+    style: ElegantIconButtonStyle = ElegantIconButtonStyle.Tertiary,
+) {
+    ElegantTooltipBox(
+        tooltip = {
+            ElegantTooltip(text = tooltipText)
+        },
+    ) {
+        ShowcaseIconButton(
+            resource = resource,
+            contentDescription = contentDescription,
+            style = style,
+            onClick = {},
+        )
     }
 }
 
