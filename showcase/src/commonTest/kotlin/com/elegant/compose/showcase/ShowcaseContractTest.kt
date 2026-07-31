@@ -7,7 +7,14 @@ internal class ShowcaseContractTest {
     @Test
     fun supportedComponentSlugsRemainStable() {
         assertEquals(
-            setOf("button", "icon-button", "avatar", "badge", "divider"),
+            setOf(
+                "button",
+                "icon-button",
+                "avatar",
+                "badge",
+                "divider",
+                "tag",
+            ),
             SupportedShowcaseComponentIds,
         )
     }

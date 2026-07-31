@@ -74,6 +74,9 @@ import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
+import com.elegant.compose.ui.tag.ElegantTag
+import com.elegant.compose.ui.tag.ElegantTagSize
+import com.elegant.compose.ui.tag.ElegantTagStyle
 import com.elegant.compose.ui.theme.ElegantRadius
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
@@ -82,7 +85,14 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
 internal val SupportedShowcaseComponentIds: Set<String> =
-    setOf("button", "icon-button", "avatar", "badge", "divider")
+    setOf(
+        "button",
+        "icon-button",
+        "avatar",
+        "badge",
+        "divider",
+        "tag",
+    )
 
 /**
  * Shared component showcase used by Android, Desktop JVM, and Web/Wasm launchers.
@@ -100,6 +110,7 @@ public fun ElegantShowcaseApp(
         "avatar" -> AvatarShowcase()
         "badge" -> BadgeShowcase()
         "divider" -> DividerShowcase()
+        "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
 }
@@ -645,6 +656,177 @@ private fun DividerShowcase() {
         }
 
         Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun TagShowcase() {
+    var filters by rememberSaveable {
+        mutableStateOf(setOf("Design", "Multiplatform"))
+    }
+    var tone by rememberSaveable { mutableStateOf("Refined") }
+
+    ShowcasePage(title = "Elegant Tag") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Classification with one rhythm",
+            description = "Four visual variants and three optical sizes share the same semantic states.",
+        ) {
+            Text(
+                text = "Styles",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            TagStyleRow()
+
+            Text(
+                text = "Size scale",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            TagSizeRow()
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Filters that stay selectable",
+            description = "Selectable tags announce their state and keep a 48dp interaction target.",
+        ) {
+            Text(
+                text = "Filter releases",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                for (candidate in listOf("Design", "Engineering", "Multiplatform", "Release")) {
+                    val selected = candidate in filters
+                    ElegantTag(
+                        onClick = {
+                            filters = if (selected) {
+                                filters - candidate
+                            } else {
+                                filters + candidate
+                            }
+                        },
+                        selected = selected,
+                        style = if (selected) {
+                            ElegantTagStyle.Filled
+                        } else {
+                            ElegantTagStyle.Outlined
+                        },
+                        leadingContent = if (selected) {
+                            {
+                                BadgeDot(color = colors.textInverse)
+                            }
+                        } else {
+                            null
+                        },
+                    ) {
+                        Text(candidate)
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Selected, disabled, and quiet",
+            description = "Selection, disabled, and non-interactive modes remain visually distinct.",
+        ) {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                itemVerticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantTag(
+                    onClick = { tone = "Refined" },
+                    selected = tone == "Refined",
+                ) {
+                    Text("Refined")
+                }
+                ElegantTag(
+                    onClick = { tone = "Vibrant" },
+                    selected = tone == "Vibrant",
+                    style = ElegantTagStyle.Filled,
+                ) {
+                    Text("Vibrant")
+                }
+                ElegantTag(
+                    onClick = { tone = "Quiet" },
+                    selected = tone == "Quiet",
+                    style = ElegantTagStyle.Plain,
+                ) {
+                    Text("Quiet")
+                }
+                ElegantTag(
+                    onClick = {},
+                    enabled = false,
+                    selected = false,
+                ) {
+                    Text("Disabled")
+                }
+                ElegantTag(style = ElegantTagStyle.Plain) {
+                    Text("Read-only")
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun BadgeDot(color: Color) {
+    Box(
+        modifier = Modifier
+            .size(6.dp)
+            .background(color = color, shape = RoundedCornerShape(ElegantRadius.full)),
+    )
+}
+
+@Composable
+private fun TagStyleRow() {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        itemVerticalAlignment = Alignment.CenterVertically,
+    ) {
+        for (style in ElegantTagStyle.entries) {
+            ElegantTag(style = style) {
+                Text(style.name)
+            }
+        }
+    }
+}
+
+@Composable
+private fun TagSizeRow() {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+        itemVerticalAlignment = Alignment.CenterVertically,
+    ) {
+        ElegantTag(size = ElegantTagSize.Small) {
+            Text("Small")
+        }
+        ElegantTag(size = ElegantTagSize.Medium) {
+            Text("Medium")
+        }
+        ElegantTag(size = ElegantTagSize.Large) {
+            Text("Large")
+        }
     }
 }
 
