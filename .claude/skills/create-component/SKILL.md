@@ -2,101 +2,96 @@
 name: create-component
 description: >-
   Create a new Compose Multiplatform UI component for Elegant UI, including
-  shared source and tests, showcase registration, English and Simplified
-  Chinese Miuix-format pages, component indexes, VitePress sidebars, and the
-  supported Android/Desktop/Web wiring. Use for add component, new composable,
-  continue the component library, 新建组件, 添加组件, 新组件, or 继续组件库.
+  every required wiring point (library source, contract tests, showcase
+  section + registration, EN/zh_CN docs pages, component indexes, VitePress
+  sidebars). Use whenever the user wants to add a new component, create a new
+  composable, scaffold a component, or add a UI element to Elegant UI — even if
+  they only name the component ("add a Tag"). Triggers on "create component",
+  "new component", "add a component", "scaffold component", "new composable",
+  "新建组件", "添加组件", "新组件", "加个组件", "继续组件库".
 ---
 
-# Create an Elegant UI component
+# Create an Elegant UI Component
 
-Add one new component and its companion changes beyond the component file: shared tests, the showcase route, bilingual docs, website discovery, and the project-required target checks. The eight touch points are listed at the end.
+Add a new component to the Elegant UI library and complete every companion change beyond the component file itself — contract tests, showcase section, bilingual docs, indexes, sidebars: 8 touch points in total (see the checklist at the end).
 
-AGENTS.md and current source are authoritative. This skill only gives the workflow and locations; if it conflicts with them, they win. Read references/completed-components.md to select repository-native references. Do not start another component in the same change. iOS, Figma, and screenshot evidence are outside this skill.
+The authoritative sources for conventions are `AGENTS.md` at the repo root (API Conventions, Key Patterns, Critical Constraints) and the reference source files listed below. This skill only describes the workflow and where the changes go; wherever it conflicts with AGENTS.md or existing source, they win — source code does not go stale, details copied into a skill do.
 
 ## Step 1: Gather requirements
 
-Infer established details from the request and both component indexes. Ask only for a decision that would change the public API:
+Ask the user for whatever is not yet provided:
 
-1. Component name — public ElegantXxx name and package
-2. Family — action, display, status, container, input, overlay, or another family
-3. Purpose — behavior and non-goals
-4. Key parameters — state, callbacks, styles, sizes, slots, and content
-5. Visual model — whether ElegantXxxDefaults, ElegantXxxColors, or another immutable model is needed
+1. **Component name** — public `ElegantXxx` name and package (e.g. `ElegantTag` → `com.elegant.compose.ui.tag`)
+2. **Category** — action, display, status, container, input, overlay, selection, collection, navigation, or another family (determines the reference file and package location)
+3. **Brief description** — what it does, where it is used, and non-goals
+4. **Key parameters** — state, callbacks, content slots, styles, sizes, configuration
+5. **Whether a Colors class is needed** — most components need one; minimal components can take plain `Color` parameters (see how Divider does it)
 
-If the user only asks to continue, choose the first planned entry whose prerequisites are available in:
-
-    docs/components/index.md
-    docs/zh_CN/components/index.md
+If the user only asks to continue the library, choose the first planned entry whose prerequisites are available in `docs/components/index.md` and `docs/zh_CN/components/index.md`. Ask only for a decision that would change the public API.
 
 ## Step 2: Read reference files by component type
 
-Read the relevant API section of AGENTS.md, then select and read one completed component's source and contract test in full. Also read its showcase section and both docs pages.
+Before generating code, read the API Conventions section of `AGENTS.md`, pick the closest type from the table below, and read its reference source and contract test in full. Also read its showcase section and both docs pages. `references/completed-components.md` lists every available reference by responsibility.
 
-| Component type | Starting reference | Key points |
+| Component type | Reference (under `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/`) | Key points |
 | :--- | :--- | :--- |
-| Text action | elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/button/ElegantButton.kt | controlled action, loading, styles, sizes, slots |
-| Icon action | elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/iconbutton/ElegantIconButton.kt | accessible name, 48dp target, action parity |
-| Identity/display | elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/avatar/ElegantAvatar.kt | fallback, semantics, custom content |
-| Status/count/overlay | elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/badge/ElegantBadge.kt | tones, overflow, RTL placement, measurement |
-| Drawn separator | elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/divider/ElegantDivider.kt | orientation, emphasis, stroke, semantics |
-| New family | closest entry in references/completed-components.md | follow repository shape, define a new contract |
+| Text action | `button/ElegantButton.kt` | controlled activation, loading, three styles and sizes, slots, 48dp target, shared action visuals |
+| Icon action | `iconbutton/ElegantIconButton.kt` | required accessible name, icon ownership, compact visual inside a 48dp target |
+| Identity/display | `avatar/ElegantAvatar.kt` | fallback, decorative versus named semantics, custom content slot |
+| Status/count/overlay | `badge/ElegantBadge.kt` | semantic tones, count coercion and overflow, logical RTL placement, overlay without changing content measurement |
+| Drawn separator | `divider/ElegantDivider.kt` | orientation, emphasis, stroke, decorative-by-default semantics |
+| Label/classification | `tag/ElegantTag.kt` | four variants, three sizes, optional selectable interaction, interactive versus non-interactive semantics |
+| New family | closest entry in `references/completed-components.md` | follow repository shape, define a new contract |
 
 Use references for conventions, not for blindly copying dimensions, states, slots, or implementation.
 
-## Step 3: Write source and tests
+## Step 3: Write the component source file
 
-Create the shared implementation and meaningful contract tests here:
+Locations:
 
-    elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/{package}/
-    elegant-ui/src/commonTest/kotlin/com/elegant/compose/ui/{package}/
+```text
+elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/{package}/Elegant{Name}.kt
+elegant-ui/src/commonTest/kotlin/com/elegant/compose/ui/{package}/Elegant{Name}ContractTest.kt
+```
 
-Follow AGENTS.md for API order, KDoc, tokens, state resolution, semantics, accessibility, compatibility, and platform boundaries. Implement in commonMain first; use platform source sets only when common Compose cannot express the behavior. Keep platform types out of the shared public API, use ElegantTheme values, and do not expose an unmodified Material component. If a shared primitive changes, test affected completed components too.
+Structure and conventions follow AGENTS.md (KDoc on every public declaration, parameter order, Defaults object, `@Immutable` Colors class, `@NonRestartableComposable`/`rememberUpdatedState`/`@Immutable`-vs-`@Stable` rules). Below are the pitfalls AGENTS.md does not spell out:
 
-## Step 4: Add the shared showcase demo
+- **Theming**: colors always come from `ElegantTheme.colors.*` and text styles from `ElegantTheme.typography.*`; never hardcode. Resolve state to colors in an internal pure function (`resolveXxxColors`) so `commonTest` can cover every precedence branch without a UI harness
+- **Semantics**: set the correct `Role`; disabled and loading states must not invoke callbacks and must be announced; caller-configurable localized state descriptions, never buried wording
+- **RTL**: directional behavior uses layout direction; mirror start/end with `LocalLayoutDirection` + `placeRelative`/`graphicsLayer`, never hardcode left/right
+- **Platforms**: implement in `commonMain` first; use platform source sets only for genuine platform differences; no Android/AWT/DOM imports in common code
+- **Single-file layout**: the main composable(s), the Defaults object, and the Colors class live in one file; internal metrics and resolvers stay `internal` with pure `commonTest` coverage
+- **Showcase registration**: the showcase slug branch, route case, and section composable must land in the same change as the component — `docs:check` mechanically verifies the source contains `"{slug}" ->`
 
-Update:
+## Step 4: Showcase section
 
-    showcase/src/commonMain/kotlin/com/elegant/compose/showcase/ElegantShowcaseApp.kt
+1. Add a showcase section in `showcase/src/commonMain/kotlin/com/elegant/compose/showcase/ElegantShowcaseApp.kt`: a `"{slug}" ->` branch in the shared `when`, the route case, and one section composable registered in `SupportedShowcaseComponentIds`. The section covers the default look, public variants, the disabled state, and the important interaction or slot, in labeled `DemoCard` groups.
+2. The same route must work on Android, Desktop, and Web; Web uses `?id={slug}`. Keep launcher modules thin and do not make an HTML-only demo.
+3. Update the slug sets in `showcase/src/commonTest/kotlin/com/elegant/compose/showcase/ShowcaseContractTest.kt` and `ShowcaseRegistryTest.kt` in the same change.
 
-Register the lowercase slug and add one shared section covering the default look, public variants, disabled state, and the important interaction or slot. The same route must work on Android, Desktop, and Web; Web uses ?id={slug}. Keep launcher modules thin and do not make an HTML-only demo.
+## Step 5: Docs
 
-## Step 5: Add documentation and discovery
+1. **Doc pages**: `docs/components/{slug}.md` and `docs/zh_CN/components/{slug}.md` (slug all-lowercase, e.g. `icon-button`, `empty-state`). Miuix format: intro, iframe directly after it (English `src="../compose/index.html?id={slug}"`, Chinese `../../compose/index.html?id={slug}`), Import, Basic Usage, component-specific types, Component States, Properties tables, Advanced Usage. Keep the EN and zh content in one-to-one correspondence — `docs:check` mechanically verifies page sets, heading order, property-table columns, iframe placement, and Kotlin example counts.
+2. **Component overview**: add one row each to the overview tables in `docs/components/index.md` and `docs/zh_CN/components/index.md`; flip the status from Planned / 计划中 to Available / 已完成.
+3. **Sidebar**: add one entry to the matching group in `docs/.vitepress/config.ts` in both the English and Chinese sidebars: `{ text: 'Xxx', link: '/components/{slug}' }`, with the `/zh_CN` link prefix in the Chinese sidebar.
 
-Create:
+## Step 6: Verify
 
-    docs/components/{slug}.md
-    docs/zh_CN/components/{slug}.md
+- `gradle :elegant-ui:build --stacktrace --no-daemon` (compiles all three targets and runs desktop tests; also run `gradle :showcase:build --stacktrace --no-daemon` for the shared showcase)
+- `cd docs && npm install && npm run docs:check && npm run docs:build`
+- Run the applicable platform samples (commands in AGENTS.md Key Commands) when the environment allows
 
-Follow the Miuix-format order in AGENTS.md and keep the two pages aligned. Put the real Compose Web/Wasm iframe directly after the introduction:
+Commits follow the AGENTS.md Git Commit Style (the component and its example/docs companion changes go in one `feat(component):` commit).
 
-    src="../compose/index.html?id={slug}"
-    src="../../compose/index.html?id={slug}"
+## Checklist (self-check)
 
-Document the public API in signature order. Update both component indexes and both sidebar entries in docs/.vitepress/config.ts. Keep a new component Planned / 计划中 until its complete milestone is ready.
+A new component lands only when all 8 are done:
 
-## Step 6: Verify and land
-
-Run the required commands from AGENTS.md as independent invocations. Keep the three platform builds separate:
-
-    ./scripts/validate-kmp-boundaries.sh
-    gradle :sample:assembleDebug --stacktrace --no-daemon
-    gradle :desktop-sample:createDistributable --stacktrace --no-daemon
-    gradle :web-sample:wasmJsBrowserDistribution --stacktrace --no-daemon
-
-Run the applicable library, showcase, and documentation checks required by AGENTS.md; record only commands that actually ran in VALIDATION.md. Use one coherent Conventional Commit for the component and companion changes. Push and wait for CI when the user requests remote delivery.
-
-## Checklist
-
-The eight Miuix-style touch points for Elegant UI are:
-
-1. Component source
-2. Meaningful common tests
-3. Shared showcase section and stable slug route
-4. English and Simplified Chinese pages with the real iframe
-5. English and Chinese component-index rows
-6. English and Chinese sidebar entries
-7. Applicable target and docs checks recorded in VALIDATION.md
-8. One coherent commit; remote CI when remote delivery is requested
-
-When the component becomes available, add one concise row to references/completed-components.md in the same commit.
+1. Component source file (`elegant-ui/.../{package}/Elegant{Name}.kt`)
+2. `commonTest` contract tests (`Elegant{Name}ContractTest.kt`)
+3. `ElegantShowcaseApp.kt` showcase section (slug branch, route case, section composable) + registration tests
+4. `docs/components/{slug}.md` + `docs/zh_CN/components/{slug}.md`
+5. One row each in `docs/components/index.md` + `docs/zh_CN/components/index.md`
+6. Sidebar entries in both locales of `docs/.vitepress/config.ts`
+7. Library/showcase builds and desktop tests pass; docs validation and build pass
+8. One coherent `feat(component):` commit; one row added to `references/completed-components.md`; remote CI when remote delivery is requested
