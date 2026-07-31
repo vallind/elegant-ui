@@ -74,6 +74,8 @@ import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
+import com.elegant.compose.ui.input.ElegantInput
+import com.elegant.compose.ui.input.ElegantInputStyle
 import com.elegant.compose.ui.tag.ElegantTag
 import com.elegant.compose.ui.tag.ElegantTagSize
 import com.elegant.compose.ui.tag.ElegantTagStyle
@@ -91,6 +93,7 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "avatar",
         "badge",
         "divider",
+        "input",
         "tag",
     )
 
@@ -110,6 +113,7 @@ public fun ElegantShowcaseApp(
         "avatar" -> AvatarShowcase()
         "badge" -> BadgeShowcase()
         "divider" -> DividerShowcase()
+        "input" -> InputShowcase()
         "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
@@ -778,6 +782,130 @@ private fun TagShowcase() {
                 ElegantTag(style = ElegantTagStyle.Plain) {
                     Text("Read-only")
                 }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun InputShowcase() {
+    var message by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+    var coupon by rememberSaveable { mutableStateOf("") }
+    var nickname by rememberSaveable { mutableStateOf("") }
+    var bio by rememberSaveable { mutableStateOf("") }
+    var query by rememberSaveable { mutableStateOf("") }
+
+    ShowcasePage(title = "Elegant Input") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Label, placeholder, and guidance",
+            description = "A labeled field with supporting text keeps forms self-explanatory.",
+        ) {
+            ElegantInput(
+                value = message,
+                onValueChange = { message = it },
+                label = "Message",
+                placeholder = "Write something kind",
+                supportingText = "Keep it short and specific.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STYLES",
+            title = "Filled and Outlined with icons",
+            description = "Both variants share one 48dp field height and the same interaction states.",
+        ) {
+            ElegantInput(
+                value = email,
+                onValueChange = { email = it },
+                label = "Email address",
+                placeholder = "you@example.com",
+                leadingIcon = { ResourceIcon(Res.drawable.person_rounded) },
+            )
+            ElegantInput(
+                value = coupon,
+                onValueChange = { coupon = it },
+                label = "Coupon code",
+                placeholder = "Try SUMMER20",
+                style = ElegantInputStyle.Outlined,
+                trailingIcon = { ResourceIcon(Res.drawable.check_rounded) },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Enabled, disabled, read-only, and error",
+            description = "Semantic states stay visible without losing the field geometry.",
+        ) {
+            ElegantInput(
+                value = "Maya Chen",
+                onValueChange = {},
+                label = "Display name",
+                supportingText = "Shown to other members of the workspace.",
+                readOnly = true,
+            )
+            ElegantInput(
+                value = "Legacy account",
+                onValueChange = {},
+                label = "Account",
+                enabled = false,
+            )
+            ElegantInput(
+                value = nickname,
+                onValueChange = { nickname = it },
+                label = "Nickname",
+                placeholder = "e.g. Nova",
+                isError = true,
+                errorText = "Must be 3-20 characters and start with a letter.",
+            )
+            ElegantInput(
+                value = bio,
+                onValueChange = { bio = it },
+                label = "Bio",
+                maxLength = 20,
+                supportingText = "${bio.length}/20",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A search field on a surface",
+            description = "The input stretches next to a compact action on a soft surface.",
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = colors.backgroundSubtle,
+                        shape = RoundedCornerShape(ElegantRadius.lg),
+                    )
+                    .padding(ElegantSpacing.md),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantInput(
+                    value = query,
+                    onValueChange = { query = it },
+                    modifier = Modifier.weight(1f),
+                    placeholder = "Search components",
+                    style = ElegantInputStyle.Outlined,
+                    leadingIcon = { ResourceIcon(Res.drawable.edit_rounded) },
+                )
+                ShowcaseIconButton(
+                    resource = Res.drawable.arrow_forward_rounded,
+                    contentDescription = "Run search",
+                    style = ElegantIconButtonStyle.Primary,
+                    onClick = {},
+                )
             }
         }
 
