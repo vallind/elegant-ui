@@ -74,6 +74,7 @@ import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
+import com.elegant.compose.ui.radio.ElegantRadio
 import com.elegant.compose.ui.tag.ElegantTag
 import com.elegant.compose.ui.tag.ElegantTagSize
 import com.elegant.compose.ui.tag.ElegantTagStyle
@@ -91,6 +92,7 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "avatar",
         "badge",
         "divider",
+        "radio",
         "tag",
     )
 
@@ -110,6 +112,7 @@ public fun ElegantShowcaseApp(
         "avatar" -> AvatarShowcase()
         "badge" -> BadgeShowcase()
         "divider" -> DividerShowcase()
+        "radio" -> RadioShowcase()
         "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
@@ -778,6 +781,91 @@ private fun TagShowcase() {
                 ElegantTag(style = ElegantTagStyle.Plain) {
                     Text("Read-only")
                 }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun RadioShowcase() {
+    var accent by rememberSaveable { mutableStateOf("Violet") }
+
+    ShowcasePage(title = "Elegant Radio") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "One choice from a set",
+            description = "A 20dp circular indicator fills with an animated dot while the 48dp row stays the interactive target.",
+        ) {
+            Text(
+                text = "Basic",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                ElegantRadio(
+                    selected = true,
+                    onSelect = {},
+                    label = "Selected",
+                )
+                ElegantRadio(
+                    selected = false,
+                    onSelect = {},
+                    label = "Unselected",
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A group that stays exclusive",
+            description = "Radios share one selection state, so exactly one option is chosen at a time.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                for (candidate in listOf("Violet", "Indigo", "Teal")) {
+                    ElegantRadio(
+                        selected = accent == candidate,
+                        onSelect = { accent = candidate },
+                        label = "$candidate accent",
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Selected, unselected, and disabled",
+            description = "Disabled radios keep their selection visible with quiet theme colors and announce no interaction.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                ElegantRadio(
+                    selected = true,
+                    onSelect = { accent = "Violet" },
+                    label = "Violet",
+                )
+                ElegantRadio(
+                    selected = false,
+                    onSelect = { accent = "Indigo" },
+                    label = "Indigo",
+                )
+                ElegantRadio(
+                    selected = true,
+                    onSelect = {},
+                    enabled = false,
+                    label = "Unavailable",
+                )
+                ElegantRadio(
+                    selected = false,
+                    onSelect = {},
+                    enabled = false,
+                    label = "Not offered",
+                )
             }
         }
 
