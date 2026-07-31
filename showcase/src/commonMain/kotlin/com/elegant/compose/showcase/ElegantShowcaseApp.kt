@@ -1,5 +1,3 @@
-import com.elegant.compose.ui.input.ElegantInput
-import com.elegant.compose.ui.input.ElegantInputStyle
 package com.elegant.compose.showcase
 
 import androidx.compose.foundation.background
@@ -76,6 +74,8 @@ import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
+import com.elegant.compose.ui.input.ElegantInput
+import com.elegant.compose.ui.input.ElegantInputStyle
 import com.elegant.compose.ui.radio.ElegantRadio
 import com.elegant.compose.ui.tag.ElegantTag
 import com.elegant.compose.ui.tag.ElegantTagSize
