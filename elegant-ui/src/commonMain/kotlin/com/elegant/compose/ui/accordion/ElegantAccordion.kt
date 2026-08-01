@@ -46,7 +46,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.collapse
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.expand
-import androidx.compose.ui.semantics.expanded
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -211,7 +210,6 @@ public fun ElegantAccordionItem(
                 .defaultMinSize(minHeight = ElegantAccordionDefaults.MinimumTouchHeight)
                 .semantics(mergeDescendants = true) {
                     role = Role.Button
-                    this.expanded = isExpanded
                     if (isExpanded) {
                         collapse {
                             if (enabled) {

@@ -140,37 +140,49 @@ public fun ElegantFloatingActionButton(
         focused = focused,
     )
 
-    val stateAnimationSpec = tween(
-        durationMillis = if (pressed) {
-            ElegantMotion.fastDurationMillis
-        } else {
-            ElegantFloatingActionButtonDefaults.AnimationDurationMillis
-        },
-        easing = FastOutSlowInEasing,
-    )
+    val animationDurationMillis = if (pressed) {
+        ElegantMotion.fastDurationMillis
+    } else {
+        ElegantFloatingActionButtonDefaults.AnimationDurationMillis
+    }
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = stateAnimationSpec,
+        animationSpec = tween(
+            durationMillis = animationDurationMillis,
+            easing = FastOutSlowInEasing,
+        ),
         label = "ElegantFloatingActionButtonContainer",
     )
     val animatedContent by animateColorAsState(
         targetValue = visuals.content,
-        animationSpec = stateAnimationSpec,
+        animationSpec = tween(
+            durationMillis = animationDurationMillis,
+            easing = FastOutSlowInEasing,
+        ),
         label = "ElegantFloatingActionButtonContent",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = stateAnimationSpec,
+        animationSpec = tween(
+            durationMillis = animationDurationMillis,
+            easing = FastOutSlowInEasing,
+        ),
         label = "ElegantFloatingActionButtonBorder",
     )
     val animatedBorderWidth by animateDpAsState(
         targetValue = visuals.borderWidth,
-        animationSpec = stateAnimationSpec,
+        animationSpec = tween(
+            durationMillis = animationDurationMillis,
+            easing = FastOutSlowInEasing,
+        ),
         label = "ElegantFloatingActionButtonBorderWidth",
     )
     val animatedScale by animateFloatAsState(
         targetValue = visuals.scale,
-        animationSpec = stateAnimationSpec,
+        animationSpec = tween(
+            durationMillis = animationDurationMillis,
+            easing = FastOutSlowInEasing,
+        ),
         label = "ElegantFloatingActionButtonScale",
     )
 

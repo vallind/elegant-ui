@@ -8,7 +8,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.minimumInteractiveComponentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -130,7 +129,7 @@ public fun ElegantLink(
             .semantics(mergeDescendants = true) {
                 if (!enabled) disabled()
             }
-            .minimumInteractiveComponentSize()
+            .defaultMinSize(minHeight = ElegantLinkDefaults.MinimumTouchHeight)
             .clickable(
                 enabled = enabled,
                 interactionSource = resolvedInteractionSource,

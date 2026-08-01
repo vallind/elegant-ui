@@ -1,7 +1,7 @@
 package com.elegant.compose.ui.searchbar
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.animateDpAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke

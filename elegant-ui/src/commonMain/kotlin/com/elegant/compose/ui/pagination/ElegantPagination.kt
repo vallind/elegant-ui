@@ -238,11 +238,15 @@ private fun PaginationPageButton(
                 indication = ripple(color = animatedContent),
             )
             .then(
-                focusRingModifier(
-                    focused = focused,
-                    shape = shape,
-                    color = ElegantTheme.colors.focusRing,
-                ),
+                if (focused) {
+                    Modifier.border(
+                        width = 2.dp,
+                        color = ElegantTheme.colors.focusRing,
+                        shape = shape,
+                    )
+                } else {
+                    Modifier
+                },
             ),
         contentAlignment = Alignment.Center,
     ) {
@@ -296,11 +300,15 @@ private fun PaginationNavButton(
                 indication = ripple(color = animatedContent),
             )
             .then(
-                focusRingModifier(
-                    focused = focused,
-                    shape = CircleShape,
-                    color = ElegantTheme.colors.focusRing,
-                ),
+                if (focused) {
+                    Modifier.border(
+                        width = 2.dp,
+                        color = ElegantTheme.colors.focusRing,
+                        shape = CircleShape,
+                    )
+                } else {
+                    Modifier
+                },
             ),
         contentAlignment = Alignment.Center,
     ) {
@@ -367,15 +375,6 @@ private fun animatedItemColor(target: Color): Color {
     return animated
 }
 
-private fun Modifier.focusRingModifier(
-    focused: Boolean,
-    shape: Shape,
-    color: Color,
-): Modifier = if (focused) {
-    this.border(width = FocusRingWidth, color = color, shape = shape)
-} else {
-    this
-}
 
 /** Resolves theme-aware pagination colors from [themeColors]. */
 internal fun resolvePaginationColors(themeColors: ElegantColors): ElegantPaginationColors = ElegantPaginationColors(
@@ -473,4 +472,3 @@ internal fun resolvePaginationItemVisuals(
 }
 
 private val ChevronSize: Dp = 16.dp
-private val FocusRingWidth: Dp = 2.dp
