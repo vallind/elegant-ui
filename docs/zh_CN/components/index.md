@@ -13,6 +13,12 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Divider 分割线](./divider) | 分隔内容区域 | 已完成 |
 | [Tag](./tag) | 标记或分类内容 | 已完成 |
 | [Tooltip](./tooltip) | 解释紧凑控件 | 已完成 |
+| [ProgressIndicator](./progress-indicator) | 展示任务进度 | 已完成 |
+| [Skeleton](./skeleton) | 预览加载中的内容 | 已完成 |
+| [Alert](./alert) | 呈现重要消息 | 已完成 |
+| [Snackbar](./snackbar) | 展示临时反馈 | 已完成 |
+| [Link](./link) | 以内联文本导航 | 已完成 |
+| [Kbd](./kbd) | 标注键盘按键 | 已完成 |
 
 ## 表单组件
 
@@ -21,6 +27,9 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Input](./input) | 收集文本输入 | 已完成 |
 | [Checkbox](./checkbox) | 切换布尔选项 | 已完成 |
 | [Radio](./radio) | 从一组中选择一项 | 已完成 |
+| [Textarea](./textarea) | 收集多行文本 | 已完成 |
+| [NumberField](./number-field) | 步进输入整数 | 已完成 |
+| [SearchBar](./search-bar) | 搜索与筛选 | 已完成 |
 
 | [Select](./select) | 从列表中选择一项 | 已完成 |
 | [Switch](./switch) | 切换布尔选项 | 已完成 |
@@ -36,6 +45,12 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Modal](./modal) | 在居中表面聚焦任务 | 已完成 |
 | [Drawer](./drawer) | 从边缘展开导航或筛选 | 已完成 |
 | [Table](./table) | 展示表格数据 | 已完成 |
+| [Pagination](./pagination) | 分页浏览长内容 | 已完成 |
+| [Accordion](./accordion) | 折叠与展开区块 | 已完成 |
+| [Popover](./popover) | 浮动展示上下文操作 | 已完成 |
+| [Menu](./menu) | 提供紧凑操作列表 | 已完成 |
+| [FloatingActionButton](./floating-action-button) | 呈现主要操作 | 已完成 |
+| [Table](./table) | 展示表格数据 | 已完成 |
 
 ## 导航组件
 
@@ -45,3 +60,5 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Sidebar](./sidebar) | 锚定次级导航 | 已完成 |
 | [Tabs](./tabs) | 切换相关视图 | 已完成 |
 | [Breadcrumb](./breadcrumb) | 显示当前位置 | 已完成 |
+| [NavigationBar](./navigation-bar) | 锚定底部导航 | 已完成 |
+| [NavigationRail](./navigation-rail) | 锚定侧边导航 | 已完成 |

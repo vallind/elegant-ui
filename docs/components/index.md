@@ -13,6 +13,12 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Divider](./divider) | Separate content regions | Available |
 | [Tag](./tag) | Label or classify content | Available |
 | [Tooltip](./tooltip) | Explain compact controls | Available |
+| [ProgressIndicator](./progress-indicator) | Show task progress | Available |
+| [Skeleton](./skeleton) | Preview loading content | Available |
+| [Alert](./alert) | Surface important messages | Available |
+| [Snackbar](./snackbar) | Show transient feedback | Available |
+| [Link](./link) | Navigate with inline text | Available |
+| [Kbd](./kbd) | Label keyboard keys | Available |
 
 ## Forms
 
@@ -21,6 +27,9 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Input](./input) | Collect text input | Available |
 | [Checkbox](./checkbox) | Toggle a boolean option | Available |
 | [Radio](./radio) | Choose one option from a set | Available |
+| [Textarea](./textarea) | Collect multi-line text | Available |
+| [NumberField](./number-field) | Enter integers with stepping | Available |
+| [SearchBar](./search-bar) | Search and filter | Available |
 
 | [Select](./select) | Choose one option from a list | Available |
 | [Switch](./switch) | Toggle a boolean option | Available |
@@ -36,6 +45,12 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Modal](./modal) | Focus a task in a centered surface | Available |
 | [Drawer](./drawer) | Reveal navigation or filters from an edge | Available |
 | [Table](./table) | Present tabular data | Available |
+| [Pagination](./pagination) | Page through long content | Available |
+| [Accordion](./accordion) | Collapse and expand sections | Available |
+| [Popover](./popover) | Float contextual actions | Available |
+| [Menu](./menu) | Offer compact action lists | Available |
+| [FloatingActionButton](./floating-action-button) | Surface a primary action | Available |
+| [Table](./table) | Present tabular data | Available |
 
 ## Navigation
 
@@ -45,3 +60,5 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Sidebar](./sidebar) | Anchor secondary navigation | Available |
 | [Tabs](./tabs) | Switch between related views | Available |
 | [Breadcrumb](./breadcrumb) | Show the current location | Available |
+| [NavigationBar](./navigation-bar) | Anchor bottom navigation | Available |
+| [NavigationRail](./navigation-rail) | Anchor side navigation | Available |

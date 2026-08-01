@@ -1,5 +1,6 @@
 package com.elegant.compose.showcase
 
+import androidx.compose.foundation.CircleShape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -30,12 +32,15 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -53,6 +58,10 @@ import com.elegant.compose.showcase.generated.resources.edit_rounded
 import com.elegant.compose.showcase.generated.resources.more_vert_rounded
 import com.elegant.compose.showcase.generated.resources.person_rounded
 import com.elegant.compose.showcase.generated.resources.share_rounded
+import com.elegant.compose.ui.accordion.ElegantAccordion
+import com.elegant.compose.ui.accordion.ElegantAccordionItem
+import com.elegant.compose.ui.alert.ElegantAlert
+import com.elegant.compose.ui.alert.ElegantAlertStyle
 import com.elegant.compose.ui.avatar.ElegantAvatar
 import com.elegant.compose.ui.avatar.ElegantAvatarColors
 import com.elegant.compose.ui.avatar.ElegantAvatarSize
@@ -80,21 +89,42 @@ import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.drawer.ElegantDrawer
 import com.elegant.compose.ui.drawer.ElegantDrawerPlacement
 import com.elegant.compose.ui.emptystate.ElegantEmptyState
+import com.elegant.compose.ui.floatingactionbutton.ElegantFloatingActionButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
 import com.elegant.compose.ui.input.ElegantInput
 import com.elegant.compose.ui.input.ElegantInputStyle
+import com.elegant.compose.ui.kbd.ElegantKbd
+import com.elegant.compose.ui.link.ElegantLink
 import com.elegant.compose.ui.list.ElegantList
 import com.elegant.compose.ui.list.ElegantListItem
+import com.elegant.compose.ui.menu.ElegantMenu
+import com.elegant.compose.ui.menu.ElegantMenuItem
 import com.elegant.compose.ui.modal.ElegantModal
 import com.elegant.compose.ui.navbar.ElegantNavbar
+import com.elegant.compose.ui.navigationbar.ElegantNavigationBar
+import com.elegant.compose.ui.navigationbar.ElegantNavigationBarItem
+import com.elegant.compose.ui.navigationrail.ElegantNavigationRail
+import com.elegant.compose.ui.navigationrail.ElegantNavigationRailItem
+import com.elegant.compose.ui.numberfield.ElegantNumberField
+import com.elegant.compose.ui.pagination.ElegantPagination
+import com.elegant.compose.ui.popover.ElegantPopover
+import com.elegant.compose.ui.popover.ElegantPopoverPlacement
+import com.elegant.compose.ui.progress.ElegantCircularProgressIndicator
+import com.elegant.compose.ui.progress.ElegantLinearProgressIndicator
 import com.elegant.compose.ui.radio.ElegantRadio
+import com.elegant.compose.ui.searchbar.ElegantSearchBar
 import com.elegant.compose.ui.select.ElegantSelect
 import com.elegant.compose.ui.select.ElegantSelectOption
 import com.elegant.compose.ui.sidebar.ElegantSidebar
 import com.elegant.compose.ui.sidebar.ElegantSidebarItem
+import com.elegant.compose.ui.skeleton.ElegantSkeleton
+import com.elegant.compose.ui.skeleton.ElegantSkeletonBlock
 import com.elegant.compose.ui.slider.ElegantSlider
+import com.elegant.compose.ui.snackbar.ElegantSnackbar
+import com.elegant.compose.ui.snackbar.ElegantSnackbarHost
+import com.elegant.compose.ui.snackbar.ElegantSnackbarHostState
 import com.elegant.compose.ui.switch.ElegantSwitch
 import com.elegant.compose.ui.table.ElegantTable
 import com.elegant.compose.ui.table.ElegantTableColumn
@@ -104,6 +134,7 @@ import com.elegant.compose.ui.tabs.ElegantTabRow
 import com.elegant.compose.ui.tag.ElegantTag
 import com.elegant.compose.ui.tag.ElegantTagSize
 import com.elegant.compose.ui.tag.ElegantTagStyle
+import com.elegant.compose.ui.textarea.ElegantTextarea
 import com.elegant.compose.ui.theme.ElegantRadius
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
@@ -112,6 +143,7 @@ import com.elegant.compose.ui.tooltip.ElegantTooltipBox
 import com.elegant.compose.ui.tooltip.ElegantTooltipPlacement
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -139,6 +171,22 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "breadcrumb",
         "navbar",
         "sidebar",
+        "progress-indicator",
+        "skeleton",
+        "alert",
+        "snackbar",
+        "textarea",
+        "number-field",
+        "search-bar",
+        "pagination",
+        "navigation-bar",
+        "navigation-rail",
+        "floating-action-button",
+        "popover",
+        "menu",
+        "accordion",
+        "link",
+        "kbd",
         "tag",
     )
 
@@ -175,6 +223,22 @@ public fun ElegantShowcaseApp(
         "breadcrumb" -> BreadcrumbShowcase()
         "navbar" -> NavbarShowcase()
         "sidebar" -> SidebarShowcase()
+        "progress-indicator" -> ProgressShowcase()
+        "skeleton" -> SkeletonShowcase()
+        "alert" -> AlertShowcase()
+        "snackbar" -> SnackbarShowcase()
+        "textarea" -> TextareaShowcase()
+        "number-field" -> NumberFieldShowcase()
+        "search-bar" -> SearchBarShowcase()
+        "pagination" -> PaginationShowcase()
+        "navigation-bar" -> NavigationBarShowcase()
+        "navigation-rail" -> NavigationRailShowcase()
+        "floating-action-button" -> FloatingActionButtonShowcase()
+        "popover" -> PopoverShowcase()
+        "menu" -> MenuShowcase()
+        "accordion" -> AccordionShowcase()
+        "link" -> LinkShowcase()
+        "kbd" -> KbdShowcase()
         "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
@@ -3547,6 +3611,1554 @@ private fun SidebarShowcase() {
 }
 
 @Composable
+@Composable
+private fun ProgressShowcase() {
+    var uploadProgress by remember { mutableStateOf(0.35f) }
+
+    ShowcasePage(title = "Elegant Progress") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Determinate linear and circular",
+            description = "A fraction in 0f..1f fills the track and sweeps the ring clockwise from the top.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xxl),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantCircularProgressIndicator(progress = uploadProgress)
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                ) {
+                    Text(
+                        text = "Upload ${(uploadProgress * 100).roundToInt()}%",
+                        style = ElegantTheme.typography.labelMedium,
+                        color = colors.textSecondary,
+                    )
+                    ElegantLinearProgressIndicator(progress = uploadProgress)
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "INDETERMINATE",
+            title = "Continuous activity",
+            description = "Pass null to show an endless sweeping segment or rotating arc.",
+        ) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xxl),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
+                ) {
+                    ElegantLinearProgressIndicator(progress = null)
+                    ElegantLinearProgressIndicator(progress = null)
+                }
+                ElegantCircularProgressIndicator(progress = null)
+                ElegantCircularProgressIndicator(progress = null)
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "File upload row",
+            description = "A circular spinner and a linear track report the same upload with an action button.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantCircularProgressIndicator(progress = uploadProgress)
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+                ) {
+                    Text(
+                        text = "report.pdf",
+                        style = ElegantTheme.typography.labelMedium,
+                        color = colors.textPrimary,
+                    )
+                    ElegantLinearProgressIndicator(progress = uploadProgress)
+                    Text(
+                        text = "${(uploadProgress * 100).roundToInt()}% of 100%",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+                ElegantButton(
+                    onClick = {
+                        uploadProgress = if (uploadProgress >= 1f) {
+                            0f
+                        } else {
+                            (uploadProgress + 0.2f).coerceAtMost(1f)
+                        }
+                    },
+                ) {
+                    Text(if (uploadProgress >= 1f) "Reset" else "Upload")
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SkeletonShowcase() {
+    ShowcasePage(title = "Elegant Skeleton") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Placeholders while content loads",
+            description = "A single skeleton or a block of lines previews content without layout jumps.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                ElegantSkeleton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(96.dp),
+                )
+                ElegantSkeletonBlock(
+                    columns = 3,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A profile card skeleton",
+            description = "Circle and lines stand in for the avatar and text until data arrives.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantSkeleton(
+                    modifier = Modifier.size(48.dp),
+                    shape = CircleShape,
+                )
+                ElegantSkeletonBlock(
+                    columns = 2,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun AlertShowcase() {
+    var memberName by rememberSaveable { mutableStateOf("") }
+    var memberEmail by rememberSaveable { mutableStateOf("") }
+
+    ShowcasePage(title = "Elegant Alert") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Four semantic tones",
+            description = "Neutral, positive, warning, and critical alerts tint their container, border, and icon from the active theme.",
+        ) {
+            ElegantAlert(
+                title = "Scheduled maintenance",
+                description = "The service resumes at 06:00 UTC.",
+            )
+            ElegantAlert(
+                title = "Backup completed",
+                description = "All projects synced without errors.",
+                style = ElegantAlertStyle.Positive,
+                icon = { ResourceIcon(Res.drawable.check_rounded) },
+            )
+            ElegantAlert(
+                title = "Low disk space",
+                description = "Only 10% of the volume remains.",
+                style = ElegantAlertStyle.Warning,
+            )
+            ElegantAlert(
+                title = "Deployment failed",
+                description = "Review the logs and retry the release.",
+                style = ElegantAlertStyle.Critical,
+                icon = { ResourceIcon(Res.drawable.delete_rounded) },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "ACTION",
+            title = "Caller-owned actions",
+            description = "The banner stays non-interactive while a button in the action slot keeps its own focus and activation.",
+        ) {
+            ElegantAlert(
+                title = "Session expired",
+                description = "Sign in again to continue working.",
+                style = ElegantAlertStyle.Critical,
+                icon = { ResourceIcon(Res.drawable.person_rounded) },
+                action = {
+                    ElegantButton(
+                        onClick = {},
+                        style = ElegantButtonStyle.Secondary,
+                        size = ElegantButtonSize.Small,
+                    ) {
+                        Text("Sign in")
+                    }
+                },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "An alert above a form",
+            description = "A critical alert explains the blocked state before the fields that need attention.",
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = colors.surfaceRaised,
+                        shape = RoundedCornerShape(ElegantRadius.lg),
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = colors.borderDefault,
+                        shape = RoundedCornerShape(ElegantRadius.lg),
+                    )
+                    .padding(ElegantSpacing.xl),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            ) {
+                ElegantAlert(
+                    title = "Workspace at capacity",
+                    description = "Upgrade the plan or remove members to invite new collaborators.",
+                    style = ElegantAlertStyle.Critical,
+                    icon = { ResourceIcon(Res.drawable.person_rounded) },
+                    action = {
+                        ElegantButton(
+                            onClick = {},
+                            style = ElegantButtonStyle.Secondary,
+                            size = ElegantButtonSize.Small,
+                        ) {
+                            Text("Manage")
+                        }
+                    },
+                )
+                ElegantInput(
+                    value = memberName,
+                    onValueChange = { memberName = it },
+                    label = "Full name",
+                    placeholder = "e.g. Maya Chen",
+                    leadingIcon = { ResourceIcon(Res.drawable.person_rounded) },
+                )
+                ElegantInput(
+                    value = memberEmail,
+                    onValueChange = { memberEmail = it },
+                    label = "Email address",
+                    placeholder = "you@example.com",
+                    leadingIcon = { ResourceIcon(Res.drawable.add_rounded) },
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SnackbarShowcase() {
+    val snackbarHostState = remember { ElegantSnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    var deletedCount by remember { mutableIntStateOf(0) }
+    var completedFlows by remember { mutableIntStateOf(0) }
+
+    ShowcasePage(title = "Elegant Snackbar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Host, state, and surface",
+            description = "The host pins the message to the bottom center of its bounds; showSnackbar suspends until dismissal.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantSnackbar(
+                    text = "Message deleted",
+                    actionLabel = "Undo",
+                    onActionClick = {},
+                )
+                ElegantButton(
+                    onClick = {
+                        scope.launch {
+                            snackbarHostState.showSnackbar("Live message at the bottom of this page")
+                        }
+                    },
+                ) {
+                    Text("Show snackbar")
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "ACTION",
+            title = "One clear call to action",
+            description = "An action label keeps a 48dp touch target, shows a ripple, and dismisses the message on click.",
+        ) {
+            ElegantButton(
+                onClick = {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = "Item moved to trash",
+                            actionLabel = "Undo",
+                        )
+                    }
+                },
+            ) {
+                Text("Move to trash")
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Undo flow",
+            description = "Dismissal resumes the calling coroutine, so follow-up work chains behind the feedback.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                Text(
+                    text = "Deleted items: $deletedCount",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+                ElegantButton(
+                    onClick = {
+                        deletedCount += 1
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "Item deleted",
+                                actionLabel = "Undo",
+                            )
+                            completedFlows += 1
+                        }
+                    },
+                ) {
+                    Text("Delete item")
+                }
+                Text(
+                    text = "Workflows resumed after dismissal: $completedFlows",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+            }
+        }
+
+        Box(Modifier.fillMaxWidth()) {
+            ElegantSnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.align(Alignment.BottomCenter),
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun TextareaShowcase() {
+    var notes by rememberSaveable { mutableStateOf("") }
+    var draft by rememberSaveable { mutableStateOf("") }
+    var bio by rememberSaveable { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf("") }
+    var message by rememberSaveable { mutableStateOf("") }
+
+    ShowcasePage(title = "Elegant Textarea") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Label, placeholder, and guidance",
+            description = "A labeled multi-line field with supporting text keeps forms self-explanatory.",
+        ) {
+            ElegantTextarea(
+                value = notes,
+                onValueChange = { notes = it },
+                label = "Release notes",
+                placeholder = "Summarize what changed",
+                supportingText = "Markdown is supported.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled, read-only, error, and length limit",
+            description = "Semantic states stay visible without losing the field geometry.",
+        ) {
+            ElegantTextarea(
+                value = "Kept as an immutable record.",
+                onValueChange = {},
+                label = "Audit note",
+                readOnly = true,
+            )
+            ElegantTextarea(
+                value = "Legacy note",
+                onValueChange = {},
+                label = "Archive",
+                enabled = false,
+            )
+            ElegantTextarea(
+                value = bio,
+                onValueChange = { bio = it },
+                label = "Bio",
+                isError = true,
+                errorText = "Must be 3-200 characters.",
+            )
+            ElegantTextarea(
+                value = draft,
+                onValueChange = { draft = it },
+                label = "Draft",
+                maxLength = 200,
+                supportingText = "${draft.length}/200",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A compact form row",
+            description = "The textarea pairs with an input in one horizontal form row.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalAlignment = Alignment.Top,
+            ) {
+                ElegantInput(
+                    value = name,
+                    onValueChange = { name = it },
+                    modifier = Modifier.weight(1f),
+                    label = "Your name",
+                    placeholder = "e.g. Maya Chen",
+                )
+                ElegantTextarea(
+                    value = message,
+                    onValueChange = { message = it },
+                    modifier = Modifier.weight(1f),
+                    label = "Message",
+                    placeholder = "Write a few lines",
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun NumberFieldShowcase() {
+    var quantity by remember { mutableStateOf(1) }
+    var guests by remember { mutableStateOf(2) }
+    var tickets by remember { mutableStateOf(2) }
+
+    ShowcasePage(title = "Elegant NumberField") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Basic field with step buttons",
+            description = "A labeled integer field with supporting text and compact increase and decrease buttons.",
+        ) {
+            ElegantNumberField(
+                value = quantity,
+                onValueChange = { quantity = it },
+                label = "Quantity",
+                minValue = 1,
+                maxValue = 99,
+                supportingText = "Orders of at least 1 ship free.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "RANGE",
+            title = "Bounded stepping",
+            description = "Buttons and arrow keys stop at the range boundaries and disable there.",
+        ) {
+            ElegantNumberField(
+                value = guests,
+                onValueChange = { guests = it },
+                label = "Guests",
+                minValue = 1,
+                maxValue = 8,
+                step = 2,
+                supportingText = "Even counts keep tables balanced.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled and error",
+            description = "Disabled fields reject input and stepping; errors show critical text below the field.",
+        ) {
+            ElegantNumberField(
+                value = 4,
+                onValueChange = {},
+                label = "Disabled field",
+                enabled = false,
+            )
+            ElegantNumberField(
+                value = 12,
+                onValueChange = {},
+                label = "People",
+                minValue = 1,
+                maxValue = 50,
+                isError = true,
+                errorText = "The hall fits at most 50 people.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A quantity row",
+            description = "The field stretches beside a row label for compact quantity entry.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "Tickets",
+                    modifier = Modifier.weight(1f),
+                    color = ElegantTheme.colors.textSecondary,
+                    style = ElegantTheme.typography.labelMedium,
+                )
+                ElegantNumberField(
+                    value = tickets,
+                    onValueChange = { tickets = it },
+                    modifier = Modifier.weight(1.4f),
+                    minValue = 1,
+                    maxValue = 10,
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SearchBarShowcase() {
+    val componentCatalog = listOf("Badge", "Divider", "Input", "Search Bar", "Tag")
+    var query by remember { mutableStateOf("") }
+    var draft by remember { mutableStateOf("Components") }
+
+    ShowcasePage(title = "Elegant SearchBar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Pill-shaped search field",
+            description = "The owned magnifier glyph leads the field; the placeholder shows while the query is empty.",
+        ) {
+            ElegantSearchBar(
+                query = query,
+                onQueryChange = { query = it },
+                placeholder = "Search components",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled and clearable",
+            description = "A disabled field rejects focus and input; a non-empty query reveals the drawn-X clear button.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                ElegantSearchBar(
+                    query = "Components",
+                    onQueryChange = {},
+                    enabled = false,
+                )
+                ElegantSearchBar(
+                    query = draft,
+                    onQueryChange = { draft = it },
+                    placeholder = "Search components",
+                    onClear = { draft = "" },
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Filtering a list",
+            description = "The query filters an ElegantList of components sitting beneath the field.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                ElegantSearchBar(
+                    query = query,
+                    onQueryChange = { query = it },
+                    placeholder = "Filter components",
+                )
+                val visibleItems = componentCatalog.filter { it.contains(query, ignoreCase = true) }
+                if (visibleItems.isEmpty()) {
+                    Text(
+                        text = "No components match \"$query\".",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = ElegantTheme.colors.textSecondary,
+                    )
+                } else {
+                    ElegantList {
+                        visibleItems.forEach { item ->
+                            ElegantListItem(title = { Text(item) })
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PaginationShowcase() {
+    ShowcasePage(title = "Elegant Pagination") { compact ->
+        var page by remember { mutableStateOf(1) }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Bounded pagination keeps a controlled page state",
+            description = "The current page stays selected, first and last pages remain visible, and chevrons disable at the boundaries.",
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                ElegantPagination(
+                    page = page,
+                    onPageChange = { page = it },
+                    pageCount = 10,
+                )
+                Text(
+                    text = "Page $page of 10",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+            }
+        }
+
+        var widePage by remember { mutableStateOf(1) }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "MANY PAGES",
+            title = "Distant pages collapse into a single ellipsis per gap",
+            description = "Sibling pages widen the visible window while collapsed gaps keep the row compact.",
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                ElegantPagination(
+                    page = widePage,
+                    onPageChange = { widePage = it },
+                    pageCount = 50,
+                    siblingCount = 2,
+                )
+                Text(
+                    text = "Page $widePage of 50",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled pagination keeps layout and announces itself",
+            description = "Every item renders with the disabled colors and chevrons are non-interactive.",
+        ) {
+            ElegantPagination(
+                page = 3,
+                onPageChange = {},
+                pageCount = 10,
+                enabled = false,
+            )
+        }
+
+        val pageSize = 5
+        var dataPage by remember { mutableStateOf(1) }
+        val entries = listOf("Alpha", "Beta", "Gamma", "Delta", "Epsilon", "Zeta", "Eta", "Theta")
+        val visibleEntries = entries.slice(
+            ((dataPage - 1) * pageSize).coerceAtLeast(0) until
+                (dataPage * pageSize).coerceAtMost(entries.size),
+        )
+        val tableColumns = listOf(
+            ElegantTableColumn(title = "Entry"),
+            ElegantTableColumn(title = "Index", textAlign = TextAlign.End),
+        )
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A paginated table pages through its rows",
+            description = "The table renders one slice while the pagination row stays in control.",
+        ) {
+            Column {
+                ElegantTable(
+                    columns = tableColumns,
+                    rows = visibleEntries.mapIndexed { index, entry ->
+                        ElegantTableRow(
+                            cells = listOf(
+                                entry,
+                                (((dataPage - 1) * pageSize) + index + 1).toString(),
+                            ),
+                        )
+                    },
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    ElegantPagination(
+                        page = dataPage,
+                        onPageChange = { dataPage = it },
+                        pageCount = ((entries.size + pageSize - 1) / pageSize),
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun NavigationBarShowcase() {
+    var selected by rememberSaveable { mutableStateOf(0) }
+    val colors = ElegantTheme.colors
+    val items = listOf(
+        ElegantNavigationBarItem("Home"),
+        ElegantNavigationBarItem("Library"),
+        ElegantNavigationBarItem("Settings"),
+    )
+
+    ShowcasePage(title = "Elegant NavigationBar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Destinations switch one content area",
+            description = "Equal-width items keep the selection in a single controlled state with a pill indicator.",
+        ) {
+            ElegantNavigationBar(
+                selectedIndex = selected,
+                onSelect = { selected = it },
+                items = items,
+            )
+            Text(
+                text = "Showing ${items[selected.coerceIn(items.indices)].text}",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+                modifier = Modifier.padding(top = ElegantSpacing.lg),
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled items stay visible",
+            description = "A disabled item keeps its slot and announces its state without callbacks.",
+        ) {
+            ElegantNavigationBar(
+                selectedIndex = selected,
+                onSelect = { selected = it },
+                items = listOf(
+                    ElegantNavigationBarItem("Home"),
+                    ElegantNavigationBarItem("Archive", enabled = false),
+                    ElegantNavigationBarItem("Shared"),
+                ),
+            )
+            Text(
+                text = "Disabled bar",
+                style = ElegantTheme.typography.labelMedium,
+                color = colors.textTertiary,
+                modifier = Modifier.padding(top = ElegantSpacing.lg),
+            )
+            ElegantNavigationBar(
+                selectedIndex = 0,
+                onSelect = {},
+                items = listOf(ElegantNavigationBarItem("Offline")),
+                enabled = false,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Page with a top bar and bottom navigation",
+            description = "The bar pins to the bottom while the content column fills the rest.",
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(220.dp),
+            ) {
+                ElegantNavbar(
+                    title = {
+                        Text(
+                            text = items[selected.coerceIn(items.indices)].text,
+                            style = ElegantTheme.typography.titleMedium,
+                        )
+                    },
+                )
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .background(colors.backgroundCanvas),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = "Content for ${items[selected.coerceIn(items.indices)].text}",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+                ElegantNavigationBar(
+                    selectedIndex = selected,
+                    onSelect = { selected = it },
+                    items = items,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun NavigationRailShowcase() {
+    var selected by remember { mutableStateOf(0) }
+
+    ShowcasePage(title = "Elegant NavigationRail") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Controlled destination rail",
+            description = "An 80dp rail with a selected index, header slot, and animated item states.",
+        ) {
+            ElegantNavigationRail(
+                selectedIndex = selected,
+                onSelect = { selected = it },
+                items = listOf(
+                    ElegantNavigationRailItem("Home"),
+                    ElegantNavigationRailItem("Search"),
+                    ElegantNavigationRailItem("Notifications"),
+                    ElegantNavigationRailItem("Profile"),
+                ),
+                header = {
+                    ElegantAvatar(name = "Maya Chen", initials = "MC")
+                },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled item and non-interactive bar",
+            description = "Per-item enabled flags keep disabled entries resting, and disabling the whole bar drops all interactivity.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
+            ) {
+                ElegantNavigationRail(
+                    selectedIndex = 1,
+                    onSelect = {},
+                    items = listOf(
+                        ElegantNavigationRailItem("Inbox"),
+                        ElegantNavigationRailItem("Archived"),
+                        ElegantNavigationRailItem("Trash", enabled = false),
+                    ),
+                )
+                ElegantNavigationRail(
+                    selectedIndex = 0,
+                    onSelect = {},
+                    enabled = false,
+                    items = listOf(
+                        ElegantNavigationRailItem("Read-only A"),
+                        ElegantNavigationRailItem("Read-only B"),
+                    ),
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Rail beside content",
+            description = "The rail anchors a layout row while content flows next to it.",
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(280.dp)
+                    .background(ElegantTheme.colors.backgroundSubtle),
+            ) {
+                ElegantNavigationRail(
+                    selectedIndex = selected,
+                    onSelect = { selected = it },
+                    items = listOf(
+                        ElegantNavigationRailItem("Dashboard"),
+                        ElegantNavigationRailItem("Projects"),
+                        ElegantNavigationRailItem("Team"),
+                    ),
+                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(ElegantSpacing.xl),
+                ) {
+                    Text("Dashboard", style = ElegantTheme.typography.titleMedium)
+                    Text("Content goes here.", style = ElegantTheme.typography.bodyMedium)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FloatingActionButtonShowcase() {
+    ShowcasePage(title = "Elegant FloatingActionButton") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Standard and compact",
+            description = "A 56dp circle (40dp compact) floats above the content with medium elevation, animated state colors, and a restrained press scale.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantFloatingActionButton(onClick = {}) {
+                    ResourceIcon(Res.drawable.add_rounded)
+                }
+                ElegantFloatingActionButton(
+                    onClick = {},
+                    compact = true,
+                ) {
+                    ResourceIcon(Res.drawable.add_rounded)
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled",
+            description = "Disabled FABs keep their fixed touch target, never invoke callbacks, and announce the disabled state.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantFloatingActionButton(
+                    onClick = {},
+                    enabled = false,
+                ) {
+                    ResourceIcon(Res.drawable.add_rounded)
+                }
+                ElegantFloatingActionButton(
+                    onClick = {},
+                    compact = true,
+                    enabled = false,
+                ) {
+                    ResourceIcon(Res.drawable.add_rounded)
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Anchored to the screen edge",
+            description = "The FAB anchors to the bottom end of its container, floating above the content it controls.",
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(ElegantTheme.colors.backgroundSubtle)
+                    .padding(ElegantSpacing.md),
+            ) {
+                Text(
+                    text = "Content surface",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+                ElegantFloatingActionButton(
+                    onClick = {},
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                ) {
+                    ResourceIcon(Res.drawable.add_rounded)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PopoverShowcase() {
+    ShowcasePage(title = "Elegant Popover") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "One tap opens the settings panel",
+            description = "Clicking the trigger toggles the popover; outside click and Escape dismiss it.",
+        ) {
+            Text(
+                text = "Tap the trigger to open the popover.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantPopover(
+                popover = {
+                    Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                        Text("Settings", style = ElegantTheme.typography.labelMedium)
+                        Text(
+                            text = "Notifications, appearance, and account preferences.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                },
+            ) {
+                PopoverTrigger("Settings")
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "PLACEMENT",
+            title = "Logical around the trigger",
+            description = "Top, bottom, start, and end placements; Start and End mirror in RTL layouts.",
+        ) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            ) {
+                PopoverPlacementPreview(ElegantPopoverPlacement.Top)
+                PopoverPlacementPreview(ElegantPopoverPlacement.Bottom)
+                PopoverPlacementPreview(ElegantPopoverPlacement.Start)
+                PopoverPlacementPreview(ElegantPopoverPlacement.End)
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A popover that takes action",
+            description = "The focusable popup lets interactive controls live inside the popover.",
+        ) {
+            ElegantPopover(
+                popover = {
+                    Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                        Text("Clear all filters?", style = ElegantTheme.typography.labelMedium)
+                        ElegantButton(
+                            onClick = {},
+                            style = ElegantButtonStyle.Secondary,
+                        ) {
+                            Text("Confirm")
+                        }
+                    }
+                },
+                placement = ElegantPopoverPlacement.End,
+            ) {
+                ShowcaseIconButton(
+                    resource = Res.drawable.more_vert_rounded,
+                    contentDescription = "More actions",
+                    onClick = {},
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun PopoverTrigger(label: String) {
+    val colors = ElegantTheme.colors
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(ElegantRadius.sm))
+            .background(colors.backgroundSubtle)
+            .padding(horizontal = ElegantSpacing.lg, vertical = ElegantSpacing.sm),
+    ) {
+        Text(
+            text = label,
+            color = colors.textPrimary,
+            style = ElegantTheme.typography.labelMedium,
+        )
+    }
+}
+
+@Composable
+private fun PopoverPlacementPreview(placement: ElegantPopoverPlacement) {
+    ElegantPopover(
+        popover = { Text("${placement.name} placement") },
+        placement = placement,
+    ) {
+        PopoverTrigger(placement.name)
+    }
+}
+
+@Composable
+private fun MenuShowcase() {
+    var moreOpen by remember { mutableStateOf(false) }
+    var profileOpen by remember { mutableStateOf(false) }
+    var toolbarMoreOpen by remember { mutableStateOf(false) }
+    var toolbarProfileOpen by remember { mutableStateOf(false) }
+    var sortOpen by remember { mutableStateOf(false) }
+
+    ShowcasePage(title = "Elegant Menu") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A dropdown anchored to its trigger",
+            description = "The trigger lives in a Box with ElegantMenu; the surface drops below that Box, start-aligned, and dismisses on outside click, Escape, or back.",
+        ) {
+            Box {
+                ShowcaseIconButton(
+                    resource = Res.drawable.more_vert_rounded,
+                    contentDescription = "More options",
+                    onClick = { moreOpen = true },
+                )
+                ElegantMenu(
+                    expanded = moreOpen,
+                    onDismissRequest = { moreOpen = false },
+                ) {
+                    ElegantMenuItem(
+                        text = "Edit",
+                        onClick = { moreOpen = false },
+                        leadingContent = { ResourceIcon(Res.drawable.edit_rounded) },
+                    )
+                    ElegantMenuItem(
+                        text = "Share",
+                        onClick = { moreOpen = false },
+                        leadingContent = { ResourceIcon(Res.drawable.share_rounded) },
+                    )
+                    ElegantMenuItem(
+                        text = "Delete",
+                        onClick = { moreOpen = false },
+                        leadingContent = { ResourceIcon(Res.drawable.delete_rounded) },
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled items and slot content",
+            description = "Disabled items never invoke callbacks; leading and trailing slots render in 20dp boxes and follow the item color.",
+        ) {
+            Box {
+                ShowcaseIconButton(
+                    resource = Res.drawable.person_rounded,
+                    contentDescription = "Profile",
+                    onClick = { profileOpen = true },
+                )
+                ElegantMenu(
+                    expanded = profileOpen,
+                    onDismissRequest = { profileOpen = false },
+                ) {
+                    ElegantMenuItem(
+                        text = "Account",
+                        onClick = { profileOpen = false },
+                        leadingContent = { ResourceIcon(Res.drawable.person_rounded) },
+                        trailingContent = { ResourceIcon(Res.drawable.check_rounded) },
+                    )
+                    ElegantMenuItem(
+                        text = "Restore",
+                        onClick = { profileOpen = false },
+                        enabled = false,
+                        leadingContent = { ResourceIcon(Res.drawable.add_rounded) },
+                        trailingContent = { ResourceIcon(Res.drawable.check_rounded) },
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Toolbar actions",
+            description = "Three icon menus share one row; each anchor Box wraps only its own trigger.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.more_vert_rounded,
+                        contentDescription = "More",
+                        onClick = { toolbarMoreOpen = true },
+                    )
+                    ElegantMenu(
+                        expanded = toolbarMoreOpen,
+                        onDismissRequest = { toolbarMoreOpen = false },
+                    ) {
+                        ElegantMenuItem("New file", onClick = { toolbarMoreOpen = false },
+                            leadingContent = { ResourceIcon(Res.drawable.add_rounded) })
+                        ElegantMenuItem("Open", onClick = { toolbarMoreOpen = false },
+                            leadingContent = { ResourceIcon(Res.drawable.share_rounded) })
+                    }
+                }
+                Box {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.person_rounded,
+                        contentDescription = "Profile",
+                        onClick = { toolbarProfileOpen = true },
+                    )
+                    ElegantMenu(
+                        expanded = toolbarProfileOpen,
+                        onDismissRequest = { toolbarProfileOpen = false },
+                    ) {
+                        ElegantMenuItem("Account", onClick = { toolbarProfileOpen = false })
+                        ElegantMenuItem("Sign out", onClick = { toolbarProfileOpen = false })
+                    }
+                }
+                Box {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.check_rounded,
+                        contentDescription = "Sort",
+                        onClick = { sortOpen = true },
+                    )
+                    ElegantMenu(
+                        expanded = sortOpen,
+                        onDismissRequest = { sortOpen = false },
+                    ) {
+                        ElegantMenuItem("Name", onClick = { sortOpen = false },
+                            trailingContent = { ResourceIcon(Res.drawable.check_rounded) })
+                        ElegantMenuItem("Date", onClick = { sortOpen = false })
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AccordionShowcase() {
+    var expandedIndex by remember { mutableIntStateOf(-1) }
+    val expandedItems = remember { mutableStateListOf<Int>() }
+
+    ShowcasePage(title = "Elegant Accordion") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Single-expand accordion",
+            description = "One item stays open; activating it again collapses it.",
+        ) {
+            ElegantAccordion {
+                listOf("General", "Appearance", "Privacy").forEachIndexed { index, title ->
+                    ElegantAccordionItem(
+                        title = title,
+                        expanded = expandedIndex == index,
+                        onToggle = {
+                            expandedIndex = if (expandedIndex == index) -1 else index
+                        },
+                    ) {
+                        Text(
+                            text = "Settings for $title reveal here.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "MULTI",
+            title = "Multiple expanded items",
+            description = "Each item toggles independently.",
+        ) {
+            ElegantAccordion {
+                listOf("Releases", "Contributors", "Documentation").forEachIndexed { index, title ->
+                    ElegantAccordionItem(
+                        title = title,
+                        expanded = expandedItems.contains(index),
+                        onToggle = {
+                            if (expandedItems.contains(index)) {
+                                expandedItems.remove(index)
+                            } else {
+                                expandedItems.add(index)
+                            }
+                        },
+                        supportingText = "Independent expanded state",
+                    ) {
+                        Text(
+                            text = "$title body stays independent of the other items.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "FAQ card",
+            description = "An accordion groups answers in one bordered surface.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                Text(
+                    text = "Frequently asked",
+                    style = ElegantTheme.typography.labelLarge,
+                    color = colors.textPrimary,
+                )
+                ElegantAccordion {
+                    ElegantAccordionItem(
+                        title = "What is Elegant UI?",
+                        expanded = true,
+                        onToggle = {},
+                        supportingText = "Refined Compose Multiplatform components",
+                    ) {
+                        Text(
+                            text = "A shared component library for Android, Desktop, and Web.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                    ElegantAccordionItem(
+                        title = "Which platforms are supported?",
+                        expanded = false,
+                        onToggle = {},
+                    ) {
+                        Text(
+                            text = "Android 24+, Desktop JVM, and Web/Wasm.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                    ElegantAccordionItem(
+                        title = "Is the component library free?",
+                        expanded = false,
+                        onToggle = {},
+                        enabled = false,
+                        supportingText = "Disabled items never invoke onToggle",
+                    ) {
+                        Text(
+                            text = "Hidden body.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LinkShowcase() {
+    var clicks by remember { mutableStateOf(0) }
+
+    ShowcasePage(title = "Elegant Link") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Inline links",
+            description = "Text-only links keep a compact label while the touch target expands to the 48dp minimum.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantLink(
+                    text = "View release notes",
+                    onClick = { clicks += 1 },
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "Signed out. ",
+                        color = ElegantTheme.colors.textSecondary,
+                        style = ElegantTheme.typography.bodyMedium,
+                    )
+                    ElegantLink(
+                        text = "Sign in",
+                        onClick = { clicks += 1 },
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled and hover",
+            description = "Hovered links brighten to the hover role; disabled links drop to tertiary text and never invoke the callback.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantLink(
+                    text = "Open settings",
+                    onClick = { clicks += 1 },
+                )
+                ElegantLink(
+                    text = "Unavailable action",
+                    onClick = { clicks += 1 },
+                    enabled = false,
+                )
+                Text(
+                    text = "Activated $clicks times",
+                    color = ElegantTheme.colors.textSecondary,
+                    style = ElegantTheme.typography.bodyMedium,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Profile card",
+            description = "A link row on a card surface next to an identity avatar.",
+        ) {
+            ElegantCard(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(ElegantSpacing.lg),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                    ) {
+                        ElegantAvatar(name = "Ada Lovelace")
+                        Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs)) {
+                            Text(
+                                text = "Ada Lovelace",
+                                style = ElegantTheme.typography.labelLarge,
+                            )
+                            Text(
+                                text = "Analytical Engine",
+                                color = ElegantTheme.colors.textSecondary,
+                                style = ElegantTheme.typography.bodyMedium,
+                            )
+                        }
+                    }
+                    ElegantLink(
+                        text = "View full profile",
+                        onClick = { clicks += 1 },
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun KbdShowcase() {
+    ShowcasePage(title = "Elegant Kbd") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Single keys and chords",
+            description = "Compact key badges share one recessed visual contract.",
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantKbd(text = "K")
+                ElegantKbd(text = "Esc")
+                ElegantKbd(text = "Cmd + K")
+                ElegantKbd(text = "Ctrl + Shift + P")
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Shortcut list",
+            description = "A key badge pairs with its action label in a scannable column.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    ElegantKbd(text = "Ctrl + K")
+                    Text(
+                        text = "Open command palette",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    ElegantKbd(text = "Ctrl + Shift + P")
+                    Text(
+                        text = "Show all commands",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    ElegantKbd(text = "Ctrl + B")
+                    Text(
+                        text = "Toggle sidebar",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT 2",
+            title = "Search shortcut hint",
+            description = "Search bars hint at their activation shortcut with key badges.",
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = "Search",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = colors.textSecondary,
+                )
+                ElegantKbd(text = "Cmd + F")
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
 private fun UnknownComponent(componentId: String) {
     ElegantTheme {
         val colors = ElegantTheme.colors
