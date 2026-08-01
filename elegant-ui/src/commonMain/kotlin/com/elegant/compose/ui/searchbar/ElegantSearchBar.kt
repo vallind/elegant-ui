@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.minimumInteractiveComponentSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -324,7 +323,7 @@ public fun ElegantSearchBar(
             Box(
                 modifier = Modifier
                     .size(SearchBarMetrics.ClearButtonSize)
-                    .minimumInteractiveComponentSize()
+                    .defaultMinSize(minHeight = ElegantSearchBarDefaults.MinimumTouchHeight)
                     .clickable(
                         enabled = enabled,
                         role = Role.Button,
