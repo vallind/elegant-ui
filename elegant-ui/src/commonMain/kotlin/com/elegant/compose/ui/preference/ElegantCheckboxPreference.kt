@@ -168,5 +168,3 @@ internal fun resolveCheckboxPreferenceColors(themeColors: ElegantColors): Elegan
  * Blank values, including empty and whitespace-only strings, are treated as absent and resolve to
  * null so no supporting text row is rendered.
  */
-internal fun resolveSupportingText(supportingText: String?): String? =
-    supportingText?.takeIf { it.isNotBlank() }

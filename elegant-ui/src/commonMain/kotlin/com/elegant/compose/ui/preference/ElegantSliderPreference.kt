@@ -191,8 +191,3 @@ internal fun resolveSliderPreferenceValueColor(
     enabled: Boolean,
 ): Color = if (enabled) colors.valueColor else colors.disabledTitleColor
 
-/**
- * Returns [supportingText] when it is non-blank, and null otherwise.
- */
-internal fun resolveSupportingText(supportingText: String?): String? =
-    supportingText?.takeIf { it.isNotBlank() }

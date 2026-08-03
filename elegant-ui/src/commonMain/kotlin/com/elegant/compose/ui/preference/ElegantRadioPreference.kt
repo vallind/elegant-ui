@@ -213,5 +213,3 @@ internal fun resolveRadioPreferenceVisuals(
     },
 )
 
-internal fun resolveSupportingText(supportingText: String?): String? =
-    supportingText?.takeIf { it.isNotBlank() }
