@@ -1,6 +1,5 @@
 package com.elegant.compose.showcase
 
-import androidx.compose.foundation.CircleShape
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
@@ -3655,7 +3654,6 @@ private fun SidebarShowcase() {
     }
 }
 
-@Composable
 @Composable
 private fun ProgressShowcase() {
     var uploadProgress by remember { mutableStateOf(0.35f) }
