@@ -13,7 +13,6 @@ import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.isFinite
 import com.elegant.compose.ui.progress.ElegantCircularProgressIndicator
 import com.elegant.compose.ui.progress.ElegantProgressColors
 import com.elegant.compose.ui.theme.ElegantColors
@@ -114,7 +113,7 @@ internal fun resolveSpinnerColors(themeColors: ElegantColors): ElegantSpinnerCol
     )
 
 internal fun resolveSize(size: Dp): Dp =
-    if (size.isFinite() && size > 0.dp) size else DefaultSpinnerSize
+    if (size.value.isFinite() && size > 0.dp) size else DefaultSpinnerSize
 
 internal fun resolveStrokeWidth(strokeWidth: Dp): Dp =
-    if (strokeWidth.isFinite() && strokeWidth > 0.dp) strokeWidth else DefaultSpinnerStrokeWidth
+    if (strokeWidth.value.isFinite() && strokeWidth > 0.dp) strokeWidth else DefaultSpinnerStrokeWidth
