@@ -21,6 +21,9 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Kbd](./kbd) | Label keyboard keys | Available |
 | [Surface](./surface) | Layer low-level containers | Available |
 | [Spinner](./spinner) | Show an indeterminate loading ring | Available |
+| [FloatingToolbar](./floating-toolbar) | Float a compact action strip | Available |
+| [ScrollBar](./scroll-bar) | Indicate scroll position | Available |
+| [SmallTitle](./small-title) | Label settings groups | Available |
 | [ScrollShadow](./scroll-shadow) | Fade scrollable edges | Available |
 
 ## Forms
@@ -35,6 +38,10 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [SearchBar](./search-bar) | Search and filter | Available |
 | [RadioGroup](./radio-group) | Group exclusive choices | Available |
 | [CheckboxGroup](./checkbox-group) | Group multi-select choices | Available |
+| [SwitchPreference](./switch-preference) | Toggle a setting row | Available |
+| [CheckboxPreference](./checkbox-preference) | Check a setting row | Available |
+| [RadioPreference](./radio-preference) | Select a setting row | Available |
+| [SliderPreference](./slider-preference) | Adjust a setting value | Available |
 | [ToggleButton](./toggle-button) | Toggle options in clusters | Available |
 | [ButtonGroup](./button-group) | Choose one segmented option | Available |
 
@@ -74,3 +81,4 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Breadcrumb](./breadcrumb) | Show the current location | Available |
 | [NavigationBar](./navigation-bar) | Anchor bottom navigation | Available |
 | [NavigationRail](./navigation-rail) | Anchor side navigation | Available |
+| [ArrowPreference](./arrow-preference) | Drill into a setting row | Available |

@@ -21,6 +21,9 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Kbd](./kbd) | 标注键盘按键 | 已完成 |
 | [Surface](./surface) | 分层底层容器 | 已完成 |
 | [Spinner](./spinner) | 展示不定进度加载环 | 已完成 |
+| [FloatingToolbar](./floating-toolbar) | 浮动紧凑操作条 | 已完成 |
+| [ScrollBar](./scroll-bar) | 指示滚动位置 | 已完成 |
+| [SmallTitle](./small-title) | 标注设置分组 | 已完成 |
 | [ScrollShadow](./scroll-shadow) | 淡化可滚动边缘 | 已完成 |
 
 ## 表单组件
@@ -35,6 +38,10 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [SearchBar](./search-bar) | 搜索与筛选 | 已完成 |
 | [RadioGroup](./radio-group) | 组合互斥选项 | 已完成 |
 | [CheckboxGroup](./checkbox-group) | 组合多选选项 | 已完成 |
+| [SwitchPreference](./switch-preference) | 切换设置行 | 已完成 |
+| [CheckboxPreference](./checkbox-preference) | 勾选设置行 | 已完成 |
+| [RadioPreference](./radio-preference) | 选择设置行 | 已完成 |
+| [SliderPreference](./slider-preference) | 调节设置值 | 已完成 |
 | [ToggleButton](./toggle-button) | 集群切换选项 | 已完成 |
 | [ButtonGroup](./button-group) | 选择分段选项 | 已完成 |
 
@@ -74,3 +81,4 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Breadcrumb](./breadcrumb) | 显示当前位置 | 已完成 |
 | [NavigationBar](./navigation-bar) | 锚定底部导航 | 已完成 |
 | [NavigationRail](./navigation-rail) | 锚定侧边导航 | 已完成 |
+| [ArrowPreference](./arrow-preference) | 进入设置行详情 | 已完成 |

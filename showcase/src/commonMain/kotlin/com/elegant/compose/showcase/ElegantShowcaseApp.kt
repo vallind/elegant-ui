@@ -97,6 +97,7 @@ import com.elegant.compose.ui.drawer.ElegantDrawer
 import com.elegant.compose.ui.drawer.ElegantDrawerPlacement
 import com.elegant.compose.ui.emptystate.ElegantEmptyState
 import com.elegant.compose.ui.floatingactionbutton.ElegantFloatingActionButton
+import com.elegant.compose.ui.floatingtoolbar.ElegantFloatingToolbar
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
@@ -120,6 +121,11 @@ import com.elegant.compose.ui.numberfield.ElegantNumberField
 import com.elegant.compose.ui.pagination.ElegantPagination
 import com.elegant.compose.ui.popover.ElegantPopover
 import com.elegant.compose.ui.popover.ElegantPopoverPlacement
+import com.elegant.compose.ui.preference.ElegantArrowPreference
+import com.elegant.compose.ui.preference.ElegantCheckboxPreference
+import com.elegant.compose.ui.preference.ElegantRadioPreference
+import com.elegant.compose.ui.preference.ElegantSliderPreference
+import com.elegant.compose.ui.preference.ElegantSwitchPreference
 import com.elegant.compose.ui.progress.ElegantCircularProgressIndicator
 import com.elegant.compose.ui.progress.ElegantLinearProgressIndicator
 import com.elegant.compose.ui.pulltorefresh.ElegantPullToRefresh
@@ -128,6 +134,8 @@ import com.elegant.compose.ui.radio.ElegantRadio
 import com.elegant.compose.ui.radiogroup.ElegantRadioGroup
 import com.elegant.compose.ui.radiogroup.ElegantRadioGroupItem
 import com.elegant.compose.ui.scaffold.ElegantScaffold
+import com.elegant.compose.ui.scrollbar.ElegantScrollBar
+import com.elegant.compose.ui.scrollbar.ElegantScrollBarOrientation
 import com.elegant.compose.ui.scrollshadow.ElegantScrollShadow
 import com.elegant.compose.ui.scrollshadow.ElegantScrollShadowOrientation
 import com.elegant.compose.ui.searchbar.ElegantSearchBar
@@ -138,6 +146,7 @@ import com.elegant.compose.ui.sidebar.ElegantSidebarItem
 import com.elegant.compose.ui.skeleton.ElegantSkeleton
 import com.elegant.compose.ui.skeleton.ElegantSkeletonBlock
 import com.elegant.compose.ui.slider.ElegantSlider
+import com.elegant.compose.ui.smalltitle.ElegantSmallTitle
 import com.elegant.compose.ui.snackbar.ElegantSnackbar
 import com.elegant.compose.ui.snackbar.ElegantSnackbarHost
 import com.elegant.compose.ui.snackbar.ElegantSnackbarHostState
@@ -219,6 +228,14 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "checkbox-group",
         "scroll-shadow",
         "spinner",
+        "switch-preference",
+        "checkbox-preference",
+        "radio-preference",
+        "slider-preference",
+        "arrow-preference",
+        "small-title",
+        "floating-toolbar",
+        "scroll-bar",
         "tag",
     )
 
@@ -283,6 +300,14 @@ public fun ElegantShowcaseApp(
         "checkbox-group" -> CheckboxGroupShowcase()
         "scroll-shadow" -> ScrollShadowShowcase()
         "spinner" -> SpinnerShowcase()
+        "switch-preference" -> SwitchPreferenceShowcase()
+        "checkbox-preference" -> CheckboxPreferenceShowcase()
+        "radio-preference" -> RadioPreferenceShowcase()
+        "slider-preference" -> SliderPreferenceShowcase()
+        "arrow-preference" -> ArrowPreferenceShowcase()
+        "small-title" -> SmallTitleShowcase()
+        "floating-toolbar" -> FloatingToolbarShowcase()
+        "scroll-bar" -> ScrollBarShowcase()
         "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
@@ -6188,6 +6213,573 @@ private fun SpinnerShowcase() {
 }
 
 @Composable
+@Composable
+private fun SwitchPreferenceShowcase() {
+    var notifications by remember { mutableStateOf(true) }
+    var sound by remember { mutableStateOf(true) }
+    var batterySaver by remember { mutableStateOf(false) }
+    var wifi by remember { mutableStateOf(true) }
+    var bluetooth by remember { mutableStateOf(false) }
+
+    ShowcasePage(title = "Elegant SwitchPreference") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A settings card of three preferences",
+            description = "Each row pairs a 48dp title block with an end-anchored switch and a closing divider.",
+        ) {
+            ElegantCard(modifier = Modifier.fillMaxWidth()) {
+                ElegantSwitchPreference(
+                    title = "Notifications",
+                    checked = notifications,
+                    onCheckedChange = { notifications = it },
+                    supportingText = "Receive push notifications",
+                )
+                ElegantSwitchPreference(
+                    title = "Sound",
+                    checked = sound,
+                    onCheckedChange = { sound = it },
+                    supportingText = "Play a sound when new items arrive",
+                )
+                ElegantSwitchPreference(
+                    title = "Battery saver",
+                    checked = batterySaver,
+                    onCheckedChange = { batterySaver = it },
+                    supportingText = "Limit background activity",
+                    showDivider = false,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Preferences inside an ElegantList",
+            description = "Switch preferences slot into a list card with the standard 48dp row rhythm, including a disabled row.",
+        ) {
+            ElegantCard(modifier = Modifier.fillMaxWidth()) {
+                ElegantList {
+                    ElegantSwitchPreference(
+                        title = "Wi-Fi",
+                        checked = wifi,
+                        onCheckedChange = { wifi = it },
+                        supportingText = "Join known networks automatically",
+                    )
+                    ElegantSwitchPreference(
+                        title = "Bluetooth",
+                        checked = bluetooth,
+                        onCheckedChange = { bluetooth = it },
+                        supportingText = "Share audio and connect devices",
+                    )
+                    ElegantSwitchPreference(
+                        title = "Airplane mode",
+                        checked = false,
+                        onCheckedChange = {},
+                        enabled = false,
+                        showDivider = false,
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun CheckboxPreferenceShowcase() {
+    var camera by remember { mutableStateOf(true) }
+    var photos by remember { mutableStateOf(false) }
+
+    ShowcasePage(title = "Elegant CheckboxPreference") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Permission rows",
+            description = "Each row pairs a title block with an end-anchored checkbox and a closing divider.",
+        ) {
+            ElegantCard(modifier = Modifier.fillMaxWidth()) {
+                Column {
+                    ElegantCheckboxPreference(
+                        title = "Camera",
+                        checked = camera,
+                        onCheckedChange = { camera = it },
+                        supportingText = "Allow photo and video capture",
+                    )
+                    ElegantCheckboxPreference(
+                        title = "Photos",
+                        checked = photos,
+                        onCheckedChange = { photos = it },
+                        supportingText = "Read and write the photo library",
+                    )
+                    ElegantCheckboxPreference(
+                        title = "Microphone",
+                        checked = false,
+                        onCheckedChange = {},
+                        enabled = false,
+                        supportingText = "Currently unavailable",
+                        showDivider = false,
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun RadioPreferenceShowcase() {
+    var theme by rememberSaveable { mutableStateOf("Violet") }
+
+    ShowcasePage(title = "Elegant RadioPreference") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A row that selects itself",
+            description = "The whole row is the interactive target; the trailing radio mirrors the same state.",
+        ) {
+            ElegantCard {
+                Column {
+                    for (candidate in listOf("Violet", "Indigo", "Teal")) {
+                        ElegantRadioPreference(
+                            title = candidate,
+                            selected = theme == candidate,
+                            onSelect = { theme = candidate },
+                            showDivider = candidate != "Teal",
+                        )
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A settings group on a card",
+            description = "Supporting text, a disabled row, and dividers stay exclusive inside one card surface.",
+        ) {
+            ElegantCard {
+                Column {
+                    ElegantRadioPreference(
+                        title = "Standard",
+                        selected = theme == "Standard",
+                        onSelect = { theme = "Standard" },
+                        supportingText = "3 to 5 business days",
+                    )
+                    ElegantRadioPreference(
+                        title = "Express",
+                        selected = theme == "Express",
+                        onSelect = { theme = "Express" },
+                        supportingText = "1 to 2 business days",
+                    )
+                    ElegantRadioPreference(
+                        title = "Overnight",
+                        selected = false,
+                        onSelect = {},
+                        enabled = false,
+                        supportingText = "Currently unavailable",
+                        showDivider = false,
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SliderPreferenceShowcase() {
+    var brightness by remember { mutableStateOf(0.7f) }
+    var volume by remember { mutableStateOf(0.5f) }
+
+    ShowcasePage(title = "Elegant SliderPreference") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A display settings row",
+            description = "The title row shows the formatted value; the slider below owns drag, tap, and keyboard interaction.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                ElegantSliderPreference(
+                    title = "Brightness",
+                    value = brightness,
+                    onValueChange = { brightness = it },
+                    valueFormatter = { "${(it * 100).roundToInt()}%" },
+                )
+                ElegantSliderPreference(
+                    title = "Volume",
+                    value = volume,
+                    onValueChange = { volume = it },
+                    valueFormatter = { "${(it * 100).roundToInt()}%" },
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Inside a settings surface",
+            description = "Preferences stack inside a card, each row closed by its inset divider.",
+        ) {
+            ElegantCard(style = ElegantCardStyle.Filled) {
+                Column(Modifier.padding(ElegantSpacing.md)) {
+                    Text(
+                        text = "Display",
+                        modifier = Modifier.padding(horizontal = ElegantSpacing.md, vertical = ElegantSpacing.xs),
+                        style = ElegantTheme.typography.labelLarge,
+                        color = colors.textPrimary,
+                    )
+                    ElegantSliderPreference(
+                        title = "Brightness",
+                        value = brightness,
+                        onValueChange = { brightness = it },
+                        valueFormatter = { "${(it * 100).roundToInt()}%" },
+                    )
+                    ElegantSliderPreference(
+                        title = "Volume",
+                        value = volume,
+                        onValueChange = { volume = it },
+                        valueFormatter = { "${(it * 100).roundToInt()}%" },
+                        showDivider = false,
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun ArrowPreferenceShowcase() {
+    var opened by remember { mutableStateOf(0) }
+
+    ShowcasePage(title = "Elegant ArrowPreference") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "One row, one destination",
+            description = "The whole row is the interactive target; the trailing chevron signals a drill-in.",
+        ) {
+            ElegantCard(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column {
+                    ElegantArrowPreference(
+                        title = "Account",
+                        onClick = { opened++ },
+                        supportingText = "Signed in as violet@example.com",
+                    )
+                    ElegantArrowPreference(
+                        title = "Notifications",
+                        onClick = { opened++ },
+                        supportingText = "Alerts for messages and mentions",
+                    )
+                    ElegantArrowPreference(
+                        title = "About",
+                        onClick = { opened++ },
+                        showDivider = false,
+                    )
+                }
+            }
+            Text(
+                text = "Opened $opened settings screen(s)",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+                modifier = Modifier.padding(top = ElegantSpacing.md),
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Settings groups on a card surface",
+            description = "Rows stack with their own dividers and keep the 48dp minimum target.",
+        ) {
+            ElegantCard(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column {
+                    ElegantArrowPreference(
+                        title = "General",
+                        onClick = { opened++ },
+                        supportingText = "Language, region, and appearance",
+                    )
+                    ElegantArrowPreference(
+                        title = "Privacy",
+                        onClick = {},
+                        enabled = false,
+                        supportingText = "Locked by administrator",
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SmallTitleShowcase() {
+    var darkMode by remember { mutableStateOf(false) }
+    var analytics by remember { mutableStateOf(true) }
+    var soundEffects by remember { mutableStateOf(false) }
+
+    ShowcasePage(title = "Elegant SmallTitle") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Quiet section headings",
+            description = "Small labels lead preference rows without competing with them.",
+        ) {
+            ElegantSmallTitle(text = "GENERAL")
+            ElegantSwitchPreference(
+                title = "Dark mode",
+                checked = darkMode,
+                onCheckedChange = { darkMode = it },
+            )
+            ElegantSmallTitle(text = "PREFERENCES")
+            ElegantSwitchPreference(
+                title = "Usage analytics",
+                checked = analytics,
+                onCheckedChange = { analytics = it },
+                supportingText = "Send anonymous usage data",
+            )
+            ElegantCheckboxPreference(
+                title = "Sound effects",
+                checked = soundEffects,
+                onCheckedChange = { soundEffects = it },
+                showDivider = false,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Titled settings surface",
+            description = "Three titled groups keep a settings screen scannable.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                    ElegantSmallTitle(text = "DISPLAY")
+                    ElegantCard(style = ElegantCardStyle.Outlined) {
+                        Column {
+                            ElegantSwitchPreference(
+                                title = "Dark mode",
+                                checked = darkMode,
+                                onCheckedChange = { darkMode = it },
+                                showDivider = true,
+                            )
+                            ElegantSwitchPreference(
+                                title = "Reduce motion",
+                                checked = soundEffects,
+                                onCheckedChange = { soundEffects = it },
+                                showDivider = false,
+                            )
+                        }
+                    }
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                    ElegantSmallTitle(text = "PRIVACY")
+                    ElegantCard(style = ElegantCardStyle.Outlined) {
+                        Column {
+                            ElegantCheckboxPreference(
+                                title = "Usage analytics",
+                                checked = analytics,
+                                onCheckedChange = { analytics = it },
+                                showDivider = false,
+                            )
+                        }
+                    }
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                    ElegantSmallTitle(text = "ABOUT")
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            text = "Version",
+                            style = ElegantTheme.typography.bodyMedium,
+                            color = ElegantTheme.colors.textPrimary,
+                        )
+                        Text(
+                            text = "1.0.0",
+                            style = ElegantTheme.typography.bodyMedium,
+                            color = ElegantTheme.colors.textSecondary,
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FloatingToolbarShowcase() {
+    ShowcasePage(title = "Elegant FloatingToolbar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Actions floating over a selection",
+            description = "A raised 48dp pill with fully rounded ends and medium elevation wraps its actions; callers position it with Modifier.align inside their own Box.",
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(160.dp)
+                    .background(ElegantTheme.colors.backgroundSubtle),
+            ) {
+                Text(
+                    text = "Selection context",
+                    modifier = Modifier.padding(ElegantSpacing.md),
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+                ElegantFloatingToolbar(
+                    modifier = Modifier.align(Alignment.TopCenter),
+                ) {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.edit_rounded,
+                        contentDescription = "Edit",
+                        modifier = Modifier.padding(horizontal = ElegantSpacing.xxs),
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.delete_rounded,
+                        contentDescription = "Delete",
+                        modifier = Modifier.padding(horizontal = ElegantSpacing.xxs),
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.share_rounded,
+                        contentDescription = "Share",
+                        modifier = Modifier.padding(horizontal = ElegantSpacing.xxs),
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.more_vert_rounded,
+                        contentDescription = "More options",
+                        modifier = Modifier.padding(horizontal = ElegantSpacing.xxs),
+                        onClick = {},
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Hovering above a paragraph",
+            description = "The toolbar floats above reading content while its actions keep their own focus, hover, and press states.",
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(ElegantTheme.colors.backgroundSubtle),
+            ) {
+                Text(
+                    text = "The toolbar hovers above this paragraph. Actions inside keep their own focus, hover, and press states, and the pill provides their content color through LocalContentColor.",
+                    modifier = Modifier.padding(ElegantSpacing.md),
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+                ElegantFloatingToolbar(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top = ElegantSpacing.xl),
+                ) {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.edit_rounded,
+                        contentDescription = "Edit",
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.delete_rounded,
+                        contentDescription = "Delete",
+                        onClick = {},
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ScrollBarShowcase() {
+    ShowcasePage(title = "Elegant ScrollBar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Vertical scroll bar",
+            description = "A slim thumb tracks the scroll position along the end edge.",
+        ) {
+            val scrollState = rememberScrollState()
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(280.dp)
+                    .background(ElegantTheme.colors.surfaceDefault),
+            ) {
+                ElegantList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(scrollState),
+                ) {
+                    repeat(10) { index ->
+                        ElegantListItem(
+                            title = { Text("Item $index") },
+                            supportingText = { Text("Supporting line $index") },
+                        )
+                    }
+                }
+                ElegantScrollBar(
+                    state = scrollState,
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "HORIZONTAL",
+            title = "Horizontal scroll bar",
+            description = "A horizontal scroll bar hugs the bottom edge of the row.",
+        ) {
+            val scrollState = rememberScrollState()
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(96.dp),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .horizontalScroll(scrollState),
+                ) {
+                    repeat(10) { index ->
+                        ElegantListItem(
+                            title = { Text("Item $index") },
+                            modifier = Modifier.width(160.dp),
+                        )
+                    }
+                }
+                ElegantScrollBar(
+                    state = scrollState,
+                    orientation = ElegantScrollBarOrientation.Horizontal,
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                )
+            }
+        }
+    }
+}
+
 private fun UnknownComponent(componentId: String) {
     ElegantTheme {
         val colors = ElegantTheme.colors
