@@ -220,7 +220,7 @@ internal class PullToRefreshNestedScrollConnection(
     private val isRefreshing: () -> Boolean,
     private val onRefresh: () -> Unit,
     private val thresholdPx: Float,
-) : NestedScrollConnection() {
+) : NestedScrollConnection {
 
     private var childScrollOffset = 0f
 
