@@ -122,10 +122,11 @@ public fun ElegantScaffold(
 
         Box(modifier = Modifier.fillMaxSize()) {
             CompositionLocalProvider(LocalContentColor provides colors.contentColor) {
+                val density = LocalDensity.current
                 content(
                     PaddingValues(
-                        top = padding.top.toDp(),
-                        bottom = padding.bottom.toDp(),
+                        top = with(density) { padding.top.toDp() },
+                        bottom = with(density) { padding.bottom.toDp() },
                     ),
                 )
             }
@@ -145,7 +146,9 @@ public fun ElegantScaffold(
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = (bottomBarHeight + snackbarMarginPx).toDp()),
+                    .padding(bottom = with(LocalDensity.current) {
+                        (bottomBarHeight + snackbarMarginPx).toDp()
+                    }),
             ) {
                 snackbarHost()
             }
@@ -157,7 +160,9 @@ public fun ElegantScaffold(
                     .align(Alignment.BottomEnd)
                     .padding(
                         end = ElegantScaffoldDefaults.FloatingActionButtonMargin,
-                        bottom = fabPadding(bottomBarHeight, fabMarginPx).toDp(),
+                        bottom = with(LocalDensity.current) {
+                            fabPadding(bottomBarHeight, fabMarginPx).toDp()
+                        },
                     ),
             ) {
                 floatingActionButton()
