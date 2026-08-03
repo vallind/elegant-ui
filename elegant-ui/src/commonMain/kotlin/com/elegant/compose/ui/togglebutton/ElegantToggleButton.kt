@@ -314,10 +314,8 @@ internal fun resolveToggleButtonVisuals(
     }
     val border = when {
         !enabled -> colors.disabledBorderColor
-        pressed -> colors.pressedBorderColor
         focused -> colors.focusedBorderColor
         selected -> colors.selectedBorderColor
-        hovered -> colors.hoveredBorderColor
         else -> colors.borderColor
     }
     return ToggleButtonVisuals(

@@ -19,6 +19,9 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Snackbar](./snackbar) | 展示临时反馈 | 已完成 |
 | [Link](./link) | 以内联文本导航 | 已完成 |
 | [Kbd](./kbd) | 标注键盘按键 | 已完成 |
+| [Surface](./surface) | 分层底层容器 | 已完成 |
+| [Spinner](./spinner) | 展示不定进度加载环 | 已完成 |
+| [ScrollShadow](./scroll-shadow) | 淡化可滚动边缘 | 已完成 |
 
 ## 表单组件
 
@@ -30,6 +33,10 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Textarea](./textarea) | 收集多行文本 | 已完成 |
 | [NumberField](./number-field) | 步进输入整数 | 已完成 |
 | [SearchBar](./search-bar) | 搜索与筛选 | 已完成 |
+| [RadioGroup](./radio-group) | 组合互斥选项 | 已完成 |
+| [CheckboxGroup](./checkbox-group) | 组合多选选项 | 已完成 |
+| [ToggleButton](./toggle-button) | 集群切换选项 | 已完成 |
+| [ButtonGroup](./button-group) | 选择分段选项 | 已完成 |
 
 | [Select](./select) | 从列表中选择一项 | 已完成 |
 | [Switch](./switch) | 切换布尔选项 | 已完成 |
@@ -47,8 +54,13 @@ Elegant UI V1 共包含 23 个组件，分为四个类别。只有完成 Compose
 | [Table](./table) | 展示表格数据 | 已完成 |
 | [Pagination](./pagination) | 分页浏览长内容 | 已完成 |
 | [Accordion](./accordion) | 折叠与展开区块 | 已完成 |
+| [Scaffold](./scaffold) | 组合栏与内容的外壳 | 已完成 |
+| [CloseButton](./close-button) | 关闭表面 | 已完成 |
+| [PullToRefresh](./pull-to-refresh) | 下拉刷新可滚动内容 | 已完成 |
 | [Popover](./popover) | 浮动展示上下文操作 | 已完成 |
 | [Menu](./menu) | 提供紧凑操作列表 | 已完成 |
+| [Description](./description) | 展示键值行 | 已完成 |
+| [Meter](./meter) | 按阈值展示用量 | 已完成 |
 | [FloatingActionButton](./floating-action-button) | 呈现主要操作 | 已完成 |
 | [Table](./table) | 展示表格数据 | 已完成 |
 

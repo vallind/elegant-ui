@@ -19,6 +19,9 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Snackbar](./snackbar) | Show transient feedback | Available |
 | [Link](./link) | Navigate with inline text | Available |
 | [Kbd](./kbd) | Label keyboard keys | Available |
+| [Surface](./surface) | Layer low-level containers | Available |
+| [Spinner](./spinner) | Show an indeterminate loading ring | Available |
+| [ScrollShadow](./scroll-shadow) | Fade scrollable edges | Available |
 
 ## Forms
 
@@ -30,6 +33,10 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Textarea](./textarea) | Collect multi-line text | Available |
 | [NumberField](./number-field) | Enter integers with stepping | Available |
 | [SearchBar](./search-bar) | Search and filter | Available |
+| [RadioGroup](./radio-group) | Group exclusive choices | Available |
+| [CheckboxGroup](./checkbox-group) | Group multi-select choices | Available |
+| [ToggleButton](./toggle-button) | Toggle options in clusters | Available |
+| [ButtonGroup](./button-group) | Choose one segmented option | Available |
 
 | [Select](./select) | Choose one option from a list | Available |
 | [Switch](./switch) | Toggle a boolean option | Available |
@@ -47,8 +54,13 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Table](./table) | Present tabular data | Available |
 | [Pagination](./pagination) | Page through long content | Available |
 | [Accordion](./accordion) | Collapse and expand sections | Available |
+| [Scaffold](./scaffold) | Shell bars and content | Available |
+| [CloseButton](./close-button) | Dismiss surfaces | Available |
+| [PullToRefresh](./pull-to-refresh) | Refresh scrollable content | Available |
 | [Popover](./popover) | Float contextual actions | Available |
 | [Menu](./menu) | Offer compact action lists | Available |
+| [Description](./description) | Present key-value rows | Available |
+| [Meter](./meter) | Show usage against thresholds | Available |
 | [FloatingActionButton](./floating-action-button) | Surface a primary action | Available |
 | [Table](./table) | Present tabular data | Available |
 
