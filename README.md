@@ -1,36 +1,29 @@
 # Elegant UI
 
-A refined Compose Multiplatform component library for **Android, Desktop JVM, and Web/Wasm**.
+Refined Compose Multiplatform UI component library for **Android (API 24+)**, **Desktop JVM**, and **Web/Wasm**.
 
-The visual direction is exquisite, elegant, premium, restrained, modern, and precise. The design language combines spatial restraint, clear hierarchy, detailed interaction states, and systematic semantic tokens without copying another product's brand or source.
+[![Kotlin](https://img.shields.io/badge/kotlin-2.4.10-7F52FF)](https://kotlinlang.org/)
+[![Compose Multiplatform](https://img.shields.io/badge/compose-1.11.1-4285F4)](https://kotlinlang.org/compose-multiplatform/)
+[![License](https://img.shields.io/github/license/vallind/elegant-ui)](LICENSE)
 
-## Supported targets
+## Features
 
-| Platform | Status | Validation surface |
-| --- | --- | --- |
-| Android API 24+ | Supported | `:sample` APK and physical device |
-| Desktop JVM | Supported | `:desktop-sample` distributable |
-| Web/Wasm | Supported | `:web-sample` browser distribution |
-| iOS | Out of scope | None |
+- **75 components** across foundations, forms, content, navigation, feedback, and overlays
+- One shared contract on Android, Desktop JVM, and Web/Wasm from a single `commonMain`
+- Theme-aware semantic colors, typography, spacing, radius, motion, and elevation tokens
+- Fully themed and semantically adapted — no Material component is exposed as the public contract
+- Bilingual documentation (English + Simplified Chinese) with real Compose Web demos
 
-Compose Multiplatform 1.11.1 supports Android, desktop operating systems, and browsers with WasmGC support. The library keeps public APIs in `commonMain` and isolates unavoidable platform integrations in platform source sets.
+## Components
 
-## Architecture
+| Group | Components |
+| :--- | :--- |
+| Foundations | Button, IconButton, Avatar, Badge, Divider, Tag, Tooltip, ProgressIndicator, Skeleton, Alert, Snackbar, Toast, Link, Kbd, Label, Surface, Spinner, ScrollShadow, CloseButton, SmallTitle, Calendar |
+| Forms | Input, Textarea, NumberField, SearchBar, Checkbox, Radio, Switch, Slider, Select, Autocomplete, InputGroup, InputOtp, ToggleButton, ButtonGroup, CheckboxGroup, RadioGroup, SwitchGroup, TagGroup, Meter, Description, CheckboxPreference, SwitchPreference, RadioPreference, SliderPreference, ArrowPreference, Fieldset, ColorPicker, NumberPicker |
+| Content | Card, List, EmptyState, Table, Pagination, Accordion, Disclosure, Popover, Menu, DatePicker, DateRangePicker, FloatingToolbar, Toolbar, FloatingActionButton, PullToRefresh, ScrollBar |
+| Navigation | Navbar, Sidebar, Tabs, Breadcrumb, NavigationBar, NavigationRail, Scaffold, ArrowPreference, AlertDialog, Drawer, Modal |
 
-```text
-elegant-ui/
-├── elegant-ui/       # Published KMP component library: Android + Desktop + Web/Wasm
-├── showcase/         # Shared component gallery used by all platform launchers
-├── sample/           # Android application
-├── desktop-sample/   # Desktop JVM application
-├── web-sample/       # Compose Web/Wasm application and documentation iframe source
-├── docs/             # English + Simplified Chinese VitePress website
-└── scripts/          # Multiplatform boundary validation
-```
-
-## Use from another application
-
-### KMP application
+## Getting Started
 
 ```kotlin
 kotlin {
@@ -42,83 +35,40 @@ kotlin {
 }
 ```
 
-### Standalone Android application
+Or use the same-build dependency:
 
 ```kotlin
-dependencies {
-    implementation("io.github.vallind:elegant-ui:0.1.0-SNAPSHOT")
+implementation(project(":elegant-ui"))
+```
+
+```kotlin
+@Composable
+fun App() {
+    ElegantTheme {
+        ElegantButton(onClick = { /* ... */ }) {
+            Text("Hello")
+        }
+    }
 }
 ```
 
-Until Maven Central publishing is configured, use `publishToMavenLocal`, a same-build project dependency, or the `elegant-ui-maven-repository` Actions artifact.
-
-See:
-
-- [Installation](docs/guide/installation.md)
-- [Local development](docs/guide/local-development.md)
-- [Platform support](docs/guide/platform-support.md)
-- [安装与依赖](docs/zh_CN/guide/installation.md)
-
-## Current milestone
-
-Button closed-loop implementation:
-
-- Primary / Secondary / Tertiary
-- Small / Medium / Large
-- Default / Pressed / Focused / Disabled / Loading
-- Leading and trailing icon slots
-- Theme-aware `ElegantButtonDefaults` and immutable `ElegantButtonColors`
-- Light and dark themes
-- 48dp minimum interactive target
-- Shared Android/Desktop/Web showcase
-- Bilingual Miuix-format documentation page
-- Real Compose Web/Wasm iframe demo generated from `:web-sample`
-
-## Build
-
-```bash
-./scripts/validate-kmp-boundaries.sh
-
-gradle \
-  :elegant-ui:build \
-  :showcase:build \
-  :elegant-ui:publishAllPublicationsToBuildRepository \
-  :sample:assembleDebug \
-  :desktop-sample:createDistributable \
-  :web-sample:wasmJsBrowserDistribution \
-  --stacktrace \
-  --no-daemon
-```
-
-Expected outputs:
-
-- `elegant-ui/build/repo/` — complete KMP Maven repository
-- `sample/build/outputs/apk/debug/sample-debug.apk` — Android sample
-- `desktop-sample/build/compose/binaries/main/app/` — Desktop distributable
-- `web-sample/build/dist/wasmJs/productionExecutable/` — Web/Wasm distribution
-
 ## Documentation
 
-Build the Compose Web demo before the VitePress site:
+- [Component gallery](https://vallind.github.io/elegant-ui/components/)
+- [Getting started](https://vallind.github.io/elegant-ui/guide/getting-started)
+- Chinese mirror: `https://vallind.github.io/elegant-ui/zh_CN/`
+
+## Development
 
 ```bash
-gradle :web-sample:wasmJsBrowserDistribution
-cd docs
-npm install
-npm run docs:check
-npm run docs:build
+gradle :elegant-ui:build --no-daemon          # library + tests
+gradle :showcase:build --no-daemon            # shared showcase
+gradle :desktop-sample:createDistributable    # desktop launcher
+gradle :web-sample:wasmJsBrowserDistribution  # web launcher
 ```
 
-Website: <https://vallind.github.io/elegant-ui/>
+GitHub Actions is the authoritative clean environment for Android assembly, browser tests, and final artifacts. See `AGENTS.md` for the full repository guidance and component workflows.
 
-## CI artifacts
+## License
 
-The **Multiplatform Build** workflow uploads:
-
-- `elegant-ui-maven-repository`
-- `elegant-ui-android-aar`
-- `elegant-ui-android-sample`
-- `elegant-ui-desktop-sample-linux`
-- `elegant-ui-web-sample`
-
-A component is complete only after all three targets compile and their applicable interaction checks pass.
+Apache-2.0

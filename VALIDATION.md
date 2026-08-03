@@ -303,3 +303,33 @@ Local environment notes:
   resolve on this host).
 - GitHub Actions remains authoritative for browser tests, Android assembly, final artifacts, and
   Pages deployment. Screenshot and pixel-diff evidence are not completion gates.
+
+## 75-component parity milestone
+
+Automated checks:
+
+- [x] 75 components implemented in `commonMain` with KDoc, Defaults, Colors, and pure internal resolvers
+- [x] Every component has meaningful `commonTest` coverage; Desktop and browser tests pass in CI
+- [x] Library and showcase compile on Android, Desktop JVM, and Web/Wasm
+- [x] KMP boundary validation passes
+- [x] Shared showcase registers all 75 slugs; registration tests pass
+- [x] All 75 English and Simplified Chinese pages are structurally aligned (75 Miuix-format page pairs)
+- [x] Component indexes and VitePress sidebars list all 75 components in both locales
+- [x] `docs:check` passes; VitePress build completes with the real Compose Web distribution
+- [x] KMP publication, Desktop distributable, and Web/Wasm distribution build in CI
+- [x] GitHub Actions Multiplatform Build succeeds (`30850915469`)
+- [x] GitHub Actions Documentation succeeds (`30850915386`)
+
+Notes:
+
+- HeroUI interactive component set and the full Miuix basic + preference set are covered; the
+  calendar family (Calendar, DatePicker, DateRangePicker) ships a pure-Kotlin `ElegantDate`
+  model with verified date math (2000-01-01 Saturday anchor).
+- Delivery used parallel git worktrees (batches of 3-5 components), central showcase integration,
+  and local lint (KMP boundary + docs:check) with CI as the authoritative compile/test gate.
+- `ElegantTheme.colors` must not be read inside `remember { }` lambda bodies on all targets;
+  hoist the read to a local val first (see the ColorPicker showcase fix).
+- The CMP 1.11 `clickable` overload set does not accept `role` + `indication` together; set the
+  role in a separate `semantics` block.
+- `NestedScrollConnection` is an interface in CMP 1.11; `awaitPointerEvent` requires
+  `awaitPointerEventScope`.

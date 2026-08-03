@@ -1,6 +1,6 @@
 # Components
 
-Elegant UI V1 contains 23 components organized into four groups. Components become available here only after their Compose implementation and closed-loop delivery are complete.
+Elegant UI V1 contains 75 components organized into four groups. Components become available here only after their Compose implementation and closed-loop delivery are complete.
 
 ## Foundations
 
