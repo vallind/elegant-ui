@@ -82,6 +82,8 @@ import com.elegant.compose.ui.button.ElegantButtonSize
 import com.elegant.compose.ui.button.ElegantButtonStyle
 import com.elegant.compose.ui.buttongroup.ElegantButtonGroup
 import com.elegant.compose.ui.buttongroup.ElegantButtonGroupItem
+import com.elegant.compose.ui.calendar.ElegantCalendar
+import com.elegant.compose.ui.calendar.ElegantDate
 import com.elegant.compose.ui.card.ElegantCard
 import com.elegant.compose.ui.card.ElegantCardStyle
 import com.elegant.compose.ui.checkbox.ElegantCheckbox
@@ -90,6 +92,9 @@ import com.elegant.compose.ui.checkboxgroup.ElegantCheckboxGroupItem
 import com.elegant.compose.ui.closebutton.ElegantCloseButton
 import com.elegant.compose.ui.colorpicker.ElegantColorPicker
 import com.elegant.compose.ui.colorpicker.ElegantColorPickerDefaults
+import com.elegant.compose.ui.datepicker.ElegantDatePicker
+import com.elegant.compose.ui.daterangepicker.ElegantDateRange
+import com.elegant.compose.ui.daterangepicker.ElegantDateRangePicker
 import com.elegant.compose.ui.description.ElegantDescription
 import com.elegant.compose.ui.description.ElegantDescriptionItem
 import com.elegant.compose.ui.disclosure.ElegantDisclosure
@@ -129,6 +134,7 @@ import com.elegant.compose.ui.navigationbar.ElegantNavigationBarItem
 import com.elegant.compose.ui.navigationrail.ElegantNavigationRail
 import com.elegant.compose.ui.navigationrail.ElegantNavigationRailItem
 import com.elegant.compose.ui.numberfield.ElegantNumberField
+import com.elegant.compose.ui.numberpicker.ElegantNumberPicker
 import com.elegant.compose.ui.pagination.ElegantPagination
 import com.elegant.compose.ui.popover.ElegantPopover
 import com.elegant.compose.ui.popover.ElegantPopoverPlacement
@@ -267,6 +273,10 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "autocomplete",
         "input-group",
         "color-picker",
+        "calendar",
+        "date-picker",
+        "date-range-picker",
+        "number-picker",
         "tag",
     )
 
@@ -351,6 +361,10 @@ public fun ElegantShowcaseApp(
         "autocomplete" -> AutocompleteShowcase()
         "input-group" -> InputGroupShowcase()
         "color-picker" -> ColorPickerShowcase()
+        "calendar" -> CalendarShowcase()
+        "date-picker" -> DatePickerShowcase()
+        "date-range-picker" -> DateRangePickerShowcase()
+        "number-picker" -> NumberPickerShowcase()
         "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
@@ -7766,6 +7780,315 @@ private fun hexReadout(color: Color): String =
     }
 
 @Composable
+@Composable
+private fun CalendarShowcase() {
+    var selected by remember { mutableStateOf<ElegantDate?>(null) }
+    var bounded by remember { mutableStateOf<ElegantDate?>(null) }
+
+    ShowcasePage(title = "Elegant Calendar") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A controlled month grid",
+            description = "Monday-first 42-cell grid with navigation and a caller-owned selection.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantCalendar(
+                    selectedDate = selected,
+                    onDateSelected = { selected = it },
+                )
+                Text(
+                    text = selected?.let { date ->
+                        "${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}"
+                    } ?: "No date selected",
+                    color = colors.textSecondary,
+                    style = ElegantTheme.typography.bodyMedium,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "RANGE",
+            title = "Bounded selection window",
+            description = "Days outside the window render dimmed and are never selectable.",
+        ) {
+            ElegantCalendar(
+                selectedDate = bounded,
+                onDateSelected = { bounded = it },
+                minDate = ElegantDate(2026, 8, 1),
+                maxDate = ElegantDate(2026, 8, 31),
+                initialMonth = ElegantDate(2026, 8, 1),
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A booking card",
+            description = "A calendar inside a quiet card anchors the reservation flow.",
+        ) {
+            ElegantCard {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(ElegantSpacing.lg),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                ) {
+                    Text(
+                        text = "Choose a night",
+                        color = colors.textPrimary,
+                        style = ElegantTheme.typography.titleMedium,
+                    )
+                    ElegantCalendar(
+                        selectedDate = selected,
+                        onDateSelected = { selected = it },
+                        minDate = ElegantDate(2026, 8, 1),
+                        maxDate = ElegantDate(2026, 8, 31),
+                        initialMonth = ElegantDate(2026, 8, 1),
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun DatePickerShowcase() {
+    var selected by remember { mutableStateOf<ElegantDate?>(null) }
+    var checkIn by remember { mutableStateOf<ElegantDate?>(null) }
+    var checkOut by remember { mutableStateOf<ElegantDate?>(null) }
+
+    ShowcasePage(title = "Elegant DatePicker") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Pick a date from a calendar popup",
+            description = "A read-only Filled field opens a focusable calendar below it; choosing a day invokes the callback and closes the popup.",
+        ) {
+            ElegantDatePicker(
+                date = selected,
+                onDateSelected = { selected = it },
+                label = "Departure",
+                placeholder = "Pick a departure date",
+            )
+            Spacer(Modifier.height(ElegantSpacing.md))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "Chosen",
+                    modifier = Modifier.weight(1f),
+                    color = ElegantTheme.colors.textSecondary,
+                    style = ElegantTheme.typography.bodyMedium,
+                )
+                Text(
+                    text = selected?.let { date ->
+                        "${date.year}-${date.month.toString().padStart(2, '0')}-${date.day.toString().padStart(2, '0')}"
+                    } ?: "None",
+                    color = ElegantTheme.colors.textPrimary,
+                    style = ElegantTheme.typography.labelMedium,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled and error",
+            description = "A disabled field never opens the popup; an error field paints a critical border and shows the error text.",
+        ) {
+            ElegantDatePicker(
+                date = null,
+                onDateSelected = {},
+                label = "Arrival",
+                enabled = false,
+                placeholder = "Unavailable",
+            )
+            Spacer(Modifier.height(ElegantSpacing.md))
+            ElegantDatePicker(
+                date = selected,
+                onDateSelected = { selected = it },
+                label = "Return",
+                isError = true,
+                errorText = "Choose a return date.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Booking card",
+            description = "A check-in and check-out pair inside a quiet card, bounded to the booking window.",
+        ) {
+            ElegantCard {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(ElegantSpacing.lg),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                ) {
+                    Text(
+                        text = "Book your stay",
+                        color = ElegantTheme.colors.textPrimary,
+                        style = ElegantTheme.typography.titleMedium,
+                    )
+                    ElegantDatePicker(
+                        date = checkIn,
+                        onDateSelected = { checkIn = it },
+                        label = "Check-in",
+                        placeholder = "Pick a check-in date",
+                        minDate = ElegantDate(2026, 8, 1),
+                        maxDate = ElegantDate(2026, 8, 31),
+                    )
+                    ElegantDatePicker(
+                        date = checkOut,
+                        onDateSelected = { checkOut = it },
+                        label = "Check-out",
+                        placeholder = "Pick a check-out date",
+                        minDate = checkIn ?: ElegantDate(2026, 8, 1),
+                        maxDate = ElegantDate(2026, 8, 31),
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun DateRangePickerShowcase() {
+    var range by remember { mutableStateOf(ElegantDateRange(null, null)) }
+
+    ShowcasePage(title = "Elegant DateRangePicker") { compact ->
+        val colors = ElegantTheme.colors
+        val start = range.start
+        val end = range.end
+        val rangeText = when {
+            start == null -> "Nothing selected yet"
+            end == null -> "Start: ${start!!.year}-${start.month}-${start.day}"
+            else -> "${start.year}-${start.month}-${start.day} — ${end.year}-${end.month}-${end.day}"
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A two-month range picker",
+            description = "The first click sets the start, the second sets the end; the readout mirrors the selection.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantDateRangePicker(
+                    range = range,
+                    onRangeSelected = { range = it },
+                    label = "Stay dates",
+                    placeholder = "Pick a stay",
+                    supportingText = "Select a start and an end day.",
+                )
+                Text(
+                    text = "Selected: $rangeText",
+                    color = colors.textSecondary,
+                    style = ElegantTheme.typography.bodyMedium,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A booking summary card",
+            description = "A bounded stay range with validation and a card that summarizes the booking.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantDateRangePicker(
+                    range = range,
+                    onRangeSelected = { range = it },
+                    label = "Trip dates",
+                    minDate = ElegantDate(2026, 8, 1),
+                    maxDate = ElegantDate(2026, 12, 31),
+                    isError = range.start == null && range.end == null,
+                    errorText = "Choose a start and an end day to book.",
+                )
+                ElegantCard {
+                    Column(Modifier.padding(ElegantSpacing.xl)) {
+                        Text("Mountain retreat", style = ElegantTheme.typography.titleMedium)
+                        Text(
+                            text = "Two nights in the alpine cabin, in season.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun NumberPickerShowcase() {
+    var quantity by remember { mutableStateOf(1) }
+    var seats by remember { mutableStateOf(2) }
+
+    ShowcasePage(title = "Elegant NumberPicker") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Bounded stepper",
+            description = "A large centered value with circular increase and decrease buttons that stop at the range boundaries.",
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                ElegantNumberPicker(
+                    value = quantity,
+                    onValueChange = { quantity = it },
+                    minValue = 1,
+                    maxValue = 10,
+                )
+                Spacer(Modifier.height(ElegantSpacing.md))
+                Text(
+                    text = "Current: $quantity",
+                    color = ElegantTheme.colors.textSecondary,
+                    style = ElegantTheme.typography.bodyMedium,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A quantity card",
+            description = "A compact row picker inside a card for selecting seats.",
+        ) {
+            ElegantCard {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(ElegantSpacing.xl),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = "Seats",
+                        color = ElegantTheme.colors.textSecondary,
+                        style = ElegantTheme.typography.labelMedium,
+                    )
+                    ElegantNumberPicker(
+                        value = seats,
+                        onValueChange = { seats = it },
+                        minValue = 1,
+                        maxValue = 8,
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
 private fun UnknownComponent(componentId: String) {
     ElegantTheme {
         val colors = ElegantTheme.colors

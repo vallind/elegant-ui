@@ -73,6 +73,10 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Disclosure](./disclosure) | Expand single sections | Available |
 | [Fieldset](./fieldset) | Group form fields | Available |
 | [ColorPicker](./color-picker) | Pick from a curated palette | Available |
+| [Calendar](./calendar) | Pick dates from a month grid | Available |
+| [DatePicker](./date-picker) | Pick a date from a popup calendar | Available |
+| [DateRangePicker](./date-range-picker) | Pick a start and end date | Available |
+| [NumberPicker](./number-picker) | Step through bounded values | Available |
 | [Scaffold](./scaffold) | Shell bars and content | Available |
 | [CloseButton](./close-button) | Dismiss surfaces | Available |
 | [PullToRefresh](./pull-to-refresh) | Refresh scrollable content | Available |

@@ -79,6 +79,10 @@ internal class ShowcaseContractTest {
                 "autocomplete",
                 "input-group",
                 "color-picker",
+                "calendar",
+                "date-picker",
+                "date-range-picker",
+                "number-picker",
             ),
             SupportedShowcaseComponentIds,
         )
