@@ -6213,7 +6213,6 @@ private fun SpinnerShowcase() {
 }
 
 @Composable
-@Composable
 private fun SwitchPreferenceShowcase() {
     var notifications by remember { mutableStateOf(true) }
     var sound by remember { mutableStateOf(true) }
@@ -6780,6 +6779,7 @@ private fun ScrollBarShowcase() {
     }
 }
 
+@Composable
 private fun UnknownComponent(componentId: String) {
     ElegantTheme {
         val colors = ElegantTheme.colors
