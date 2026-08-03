@@ -3670,7 +3670,7 @@ private fun ProgressShowcase() {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xxl),
-                itemVerticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 ElegantCircularProgressIndicator(progress = uploadProgress)
                 Column(
@@ -6139,7 +6139,7 @@ private fun SpinnerShowcase() {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xxl),
-                itemVerticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 ElegantSpinner()
                 ElegantSpinner(label = "Loading...")
