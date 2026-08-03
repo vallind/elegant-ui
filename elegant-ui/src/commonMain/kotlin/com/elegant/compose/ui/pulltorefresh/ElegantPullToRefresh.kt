@@ -153,10 +153,12 @@ public fun ElegantPullToRefresh(
         modifier = modifier
             .nestedScroll(connection)
             .pointerInput(connection) {
-                while (true) {
-                    val event = awaitPointerEvent(PointerEventPass.Final)
-                    if (event.changes.any { it.previousPressed && !it.pressed }) {
-                        connection.onDragReleased()
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent(PointerEventPass.Final)
+                        if (event.changes.any { it.previousPressed && !it.pressed }) {
+                            connection.onDragReleased()
+                        }
                     }
                 }
             },
