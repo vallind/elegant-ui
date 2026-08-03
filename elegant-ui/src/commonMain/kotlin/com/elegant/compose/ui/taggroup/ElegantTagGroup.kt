@@ -152,7 +152,7 @@ public fun ElegantTagGroup(
                     .defaultMinSize(minHeight = TagGroupMinimumTouchHeight)
                     .clickable(
                         enabled = interactive,
-                        role = Role.Button,
+                        interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                         onClick = { onToggle(item.value, !checked) },
                     ),
