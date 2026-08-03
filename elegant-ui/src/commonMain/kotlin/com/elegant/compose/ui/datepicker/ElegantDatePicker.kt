@@ -67,6 +67,7 @@ import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantRadius
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
+import kotlin.math.roundToInt
 
 /**
  * Theme-aware state colors used by [ElegantDatePicker].
@@ -289,7 +290,14 @@ public fun ElegantDatePicker(
             modifier = Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { position ->
-                    anchorBounds = position.boundsInWindow()
+                    anchorBounds = position.boundsInWindow().let { bounds ->
+                IntRect(
+                    left = bounds.left.roundToInt(),
+                    top = bounds.top.roundToInt(),
+                    right = bounds.right.roundToInt(),
+                    bottom = bounds.bottom.roundToInt(),
+                )
+            }
                 },
         ) {
             Row(

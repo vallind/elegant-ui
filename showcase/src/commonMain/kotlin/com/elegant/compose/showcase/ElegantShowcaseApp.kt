@@ -7780,7 +7780,6 @@ private fun hexReadout(color: Color): String =
     }
 
 @Composable
-@Composable
 private fun CalendarShowcase() {
     var selected by remember { mutableStateOf<ElegantDate?>(null) }
     var bounded by remember { mutableStateOf<ElegantDate?>(null) }
@@ -8089,6 +8088,7 @@ private fun NumberPickerShowcase() {
     }
 }
 
+@Composable
 private fun UnknownComponent(componentId: String) {
     ElegantTheme {
         val colors = ElegantTheme.colors

@@ -245,7 +245,7 @@ private fun CalendarNavButton(
             .size(ElegantCalendarDefaults.NavigationSize)
             .clickable(
                 enabled = enabled,
-                role = Role.Button,
+                interactionSource = remember { MutableInteractionSource() },
                 indication = null,
                 onClick = onClick,
             )
@@ -313,7 +313,6 @@ private fun CalendarDayCell(
             }
             .clickable(
                 enabled = selectable,
-                role = Role.Button,
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick,

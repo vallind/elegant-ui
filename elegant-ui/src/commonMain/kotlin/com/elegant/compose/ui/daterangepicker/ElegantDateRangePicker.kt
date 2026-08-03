@@ -501,7 +501,7 @@ private fun RangePairNavButton(
             .size(ElegantCalendarDefaults.NavigationSize)
             .clickable(
                 enabled = enabled,
-                role = Role.Button,
+                interactionSource = remember { MutableInteractionSource() },
                 indication = null,
                 onClick = onClick,
             )
