@@ -16,13 +16,17 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [ProgressIndicator](./progress-indicator) | Show task progress | Available |
 | [Skeleton](./skeleton) | Preview loading content | Available |
 | [Alert](./alert) | Surface important messages | Available |
+| [AlertDialog](./alert-dialog) | Confirm destructive decisions | Available |
 | [Snackbar](./snackbar) | Show transient feedback | Available |
+| [Toast](./toast) | Show top-positioned feedback | Available |
 | [Link](./link) | Navigate with inline text | Available |
+| [Label](./label) | Label form fields | Available |
 | [Kbd](./kbd) | Label keyboard keys | Available |
 | [Surface](./surface) | Layer low-level containers | Available |
 | [Spinner](./spinner) | Show an indeterminate loading ring | Available |
 | [FloatingToolbar](./floating-toolbar) | Float a compact action strip | Available |
 | [ScrollBar](./scroll-bar) | Indicate scroll position | Available |
+| [Toolbar](./toolbar) | Anchor inline action strips | Available |
 | [SmallTitle](./small-title) | Label settings groups | Available |
 | [ScrollShadow](./scroll-shadow) | Fade scrollable edges | Available |
 
@@ -31,6 +35,9 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | Component | Purpose | Status |
 | --- | --- | --- |
 | [Input](./input) | Collect text input | Available |
+| [InputOtp](./input-otp) | Enter verification codes | Available |
+| [Autocomplete](./autocomplete) | Pick from filtered suggestions | Available |
+| [InputGroup](./input-group) | Join related fields | Available |
 | [Checkbox](./checkbox) | Toggle a boolean option | Available |
 | [Radio](./radio) | Choose one option from a set | Available |
 | [Textarea](./textarea) | Collect multi-line text | Available |
@@ -38,6 +45,8 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [SearchBar](./search-bar) | Search and filter | Available |
 | [RadioGroup](./radio-group) | Group exclusive choices | Available |
 | [CheckboxGroup](./checkbox-group) | Group multi-select choices | Available |
+| [SwitchGroup](./switch-group) | Group boolean options | Available |
+| [TagGroup](./tag-group) | Group selectable tags | Available |
 | [SwitchPreference](./switch-preference) | Toggle a setting row | Available |
 | [CheckboxPreference](./checkbox-preference) | Check a setting row | Available |
 | [RadioPreference](./radio-preference) | Select a setting row | Available |
@@ -61,6 +70,9 @@ Elegant UI V1 contains 23 components organized into four groups. Components beco
 | [Table](./table) | Present tabular data | Available |
 | [Pagination](./pagination) | Page through long content | Available |
 | [Accordion](./accordion) | Collapse and expand sections | Available |
+| [Disclosure](./disclosure) | Expand single sections | Available |
+| [Fieldset](./fieldset) | Group form fields | Available |
+| [ColorPicker](./color-picker) | Pick from a curated palette | Available |
 | [Scaffold](./scaffold) | Shell bars and content | Available |
 | [CloseButton](./close-button) | Dismiss surfaces | Available |
 | [PullToRefresh](./pull-to-refresh) | Refresh scrollable content | Available |

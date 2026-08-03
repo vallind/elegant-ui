@@ -62,6 +62,9 @@ import com.elegant.compose.ui.accordion.ElegantAccordion
 import com.elegant.compose.ui.accordion.ElegantAccordionItem
 import com.elegant.compose.ui.alert.ElegantAlert
 import com.elegant.compose.ui.alert.ElegantAlertStyle
+import com.elegant.compose.ui.alertdialog.ElegantAlertDialog
+import com.elegant.compose.ui.autocomplete.ElegantAutocomplete
+import com.elegant.compose.ui.autocomplete.ElegantAutocompleteOption
 import com.elegant.compose.ui.avatar.ElegantAvatar
 import com.elegant.compose.ui.avatar.ElegantAvatarColors
 import com.elegant.compose.ui.avatar.ElegantAvatarSize
@@ -85,8 +88,12 @@ import com.elegant.compose.ui.checkbox.ElegantCheckbox
 import com.elegant.compose.ui.checkboxgroup.ElegantCheckboxGroup
 import com.elegant.compose.ui.checkboxgroup.ElegantCheckboxGroupItem
 import com.elegant.compose.ui.closebutton.ElegantCloseButton
+import com.elegant.compose.ui.colorpicker.ElegantColorPicker
+import com.elegant.compose.ui.colorpicker.ElegantColorPickerDefaults
 import com.elegant.compose.ui.description.ElegantDescription
 import com.elegant.compose.ui.description.ElegantDescriptionItem
+import com.elegant.compose.ui.disclosure.ElegantDisclosure
+import com.elegant.compose.ui.disclosure.ElegantDisclosureGroup
 import com.elegant.compose.ui.divider.ElegantDivider
 import com.elegant.compose.ui.divider.ElegantDividerEmphasis
 import com.elegant.compose.ui.divider.ElegantDividerLabelPosition
@@ -96,6 +103,7 @@ import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.drawer.ElegantDrawer
 import com.elegant.compose.ui.drawer.ElegantDrawerPlacement
 import com.elegant.compose.ui.emptystate.ElegantEmptyState
+import com.elegant.compose.ui.fieldset.ElegantFieldset
 import com.elegant.compose.ui.floatingactionbutton.ElegantFloatingActionButton
 import com.elegant.compose.ui.floatingtoolbar.ElegantFloatingToolbar
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
@@ -103,7 +111,10 @@ import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
 import com.elegant.compose.ui.input.ElegantInput
 import com.elegant.compose.ui.input.ElegantInputStyle
+import com.elegant.compose.ui.inputgroup.ElegantInputGroup
+import com.elegant.compose.ui.inputotp.ElegantInputOtp
 import com.elegant.compose.ui.kbd.ElegantKbd
+import com.elegant.compose.ui.label.ElegantLabel
 import com.elegant.compose.ui.link.ElegantLink
 import com.elegant.compose.ui.list.ElegantList
 import com.elegant.compose.ui.list.ElegantListItem
@@ -153,6 +164,8 @@ import com.elegant.compose.ui.snackbar.ElegantSnackbarHostState
 import com.elegant.compose.ui.spinner.ElegantSpinner
 import com.elegant.compose.ui.surface.ElegantSurface
 import com.elegant.compose.ui.switch.ElegantSwitch
+import com.elegant.compose.ui.switchgroup.ElegantSwitchGroup
+import com.elegant.compose.ui.switchgroup.ElegantSwitchGroupItem
 import com.elegant.compose.ui.table.ElegantTable
 import com.elegant.compose.ui.table.ElegantTableColumn
 import com.elegant.compose.ui.table.ElegantTableRow
@@ -161,12 +174,18 @@ import com.elegant.compose.ui.tabs.ElegantTabRow
 import com.elegant.compose.ui.tag.ElegantTag
 import com.elegant.compose.ui.tag.ElegantTagSize
 import com.elegant.compose.ui.tag.ElegantTagStyle
+import com.elegant.compose.ui.taggroup.ElegantTagGroup
+import com.elegant.compose.ui.taggroup.ElegantTagGroupItem
 import com.elegant.compose.ui.textarea.ElegantTextarea
 import com.elegant.compose.ui.theme.ElegantRadius
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.toast.ElegantToast
+import com.elegant.compose.ui.toast.ElegantToastHost
+import com.elegant.compose.ui.toast.ElegantToastHostState
 import com.elegant.compose.ui.togglebutton.ElegantToggleButton
 import com.elegant.compose.ui.togglebutton.ElegantToggleButtonGroup
+import com.elegant.compose.ui.toolbar.ElegantToolbar
 import com.elegant.compose.ui.tooltip.ElegantTooltip
 import com.elegant.compose.ui.tooltip.ElegantTooltipBox
 import com.elegant.compose.ui.tooltip.ElegantTooltipPlacement
@@ -236,6 +255,18 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "small-title",
         "floating-toolbar",
         "scroll-bar",
+        "alert-dialog",
+        "input-otp",
+        "disclosure",
+        "label",
+        "fieldset",
+        "switch-group",
+        "tag-group",
+        "toolbar",
+        "toast",
+        "autocomplete",
+        "input-group",
+        "color-picker",
         "tag",
     )
 
@@ -308,6 +339,18 @@ public fun ElegantShowcaseApp(
         "small-title" -> SmallTitleShowcase()
         "floating-toolbar" -> FloatingToolbarShowcase()
         "scroll-bar" -> ScrollBarShowcase()
+        "alert-dialog" -> AlertDialogShowcase()
+        "input-otp" -> InputOtpShowcase()
+        "disclosure" -> DisclosureShowcase()
+        "label" -> LabelShowcase()
+        "fieldset" -> FieldsetShowcase()
+        "switch-group" -> SwitchGroupShowcase()
+        "tag-group" -> TagGroupShowcase()
+        "toolbar" -> ToolbarShowcase()
+        "toast" -> ToastShowcase()
+        "autocomplete" -> AutocompleteShowcase()
+        "input-group" -> InputGroupShowcase()
+        "color-picker" -> ColorPickerShowcase()
         "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
@@ -6780,6 +6823,948 @@ private fun ScrollBarShowcase() {
 }
 
 @Composable
+@Composable
+private fun AlertDialogShowcase() {
+    ShowcasePage(title = "Elegant AlertDialog") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A delete confirmation",
+            description = "ElegantAlertDialog renders the title, description, and action row; Confirm and dismiss are caller-controlled paths.",
+        ) {
+            var visible by remember { mutableStateOf(false) }
+
+            Text(
+                text = "Tap the trigger to open a delete confirmation.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantButton(onClick = { visible = true }) {
+                Text("Delete project")
+            }
+
+            ElegantAlertDialog(
+                visible = visible,
+                onDismissRequest = { visible = false },
+                title = "Delete project?",
+                description = "This action cannot be undone.",
+                confirmText = "Delete",
+                onConfirm = { visible = false },
+                dismissText = "Cancel",
+                onDismiss = { visible = false },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "A gated confirm button",
+            description = "confirmEnabled keeps the confirm action inert until the caller allows it; the content slot hosts the enabling control.",
+        ) {
+            var visible by remember { mutableStateOf(false) }
+            var canConfirm by remember { mutableStateOf(false) }
+
+            Text(
+                text = "The confirm button stays disabled until enabled inside the dialog.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantButton(onClick = { visible = true }) {
+                Text("Open dialog")
+            }
+
+            ElegantAlertDialog(
+                visible = visible,
+                onDismissRequest = { visible = false },
+                title = "Release version?",
+                description = "The release is irreversible for this channel.",
+                confirmText = "Release",
+                onConfirm = {
+                    visible = false
+                    canConfirm = false
+                },
+                dismissText = "Cancel",
+                onDismiss = { visible = false },
+                confirmEnabled = canConfirm,
+            ) {
+                if (!canConfirm) {
+                    ElegantButton(
+                        onClick = { canConfirm = true },
+                        style = ElegantButtonStyle.Secondary,
+                        size = ElegantButtonSize.Small,
+                    ) {
+                        Text("I understand")
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A sign-out flow",
+            description = "Dismiss, Cancel, and back/Escape leave the session intact; Confirm resolves the outcome under caller control.",
+        ) {
+            var pendingSignOut by remember { mutableStateOf(false) }
+            var signedOut by remember { mutableStateOf(false) }
+
+            Text(
+                text = if (signedOut) "Signed out." else "Tap sign out to confirm the session end.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantButton(
+                onClick = { pendingSignOut = true },
+                style = if (signedOut) ElegantButtonStyle.Secondary else ElegantButtonStyle.Primary,
+            ) {
+                Text("Sign out")
+            }
+
+            ElegantAlertDialog(
+                visible = pendingSignOut,
+                onDismissRequest = { pendingSignOut = false },
+                title = "Sign out?",
+                description = "Unsaved changes are lost.",
+                confirmText = "Sign out",
+                onConfirm = {
+                    pendingSignOut = false
+                    signedOut = true
+                },
+                dismissText = "Stay signed in",
+                onDismiss = { pendingSignOut = false },
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun InputOtpShowcase() {
+    var code by rememberSaveable { mutableStateOf("") }
+    var attempt by rememberSaveable { mutableStateOf("") }
+
+    ShowcasePage(title = "Elegant InputOtp") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A six-digit verification code",
+            description = "Digits are accepted into square cells; the caret marks the next empty cell.",
+        ) {
+            ElegantInputOtp(
+                value = code,
+                onValueChange = { code = it },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled and error states",
+            description = "A disabled field dims its cells; an error turns every cell border critical.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                ElegantInputOtp(
+                    value = "123",
+                    onValueChange = {},
+                    enabled = false,
+                )
+                ElegantInputOtp(
+                    value = attempt,
+                    onValueChange = { attempt = it },
+                    isError = true,
+                    errorText = "The code you entered is incorrect.",
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Verification card with resend",
+            description = "The OTP strip sits on a card with delivery guidance and a resend action.",
+        ) {
+            ElegantCard(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(ElegantSpacing.xl),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                ) {
+                    Text(
+                        text = "Verify your phone",
+                        style = ElegantTheme.typography.titleMedium,
+                        color = colors.textPrimary,
+                    )
+                    Text(
+                        text = "We sent a 6-digit code to +86 138 0000 0000.",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                    ElegantInputOtp(
+                        value = code,
+                        onValueChange = { code = it },
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+                    ) {
+                        Text(
+                            text = "Didn't get it?",
+                            style = ElegantTheme.typography.bodyMedium,
+                            color = colors.textSecondary,
+                        )
+                        Text(
+                            text = "Resend code",
+                            style = ElegantTheme.typography.bodyMedium,
+                            color = colors.interactivePrimary,
+                        )
+                    }
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun DisclosureShowcase() {
+    var expandedIndex by remember { mutableIntStateOf(-1) }
+
+    ShowcasePage(title = "Elegant Disclosure") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Single-expand disclosures",
+            description = "Two standalone cards; opening one collapses the other.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                listOf("Release notes", "Keyboard shortcuts").forEachIndexed { index, title ->
+                    ElegantDisclosure(
+                        title = title,
+                        expanded = expandedIndex == index,
+                        onToggle = {
+                            expandedIndex = if (expandedIndex == index) -1 else index
+                        },
+                    ) {
+                        Text(
+                            text = "$title body reveals with a vertical expand animation.",
+                            color = colors.textSecondary,
+                            style = ElegantTheme.typography.bodyMedium,
+                        )
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "FAQ list",
+            description = "A group wraps the FAQ blocks in one bordered surface.",
+        ) {
+            ElegantDisclosureGroup {
+                ElegantDisclosure(
+                    title = "What is Elegant UI?",
+                    expanded = true,
+                    onToggle = {},
+                    supportingText = "Refined Compose Multiplatform components",
+                ) {
+                    Text(
+                        text = "A shared component library for Android, Desktop, and Web.",
+                        color = colors.textSecondary,
+                        style = ElegantTheme.typography.bodyMedium,
+                    )
+                }
+                ElegantDisclosure(
+                    title = "Which platforms are supported?",
+                    expanded = false,
+                    onToggle = {},
+                ) {
+                    Text(
+                        text = "Android 24+, Desktop JVM, and Web/Wasm.",
+                        color = colors.textSecondary,
+                        style = ElegantTheme.typography.bodyMedium,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LabelShowcase() {
+    var fullName by rememberSaveable { mutableStateOf("") }
+    var email by rememberSaveable { mutableStateOf("") }
+
+    ShowcasePage(title = "Elegant Label") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Labels above inputs",
+            description = "Required, optional, and disabled labels sit directly above their fields.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                    ElegantLabel(text = "Full name", required = true)
+                    ElegantInput(value = fullName, onValueChange = { fullName = it })
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                    ElegantLabel(text = "Email address")
+                    ElegantInput(value = email, onValueChange = { email = it })
+                }
+                Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                    ElegantLabel(text = "Nickname", enabled = false)
+                    ElegantInput(value = "", onValueChange = {}, enabled = false)
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Registration form",
+            description = "A card groups labeled fields into one scannable form.",
+        ) {
+            ElegantCard(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column(
+                    modifier = Modifier.padding(ElegantSpacing.lg),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                        ElegantLabel(text = "Full name", required = true)
+                        ElegantInput(value = fullName, onValueChange = { fullName = it })
+                    }
+                    Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                        ElegantLabel(text = "Email address", required = true)
+                        ElegantInput(value = email, onValueChange = { email = it })
+                    }
+                    Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                        ElegantLabel(text = "Promo code")
+                        ElegantInput(value = "", onValueChange = {})
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FieldsetShowcase() {
+    var email by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
+
+    ShowcasePage(title = "Elegant Fieldset") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A bordered form section",
+            description = "A legend labels the section and content receives the content color.",
+        ) {
+            ElegantFieldset(legend = "Contact details") {
+                Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                    ElegantInput(
+                        value = email,
+                        onValueChange = { email = it },
+                        placeholder = "Email address",
+                    )
+                    ElegantInput(
+                        value = phone,
+                        onValueChange = { phone = it },
+                        placeholder = "Phone number",
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A checkout card",
+            description = "Two fieldsets separate shipping and payment on one card.",
+        ) {
+            ElegantCard {
+                Column(
+                    modifier = Modifier.padding(ElegantSpacing.xl),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                ) {
+                    ElegantFieldset(legend = "Shipping address") {
+                        ElegantInput(value = email, onValueChange = { email = it })
+                    }
+                    ElegantFieldset(legend = "Payment details") {
+                        ElegantInput(value = phone, onValueChange = { phone = it })
+                    }
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun SwitchGroupShowcase() {
+    var channels by remember { mutableStateOf(setOf("push", "email")) }
+
+    ShowcasePage(title = "Elegant SwitchGroup") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Notification channels",
+            description = "Switch rows share one caller-owned selection set on a 4dp rhythm.",
+        ) {
+            ElegantSwitchGroup(
+                selectedValues = channels,
+                onToggle = { value, checked ->
+                    channels = if (checked) channels + value else channels - value
+                },
+                items = listOf(
+                    ElegantSwitchGroupItem(text = "Push notifications", value = "push"),
+                    ElegantSwitchGroupItem(text = "Email digest", value = "email"),
+                    ElegantSwitchGroupItem(text = "In-app mentions", value = "mentions"),
+                ),
+                supportingText = "Choose how you want to be notified.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled items and groups",
+            description = "A disabled item or a disabled group never invokes onToggle.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xl)) {
+                ElegantSwitchGroup(
+                    selectedValues = setOf("camera"),
+                    onToggle = { _, _ -> },
+                    items = listOf(
+                        ElegantSwitchGroupItem(text = "Camera", value = "camera"),
+                        ElegantSwitchGroupItem(
+                            text = "Microphone",
+                            value = "microphone",
+                            enabled = false,
+                        ),
+                    ),
+                )
+                ElegantSwitchGroup(
+                    selectedValues = setOf("notifications"),
+                    onToggle = { _, _ -> },
+                    enabled = false,
+                    items = listOf(
+                        ElegantSwitchGroupItem(text = "Notifications", value = "notifications"),
+                        ElegantSwitchGroupItem(text = "Announcements", value = "announcements"),
+                    ),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun TagGroupShowcase() {
+    var filters by remember { mutableStateOf(setOf("design", "multiplatform")) }
+
+    ShowcasePage(title = "Elegant TagGroup") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Filter chips that wrap",
+            description = "Selectable chips share one caller-owned selection set and wrap on an 8dp rhythm.",
+        ) {
+            ElegantTagGroup(
+                selectedValues = filters,
+                onToggle = { value, checked ->
+                    filters = if (checked) filters + value else filters - value
+                },
+                items = listOf(
+                    ElegantTagGroupItem(text = "Design", value = "design"),
+                    ElegantTagGroupItem(text = "Engineering", value = "engineering"),
+                    ElegantTagGroupItem(text = "Multiplatform", value = "multiplatform"),
+                    ElegantTagGroupItem(text = "Release", value = "release"),
+                ),
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled items and groups",
+            description = "A disabled chip or a disabled group never invokes onToggle.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xl)) {
+                ElegantTagGroup(
+                    selectedValues = setOf("design"),
+                    onToggle = { _, _ -> },
+                    items = listOf(
+                        ElegantTagGroupItem(text = "Design", value = "design"),
+                        ElegantTagGroupItem(
+                            text = "Release",
+                            value = "release",
+                            enabled = false,
+                        ),
+                    ),
+                )
+                ElegantTagGroup(
+                    selectedValues = setOf("notifications"),
+                    onToggle = { _, _ -> },
+                    enabled = false,
+                    items = listOf(
+                        ElegantTagGroupItem(text = "Notifications", value = "notifications"),
+                        ElegantTagGroupItem(text = "Announcements", value = "announcements"),
+                    ),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ToolbarShowcase() {
+    var draft by rememberSaveable { mutableStateOf("") }
+
+    ShowcasePage(title = "Elegant Toolbar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Actions above a list",
+            description = "A flat 48dp strip fills the width and hosts icon actions on a 4dp rhythm.",
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+            ) {
+                ElegantToolbar {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.add_rounded,
+                        contentDescription = "Add item",
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.edit_rounded,
+                        contentDescription = "Edit selected",
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.share_rounded,
+                        contentDescription = "Share",
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.delete_rounded,
+                        contentDescription = "Delete selected",
+                        onClick = {},
+                    )
+                }
+                ElegantList {
+                    ElegantListItem(
+                        leadingContent = { ResourceIcon(Res.drawable.person_rounded) },
+                        title = { Text("General") },
+                        supportingText = { Text("Appearance, storage, and performance") },
+                    )
+                    ElegantListItem(
+                        leadingContent = { ResourceIcon(Res.drawable.check_rounded) },
+                        title = { Text("Notifications") },
+                        supportingText = { Text("Badges, sounds, and summary") },
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Formatting strip above an editor",
+            description = "The strip sits flush above a textarea; separators are the caller's choice.",
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+            ) {
+                ElegantToolbar {
+                    ShowcaseIconButton(
+                        resource = Res.drawable.add_rounded,
+                        contentDescription = "Attach",
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.check_rounded,
+                        contentDescription = "Confirm",
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.more_vert_rounded,
+                        contentDescription = "More options",
+                        onClick = {},
+                    )
+                    ShowcaseIconButton(
+                        resource = Res.drawable.delete_rounded,
+                        contentDescription = "Clear draft",
+                        onClick = { draft = "" },
+                    )
+                }
+                ElegantTextarea(
+                    value = draft,
+                    onValueChange = { draft = it },
+                    placeholder = "Type a message",
+                    minLines = 3,
+                    maxLines = 6,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ToastShowcase() {
+    val toastHostState = remember { ElegantToastHostState() }
+    val scope = rememberCoroutineScope()
+    var savedCount by remember { mutableIntStateOf(0) }
+    var flowsResumed by remember { mutableIntStateOf(0) }
+
+    ShowcasePage(title = "Elegant Toast") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Host, state, and surface",
+            description = "The host pins the toast to the top center of its bounds; showToast suspends until dismissal.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                ElegantToast(
+                    title = "Changes saved",
+                    description = "Synced to your workspace.",
+                    onClose = {},
+                )
+                ElegantButton(
+                    onClick = {
+                        scope.launch {
+                            toastHostState.showToast("Live toast at the top of this page")
+                        }
+                    },
+                ) {
+                    Text("Show toast")
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "ACTION",
+            title = "Title, description, and close",
+            description = "A supporting description adds context; the close action dismisses the toast immediately.",
+        ) {
+            ElegantButton(
+                onClick = {
+                    scope.launch {
+                        toastHostState.showToast(
+                            title = "Download complete",
+                            description = "The file is ready in your library.",
+                        )
+                    }
+                },
+            ) {
+                Text("Download complete")
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Save flow",
+            description = "Dismissal resumes the calling coroutine, so follow-up work chains behind the feedback.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
+                Text(
+                    text = "Saved drafts: $savedCount",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+                ElegantButton(
+                    onClick = {
+                        savedCount += 1
+                        scope.launch {
+                            toastHostState.showToast(
+                                title = "Draft saved",
+                                description = "Synced a moment ago.",
+                            )
+                            flowsResumed += 1
+                        }
+                    },
+                ) {
+                    Text("Save draft")
+                }
+                Text(
+                    text = "Workflows resumed after dismissal: $flowsResumed",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+            }
+        }
+
+        Box(Modifier.fillMaxWidth()) {
+            ElegantToastHost(
+                hostState = toastHostState,
+                modifier = Modifier.align(Alignment.TopCenter),
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun AutocompleteShowcase() {
+    var countryQuery by remember { mutableStateOf("") }
+    var cityQuery by remember { mutableStateOf("") }
+    var cityCode by remember { mutableStateOf("") }
+    val countryOptions = listOf(
+        ElegantAutocompleteOption(text = "France", value = "FR"),
+        ElegantAutocompleteOption(text = "Germany", value = "DE"),
+        ElegantAutocompleteOption(text = "Netherlands", value = "NL"),
+        ElegantAutocompleteOption(text = "Norway", value = "NO"),
+        ElegantAutocompleteOption(text = "Sweden", value = "SE"),
+        ElegantAutocompleteOption(text = "Switzerland", value = "CH"),
+        ElegantAutocompleteOption(text = "Fiji", value = "FJ"),
+        ElegantAutocompleteOption(text = "Canada", value = "CA"),
+    )
+
+    ShowcasePage(title = "Elegant Autocomplete") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Filtered suggestions below the field",
+            description = "Typing filters the option list; a blank query shows every option and selecting a row reports the choice.",
+        ) {
+            ElegantAutocomplete(
+                query = countryQuery,
+                onQueryChange = { countryQuery = it },
+                options = countryOptions,
+                onOptionSelected = { option ->
+                    countryQuery = option.text
+                },
+                label = "Country",
+                placeholder = "Search a country",
+                supportingText = "Choose the country that best fits.",
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A form row with an autocomplete",
+            description = "The autocomplete pairs with a plain input on the same form row.",
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = colors.backgroundSubtle,
+                        shape = RoundedCornerShape(ElegantRadius.lg),
+                    )
+                    .padding(ElegantSpacing.md),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantAutocomplete(
+                    query = cityQuery,
+                    onQueryChange = { cityQuery = it },
+                    modifier = Modifier.weight(1f),
+                    options = listOf(
+                        ElegantAutocompleteOption(text = "Paris", value = "PAR"),
+                        ElegantAutocompleteOption(text = "Berlin", value = "BER"),
+                        ElegantAutocompleteOption(text = "Amsterdam", value = "AMS"),
+                        ElegantAutocompleteOption(text = "Oslo", value = "OSL"),
+                    ),
+                    onOptionSelected = { option ->
+                        cityQuery = option.text
+                        cityCode = option.value
+                    },
+                    label = "City",
+                    placeholder = "Type a city",
+                )
+                ElegantInput(
+                    value = cityCode,
+                    onValueChange = { cityCode = it },
+                    modifier = Modifier.weight(1f),
+                    label = "City code",
+                    placeholder = "Auto-filled",
+                )
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun InputGroupShowcase() {
+    var unit by remember { mutableStateOf("Monthly") }
+    var query by remember { mutableStateOf("") }
+
+    ShowcasePage(title = "Elegant InputGroup") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Prefix, select-like cell, and suffix",
+            description = "Adjacent fields merge behind one shared border with 4dp inner padding.",
+        ) {
+            Text(
+                text = "Amount",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            ElegantInputGroup {
+                ElegantInput(
+                    value = "$",
+                    onValueChange = {},
+                    readOnly = true,
+                    style = ElegantInputStyle.Outlined,
+                    modifier = Modifier.width(48.dp),
+                )
+                ElegantInput(
+                    value = unit,
+                    onValueChange = { unit = it },
+                    style = ElegantInputStyle.Outlined,
+                    modifier = Modifier.weight(1f),
+                    trailingIcon = { Text("\u25BE") },
+                )
+                Row(
+                    modifier = Modifier
+                        .height(48.dp)
+                        .padding(horizontal = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = "per month",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A search row",
+            description = "An outlined field and a trailing action share one cluster on any width.",
+        ) {
+            ElegantInputGroup(modifier = Modifier.fillMaxWidth()) {
+                ElegantInput(
+                    value = query,
+                    onValueChange = { query = it },
+                    placeholder = "Search releases",
+                    style = ElegantInputStyle.Outlined,
+                    modifier = Modifier.weight(1f),
+                )
+                Row(
+                    modifier = Modifier
+                        .height(48.dp)
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = "Search",
+                        style = ElegantTheme.typography.labelMedium,
+                        color = colors.interactivePrimary,
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun ColorPickerShowcase() {
+    var selected by remember { mutableStateOf(ElegantColorPickerDefaults.palette().first()) }
+    var accent by remember { mutableStateOf(ElegantTheme.colors.interactivePrimary) }
+
+    ShowcasePage(title = "Elegant ColorPicker") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A curated 16-color palette",
+            description = "Eight saturated chromatic colors and eight light tints wrap on the 8dp rhythm.",
+        ) {
+            Text(
+                text = "Selected ${hexReadout(selected)}",
+                style = ElegantTheme.typography.bodyMedium,
+                color = colors.textSecondary,
+            )
+            ElegantColorPicker(
+                selectedColor = selected,
+                onColorSelected = { selected = it },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled without losing the choice",
+            description = "A disabled picker renders at 40% opacity and never fires the callback.",
+        ) {
+            ElegantColorPicker(
+                selectedColor = selected,
+                onColorSelected = {},
+                enabled = false,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Theme accent picker",
+            description = "A small palette built from theme roles keeps the accent in sync with the theme.",
+        ) {
+            val accentPalette = listOf(
+                colors.interactivePrimary,
+                colors.interactivePrimaryHover,
+                colors.interactivePrimaryPressed,
+                colors.focusRing,
+            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "\u25CF",
+                    style = ElegantTheme.typography.titleMedium,
+                    color = accent,
+                )
+                Spacer(Modifier.width(ElegantSpacing.md))
+                Text(
+                    text = "Accent ${hexReadout(accent)}",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = colors.textSecondary,
+                )
+            }
+            ElegantColorPicker(
+                selectedColor = accent,
+                onColorSelected = { accent = it },
+                colors = accentPalette,
+            )
+        }
+
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+private fun hexReadout(color: Color): String =
+    listOf(color.red, color.green, color.blue).joinToString(prefix = "#", separator = "") {
+        (it * 255f).roundToInt().coerceIn(0, 255).toString(16).uppercase().padStart(2, '0')
+    }
+
 private fun UnknownComponent(componentId: String) {
     ElegantTheme {
         val colors = ElegantTheme.colors
