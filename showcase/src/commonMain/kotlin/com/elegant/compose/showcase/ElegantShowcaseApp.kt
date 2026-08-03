@@ -6823,7 +6823,6 @@ private fun ScrollBarShowcase() {
 }
 
 @Composable
-@Composable
 private fun AlertDialogShowcase() {
     ShowcasePage(title = "Elegant AlertDialog") { compact ->
         val colors = ElegantTheme.colors
@@ -7765,6 +7764,7 @@ private fun hexReadout(color: Color): String =
         (it * 255f).roundToInt().coerceIn(0, 255).toString(16).uppercase().padStart(2, '0')
     }
 
+@Composable
 private fun UnknownComponent(componentId: String) {
     ElegantTheme {
         val colors = ElegantTheme.colors
