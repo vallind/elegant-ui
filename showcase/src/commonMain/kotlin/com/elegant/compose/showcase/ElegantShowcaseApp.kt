@@ -3670,7 +3670,7 @@ private fun ProgressShowcase() {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xxl),
-                verticalAlignment = Alignment.CenterVertically,
+                itemVerticalAlignment = Alignment.CenterVertically,
             ) {
                 ElegantCircularProgressIndicator(progress = uploadProgress)
                 Column(
@@ -3696,7 +3696,7 @@ private fun ProgressShowcase() {
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xxl),
-                verticalAlignment = Alignment.CenterVertically,
+                itemVerticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(
                     modifier = Modifier.weight(1f),
@@ -6139,7 +6139,7 @@ private fun SpinnerShowcase() {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xxl),
-                verticalAlignment = Alignment.CenterVertically,
+                itemVerticalAlignment = Alignment.CenterVertically,
             ) {
                 ElegantSpinner()
                 ElegantSpinner(label = "Loading...")
@@ -6155,7 +6155,7 @@ private fun SpinnerShowcase() {
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xxl),
-                verticalAlignment = Alignment.CenterVertically,
+                itemVerticalAlignment = Alignment.CenterVertically,
             ) {
                 ElegantSpinner(size = 24.dp, strokeWidth = 3.dp)
                 ElegantSpinner(size = 40.dp, strokeWidth = 4.dp)
@@ -6187,6 +6187,7 @@ private fun SpinnerShowcase() {
     }
 }
 
+@Composable
 private fun UnknownComponent(componentId: String) {
     ElegantTheme {
         val colors = ElegantTheme.colors

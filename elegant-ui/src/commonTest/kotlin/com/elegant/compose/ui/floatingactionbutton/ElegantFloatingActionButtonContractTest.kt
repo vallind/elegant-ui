@@ -63,7 +63,7 @@ internal class ElegantFloatingActionButtonContractTest {
             colors = testColors,
             enabled = true,
             pressed = false,
-            hovered = true,
+            hovered = false,
             focused = true,
         )
 

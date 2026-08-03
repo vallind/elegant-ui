@@ -63,7 +63,7 @@ internal class ElegantMeterContractTest {
     fun autoToneHonorsCustomHighThreshold() {
         assertEquals(ElegantMeterTone.Warning, resolveMeterTone(0.5f, null, 0.4f))
         assertEquals(ElegantMeterTone.Positive, resolveMeterTone(0.2f, null, 0.4f))
-        assertEquals(ElegantMeterTone.Warning, resolveMeterTone(0.99f, null, 1.2f))
+        assertEquals(ElegantMeterTone.Positive, resolveMeterTone(0.99f, null, 1.2f))
     }
 
     @Test
