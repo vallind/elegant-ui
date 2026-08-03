@@ -227,19 +227,26 @@ internal class PullToRefreshNestedScrollConnection(
     /** Whether the current pull was committed by a release, snapshot-backed for recomposition. */
     internal var released by mutableStateOf(false)
 
+    private fun snapPull(delta: Float) {
+        val target = (pull.value + delta).coerceIn(0f, thresholdPx)
+        scope.launch {
+            pull.snapTo(target)
+        }
+    }
+
     override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
         if (source != NestedScrollSource.Drag || !isEnabled()) return Offset.Zero
         val delta = available.y
         return when {
             pull.value > 0f -> {
                 released = false
-                pull.snapTo((pull.value + delta).coerceIn(0f, thresholdPx))
+                snapPull(delta)
                 Offset(0f, delta)
             }
 
             delta > 0f && childScrollOffset <= 0f -> {
                 released = false
-                pull.snapTo((pull.value + delta).coerceIn(0f, thresholdPx))
+                snapPull(delta)
                 Offset(0f, delta)
             }
 
