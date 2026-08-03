@@ -7687,8 +7687,9 @@ private fun InputGroupShowcase() {
 
 @Composable
 private fun ColorPickerShowcase() {
+    val accentColor = ElegantTheme.colors.interactivePrimary
     var selected by remember { mutableStateOf(ElegantColorPickerDefaults.palette().first()) }
-    var accent by remember { mutableStateOf(ElegantTheme.colors.interactivePrimary) }
+    var accent by remember { mutableStateOf(accentColor) }
 
     ShowcasePage(title = "Elegant ColorPicker") { compact ->
         val colors = ElegantTheme.colors
