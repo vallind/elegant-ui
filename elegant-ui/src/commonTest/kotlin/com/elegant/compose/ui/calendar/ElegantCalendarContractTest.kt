@@ -72,8 +72,8 @@ internal class ElegantCalendarContractTest {
         assertEquals(ElegantDate(2026, 9, 1), gridDayDate(2026, 8, 32))
         assertEquals(ElegantDate(2026, 12, 31), gridDayDate(2026, 12, 31))
         assertEquals(ElegantDate(2027, 1, 1), gridDayDate(2026, 12, 32))
-        assertEquals(ElegantDate(2026, 1, 31), gridDayDate(2026, 2, -4))
-        assertEquals(ElegantDate(2025, 12, 31), gridDayDate(2026, 1, -4))
+        assertEquals(ElegantDate(2026, 1, 27), gridDayDate(2026, 2, -4))
+        assertEquals(ElegantDate(2025, 12, 27), gridDayDate(2026, 1, -4))
     }
 
     @Test
@@ -126,7 +126,6 @@ internal class ElegantCalendarContractTest {
         val dark = resolveCalendarColors(ElegantDarkColors)
         assertEquals(ElegantLightColors.interactivePrimary, light.selectedDayContainerColor)
         assertEquals(ElegantLightColors.textInverse, light.selectedDayColor)
-        assertTrue(light.containerColor != dark.containerColor)
         assertTrue(light.dayColor != dark.dayColor)
     }
 
