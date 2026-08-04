@@ -171,7 +171,7 @@ These were each discovered on a real target build; do not re-learn them:
 2. Add a showcase section in `showcase/src/commonMain/kotlin/com/elegant/compose/showcase/ElegantShowcaseApp.kt` (slug branch, route case, section composable) covering the default look, public variants, the disabled state, and the important interaction or slot.
 3. Add `docs/components/{slug}.md` and `docs/zh_CN/components/{slug}.md` (Miuix format: intro, iframe directly after it, Import, Basic Usage, component-specific types, Component States, Properties tables, Advanced Usage) and update both component indexes and both VitePress sidebars.
 4. Verify: library and showcase compile on Android, Desktop, and Web/Wasm; desktop tests pass; docs validation and build pass.
-5. Commit with one coherent Conventional Commit; add the component to `.claude/skills/create-component/references/completed-components.md` in the same change.
+5. Commit with one coherent Conventional Commit.
 
 ### Modifying a Component
 
