@@ -234,6 +234,7 @@ jobs:
       - name: Package Windows distributable as zip
         shell: pwsh
         run: |
+          New-Item -ItemType Directory -Force -Path desktop-sample/build/compose/binaries/main/zip | Out-Null
           Compress-Archive `
             -Path desktop-sample/build/compose/binaries/main/app/* `
             -DestinationPath desktop-sample/build/compose/binaries/main/zip/ElegantUIShowcase-0.1.0-windows.zip
