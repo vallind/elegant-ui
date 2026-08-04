@@ -32,22 +32,16 @@ Read the relevant API section of `AGENTS.md`, pick the closest type from the tab
 
 | Component type | Reference (under `elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/`) | Key points |
 | :--- | :--- | :--- |
-| Text action | `button/ElegantButton.kt` | controlled activation, loading, three styles and sizes, slots, 48dp target, shared action visuals |
-| Icon action | `iconbutton/ElegantIconButton.kt` | required accessible name, icon ownership, compact visual inside a 48dp target |
-| Identity/display | `avatar/ElegantAvatar.kt` | content fallback, decorative versus named semantics, custom content slot |
-| Status/count/overlay | `badge/ElegantBadge.kt` | semantic tones, count coercion and overflow, logical RTL placement, overlay without changing content measurement |
-| Drawn separator | `divider/ElegantDivider.kt` | orientation, emphasis, stroke, decorative-by-default semantics |
-| Label/classification | `tag/ElegantTag.kt` | four variants, three sizes, optional selectable interaction, interactive versus non-interactive semantics |
-| Container | `card/ElegantCard.kt`, `surface/ElegantSurface.kt` | style presets, optional clickable, caller-owned padding |
-| Field / input family | `input/ElegantInput.kt`, `textarea/ElegantTextarea.kt` | Filled visuals, error semantics, icon slots, maxLength coercion |
-| Selection family | `checkbox/ElegantCheckbox.kt`, `togglebutton/ElegantToggleButton.kt` | toggleable/selectable role, checked-state resolution, group propagation |
-| Animated / custom-drawn | `progress/ElegantProgress.kt`, `switch/ElegantSwitch.kt`, `skeleton/ElegantSkeleton.kt` | infinite transitions, drag gestures, progress semantics |
-| Settings item | `preference/ElegantSwitchPreference.kt`, `preference/ElegantArrowPreference.kt` | preference row pattern: title block + end control, inset divider |
-| Grouped Colors (selected-state aware) | `preference/ElegantRadioPreference.kt` | colors resolved by a selected flag through internal accessor functions |
-| Row-based container API | `list/ElegantList.kt`, `list/ElegantListItem.kt` | item slots, 48dp rows, interactive versus plain rows |
-| Overlay family | `menu/ElegantMenu.kt`, `autocomplete/ElegantAutocomplete.kt` | anchored focusable popup, dismissal contract, focus handoff |
-| Calendar family | `calendar/ElegantCalendar.kt` | pure date math, Monday-first grid, ElegantDate model |
-| Icons / rendering | `icon/ElegantIcons.kt`, `shape/ElegantSquircleShape.kt` | vector geometry helpers, pure shape math, no Path in JUnit |
+| Clickable filled | `button/ElegantButton.kt`, `tag/ElegantTag.kt` | controlled activation, 48dp target, interaction precedence, disabled/loading semantics, ripple |
+| Icon action | `iconbutton/ElegantIconButton.kt`, `icon/ElegantIcons.kt` | required accessible name, icon ownership, compact visual inside a 48dp target |
+| Container / surface | `card/ElegantCard.kt`, `surface/ElegantSurface.kt`, `list/ElegantListItem.kt` | style presets, optional clickable, caller-owned padding, 48dp rows |
+| Minimal drawn (non-interactive) | `divider/ElegantDivider.kt`, `avatar/ElegantAvatar.kt`, `badge/ElegantBadge.kt` | decorative-by-default semantics, semantic tones, pure text resolution |
+| Animated / custom-drawn | `progress/ElegantProgress.kt`, `switch/ElegantSwitch.kt`, `slider/ElegantSlider.kt` | infinite transitions, drag gestures, progress semantics |
+| Field / form | `input/ElegantInput.kt`, `textarea/ElegantTextarea.kt` | Filled visuals, error semantics, icon slots, maxLength coercion |
+| Selection / settings row | `preference/ElegantSwitchPreference.kt`, `preference/ElegantRadioPreference.kt`, `buttongroup/ElegantButtonGroup.kt` | title block + end control, grouped Colors resolved by a selected flag, checked-state precedence |
+| Anchored popup / overlay | `menu/ElegantMenu.kt`, `autocomplete/ElegantAutocomplete.kt`, `modal/ElegantModal.kt` | focusable popup, dismissal contract, focus handoff |
+| Data-driven collection | `table/ElegantTable.kt`, `calendar/ElegantCalendar.kt`, `tabs/ElegantTabRow.kt` | stable item models, pure resolution, grid/list rendering |
+| Rendering primitive | `icon/ElegantIcons.kt`, `shape/ElegantSquircleShape.kt`, `effect/ElegantBlur.kt` | vector geometry helpers, pure shape math, no Path in JUnit |
 | New family | the closest available component above | follow repository shape, define a new contract |
 
 Use references for conventions, not for blindly copying dimensions, states, slots, or implementation.
