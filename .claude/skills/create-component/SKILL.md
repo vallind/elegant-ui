@@ -46,6 +46,30 @@ Read the relevant API section of `AGENTS.md`, pick the closest type from the tab
 
 Use references for conventions, not for blindly copying dimensions, states, slots, or implementation.
 
+## Step 2.5: Miuix maturity checklist
+
+Before writing the source, verify the planned contract against the Miuix implementation of the
+closest component (see the Miuix clone under the reference table). Mark every line applicable or
+write the explicit "not applicable" reason; do not skip silently.
+
+| Maturity item | What Miuix does | Applies when |
+| :--- | :--- | :--- |
+| Haptics | ToggleOn/ToggleOff inside the click callback for switch/checkbox/radio; tick haptics on Slider; drag-threshold vibration on Switch thumb drag | any toggle or drag |
+| Drag interaction | Switch thumb drag with spring snap-back; BottomSheet nestedScroll drag-to-dismiss; Slider drag while pressed | draggable components |
+| Squircle defaults | Filled components default to squircleSurface, gated by LocalSquircleEnabled with RoundedCornerShape fallback | any filled surface |
+| Press feedback variants | SinkFeedback/TiltFeedback press types, holdDownState, onLongPress on Card | containers with press states |
+| Overlay contract | header slots (title/startAction/endAction), onDismissFinished, windowInsets, dismiss routes enumerated | any overlay |
+| Animation quality | spring damping ratio ~0.7, minimum-size guards (e.g. Progress minWidth = cornerRadius * 2) | animated or drawn components |
+| 48dp target + layout stability | interactive roots at least 48dp; press motion never shrinks hit target or moves neighbors | every interactive component |
+| Disabled/loading precedence | no callbacks when disabled or loading; loading preserves layout | every stateful component |
+| Semantics | role, selected/disabled/error/loading state, localized state descriptions; focus visible in Light and Dark | every component |
+| Platform safety | no Android/AWT/DOM imports in commonMain; only CMP 1.11-verified APIs | always |
+
+Record the checked rows in the pull-request body or commit message so reviewers can verify
+maturity without re-deriving it.
+
+
+
 ## Step 3: Write the component source file
 
 Locations:

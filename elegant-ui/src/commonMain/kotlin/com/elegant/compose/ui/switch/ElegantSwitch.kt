@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -24,17 +25,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.math.abs
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantElevation
 import com.elegant.compose.ui.theme.ElegantMotion
@@ -116,7 +123,9 @@ internal data class SwitchVisuals(
  * The control is fully controlled: [checked] defines the state and [onCheckedChange] is invoked
  * with the requested value whenever the user activates the row. The whole row is announced with
  * [Role.Switch] semantics, keeps a 48dp minimum interactive height, and animates its track, thumb,
- * and thumb offset between the checked and unchecked positions. The label, when provided, is
+ * and thumb offset between the checked and unchecked positions. Dragging the thumb past half of
+ * its travel toggles the switch on release; a drag released inside the spring-back zone snaps back.
+ * The label, when provided, is
  * rendered inline on the same row using the current theme typography.
  *
  * @param checked whether the switch is on.
@@ -143,6 +152,13 @@ public fun ElegantSwitch(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val density = LocalDensity.current
+    val maxOffsetPx = with(density) {
+        ElegantSwitchDefaults.TrackWidth.toPx() - ElegantSwitchDefaults.ThumbSize.toPx() -
+            ElegantSpacing.xs.toPx() * 2f
+    }
+    var rawDragOffset by remember { mutableFloatStateOf(0f) }
+    var hasVibrated by remember { mutableStateOf(false) }
     val visuals = resolveSwitchVisuals(
         colors = colors,
         enabled = enabled,
@@ -179,6 +195,13 @@ public fun ElegantSwitch(
         ),
         label = "ElegantSwitchThumbOffset",
     )
+    val displayedOffset = if (rawDragOffset != 0f) {
+        with(density) {
+            ((if (checked) maxOffsetPx else 0f) + rawDragOffset).toDp()
+        }
+    } else {
+        animatedOffset
+    }
     val themeColors = ElegantTheme.colors
 
     Row(
@@ -209,6 +232,42 @@ public fun ElegantSwitch(
                     width = ElegantSwitchDefaults.TrackWidth,
                     height = ElegantSwitchDefaults.TrackHeight,
                 )
+                .pointerInput(checked, enabled) {
+                    if (!enabled) return@pointerInput
+                    val thumbPx = with(density) {
+                        ElegantSwitchDefaults.ThumbSize.toPx()
+                    }
+                    val padPx = with(density) { ElegantSpacing.xs.toPx() }
+                    detectDragGestures(
+                        onDragStart = { hasVibrated = false },
+                        onDrag = { change, dragAmount ->
+                            change.consume()
+                            val maxDrag = size.width - thumbPx - 2f * padPx
+                            rawDragOffset = (rawDragOffset + dragAmount.x).coerceIn(-maxDrag, maxDrag)
+                            if (!hasVibrated && abs(rawDragOffset) > maxDrag / 2f) {
+                                hasVibrated = true
+                                currentHaptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            }
+                        },
+                        onDragEnd = {
+                            val maxDrag = size.width - thumbPx - 2f * padPx
+                            switchDragTarget(checked, rawDragOffset, maxDrag)?.let { newChecked ->
+                                if (newChecked != checked) {
+                                    currentHaptic.performHapticFeedback(
+                                        if (newChecked) {
+                                            HapticFeedbackType.ToggleOn
+                                        } else {
+                                            HapticFeedbackType.ToggleOff
+                                        },
+                                    )
+                                    onCheckedChange(newChecked)
+                                }
+                            }
+                            rawDragOffset = 0f
+                        },
+                        onDragCancel = { rawDragOffset = 0f },
+                    )
+                }
                 .background(color = animatedTrack, shape = CircleShape)
                 .then(
                     if (focused) {
@@ -221,7 +280,7 @@ public fun ElegantSwitch(
                         Modifier
                     },
                 )
-                .padding(start = animatedOffset),
+                .padding(start = displayedOffset),
             contentAlignment = Alignment.CenterStart,
         ) {
             Box(
@@ -339,3 +398,19 @@ internal fun switchThumbOffsetPx(
     thumbSizePx: Float,
     paddingPx: Float,
 ): Float = if (checked) trackWidthPx - thumbSizePx - 2f * paddingPx else 0f
+
+/**
+ * Resolves the drag target for a switch thumb drag.
+ *
+ * Returns the state the drag should settle into when the release position crossed half of the
+ * maximum travel, or `null` when the drag stayed within the spring-back zone.
+ */
+internal fun switchDragTarget(
+    checked: Boolean,
+    dragOffsetPx: Float,
+    maxOffsetPx: Float,
+): Boolean? = when {
+    dragOffsetPx > maxOffsetPx / 2f -> true
+    dragOffsetPx < -maxOffsetPx / 2f -> false
+    else -> null
+}

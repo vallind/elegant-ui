@@ -63,6 +63,9 @@ ElegantBottomSheet(
 | `visible` | `Boolean` | 是否显示面板;调用方持有关闭状态。 | — | 是 |
 | `onDismissRequest` | `() -> Unit` | 点击遮罩、返回键或 Escape 时回调。 | — | 是 |
 | `modifier` | `Modifier` | 应用于面板本体。 | `Modifier` | 否 |
+| `title` | `String?` | 可选标题,渲染在内容上方的标题行 | `null` | 否 |
+| `startAction` | `(@Composable () -> Unit)?` | 标题前的可选头部内容 | `null` | 否 |
+| `endAction` | `(@Composable () -> Unit)?` | 标题后的可选头部内容 | `null` | 否 |
 | `colors` | `ElegantBottomSheetColors` | 主题化的遮罩、表面、内容与指示条颜色。 | `ElegantBottomSheetDefaults.colors()` | 否 |
 | `content` | `@Composable ColumnScope.() -> Unit` | 拖拽指示条下方的面板内容。 | — | 是 |
 

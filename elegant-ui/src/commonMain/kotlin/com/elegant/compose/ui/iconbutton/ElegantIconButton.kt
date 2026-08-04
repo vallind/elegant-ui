@@ -46,6 +46,7 @@ import com.elegant.compose.ui.internal.action.ActionStateColors
 import com.elegant.compose.ui.internal.action.ActionStateElevation
 import com.elegant.compose.ui.internal.action.ActionVisuals
 import com.elegant.compose.ui.internal.action.resolveActionVisuals
+import com.elegant.compose.ui.shape.resolveSquircleAwareShape
 import com.elegant.compose.ui.theme.ElegantElevation
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantTheme
@@ -303,6 +304,11 @@ public fun ElegantIconButton(
     elevation: ElegantIconButtonElevation = ElegantIconButtonDefaults.elevation(style),
     content: @Composable () -> Unit,
 ) {
+    val effectiveShape = resolveSquircleAwareShape(
+        userShape = shape,
+        defaultShape = ElegantIconButtonDefaults.shape(size),
+        cornerRadius = iconButtonDefaultCornerRadius(size),
+    )
     val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
@@ -397,7 +403,7 @@ public fun ElegantIconButton(
         val borderModifier = if (animatedBorderWidth > 0.dp) {
             Modifier.border(
                 border = BorderStroke(animatedBorderWidth, animatedBorder),
-                shape = shape,
+                shape = effectiveShape,
             )
         } else {
             Modifier
@@ -411,11 +417,11 @@ public fun ElegantIconButton(
                 }
                 .shadow(
                     elevation = animatedElevation,
-                    shape = shape,
+                    shape = effectiveShape,
                     clip = false,
                 )
                 .size(metrics.visualSize)
-                .clip(shape)
+                .clip(effectiveShape)
                 .background(animatedContainer)
                 .indication(
                     interactionSource = resolvedInteractionSource,
@@ -461,6 +467,12 @@ internal fun iconButtonMetricsFor(size: ElegantIconButtonSize): IconButtonMetric
         visualSize = 48.dp,
         iconSize = 24.dp,
     )
+}
+
+internal fun iconButtonDefaultCornerRadius(size: ElegantIconButtonSize): Dp = when (size) {
+    ElegantIconButtonSize.Small -> 10.dp
+    ElegantIconButtonSize.Medium -> 12.dp
+    ElegantIconButtonSize.Large -> 14.dp
 }
 
 internal fun resolveIconButtonVisuals(

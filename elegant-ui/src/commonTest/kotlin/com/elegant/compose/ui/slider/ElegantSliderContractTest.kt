@@ -9,6 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
+import kotlin.test.assertFalse
 
 internal class ElegantSliderContractTest {
 
@@ -126,4 +127,18 @@ internal class ElegantSliderContractTest {
         assertTrue(ElegantSliderDefaults.MinimumTouchHeight >= 48.dp)
         assertEquals(ElegantMotion.standardDurationMillis, ElegantSliderDefaults.AnimationDurationMillis)
     }
+    @Test
+    fun tickIndexMapsValueToPercent() {
+        assertEquals(50, sliderTickIndex(0.5f, 0f..1f))
+        assertEquals(0, sliderTickIndex(-1f, 0f..1f))
+        assertEquals(100, sliderTickIndex(3f, 0f..1f))
+        assertEquals(25, sliderTickIndex(10f, 0f..40f))
+    }
+
+    @Test
+    fun tickHapticFiresOnlyOnTickChange() {
+        assertTrue(shouldTickHaptic(previousTick = 49, nextTick = 50))
+        assertFalse(shouldTickHaptic(previousTick = -1, nextTick = 50))
+        assertFalse(shouldTickHaptic(previousTick = 50, nextTick = 50))
+}
 }

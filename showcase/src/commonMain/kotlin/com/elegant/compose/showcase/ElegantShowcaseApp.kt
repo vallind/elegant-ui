@@ -8273,6 +8273,10 @@ private fun BottomSheetShowcase() {
             ElegantBottomSheet(
                 visible = visible,
                 onDismissRequest = { visible = false },
+                title = "Share options",
+                endAction = {
+                    ElegantCloseButton(onClick = { visible = false })
+                },
             ) {
                 Column(
                     modifier = Modifier
@@ -8281,10 +8285,6 @@ private fun BottomSheetShowcase() {
                         .padding(bottom = ElegantSpacing.xl),
                     verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
                 ) {
-                    Text(
-                        text = "Share options",
-                        style = ElegantTheme.typography.titleMedium,
-                    )
                     Text(
                         text = "Pick where to share this file. The sheet keeps focus and returns it when dismissed.",
                         color = colors.textSecondary,

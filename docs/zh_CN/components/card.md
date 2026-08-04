@@ -77,12 +77,14 @@ ElegantCard(
 | 属性名 | 类型 | 说明 | 默认值 | 是否必须 |
 | --- | --- | --- | --- | --- |
 | `onClick` | `(() -> Unit)?` | 可选激活回调;null 保持非交互 | `null` | 否 |
+| `onLongPress` | `(() -> Unit)?` | 可选长按回调;启用组合点击处理 | `null` | 否 |
 | `modifier` | `Modifier` | 仅应用一次到 Card 根节点的修饰符 | `Modifier` | 否 |
 | `enabled` | `Boolean` | 是否接受用户交互 | `true` | 否 |
 | `style` | `ElegantCardStyle` | 视觉变体 | `ElegantCardStyle.Filled` | 否 |
 | `shape` | `Shape` | 裁剪、边框与阴影形状 | `ElegantCardDefaults.shape(style)` | 否 |
 | `colors` | `ElegantCardColors` | 主题感知的状态颜色 | `ElegantCardDefaults.colors(style)` | 否 |
 | `elevation` | `Dp` | 常驻阴影高度;按下与禁用时降为 none | `ElegantCardDefaults.elevation(style)` | 否 |
+| `holdDownState` | `Boolean` | 为 true 时强制按下视觉状态 | `false` | 否 |
 | `content` | `@Composable () -> Unit` | Card 内容;内边距由调用方负责 | - | 是 |
 
 ### ElegantCardStyle 可选值

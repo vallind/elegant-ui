@@ -242,4 +242,16 @@ internal class ElegantSwitchContractTest {
         assertTrue(ElegantSwitchDefaults.MinimumTouchHeight >= 48.dp)
         assertEquals(ElegantMotion.standardDurationMillis, ElegantSwitchDefaults.AnimationDurationMillis)
     }
+    @Test
+    fun dragTargetCrossesHalfTravel() {
+        assertEquals(true, switchDragTarget(checked = false, dragOffsetPx = 51f, maxOffsetPx = 100f))
+        assertEquals(false, switchDragTarget(checked = true, dragOffsetPx = -51f, maxOffsetPx = 100f))
+    }
+
+    @Test
+    fun dragTargetStaysInSpringBackZone() {
+        assertEquals(null, switchDragTarget(checked = false, dragOffsetPx = 49f, maxOffsetPx = 100f))
+        assertEquals(null, switchDragTarget(checked = true, dragOffsetPx = -49f, maxOffsetPx = 100f))
+        assertEquals(null, switchDragTarget(checked = true, dragOffsetPx = 0f, maxOffsetPx = 100f))
+}
 }

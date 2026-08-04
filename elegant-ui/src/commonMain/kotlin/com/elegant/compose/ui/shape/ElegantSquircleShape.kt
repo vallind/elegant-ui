@@ -195,6 +195,26 @@ public fun Modifier.elegantSquircleBorder(
     smoothing: Float = 0.6f,
 ): Modifier = border(width, color, resolvedSquircleShape(cornerRadius, smoothing))
 
+/**
+ * Resolves a component's default surface shape to a squircle when the caller did not customize
+ * [userShape] and squircle rendering is enabled; otherwise the default rounded shape stands.
+ */
+@androidx.compose.runtime.Composable
+internal fun resolveSquircleAwareShape(
+    userShape: Shape,
+    defaultShape: Shape,
+    cornerRadius: Dp,
+): Shape =
+    if (userShape == defaultShape) {
+        if (LocalSquircleEnabled.current) {
+            ElegantSquircleShape(cornerRadius = cornerRadius)
+        } else {
+            defaultShape
+        }
+    } else {
+        userShape
+    }
+
 @androidx.compose.runtime.Composable
 internal fun resolvedSquircleShape(cornerRadius: Dp, smoothing: Float): Shape =
     if (LocalSquircleEnabled.current) {

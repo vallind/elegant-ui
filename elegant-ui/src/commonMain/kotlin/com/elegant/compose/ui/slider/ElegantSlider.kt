@@ -28,6 +28,8 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +43,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.Role
@@ -49,8 +52,9 @@ import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantElevation
 import com.elegant.compose.ui.theme.ElegantMotion
@@ -124,7 +128,8 @@ private const val PressedThumbScale: Float = 1.1f
  * discrete positions when [steps] is greater than zero, and reports the resolved value through
  * [onValueChange]. The thumb follows the reported value, so the parent must update [value] to
  * keep the slider responsive. While the slider is focused, the arrow keys adjust the value by
- * one step, or one hundredth of the range when [steps] is zero, mirroring the visual direction
+ * one step, or one hundredth of the range when [steps] is zero, mirroring the visual direction.
+ * Moving across a whole-percent tick triggers a ToggleOn/ToggleOff haptic
  * in right-to-left layouts.
  *
  * The component announces [Role.Slider] with a [ProgressBarRangeInfo] describing [value],
@@ -156,9 +161,28 @@ public fun ElegantSlider(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
-    val currentOnValueChange by rememberUpdatedState(onValueChange)
     val currentValueRange by rememberUpdatedState(valueRange)
     val currentSteps by rememberUpdatedState(steps)
+    val hapticFeedback = LocalHapticFeedback.current
+    val currentHaptic by rememberUpdatedState(hapticFeedback)
+    var lastTick by remember { mutableIntStateOf(-1) }
+    fun emitValue(value: Float) {
+        val nextTick = sliderTickIndex(value, valueRange)
+        if (nextTick != lastTick) {
+            val previous = lastTick
+            lastTick = nextTick
+            if (previous != -1) {
+                currentHaptic.performHapticFeedback(
+                    if (nextTick > previous) {
+                        HapticFeedbackType.ToggleOn
+                    } else {
+                        HapticFeedbackType.ToggleOff
+                    },
+                )
+            }
+        }
+        onValueChange(value)
+    }
     val layoutDirection = LocalLayoutDirection.current
     val fraction = sliderFraction(value, valueRange)
 
@@ -238,7 +262,7 @@ public fun ElegantSlider(
                     if (increase != null) {
                         val base = if (value.isNaN()) valueRange.start else value
                         val next = if (increase) base + stepValue else base - stepValue
-                        onValueChange(next.coerceIn(valueRange.start, valueRange.endInclusive))
+                        emitValue(next.coerceIn(valueRange.start, valueRange.endInclusive))
                         true
                     } else {
                         false
@@ -269,7 +293,7 @@ public fun ElegantSlider(
                             }
                         },
                         onTap = { offset ->
-                            currentOnValueChange(
+                            emitValue(
                                 resolveStepValue(
                                     fraction = fractionAt(offset.x),
                                     valueRange = currentValueRange,
@@ -301,7 +325,7 @@ public fun ElegantSlider(
                         },
                         onDrag = { change, _ ->
                             change.consume()
-                            currentOnValueChange(
+                            emitValue(
                                 resolveStepValue(
                                     fraction = fractionAt(change.position.x),
                                     valueRange = currentValueRange,
@@ -380,6 +404,22 @@ internal fun resolveSliderColors(themeColors: ElegantColors): ElegantSliderColor
  * Values below the range resolve to 0f and values above it resolve to 1f; NaN and degenerate
  * ranges resolve to 0f.
  */
+internal fun sliderTickIndex(
+    value: Float,
+    valueRange: ClosedFloatingPointRange<Float>,
+): Int {
+    val span = valueRange.endInclusive - valueRange.start
+    val fraction = if (value.isNaN() || span == 0f) {
+        0f
+    } else {
+        (value - valueRange.start) / span
+    }
+    return (fraction.coerceIn(0f, 1f) * 100).toInt()
+}
+
+internal fun shouldTickHaptic(previousTick: Int, nextTick: Int): Boolean =
+    previousTick != -1 && nextTick != previousTick
+
 internal fun sliderFraction(value: Float, valueRange: ClosedFloatingPointRange<Float>): Float {
     val span = valueRange.endInclusive - valueRange.start
     if (value.isNaN() || span <= 0f) return 0f

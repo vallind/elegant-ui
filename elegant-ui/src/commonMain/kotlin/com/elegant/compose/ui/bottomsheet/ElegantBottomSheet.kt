@@ -22,8 +22,11 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +44,11 @@ import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantRadius
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material3.Text
+import androidx.compose.ui.input.pointer.pointerInput
 
 /**
  * Theme-aware colors used by [ElegantBottomSheet].
@@ -88,9 +96,15 @@ public object ElegantBottomSheetDefaults {
  * The sheet is width-capped ([ElegantBottomSheetDefaults.MaxWidth]), top-corners rounded,
  * scrollable, and shows a centered drag-handle above [content].
  *
+ * Dragging the sheet downward past a quarter of the window height dismisses it on release;
+ * a shorter drag springs back.
+ *
  * @param visible whether the sheet is shown; the caller owns the dismiss state.
- * @param onDismissRequest callback for scrim click, Escape, or back.
+ * @param onDismissRequest callback for scrim click, Escape, back, or a dismiss drag.
  * @param modifier modifier applied once to the sheet panel.
+ * @param title optional title rendered in a header row above the content.
+ * @param startAction optional leading header content (drawn before [title]).
+ * @param endAction optional trailing header content (drawn after [title]).
  * @param colors theme-aware sheet colors.
  * @param content sheet content below the drag handle.
  */
@@ -99,6 +113,9 @@ public fun ElegantBottomSheet(
     visible: Boolean,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
+    title: String? = null,
+    startAction: (@Composable () -> Unit)? = null,
+    endAction: (@Composable () -> Unit)? = null,
     colors: ElegantBottomSheetColors = ElegantBottomSheetDefaults.colors(),
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -115,6 +132,7 @@ public fun ElegantBottomSheet(
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
             val scrimAlpha = remember { Animatable(0f) }
             val slideOffset = remember { Animatable(1f) }
+            var dragOffset by remember { mutableFloatStateOf(0f) }
             LaunchedEffect(Unit) {
                 scrimAlpha.animateTo(
                     targetValue = 1f,
@@ -144,7 +162,28 @@ public fun ElegantBottomSheet(
                     .widthIn(max = ElegantBottomSheetDefaults.MaxWidth)
                     .fillMaxWidth()
                     .graphicsLayer {
-                        translationY = maxHeight.value * density
+                        translationY = maxHeight.value * density + dragOffset
+                    }
+                    .pointerInput(onDismissRequest) {
+                        detectVerticalDragGestures(
+                            onVerticalDrag = { change, dragAmount ->
+                                change.consume()
+                                if (dragAmount > 0f) {
+                                    dragOffset += dragAmount
+                                }
+                            },
+                            onDragEnd = {
+                                val dismissThreshold = maxHeight.value * density * 0.25f
+                                if (dragOffset > dismissThreshold) {
+                                    onDismissRequest()
+                                } else {
+                                    dragOffset = 0f
+                                }
+                            },
+                            onDragCancel = {
+                                dragOffset = 0f
+                            },
+                        )
                     }
                     .shadow(
                         elevation = ElegantElevation.medium,
@@ -181,6 +220,35 @@ public fun ElegantBottomSheet(
                                 .background(colors.handleColor),
                         )
                     }
+                    val headerVisible = title != null || startAction != null || endAction != null
+                    if (headerVisible) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = ElegantSpacing.lg)
+                                .padding(bottom = ElegantSpacing.xs),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            if (startAction != null) {
+                                startAction()
+                                Spacer(modifier = Modifier.width(ElegantSpacing.sm))
+                            }
+                            if (title != null) {
+                                Text(
+                                    text = title,
+                                    style = ElegantTheme.typography.titleMedium,
+                                    color = colors.contentColor,
+                                    modifier = Modifier.weight(1f),
+                                )
+                            } else {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                            if (endAction != null) {
+                                Spacer(modifier = Modifier.width(ElegantSpacing.sm))
+                                endAction()
+                            }
+                        }
+                    }
                     CompositionLocalProvider(LocalContentColor provides colors.contentColor) {
                         content()
                     }
@@ -199,3 +267,4 @@ internal fun resolveBottomSheetColors(
     contentColor = themeColors.textPrimary,
     handleColor = themeColors.borderStrong,
 )
+

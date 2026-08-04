@@ -63,6 +63,9 @@ The sheet is width-capped at `ElegantBottomSheetDefaults.MaxWidth`, keeps the to
 | `visible` | `Boolean` | Whether the sheet is shown; the caller owns the dismiss state. | — | Yes |
 | `onDismissRequest` | `() -> Unit` | Called for scrim click, back, or Escape. | — | Yes |
 | `modifier` | `Modifier` | Applied to the sheet panel. | `Modifier` | No |
+| `title` | `String?` | Optional title rendered in a header row above the content | `null` | No |
+| `startAction` | `(@Composable () -> Unit)?` | Optional leading header content before the title | `null` | No |
+| `endAction` | `(@Composable () -> Unit)?` | Optional trailing header content after the title | `null` | No |
 | `colors` | `ElegantBottomSheetColors` | Theme-aware scrim, surface, content, and handle colors. | `ElegantBottomSheetDefaults.colors()` | No |
 | `content` | `@Composable ColumnScope.() -> Unit` | Sheet content below the drag handle. | — | Yes |
 

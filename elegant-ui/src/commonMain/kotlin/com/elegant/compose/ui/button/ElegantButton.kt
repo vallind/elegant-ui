@@ -52,6 +52,7 @@ import com.elegant.compose.ui.internal.action.ActionStateColors
 import com.elegant.compose.ui.internal.action.ActionStateElevation
 import com.elegant.compose.ui.internal.action.ActionVisuals
 import com.elegant.compose.ui.internal.action.resolveActionVisuals
+import com.elegant.compose.ui.shape.resolveSquircleAwareShape
 import com.elegant.compose.ui.theme.ElegantElevation
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantTheme
@@ -310,6 +311,11 @@ public fun ElegantButton(
     trailingIcon: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
+    val effectiveShape = resolveSquircleAwareShape(
+        userShape = shape,
+        defaultShape = ElegantButtonDefaults.shape(size),
+        cornerRadius = buttonDefaultCornerRadius(size),
+    )
     val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
@@ -400,7 +406,7 @@ public fun ElegantButton(
         val borderModifier = if (animatedBorderWidth > 0.dp) {
             Modifier.border(
                 border = BorderStroke(animatedBorderWidth, animatedBorder),
-                shape = shape,
+                shape = effectiveShape,
             )
         } else {
             Modifier
@@ -414,14 +420,14 @@ public fun ElegantButton(
                 }
                 .shadow(
                     elevation = animatedElevation,
-                    shape = shape,
+                    shape = effectiveShape,
                     clip = false,
                 )
                 .defaultMinSize(
                     minWidth = metrics.minWidth,
                     minHeight = metrics.visualHeight,
                 )
-                .clip(shape)
+                .clip(effectiveShape)
                 .background(animatedContainer)
                 .indication(
                     interactionSource = resolvedInteractionSource,
@@ -499,6 +505,12 @@ private fun textStyleFor(size: ElegantButtonSize): TextStyle = when (size) {
     ElegantButtonSize.Small -> ElegantTheme.typography.labelSmall
     ElegantButtonSize.Medium -> ElegantTheme.typography.labelMedium
     ElegantButtonSize.Large -> ElegantTheme.typography.labelLarge
+}
+
+internal fun buttonDefaultCornerRadius(size: ElegantButtonSize): Dp = when (size) {
+    ElegantButtonSize.Small -> 10.dp
+    ElegantButtonSize.Medium -> 12.dp
+    ElegantButtonSize.Large -> 14.dp
 }
 
 internal fun resolveButtonVisuals(

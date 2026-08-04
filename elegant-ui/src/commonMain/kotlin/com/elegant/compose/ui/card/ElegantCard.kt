@@ -5,11 +5,13 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -17,14 +19,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -36,6 +41,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.theme.ElegantColors
+import com.elegant.compose.ui.shape.resolveSquircleAwareShape
 import com.elegant.compose.ui.theme.ElegantElevation
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantRadius
@@ -127,27 +133,44 @@ internal data class CardVisuals(
  * [colors]'s content color through [LocalContentColor].
  *
  * @param onClick optional activation callback; null keeps the card non-interactive.
+ * @param onLongPress optional long-press callback; enables combined click handling.
  * @param modifier modifier applied once to the card root.
  * @param enabled whether user interaction is accepted.
  * @param style visual variant.
  * @param shape clipping, border, and shadow shape.
  * @param colors theme-aware state colors.
  * @param elevation resting shadow elevation.
+ * @param holdDownState forces the pressed visual state while true.
  * @param content card content; padding is the caller's responsibility.
  */
 @Composable
+@OptIn(ExperimentalFoundationApi::class)
 public fun ElegantCard(
     onClick: (() -> Unit)? = null,
+    onLongPress: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     style: ElegantCardStyle = ElegantCardStyle.Filled,
     shape: Shape = ElegantCardDefaults.shape(style),
     colors: ElegantCardColors = ElegantCardDefaults.colors(style),
     elevation: Dp = ElegantCardDefaults.elevation(style),
+    holdDownState: Boolean = false,
     content: @Composable () -> Unit,
 ) {
+    val effectiveShape = resolveSquircleAwareShape(
+        userShape = shape,
+        defaultShape = ElegantCardDefaults.shape(style),
+        cornerRadius = ElegantRadius.lg,
+    )
     val interactive = onClick != null
     val resolvedInteractionSource = remember { MutableInteractionSource() }
+    if (holdDownState) {
+        DisposableEffect(Unit) {
+            val press = PressInteraction.Press(Offset.Zero)
+            resolvedInteractionSource.tryEmit(press)
+            onDispose { resolvedInteractionSource.tryEmit(PressInteraction.Release(press)) }
+        }
+    }
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
@@ -214,18 +237,21 @@ public fun ElegantCard(
                     0.dp
                 },
             )
-            .clickable(
+            .combinedClickable(
                 enabled = interactive && enabled,
                 role = if (interactive) Role.Button else null,
                 interactionSource = resolvedInteractionSource,
                 indication = null,
                 onClick = { onClick?.invoke() },
+                onLongClick = {
+                    onLongPress?.invoke()
+                },
             ),
     ) {
         val borderModifier = if (animatedBorderWidth > 0.dp) {
             Modifier.border(
                 border = BorderStroke(animatedBorderWidth, animatedBorder),
-                shape = shape,
+                shape = effectiveShape,
             )
         } else {
             Modifier
@@ -236,10 +262,10 @@ public fun ElegantCard(
                 .fillMaxSize()
                 .shadow(
                     elevation = animatedElevation,
-                    shape = shape,
+                    shape = effectiveShape,
                     clip = false,
                 )
-                .clip(shape)
+                .clip(effectiveShape)
                 .background(animatedContainer)
                 .indication(
                     interactionSource = resolvedInteractionSource,

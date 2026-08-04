@@ -77,12 +77,14 @@ ElegantCard(
 | Property Name | Type | Description | Default Value | Required |
 | --- | --- | --- | --- | --- |
 | `onClick` | `(() -> Unit)?` | Optional activation callback; null keeps the card non-interactive | `null` | No |
+| `onLongPress` | `(() -> Unit)?` | Optional long-press callback; enables combined click handling | `null` | No |
 | `modifier` | `Modifier` | Modifier applied once to the card root | `Modifier` | No |
 | `enabled` | `Boolean` | Whether user interaction is accepted | `true` | No |
 | `style` | `ElegantCardStyle` | Visual variant | `ElegantCardStyle.Filled` | No |
 | `shape` | `Shape` | Clipping, border, and shadow shape | `ElegantCardDefaults.shape(style)` | No |
 | `colors` | `ElegantCardColors` | Theme-aware state colors | `ElegantCardDefaults.colors(style)` | No |
 | `elevation` | `Dp` | Resting shadow elevation; press and disabled drop to none | `ElegantCardDefaults.elevation(style)` | No |
+| `holdDownState` | `Boolean` | Forces the pressed visual state while true | `false` | No |
 | `content` | `@Composable () -> Unit` | Card content; padding is the caller's responsibility | - | Yes |
 
 ### ElegantCardStyle Values
