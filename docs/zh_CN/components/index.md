@@ -77,14 +77,10 @@ Elegant UI V1 共包含 83 个组件，分为四个类别。只有完成 Compose
 | [Fieldset](./fieldset) | 分组表单字段 | 相关字段分组 | 已完成 |
 | [ColorPicker](./color-picker) | 从精选色板中选择 | 主题取色 | 已完成 |
 | [ColorPickerPanel](./color-picker-panel) | 从 HSV 空间选择 | 精细颜色编辑 | 已完成 |
-| [ThemeController](./theme-controller) | 从关键色推导色板 | 种子色动态色板 | 已完成 |
 | [Calendar](./calendar) | 从月历网格选择日期 | 日历浏览与排期 | 已完成 |
 | [DatePicker](./date-picker) | 从弹出日历选择日期 | 单个日期选择 | 已完成 |
 | [DateRangePicker](./date-range-picker) | 选择开始与结束日期 | 日期范围选择 | 已完成 |
 | [NumberPicker](./number-picker) | 步进选择有界数值 | 时间与数量选择 | 已完成 |
-| [Icons](./icons) | 渲染内置矢量图标集 | 界面图形与状态图标 | 已完成 |
-| [Squircle](./squircle) | 连续曲率形状 | 连续曲率圆角轮廓 | 已完成 |
-| [Blur](./blur) | 模糊节点内容 | 背景模糊效果 | 已完成 |
 | [Scaffold](./scaffold) | 组合栏与内容的外壳 | 应用外壳布局 | 已完成 |
 | [CloseButton](./close-button) | 关闭表面 | 弹窗与面板关闭 | 已完成 |
 | [PullToRefresh](./pull-to-refresh) | 下拉刷新可滚动内容 | 下拉刷新数据 | 已完成 |

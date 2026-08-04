@@ -77,14 +77,10 @@ Elegant UI V1 contains 83 components organized into four groups. Components beco
 | [Fieldset](./fieldset) | Group form fields | Related field grouping | Available |
 | [ColorPicker](./color-picker) | Pick from a curated palette | Theme color selection | Available |
 | [ColorPickerPanel](./color-picker-panel) | Pick from HSV space | Fine-grained color editing | Available |
-| [ThemeController](./theme-controller) | Derive palettes from a key color | Seed-derived dynamic palettes | Available |
 | [Calendar](./calendar) | Pick dates from a month grid | Calendar browsing and scheduling | Available |
 | [DatePicker](./date-picker) | Pick a date from a popup calendar | Single date selection | Available |
 | [DateRangePicker](./date-range-picker) | Pick a start and end date | Date range selection | Available |
 | [NumberPicker](./number-picker) | Step through bounded values | Time and quantity picking | Available |
-| [Icons](./icons) | Render the built-in vector set | Interface glyphs and status | Available |
-| [Squircle](./squircle) | Continuous-curvature shapes | Smooth-corner silhouettes | Available |
-| [Blur](./blur) | Blur node content | Backdrop blur effects | Available |
 | [Scaffold](./scaffold) | Shell bars and content | Application shell layout | Available |
 | [CloseButton](./close-button) | Dismiss surfaces | Dialog and sheet dismissal | Available |
 | [PullToRefresh](./pull-to-refresh) | Refresh scrollable content | Data refresh on pull-down | Available |
