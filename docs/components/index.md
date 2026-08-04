@@ -28,6 +28,7 @@ Elegant UI V1 contains 83 components organized into four groups. Components beco
 | [ScrollBar](./scroll-bar) | Indicate scroll position | Scroll position indication | Available |
 | [Toolbar](./toolbar) | Anchor inline action strips | Inline action strips | Available |
 | [SmallTitle](./small-title) | Label settings groups | Settings group headings | Available |
+| [BasicComponent](./basic-component) | Compose custom settings rows | Custom row-based settings entries | Available |
 | [ScrollShadow](./scroll-shadow) | Fade scrollable edges | Scroll-position shadow hints | Available |
 
 ## Forms

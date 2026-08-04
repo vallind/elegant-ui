@@ -28,6 +28,7 @@ Elegant UI V1 共包含 83 个组件，分为四个类别。只有完成 Compose
 | [ScrollBar](./scroll-bar) | 指示滚动位置 | 滚动位置指示 | 已完成 |
 | [Toolbar](./toolbar) | 锚定内联操作条 | 行内操作条 | 已完成 |
 | [SmallTitle](./small-title) | 标注设置分组 | 设置分组标题 | 已完成 |
+| [BasicComponent 基础行](./basic-component) | 组合自定义设置行 | 自定义行式设置项 | 已完成 |
 | [ScrollShadow](./scroll-shadow) | 淡化可滚动边缘 | 滚动位置阴影提示 | 已完成 |
 
 ## 表单组件

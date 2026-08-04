@@ -150,6 +150,7 @@ import com.elegant.compose.ui.pagination.ElegantPagination
 import com.elegant.compose.ui.popover.ElegantPopover
 import com.elegant.compose.ui.popover.ElegantPopoverPlacement
 import com.elegant.compose.ui.preference.ElegantArrowPreference
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponent
 import com.elegant.compose.ui.preference.ElegantCheckboxPreference
 import com.elegant.compose.ui.preference.ElegantRadioPreference
 import com.elegant.compose.ui.preference.ElegantSliderPreference
@@ -318,6 +319,7 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "radio-preference",
         "slider-preference",
         "arrow-preference",
+        "basic-component",
         "small-title",
         "floating-toolbar",
         "scroll-bar",
@@ -414,6 +416,7 @@ public fun ElegantShowcaseApp(
         "radio-preference" -> RadioPreferenceShowcase()
         "slider-preference" -> SliderPreferenceShowcase()
         "arrow-preference" -> ArrowPreferenceShowcase()
+        "basic-component" -> BasicComponentShowcase()
         "small-title" -> SmallTitleShowcase()
         "floating-toolbar" -> FloatingToolbarShowcase()
         "scroll-bar" -> ScrollBarShowcase()
@@ -8358,6 +8361,87 @@ private fun BottomSheetShowcase() {
                         Text("Close")
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BasicComponentShowcase() {
+    ShowcasePage(title = "Elegant BasicComponent") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "SETTINGS ROW",
+            title = "A composed row",
+            description = "ElegantBasicComponent combines leading content, a title block, trailing controls, and an optional bottom block into one interactive row.",
+        ) {
+            var enabled by remember { mutableStateOf(true) }
+
+            ElegantBasicComponent(
+                title = "Airplane mode",
+                summary = "Turn off all wireless connections",
+                startAction = {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(ElegantRadius.md))
+                            .background(colors.interactivePrimary.copy(alpha = 0.15f)),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text("\u2708", style = ElegantTheme.typography.labelMedium)
+                    }
+                },
+                endActions = {
+                    ElegantSwitch(
+                        checked = enabled,
+                        onCheckedChange = { enabled = it },
+                    )
+                },
+                onClick = { enabled = !enabled },
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "SLOTS",
+            title = "Trailing chevron",
+            description = "endActions and bottomAction compose freely; holdDownState forces the pressed visual.",
+        ) {
+            var held by remember { mutableStateOf(false) }
+
+            Text(
+                text = if (held) "Row is held down." else "Toggle the hold state below.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantBasicComponent(
+                title = "Drill into details",
+                summary = "Open the nested screen",
+                onClick = { },
+                holdDownState = held,
+                endActions = {
+                    Icon(
+                        imageVector = com.elegant.compose.ui.icon.ElegantIcons.ChevronRight,
+                        contentDescription = null,
+                        tint = colors.textTertiary,
+                    )
+                },
+                bottomAction = {
+                    Spacer(modifier = Modifier.height(ElegantSpacing.sm))
+                    Text(
+                        text = "Bottom helper content",
+                        color = colors.textTertiary,
+                        style = ElegantTheme.typography.bodyMedium,
+                    )
+                },
+            )
+            ElegantButton(
+                onClick = { held = !held },
+                style = ElegantButtonStyle.Secondary,
+            ) {
+                Text(if (held) "Release hold" else "Hold row")
             }
         }
     }
