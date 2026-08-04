@@ -104,21 +104,21 @@ internal fun squircleCornerSegments(
         ),
         CornerSegment(
             start = Offset(0f, height - radius),
-            c1 = Offset(geometry.c1.x, height - geometry.c1.y),
-            c2 = Offset(geometry.c2.x, height - geometry.c2.y),
-            end = Offset(geometry.end.x, height - geometry.end.y),
+            c1 = Offset(0f, height - geometry.c1.x),
+            c2 = Offset(geometry.c1.x, height),
+            end = Offset(radius, height),
         ),
         CornerSegment(
             start = Offset(width - radius, height),
-            c1 = Offset(width - geometry.c1.x, height - geometry.c1.y),
-            c2 = Offset(width - geometry.c2.x, height - geometry.c2.y),
-            end = Offset(width - geometry.end.x, height - geometry.end.y),
+            c1 = Offset(width - geometry.c1.x, height),
+            c2 = Offset(width, height - geometry.c1.x),
+            end = Offset(width, height - radius),
         ),
         CornerSegment(
             start = Offset(width, radius),
-            c1 = Offset(width - geometry.c1.x, geometry.c1.y),
-            c2 = Offset(width - geometry.c2.x, geometry.c2.y),
-            end = Offset(width - geometry.end.x, geometry.end.y),
+            c1 = Offset(width, geometry.c1.x),
+            c2 = Offset(width - geometry.c1.x, 0f),
+            end = Offset(width - radius, 0f),
         ),
     )
 }

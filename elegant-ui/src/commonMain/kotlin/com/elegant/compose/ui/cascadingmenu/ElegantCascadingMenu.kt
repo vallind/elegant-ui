@@ -499,7 +499,17 @@ internal fun childAt(
 internal fun submenuVisible(
     items: List<ElegantCascadingMenuItem>,
     path: List<Int>,
-): Boolean = path.isNotEmpty() && path.first() in items.indices && hasChildren(items[path.first()])
+): Boolean {
+    if (path.isEmpty()) return false
+    var current = items
+    for (index in path) {
+        if (index !in current.indices) return false
+        val item = current[index]
+        if (!hasChildren(item)) return false
+        current = item.children
+    }
+    return true
+}
 
 /**
  * The new open submenu chain when the item at [index] is hovered or clicked.

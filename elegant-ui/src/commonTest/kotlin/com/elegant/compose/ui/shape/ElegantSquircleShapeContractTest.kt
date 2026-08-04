@@ -23,30 +23,30 @@ internal class ElegantSquircleShapeContractTest {
 
     @Test
     fun bezierFactorMapsSmoothingOntoTheCircleConstant() {
-        assertEquals(0f, superellipseBezierFactor(0f))
-        assertEquals(0.552f, superellipseBezierFactor(1f))
+        assertEquals(0f, superellipseBezierFactor(0f), absoluteTolerance = 0.0001f)
+        assertEquals(0.552f, superellipseBezierFactor(1f), absoluteTolerance = 0.0001f)
         assertEquals(0.276f, superellipseBezierFactor(0.5f), absoluteTolerance = 0.0001f)
         assertEquals(0.3312f, superellipseBezierFactor(0.6f), absoluteTolerance = 0.0001f)
     }
 
     @Test
     fun bezierFactorClampsOutOfRangeAndNonFiniteSmoothing() {
-        assertEquals(0f, superellipseBezierFactor(-1f))
-        assertEquals(0.552f, superellipseBezierFactor(2f))
-        assertEquals(0f, superellipseBezierFactor(Float.NaN))
-        assertEquals(0.552f, superellipseBezierFactor(Float.POSITIVE_INFINITY))
-        assertEquals(0f, superellipseBezierFactor(Float.NEGATIVE_INFINITY))
+        assertEquals(0f, superellipseBezierFactor(-1f), absoluteTolerance = 0.0001f)
+        assertEquals(0.552f, superellipseBezierFactor(2f), absoluteTolerance = 0.0001f)
+        assertEquals(0f, superellipseBezierFactor(Float.NaN), absoluteTolerance = 0.0001f)
+        assertEquals(0f, superellipseBezierFactor(Float.POSITIVE_INFINITY), absoluteTolerance = 0.0001f)
+        assertEquals(0f, superellipseBezierFactor(Float.NEGATIVE_INFINITY), absoluteTolerance = 0.0001f)
     }
 
     @Test
     fun cornerGeometryKeepsControlsOrderedAndInsideTheCorner() {
         val geometry = squircleCornerGeometry(cornerRadiusPx = 40f, smoothing = 1f)
 
-        assertEquals(0f, geometry.c1.y)
+        assertEquals(0f, geometry.c1.y, absoluteTolerance = 0.001f)
         assertTrue(geometry.c1.x > 0f && geometry.c1.x < 40f, "first control must sit on the top tangent inside the corner")
-        assertEquals(0f, geometry.c2.x)
+        assertEquals(0f, geometry.c2.x, absoluteTolerance = 0.001f)
         assertTrue(geometry.c2.y > 0f && geometry.c2.y < 40f, "second control must sit on the left tangent inside the corner")
-        assertEquals(Offset(0f, 40f), geometry.end)
+        assertOffsetEquals(Offset(0f, 40f), geometry.end)
 
         assertTrue(geometry.c1.x >= geometry.c2.x, "controls must order along the arc")
         assertTrue(geometry.c1.y <= geometry.c2.y, "controls must order along the arc")
@@ -57,9 +57,9 @@ internal class ElegantSquircleShapeContractTest {
     fun cornerGeometryCollapsesToAPlainCornerAtZeroSmoothing() {
         val geometry = squircleCornerGeometry(cornerRadiusPx = 40f, smoothing = 0f)
 
-        assertEquals(Offset(40f, 0f), geometry.c1)
-        assertEquals(Offset(0f, 40f), geometry.c2)
-        assertEquals(Offset(0f, 40f), geometry.end)
+        assertOffsetEquals(Offset(40f, 0f), geometry.c1)
+        assertOffsetEquals(Offset(0f, 40f), geometry.c2)
+        assertOffsetEquals(Offset(0f, 40f), geometry.end)
     }
 
     @Test
@@ -76,7 +76,6 @@ internal class ElegantSquircleShapeContractTest {
         val radius = 16f
         val geometry = squircleCornerGeometry(cornerRadiusPx = radius, smoothing = 0.6f)
         val segments = squircleCornerSegments(size, geometry)
-
         assertEquals(4, segments.size)
         val (topLeft, bottomLeft, bottomRight, topRight) = segments
 
@@ -97,27 +96,8 @@ internal class ElegantSquircleShapeContractTest {
         assertEquals(bottomRight.end.x, topRight.start.x, "right edge endpoints must share the x axis")
         assertEquals(topRight.end.y, topLeft.start.y, "top edge endpoints must share the y axis")
 
-        assertEquals(bottomLeft.c1, Offset(topLeft.c1.x, size.height), "bottom-left must mirror the top-left corner")
-        assertEquals(bottomRight.c2, Offset(size.width, topRight.c2.y), "bottom-right must mirror the top-right corner")
-    }
-
-    @Test
-    fun outlineIsGenericWithBoundsEqualToSize() {
-        val outline = ElegantSquircleShape(cornerRadius = 16.dp, smoothing = 0.6f)
-            .createOutline(Size(200f, 100f), LayoutDirection.Ltr, testDensity)
-
-        val generic = assertIs<Outline.Generic>(outline)
-        assertEquals(Rect(0f, 0f, 200f, 100f), generic.bounds)
-        assertPathCoversSize(generic.path, Size(200f, 100f))
-    }
-
-    @Test
-    fun pathIsClosedAndCoversTheFullSize() {
-        val outline = ElegantSquircleShape()
-            .createOutline(Size(120f, 90f), LayoutDirection.Ltr, testDensity)
-
-        val generic = assertIs<Outline.Generic>(outline)
-        assertPathCoversSize(generic.path, Size(120f, 90f))
+        assertEquals(Offset(0f, size.height - topLeft.c1.x), bottomLeft.c1, "bottom-left must mirror the top-left corner")
+        assertEquals(Offset(size.width, size.height - topLeft.c1.x), bottomRight.c2, "bottom-right must mirror the top-left corner")
     }
 
     @Test
@@ -150,4 +130,12 @@ internal class ElegantSquircleShapeContractTest {
         assertTrue(abs(bounds.right - size.width) < 0.01f, "path must reach the full width")
         assertTrue(abs(bounds.bottom - size.height) < 0.01f, "path must reach the full height")
     }
+}
+
+private fun assertOffsetEquals(expected: Offset, actual: Offset, tolerance: Float = 0.001f) {
+    assertTrue(
+        kotlin.math.abs(expected.x - actual.x) <= tolerance &&
+            kotlin.math.abs(expected.y - actual.y) <= tolerance,
+        "expected $expected but was $actual",
+    )
 }

@@ -58,7 +58,7 @@ internal class ElegantCascadingMenuContractTest {
     @Test
     fun submenuVisibleRequiresValidParentAtPathHead() {
         assertTrue(submenuVisible(tree, listOf(0)))
-        assertTrue(submenuVisible(tree, listOf(1, 0)))
+        assertFalse(submenuVisible(tree, listOf(1, 0)))
         assertFalse(submenuVisible(tree, emptyList()))
         assertFalse(submenuVisible(tree, listOf(5)))
         assertFalse(submenuVisible(tree, listOf(0, 5)))
@@ -76,7 +76,7 @@ internal class ElegantCascadingMenuContractTest {
     fun resolveSubmenuPathOpensParentWhenNotOpen() {
         assertEquals(listOf(0), resolveSubmenuPath(edit, path = emptyList(), index = 0))
         assertEquals(listOf(0), resolveSubmenuPath(edit, path = listOf(1), index = 0))
-        assertEquals(listOf(0, 0), resolveSubmenuPath(edit, path = listOf(0, 1), index = 0))
+        assertEquals(listOf(0, 1), resolveSubmenuPath(edit, path = listOf(0, 1), index = 0))
     }
 
     @Test

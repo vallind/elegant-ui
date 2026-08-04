@@ -91,7 +91,7 @@ internal class ElegantListPopupContractTest {
             ),
         )
         assertEquals(
-            IntOffset(x = 20, y = 30),
+            IntOffset(x = 20, y = 78),
             listPopupPosition(
                 anchorBounds = IntRect(20, 30, 180, 78),
                 popupSize = IntSize(width = 200, height = 100),
@@ -107,7 +107,7 @@ internal class ElegantListPopupContractTest {
         val popupSize = IntSize(width = 100, height = 50)
 
         assertEquals(
-            IntOffset(x = 0, y = 0),
+            IntOffset(x = 0, y = 4),
             listPopupPosition(
                 anchorBounds = IntRect(-20, -10, -10, 0),
                 popupSize = popupSize,

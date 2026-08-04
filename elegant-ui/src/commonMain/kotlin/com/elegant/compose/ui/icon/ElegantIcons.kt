@@ -119,22 +119,23 @@ public object ElegantIcons {
 
     /** Three polyline points for a chevron in a 24-grid of [size]. */
     internal fun chevronPolyline(direction: Float, vertical: Boolean, size: Float): List<Offset> {
-        val s = size
-        val tip = s / 2f
-        val arm = s * 0.22f
-        val start = if (vertical) s * 0.30f else if (direction < 0) tip + arm else tip - arm
-        val end = if (vertical) s * 0.70f else if (direction < 0) tip - arm else tip + arm
+        val tip = size / 2f
+        val arm = size * 0.22f
         return if (vertical) {
+            val vertex = if (direction < 0) tip - arm else tip + arm
+            val wing = if (direction < 0) tip + 2f * arm else tip - 2f * arm
             listOf(
-                Offset(tip, start),
-                Offset(if (direction < 0) tip + arm else tip - arm, tip),
-                Offset(tip, end),
+                Offset(tip - arm, wing),
+                Offset(tip, vertex),
+                Offset(tip + arm, wing),
             )
         } else {
+            val vertex = if (direction < 0) tip - arm else tip + arm
+            val wing = if (direction < 0) tip + 2f * arm else tip - 2f * arm
             listOf(
-                Offset(start, tip),
-                Offset(tip, if (direction < 0) tip - arm else tip + arm),
-                Offset(end, tip),
+                Offset(wing, tip - arm),
+                Offset(vertex, tip),
+                Offset(wing, tip + arm),
             )
         }
     }
