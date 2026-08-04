@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 
 private val LocalElegantColors = staticCompositionLocalOf { ElegantLightColors }
 private val LocalElegantTypography = staticCompositionLocalOf { DefaultElegantTypography }
@@ -71,4 +72,32 @@ public fun ElegantTheme(
             content = content,
         )
     }
+}
+
+/**
+ * Provides Elegant UI colors derived from a single [keyColor] seed.
+ *
+ * Convenience overload of [ElegantTheme] that derives the full [ElegantColors] palette from
+ * [keyColor] with [deriveElegantColors] and delegates to the existing function, which keeps its
+ * signature untouched. Pass an explicit `colors` value to the existing overload when the palette
+ * needs to be built or customized outside the derivation.
+ *
+ * @param keyColor seed color the light or dark palette derives from.
+ * @param darkTheme whether to derive the dark palette.
+ * @param typography typography roles provided to [content].
+ * @param content content rendered with the derived palette.
+ */
+@Composable
+public fun ElegantTheme(
+    keyColor: Color,
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    typography: ElegantTypography = DefaultElegantTypography,
+    content: @Composable () -> Unit,
+) {
+    ElegantTheme(
+        darkTheme = darkTheme,
+        colors = deriveElegantColors(keyColor, darkTheme),
+        typography = typography,
+        content = content,
+    )
 }
