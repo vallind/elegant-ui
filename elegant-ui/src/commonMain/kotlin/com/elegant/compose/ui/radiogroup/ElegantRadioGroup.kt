@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.elegant.compose.ui.radio.ElegantRadio
-import com.elegant.compose.ui.theme.ElegantColors
-import com.elegant.compose.ui.theme.ElegantSpacing
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantSpacing
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 
 /**
  * Stable model for one selectable option rendered by [ElegantRadioGroup].

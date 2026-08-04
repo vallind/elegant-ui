@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.shape
+package com.elegant.compose.ui.foundation.shape
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect

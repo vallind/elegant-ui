@@ -2,7 +2,7 @@ package com.elegant.compose.ui.floatingtoolbar
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.elegant.compose.ui.theme.ElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantColors
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -52,10 +52,10 @@ import com.elegant.compose.ui.internal.action.ActionStateColors
 import com.elegant.compose.ui.internal.action.ActionStateElevation
 import com.elegant.compose.ui.internal.action.ActionVisuals
 import com.elegant.compose.ui.internal.action.resolveActionVisuals
-import com.elegant.compose.ui.shape.resolveSquircleAwareShape
-import com.elegant.compose.ui.theme.ElegantElevation
-import com.elegant.compose.ui.theme.ElegantMotion
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.shape.resolveSquircleAwareShape
+import com.elegant.compose.ui.foundation.theme.ElegantElevation
+import com.elegant.compose.ui.foundation.theme.ElegantMotion
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 
 /** Visual-emphasis variants supported by [ElegantButton]. */
 public enum class ElegantButtonStyle {

@@ -1,7 +1,7 @@
 package com.elegant.compose.ui.calendar
 
-import com.elegant.compose.ui.theme.ElegantDarkColors
-import com.elegant.compose.ui.theme.ElegantLightColors
+import com.elegant.compose.ui.foundation.theme.ElegantDarkColors
+import com.elegant.compose.ui.foundation.theme.ElegantLightColors
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

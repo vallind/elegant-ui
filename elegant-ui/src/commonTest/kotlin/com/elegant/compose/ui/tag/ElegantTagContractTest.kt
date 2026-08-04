@@ -3,9 +3,9 @@ package com.elegant.compose.ui.tag
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.elegant.compose.ui.theme.ElegantDarkColors
-import com.elegant.compose.ui.theme.ElegantLightColors
-import com.elegant.compose.ui.theme.ElegantRadius
+import com.elegant.compose.ui.foundation.theme.ElegantDarkColors
+import com.elegant.compose.ui.foundation.theme.ElegantLightColors
+import com.elegant.compose.ui.foundation.theme.ElegantRadius
 import kotlin.math.pow
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.icon
+package com.elegant.compose.ui.iconbutton
 
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable

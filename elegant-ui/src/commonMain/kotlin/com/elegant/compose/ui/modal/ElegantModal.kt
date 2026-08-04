@@ -26,12 +26,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.elegant.compose.ui.theme.ElegantColors
-import com.elegant.compose.ui.theme.ElegantElevation
-import com.elegant.compose.ui.theme.ElegantMotion
-import com.elegant.compose.ui.theme.ElegantRadius
-import com.elegant.compose.ui.theme.ElegantSpacing
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantElevation
+import com.elegant.compose.ui.foundation.theme.ElegantMotion
+import com.elegant.compose.ui.foundation.theme.ElegantRadius
+import com.elegant.compose.ui.foundation.theme.ElegantSpacing
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 
 /**
  * Theme-aware colors used by [ElegantModal].

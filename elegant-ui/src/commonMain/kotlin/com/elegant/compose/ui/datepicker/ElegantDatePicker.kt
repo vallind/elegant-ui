@@ -62,11 +62,11 @@ import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
 import com.elegant.compose.ui.calendar.ElegantCalendar
 import com.elegant.compose.ui.calendar.ElegantDate
-import com.elegant.compose.ui.theme.ElegantColors
-import com.elegant.compose.ui.theme.ElegantMotion
-import com.elegant.compose.ui.theme.ElegantRadius
-import com.elegant.compose.ui.theme.ElegantSpacing
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantMotion
+import com.elegant.compose.ui.foundation.theme.ElegantRadius
+import com.elegant.compose.ui.foundation.theme.ElegantSpacing
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 import kotlin.math.roundToInt
 
 /**

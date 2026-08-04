@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.icon
+package com.elegant.compose.ui.foundation.icons
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color

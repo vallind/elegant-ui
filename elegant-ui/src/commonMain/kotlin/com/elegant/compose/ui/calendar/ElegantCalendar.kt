@@ -35,9 +35,9 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.elegant.compose.ui.theme.ElegantRadius
-import com.elegant.compose.ui.theme.ElegantSpacing
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantRadius
+import com.elegant.compose.ui.foundation.theme.ElegantSpacing
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 
 /**
  * A civil calendar date with an Int-based year, month (1..12), and day.
@@ -434,7 +434,7 @@ internal fun isInRange(date: ElegantDate, minDate: ElegantDate?, maxDate: Elegan
 internal fun isAdjacentMonth(rawDay: Int, daysInCurrent: Int): Boolean =
     rawDay <= 0 || rawDay > daysInCurrent
 
-internal fun resolveCalendarColors(themeColors: com.elegant.compose.ui.theme.ElegantColors): ElegantCalendarColors =
+internal fun resolveCalendarColors(themeColors: com.elegant.compose.ui.foundation.theme.ElegantColors): ElegantCalendarColors =
     ElegantCalendarColors(
         containerColor = Color.Transparent,
         headerColor = themeColors.textPrimary,

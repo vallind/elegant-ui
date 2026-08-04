@@ -38,10 +38,10 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.elegant.compose.ui.theme.ElegantColors
-import com.elegant.compose.ui.theme.ElegantMotion
-import com.elegant.compose.ui.theme.ElegantRadius
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantMotion
+import com.elegant.compose.ui.foundation.theme.ElegantRadius
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 
 /** One slot of a pagination row; [Page] carries its number and enabled state. */
 internal sealed interface ElegantPaginationItem {

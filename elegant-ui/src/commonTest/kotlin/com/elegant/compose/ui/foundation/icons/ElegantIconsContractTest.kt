@@ -1,7 +1,8 @@
-package com.elegant.compose.ui.icon
+package com.elegant.compose.ui.foundation.icons
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.iconbutton.ElegantIconDefaults
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

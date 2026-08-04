@@ -40,10 +40,10 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import kotlin.math.roundToInt
 import androidx.compose.ui.window.PopupProperties
-import com.elegant.compose.ui.theme.ElegantElevation
-import com.elegant.compose.ui.theme.ElegantRadius
-import com.elegant.compose.ui.theme.ElegantSpacing
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantElevation
+import com.elegant.compose.ui.foundation.theme.ElegantRadius
+import com.elegant.compose.ui.foundation.theme.ElegantSpacing
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.delay
 

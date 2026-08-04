@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.theme
+package com.elegant.compose.ui.foundation.theme
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

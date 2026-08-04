@@ -111,14 +111,14 @@ import com.elegant.compose.ui.divider.ElegantDividerStyle
 import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.drawer.ElegantDrawer
 import com.elegant.compose.ui.drawer.ElegantDrawerPlacement
-import com.elegant.compose.ui.effect.BlurEdgeTreatment
-import com.elegant.compose.ui.effect.elegantBlur
+import com.elegant.compose.ui.foundation.effect.BlurEdgeTreatment
+import com.elegant.compose.ui.foundation.effect.elegantBlur
 import com.elegant.compose.ui.emptystate.ElegantEmptyState
 import com.elegant.compose.ui.fieldset.ElegantFieldset
 import com.elegant.compose.ui.floatingactionbutton.ElegantFloatingActionButton
 import com.elegant.compose.ui.floatingtoolbar.ElegantFloatingToolbar
-import com.elegant.compose.ui.icon.ElegantIcon
-import com.elegant.compose.ui.icon.ElegantIcons
+import com.elegant.compose.ui.iconbutton.ElegantIcon
+import com.elegant.compose.ui.foundation.icons.ElegantIcons
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
@@ -170,7 +170,7 @@ import com.elegant.compose.ui.scrollshadow.ElegantScrollShadowOrientation
 import com.elegant.compose.ui.searchbar.ElegantSearchBar
 import com.elegant.compose.ui.select.ElegantSelect
 import com.elegant.compose.ui.select.ElegantSelectOption
-import com.elegant.compose.ui.shape.ElegantSquircleShape
+import com.elegant.compose.ui.foundation.shape.ElegantSquircleShape
 import com.elegant.compose.ui.sidebar.ElegantSidebar
 import com.elegant.compose.ui.sidebar.ElegantSidebarItem
 import com.elegant.compose.ui.skeleton.ElegantSkeleton
@@ -196,10 +196,10 @@ import com.elegant.compose.ui.tag.ElegantTagStyle
 import com.elegant.compose.ui.taggroup.ElegantTagGroup
 import com.elegant.compose.ui.taggroup.ElegantTagGroupItem
 import com.elegant.compose.ui.textarea.ElegantTextarea
-import com.elegant.compose.ui.theme.ElegantColors
-import com.elegant.compose.ui.theme.ElegantRadius
-import com.elegant.compose.ui.theme.ElegantSpacing
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantRadius
+import com.elegant.compose.ui.foundation.theme.ElegantSpacing
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 import com.elegant.compose.ui.toast.ElegantToast
 import com.elegant.compose.ui.toast.ElegantToastHost
 import com.elegant.compose.ui.toast.ElegantToastHostState
@@ -8423,7 +8423,7 @@ private fun BasicComponentShowcase() {
                 holdDownState = held,
                 endActions = {
                     Icon(
-                        imageVector = com.elegant.compose.ui.icon.ElegantIcons.ChevronRight,
+                        imageVector = com.elegant.compose.ui.foundation.icons.ElegantIcons.ChevronRight,
                         contentDescription = null,
                         tint = colors.textTertiary,
                     )
@@ -8592,7 +8592,7 @@ private fun SquircleShowcase() {
 
 @Composable
 private fun SquircleSwatch(
-    colors: com.elegant.compose.ui.theme.ElegantColors,
+    colors: com.elegant.compose.ui.foundation.theme.ElegantColors,
     smoothing: Float,
     label: String,
 ) {

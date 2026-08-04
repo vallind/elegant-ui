@@ -3,8 +3,8 @@ package com.elegant.compose.ui.divider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.elegant.compose.ui.theme.ElegantDarkColors
-import com.elegant.compose.ui.theme.ElegantLightColors
+import com.elegant.compose.ui.foundation.theme.ElegantDarkColors
+import com.elegant.compose.ui.foundation.theme.ElegantLightColors
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals

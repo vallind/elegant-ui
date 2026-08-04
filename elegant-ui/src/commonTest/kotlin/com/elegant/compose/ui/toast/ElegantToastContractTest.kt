@@ -1,9 +1,9 @@
 package com.elegant.compose.ui.toast
 
 import androidx.compose.ui.unit.dp
-import com.elegant.compose.ui.theme.ElegantDarkColors
-import com.elegant.compose.ui.theme.ElegantLightColors
-import com.elegant.compose.ui.theme.ElegantMotion
+import com.elegant.compose.ui.foundation.theme.ElegantDarkColors
+import com.elegant.compose.ui.foundation.theme.ElegantLightColors
+import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals

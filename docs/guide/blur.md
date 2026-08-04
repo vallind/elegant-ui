@@ -7,8 +7,8 @@
 ## Import
 
 ```kotlin
-import com.elegant.compose.ui.effect.BlurEdgeTreatment
-import com.elegant.compose.ui.effect.elegantBlur
+import com.elegant.compose.ui.foundation.effect.BlurEdgeTreatment
+import com.elegant.compose.ui.foundation.effect.elegantBlur
 ```
 
 ## Basic Usage

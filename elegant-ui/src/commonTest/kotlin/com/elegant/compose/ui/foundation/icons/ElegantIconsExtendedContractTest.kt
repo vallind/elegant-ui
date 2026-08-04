@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.icon
+package com.elegant.compose.ui.foundation.icons
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.theme
+package com.elegant.compose.ui.foundation.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.TextStyle

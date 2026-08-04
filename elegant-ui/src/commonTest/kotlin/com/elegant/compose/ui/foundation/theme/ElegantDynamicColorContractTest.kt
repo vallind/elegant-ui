@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.theme
+package com.elegant.compose.ui.foundation.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color

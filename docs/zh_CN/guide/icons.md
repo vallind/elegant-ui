@@ -9,7 +9,7 @@
 ```kotlin
 import com.elegant.compose.ui.icon.ElegantIcon
 import com.elegant.compose.ui.icon.ElegantIconDefaults
-import com.elegant.compose.ui.icon.ElegantIcons
+import com.elegant.compose.ui.foundation.icons.ElegantIcons
 ```
 
 ## 基本用法

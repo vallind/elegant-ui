@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.elegant.compose.ui.theme.ElegantSpacing
+import com.elegant.compose.ui.foundation.theme.ElegantSpacing
 
 /**
  * Combines [ElegantColorArea] and [ElegantHueSlider] into one free-form color-selection panel.

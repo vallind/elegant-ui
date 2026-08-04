@@ -7,7 +7,7 @@
 ## 引入
 
 ```kotlin
-import com.elegant.compose.ui.shape.ElegantSquircleShape
+import com.elegant.compose.ui.foundation.shape.ElegantSquircleShape
 ```
 
 ## 基本用法

@@ -47,7 +47,14 @@ GitHub Actions is the authoritative clean environment when local Android SDK, br
 | :--- | :--- |
 | `button/`, `iconbutton/`, `avatar/`, `badge/`, `divider/`, `tag/` | Available components, one package each |
 | `internal/` | Shared internal primitives (action-state resolution, etc.) |
-| `theme/` | ElegantTheme, ElegantColors, typography, spacing/radius/motion/elevation tokens |
+| `foundation/theme/` | ElegantTheme, ElegantColors, typography, spacing/radius/motion/elevation tokens |
+| `foundation/shape/` | ElegantSquircleShape, squircle modifier helpers, LocalSquircleEnabled |
+| `foundation/effect/` | ElegantBlur modifier effects |
+| `foundation/icons/` | ElegantIcons vector glyph sets (basic + extended) |
+
+System facilities live under `foundation/`; component packages (`button/`, `card/`, ...) stay at the
+top level. Never recreate `theme/`, `shape/`, `effect/`, or `icon/ElegantIcons*` paths at the top
+level.
 
 ### Platform Source Sets
 

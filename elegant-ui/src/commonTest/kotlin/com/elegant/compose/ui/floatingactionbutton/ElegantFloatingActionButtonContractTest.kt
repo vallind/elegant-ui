@@ -2,8 +2,8 @@ package com.elegant.compose.ui.floatingactionbutton
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.elegant.compose.ui.theme.ElegantColors
-import com.elegant.compose.ui.theme.ElegantMotion
+import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

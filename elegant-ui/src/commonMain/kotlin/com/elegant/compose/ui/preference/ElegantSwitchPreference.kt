@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.switch.ElegantSwitch
 import com.elegant.compose.ui.basiccomponent.ElegantBasicComponent
 import com.elegant.compose.ui.basiccomponent.ElegantBasicComponentColors
-import com.elegant.compose.ui.theme.ElegantColors
-import com.elegant.compose.ui.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
 
 /**
  * Theme-aware colors used by [ElegantSwitchPreference].

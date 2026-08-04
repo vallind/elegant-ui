@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.shape
+package com.elegant.compose.ui.foundation.shape
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape

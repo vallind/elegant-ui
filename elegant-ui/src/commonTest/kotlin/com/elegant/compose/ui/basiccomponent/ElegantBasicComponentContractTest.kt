@@ -1,7 +1,7 @@
 package com.elegant.compose.ui.basiccomponent
 
-import com.elegant.compose.ui.theme.ElegantDarkColors
-import com.elegant.compose.ui.theme.ElegantLightColors
+import com.elegant.compose.ui.foundation.theme.ElegantDarkColors
+import com.elegant.compose.ui.foundation.theme.ElegantLightColors
 import androidx.compose.ui.unit.dp
 import kotlin.test.Test
 import kotlin.test.assertEquals

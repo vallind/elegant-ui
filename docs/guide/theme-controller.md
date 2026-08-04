@@ -7,9 +7,9 @@
 ## Import
 
 ```kotlin
-import com.elegant.compose.ui.theme.ElegantTheme
-import com.elegant.compose.ui.theme.ElegantThemeController
-import com.elegant.compose.ui.theme.deriveElegantColors
+import com.elegant.compose.ui.foundation.theme.ElegantTheme
+import com.elegant.compose.ui.foundation.theme.ElegantThemeController
+import com.elegant.compose.ui.foundation.theme.deriveElegantColors
 import androidx.compose.ui.graphics.Color
 ```
 

@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.theme
+package com.elegant.compose.ui.foundation.theme
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

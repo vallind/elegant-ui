@@ -1,4 +1,4 @@
-package com.elegant.compose.ui.effect
+package com.elegant.compose.ui.foundation.effect
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment
