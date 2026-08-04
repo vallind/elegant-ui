@@ -10,8 +10,18 @@ kotlin {
         binaries.executable()
     }
 
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
+
     sourceSets {
         wasmJsMain.dependencies {
+            implementation(project(":showcase"))
+            implementation(compose.runtime)
+            implementation(compose.ui)
+        }
+        jsMain.dependencies {
             implementation(project(":showcase"))
             implementation(compose.runtime)
             implementation(compose.ui)

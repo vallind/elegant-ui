@@ -1,6 +1,6 @@
 # Elegant UI
 
-Refined Compose Multiplatform UI component library. Targets Android (API 24+), Desktop (JVM), Web (Wasm). iOS is out of scope.
+Refined Compose Multiplatform UI component library. Targets Android (API 24+), Desktop (JVM), Web (JS + Wasm). iOS is out of scope.
 
 ## Quick Start
 
@@ -21,6 +21,7 @@ Refined Compose Multiplatform UI component library. Targets Android (API 24+), D
 | Run Desktop sample | `gradle :desktop-sample:createDistributable --stacktrace --no-daemon` |
 | Run Windows desktop sample | `gradle :desktop-sample:packageZip --stacktrace --no-daemon` (Windows host) |
 | Run Web/Wasm sample | `gradle :web-sample:wasmJsBrowserDistribution --stacktrace --no-daemon` |
+| Run Web/JS sample | `gradle :web-sample:jsBrowserDistribution --stacktrace --no-daemon` |
 | Validate docs | `cd docs && npm install && npm run docs:check && npm run docs:build` |
 
 GitHub Actions is the authoritative clean environment when local Android SDK, browser runtime, or packaging tools are unavailable. Only claim a command passed when it actually ran successfully.
@@ -29,11 +30,11 @@ GitHub Actions is the authoritative clean environment when local Android SDK, br
 
 | Directory | Purpose |
 | :--- | :--- |
-| `elegant-ui/` | Main UI library (Android, Desktop JVM, Web/Wasm KMP targets) |
+| `elegant-ui/` | Main UI library (Android, Desktop JVM, Web/JS + Web/Wasm KMP targets) |
 | `showcase/` | Shared component gallery and component-slug registry |
 | `sample/` | Android application launcher |
 | `desktop-sample/` | Desktop JVM launcher |
-| `web-sample/` | Compose Web/Wasm launcher and documentation iframe runtime |
+| `web-sample/` | Compose Web/JS + Web/Wasm launcher and documentation iframe runtime |
 | `docs/` | VitePress website, English root and `zh_CN` mirror |
 | `scripts/` | Multiplatform boundary validation script (run by CI) |
 | `.github/workflows/` | Multiplatform build and documentation workflows |

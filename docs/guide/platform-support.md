@@ -7,6 +7,7 @@ Elegant UI is a Compose Multiplatform component library with three supported tar
 | Android | Supported | `android` | Clean CI, sample APK, touch/accessibility review, physical-device validation |
 | Desktop JVM | Supported | `jvm("desktop")` | Clean CI, distributable sample, keyboard/mouse/focus validation |
 | Web/Wasm | Supported | `wasmJs` | Clean CI, browser distribution, keyboard/focus/responsive validation |
+| Web/JS | Supported | `js` (IR, browser) | Clean CI, browser distribution, keyboard/focus/responsive validation |
 | iOS | Out of scope | None | No source set, publication, sample, or compatibility promise |
 
 ## Shared API contract
@@ -22,5 +23,6 @@ The public API and semantic state model remain consistent across all supported t
 - Android: touch, hardware keyboard, TalkBack, density and font scale.
 - Desktop JVM: mouse, keyboard, focus traversal, window resize and high-DPI rendering.
 - Web/Wasm: keyboard, pointer, browser focus, viewport resize and WasmGC-capable browsers.
+- Web/JS: keyboard, pointer, browser focus and viewport resize on the JS Canvas target.
 
 A component is incomplete when it compiles on only one or two supported targets.

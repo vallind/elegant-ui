@@ -276,10 +276,26 @@ jobs:
           --warning-mode all
           --no-daemon
 
+      - name: Build Web/JS distribution
+        run: >-
+          gradle
+          :web-sample:jsBrowserDistribution
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
       - name: Upload Web/Wasm sample
         uses: actions/upload-artifact@v4
         with:
           name: elegant-ui-web-sample
           path: web-sample/build/dist/wasmJs/productionExecutable/**
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Web/JS sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-ui-web-js-sample
+          path: web-sample/build/dist/js/productionExecutable/**
           if-no-files-found: error
           retention-days: 14

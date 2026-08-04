@@ -7,6 +7,7 @@ Elegant UI 是面向三个正式目标的 Compose Multiplatform 组件库。
 | Android | 已支持 | `android` | CI 通过、Sample APK、触控与无障碍检查、真机验收 |
 | Desktop JVM | 已支持 | `jvm("desktop")` | CI 通过、可运行桌面示例、键盘/鼠标/焦点验收 |
 | Web/Wasm | 已支持 | `wasmJs` | CI 通过、浏览器分发包、键盘/焦点/响应式验收 |
+| Web/JS | 已支持 | `js` (IR, browser) | CI 通过、浏览器分发包、键盘/焦点/响应式验收 |
 | iOS | 不在当前范围 | 无 | 不提供源码集、发布产物、示例或兼容承诺 |
 
 ## 共享 API 契约
@@ -22,5 +23,6 @@ Elegant UI 是面向三个正式目标的 Compose Multiplatform 组件库。
 - Android：触控、硬件键盘、TalkBack、密度与字体缩放。
 - Desktop JVM：鼠标、键盘、焦点遍历、窗口缩放与高 DPI。
 - Web/Wasm：键盘、指针、浏览器焦点、视口缩放与支持 WasmGC 的浏览器。
+- Web/JS：在 JS Canvas 目标上支持键盘、指针、浏览器焦点与视口缩放。
 
 组件若只在一个或两个正式目标上通过编译与验收，就不能视为完成。

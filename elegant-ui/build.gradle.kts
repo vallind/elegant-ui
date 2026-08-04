@@ -41,6 +41,10 @@ kotlin {
         browser()
     }
 
+    js(IR) {
+        browser()
+    }
+
     sourceSets {
         commonMain.dependencies {
             api(compose.runtime)
