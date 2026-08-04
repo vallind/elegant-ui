@@ -1,12 +1,6 @@
 # 组件总览
 
-Elegant UI V1 共包含 83 个组件，按实现关系分为三类：脚手架、基础组件与进阶组件。只有完成 Compose 实现与完整交付闭环的组件才会在网站中标记为可用。
-
-## 脚手架组件
-
-| 组件 | 用途 | 常见用法 | 状态 |
-| --- | --- | --- | --- |
-| [Scaffold](./scaffold) | 组合栏与内容的外壳 | 应用外壳布局 | 已完成 |
+Elegant UI V1 共包含 83 个组件，分为四个类别。只有完成 Compose 实现与完整交付闭环的组件才会在网站中标记为可用。
 
 ## 基础组件
 
@@ -35,6 +29,11 @@ Elegant UI V1 共包含 83 个组件，按实现关系分为三类：脚手架�
 | [Toolbar](./toolbar) | 锚定内联操作条 | 行内操作条 | 已完成 |
 | [SmallTitle](./small-title) | 标注设置分组 | 设置分组标题 | 已完成 |
 | [ScrollShadow](./scroll-shadow) | 淡化可滚动边缘 | 滚动位置阴影提示 | 已完成 |
+
+## 表单组件
+
+| 组件 | 用途 | 常见用法 | 状态 |
+| --- | --- | --- | --- |
 | [Input](./input) | 收集文本输入 | 表单填写与搜索 | 已完成 |
 | [InputOtp](./input-otp) | 输入验证码 | 验证码输入 | 已完成 |
 | [Autocomplete](./autocomplete) | 从过滤建议中选择 | 输入联想建议 | 已完成 |
@@ -48,16 +47,27 @@ Elegant UI V1 共包含 83 个组件，按实现关系分为三类：脚手架�
 | [CheckboxGroup](./checkbox-group) | 组合多选选项 | 分组多选 | 已完成 |
 | [SwitchGroup](./switch-group) | 组合布尔选项 | 分组开关设置 | 已完成 |
 | [TagGroup](./tag-group) | 组合可选中标签 | 成组可筛选标签 | 已完成 |
+| [SwitchPreference](./switch-preference) | 切换设置行 | 带开关的设置行 | 已完成 |
+| [CheckboxPreference](./checkbox-preference) | 勾选设置行 | 带复选框的设置行 | 已完成 |
+| [RadioPreference](./radio-preference) | 选择设置行 | 带单选按钮的设置行 | 已完成 |
+| [SliderPreference](./slider-preference) | 调节设置值 | 带滑块的设置行 | 已完成 |
 | [ToggleButton](./toggle-button) | 集群切换选项 | 分段式互斥选择 | 已完成 |
 | [ButtonGroup](./button-group) | 选择分段选项 | 成组操作按钮 | 已完成 |
+
 | [Select](./select) | 从列表中选择一项 | 列表选项选择 | 已完成 |
 | [Switch](./switch) | 切换布尔选项 | 开关设置 | 已完成 |
 | [Slider](./slider) | 从范围中选取数值 | 音量与范围调节 | 已完成 |
+
+## 内容组件
+
+| 组件 | 用途 | 常见用法 | 状态 |
+| --- | --- | --- | --- |
 | [Card](./card) | 在表面中分组内容 | 内容分组与信息展示 | 已完成 |
 | [List](./list) | 展示相关内容行 | 可滚动条目集合 | 已完成 |
 | [EmptyState](./empty-state) | 解释空内容区域 | 空内容引导 | 已完成 |
 | [Modal](./modal) | 在居中表面聚焦任务 | 聚焦任务的居中表面 | 已完成 |
 | [BottomSheet](./bottom-sheet) | 从底部边缘滑出模态表面 | 分享面板与移动端操作 | 已完成 |
+
 | [Drawer](./drawer) | 从边缘展开导航或筛选 | 侧边导航面板 | 已完成 |
 | [Table](./table) | 展示表格数据 | 结构化数据展示 | 已完成 |
 | [Pagination](./pagination) | 分页浏览长内容 | 分页内容浏览 | 已完成 |
@@ -74,6 +84,7 @@ Elegant UI V1 共包含 83 个组件，按实现关系分为三类：脚手架�
 | [Icons](./icons) | 渲染内置矢量图标集 | 界面图形与状态图标 | 已完成 |
 | [Squircle](./squircle) | 连续曲率形状 | 连续曲率圆角轮廓 | 已完成 |
 | [Blur](./blur) | 模糊节点内容 | 背景模糊效果 | 已完成 |
+| [Scaffold](./scaffold) | 组合栏与内容的外壳 | 应用外壳布局 | 已完成 |
 | [CloseButton](./close-button) | 关闭表面 | 弹窗与面板关闭 | 已完成 |
 | [PullToRefresh](./pull-to-refresh) | 下拉刷新可滚动内容 | 下拉刷新数据 | 已完成 |
 | [Popover](./popover) | 浮动展示上下文操作 | 上下文锚定浮层 | 已完成 |
@@ -83,19 +94,16 @@ Elegant UI V1 共包含 83 个组件，按实现关系分为三类：脚手架�
 | [Description](./description) | 展示键值行 | 键值详情列表 | 已完成 |
 | [Meter](./meter) | 按阈值展示用量 | 等级与评分展示 | 已完成 |
 | [FloatingActionButton](./floating-action-button) | 呈现主要操作 | 突出的快捷操作 | 已完成 |
+| [Table](./table) | 展示表格数据 | 结构化数据展示 | 已完成 |
+
+## 导航组件
+
+| 组件 | 用途 | 常见用法 | 状态 |
+| --- | --- | --- | --- |
 | [Navbar](./navbar) | 锚定顶级导航 | 应用顶级导航 | 已完成 |
 | [Sidebar](./sidebar) | 锚定次级导航 | 次级导航锚定 | 已完成 |
 | [Tabs](./tabs) | 切换相关视图 | 视图间分类浏览 | 已完成 |
 | [Breadcrumb](./breadcrumb) | 显示当前位置 | 路径位置追踪 | 已完成 |
 | [NavigationBar](./navigation-bar) | 锚定底部导航 | 底部标签切换 | 已完成 |
 | [NavigationRail](./navigation-rail) | 锚定侧边导航 | 侧边标签切换 | 已完成 |
-
-## 进阶组件
-
-| 组件 | 用途 | 常见用法 | 状态 |
-| --- | --- | --- | --- |
-| [SwitchPreference](./switch-preference) | 切换设置行 | 带开关的设置行 | 已完成 |
-| [CheckboxPreference](./checkbox-preference) | 勾选设置行 | 带复选框的设置行 | 已完成 |
-| [RadioPreference](./radio-preference) | 选择设置行 | 带单选按钮的设置行 | 已完成 |
-| [SliderPreference](./slider-preference) | 调节设置值 | 带滑块的设置行 | 已完成 |
 | [ArrowPreference](./arrow-preference) | 进入设置行详情 | 可进入下一级的设置行 | 已完成 |
