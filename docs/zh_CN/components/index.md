@@ -31,6 +31,13 @@ Elegant UI V1 共包含 83 个组件，分为四个类别。只有完成 Compose
 | [BasicComponent 基础行](./basic-component) | 组合自定义设置行 | 自定义行式设置项 | 已完成 |
 | [ScrollShadow](./scroll-shadow) | 淡化可滚动边缘 | 滚动位置阴影提示 | 已完成 |
 
+
+## 基础能力
+
+
+| 组件 | 用途 | 常见用法 | 状态 |
+
+
 ## 表单组件
 
 | 组件 | 用途 | 常见用法 | 状态 |

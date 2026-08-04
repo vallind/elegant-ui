@@ -46,12 +46,14 @@ const englishSidebar = {
           { text: 'Toolbar', link: '/components/toolbar' },
           { text: 'SmallTitle', link: '/components/small-title' },
           { text: 'EmptyState', link: '/components/empty-state' },
+          { text: 'CloseButton', link: '/components/close-button' },
+          { text: 'FloatingActionButton', link: '/components/floating-action-button' },
+        ] },
+        { text: 'Primitives', items: [
           { text: 'Icons', link: '/components/icons' },
           { text: 'Squircle', link: '/components/squircle' },
           { text: 'Blur', link: '/components/blur' },
           { text: 'ThemeController', link: '/components/theme-controller' },
-          { text: 'CloseButton', link: '/components/close-button' },
-          { text: 'FloatingActionButton', link: '/components/floating-action-button' },
         ] },
         { text: 'Forms', items: [
           { text: 'Input', link: '/components/input' },
@@ -165,12 +167,14 @@ const chineseSidebar = {
           { text: 'Toolbar 工具栏', link: '/zh_CN/components/toolbar' },
           { text: 'SmallTitle 分组标题', link: '/zh_CN/components/small-title' },
           { text: 'EmptyState 空状态', link: '/zh_CN/components/empty-state' },
+          { text: 'CloseButton 关闭按钮', link: '/zh_CN/components/close-button' },
+          { text: 'FloatingActionButton 悬浮按钮', link: '/zh_CN/components/floating-action-button' },
+        ] },
+        { text: '基础能力', items: [
           { text: 'Icons 图标', link: '/zh_CN/components/icons' },
           { text: 'Squircle 超椭圆', link: '/zh_CN/components/squircle' },
           { text: 'Blur 模糊', link: '/zh_CN/components/blur' },
           { text: 'ThemeController 动态取色', link: '/zh_CN/components/theme-controller' },
-          { text: 'CloseButton 关闭按钮', link: '/zh_CN/components/close-button' },
-          { text: 'FloatingActionButton 悬浮按钮', link: '/zh_CN/components/floating-action-button' },
         ] },
         { text: '表单组件', items: [
           { text: 'Input 输入框', link: '/zh_CN/components/input' },
