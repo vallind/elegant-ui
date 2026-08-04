@@ -49,12 +49,6 @@ const englishSidebar = {
           { text: 'CloseButton', link: '/components/close-button' },
           { text: 'FloatingActionButton', link: '/components/floating-action-button' },
         ] },
-        { text: 'Primitives', items: [
-          { text: 'Icons', link: '/components/icons' },
-          { text: 'Squircle', link: '/components/squircle' },
-          { text: 'Blur', link: '/components/blur' },
-          { text: 'ThemeController', link: '/components/theme-controller' },
-        ] },
         { text: 'Forms', items: [
           { text: 'Input', link: '/components/input' },
           { text: 'Textarea', link: '/components/textarea' },
@@ -113,6 +107,12 @@ const englishSidebar = {
           { text: 'ListPopup', link: '/components/list-popup' },
           { text: 'CascadingMenu', link: '/components/cascading-menu' },
         ] },
+        { text: 'Rendering', items: [
+          { text: 'Icons', link: '/components/icons' },
+          { text: 'Squircle', link: '/components/squircle' },
+          { text: 'Blur', link: '/components/blur' },
+          { text: 'ThemeController', link: '/components/theme-controller' },
+        ] },
         { text: 'Settings', items: [
           { text: 'SwitchPreference', link: '/components/switch-preference' },
           { text: 'CheckboxPreference', link: '/components/checkbox-preference' },
@@ -169,12 +169,6 @@ const chineseSidebar = {
           { text: 'EmptyState 空状态', link: '/zh_CN/components/empty-state' },
           { text: 'CloseButton 关闭按钮', link: '/zh_CN/components/close-button' },
           { text: 'FloatingActionButton 悬浮按钮', link: '/zh_CN/components/floating-action-button' },
-        ] },
-        { text: '基础能力', items: [
-          { text: 'Icons 图标', link: '/zh_CN/components/icons' },
-          { text: 'Squircle 超椭圆', link: '/zh_CN/components/squircle' },
-          { text: 'Blur 模糊', link: '/zh_CN/components/blur' },
-          { text: 'ThemeController 动态取色', link: '/zh_CN/components/theme-controller' },
         ] },
         { text: '表单组件', items: [
           { text: 'Input 输入框', link: '/zh_CN/components/input' },
@@ -233,6 +227,12 @@ const chineseSidebar = {
           { text: 'Menu 菜单', link: '/zh_CN/components/menu' },
           { text: 'ListPopup 列表弹出', link: '/zh_CN/components/list-popup' },
           { text: 'CascadingMenu 级联菜单', link: '/zh_CN/components/cascading-menu' },
+        ] },
+        { text: '渲染原语', items: [
+          { text: 'Icons 图标', link: '/zh_CN/components/icons' },
+          { text: 'Squircle 超椭圆', link: '/zh_CN/components/squircle' },
+          { text: 'Blur 模糊', link: '/zh_CN/components/blur' },
+          { text: 'ThemeController 动态取色', link: '/zh_CN/components/theme-controller' },
         ] },
         { text: '设置组件', items: [
           { text: 'SwitchPreference 开关设置', link: '/zh_CN/components/switch-preference' },

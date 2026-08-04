@@ -31,13 +31,6 @@ Elegant UI V1 contains 83 components organized into four groups. Components beco
 | [BasicComponent](./basic-component) | Compose custom settings rows | Custom row-based settings entries | Available |
 | [ScrollShadow](./scroll-shadow) | Fade scrollable edges | Scroll-position shadow hints | Available |
 
-
-## Primitives
-
-
-| Component | Purpose | Common Usage | Status |
-
-
 ## Forms
 
 | Component | Purpose | Common Usage | Status |
