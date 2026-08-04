@@ -63,9 +63,14 @@ commonMain
 ## Code Style
 
 - 4-space indentation; no mandatory formatter.
+- New `.kt` files carry the repository license header:
+  `// Copyright 2026, elegant-ui contributors` + `// SPDX-License-Identifier: Apache-2.0`
+  (existing files are not retrofitted).
 - Public KDoc on every public declaration. No comments beyond what KDoc requires.
 - Public names use the `ElegantXxx` prefix; composables and enums use PascalCase.
-- Standard `List`/`Set`/`Map` parameters are unstable to Compose — prefer stable models or clearly documented caller-owned identity; do not add a dependency solely to decorate one API.
+- Standard `List`/`Set`/`Map` parameters are unstable to Compose — prefer stable models, a
+  caller-owned identity that is remembered outside composition, or clearly documented identity
+  contracts; do not add a dependency solely to decorate one API.
 
 ## API Conventions
 
@@ -141,6 +146,23 @@ public data class ElegantButtonColors(
 - **Showcase registration**: `docs:check` verifies the source contains each `"{slug}" ->` route, so the slug branch, route case, and section composable must land in the same change as the component.
 - **Docs validation is mechanical**: both locales must keep identical page sets, heading order, property-table columns, iframe placement, index rows, sidebar entries, and Kotlin example counts.
 
+### Verified Compose Multiplatform 1.11 constraints (commonMain)
+
+These were each discovered on a real target build; do not re-learn them:
+
+- `clickable` does not accept `role` + `indication` in one call. Set the role in a separate
+  `semantics { }` block and pass `indication = null` (or the ripple) to `clickable`.
+- `NestedScrollConnection` is an interface (`: NestedScrollConnection { }`, no constructor).
+- Pointer events require an explicit scope: `pointerInput { awaitPointerEventScope { ... } }`.
+- `Composable` getters such as `ElegantTheme.colors` must not be read inside `remember { }`
+  lambda bodies on every target — hoist the read to a local `val` first.
+- `RenderEffect`/`BlurEffect` exist only in the desktop artifact. Use `Modifier.blur` +
+  `BlurredEdgeTreatment` for common blur.
+- `ImageVector.PathBuilder` exposes `curveTo`, not `cubicTo`; `Outline.Generic` has no `bounds`
+  constructor parameter.
+- `Path` and skia-backed drawing APIs are not reliable in plain `commonTest` JUnit runs; test
+  geometry as pure data, not through `Path` instances.
+
 ## Workflows
 
 ### Adding a New Component
@@ -167,7 +189,7 @@ When changing a component's API, defaults, or behavior, update all related artif
 
 ## Git Commit Style
 
-Use one coherent Conventional Commit per milestone:
+Use one coherent Conventional Commit per milestone, subject line at most 72 characters:
 
 ```text
 feat(component): add tag across android desktop and web
@@ -176,4 +198,6 @@ docs(modal): align chinese property table with the api
 build(kmp): repair desktop and wasm publications
 ```
 
-Check recent `git log --oneline` to stay consistent with current conventions.
+Scopes follow recent usage: `component`, `showcase`, `docs`, `workflow`, `theme`, `platform`,
+`kmp`, `validation`. Check recent `git log --oneline` to stay consistent with current
+conventions; keep the body terse and omit it when the subject says everything.

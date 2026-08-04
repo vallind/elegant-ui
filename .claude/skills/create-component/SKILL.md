@@ -41,6 +41,11 @@ Before generating code, read the API Conventions section of `AGENTS.md`, pick th
 | Status/count/overlay | `badge/ElegantBadge.kt` | semantic tones, count coercion and overflow, logical RTL placement, overlay without changing content measurement |
 | Drawn separator | `divider/ElegantDivider.kt` | orientation, emphasis, stroke, decorative-by-default semantics |
 | Label/classification | `tag/ElegantTag.kt` | four variants, three sizes, optional selectable interaction, interactive versus non-interactive semantics |
+| Field / input family | `input/ElegantInput.kt`, `textarea/ElegantTextarea.kt` | Filled visuals, error semantics, icon slots, maxLength coercion |
+| Selection family | `checkbox/ElegantCheckbox.kt`, `togglebutton/ElegantToggleButton.kt` | toggleable/selectable role, checked-state resolution, group propagation |
+| Overlay family | `menu/ElegantMenu.kt`, `autocomplete/ElegantAutocomplete.kt` | anchored focusable popup, dismissal contract, focus handoff |
+| Calendar family | `calendar/ElegantCalendar.kt` | pure date math, Monday-first grid, ElegantDate model |
+| Icons / rendering | `icon/ElegantIcons.kt`, `shape/ElegantSquircleShape.kt` | vector geometry helpers, pure shape math, no Path in JUnit |
 | New family | closest entry in `references/completed-components.md` | follow repository shape, define a new contract |
 
 Use references for conventions, not for blindly copying dimensions, states, slots, or implementation.
@@ -54,8 +59,10 @@ elegant-ui/src/commonMain/kotlin/com/elegant/compose/ui/{package}/Elegant{Name}.
 elegant-ui/src/commonTest/kotlin/com/elegant/compose/ui/{package}/Elegant{Name}ContractTest.kt
 ```
 
-Structure and conventions follow AGENTS.md (KDoc on every public declaration, parameter order, Defaults object, `@Immutable` Colors class, `@NonRestartableComposable`/`rememberUpdatedState`/`@Immutable`-vs-`@Stable` rules). Below are the pitfalls AGENTS.md does not spell out:
+Structure and conventions follow AGENTS.md (KDoc on every public declaration, parameter order, Defaults object, `@Immutable` Colors class, `@NonRestartableComposable`/`rememberUpdatedState`/`@Immutable`-vs-`@Stable` rules). New files carry the repository license header (see AGENTS.md Code Style). Below are the pitfalls AGENTS.md does not spell out:
 
+- **Verified CMP 1.11 constraints**: read the "Verified Compose Multiplatform 1.11 constraints" section of AGENTS.md first — `clickable` role/indication, `awaitPointerEventScope`, `NestedScrollConnection` as interface, no composable getters inside `remember { }`, desktop-only `BlurEffect`, `curveTo` not `cubicTo`, no `Path` in plain JUnit
+- **@NonRestartableComposable** is not the default template: apply it only to thin wrappers that fully delegate and read no state themselves
 - **Theming**: colors always come from `ElegantTheme.colors.*` and text styles from `ElegantTheme.typography.*`; never hardcode. Resolve state to colors in an internal pure function (`resolveXxxColors`) so `commonTest` can cover every precedence branch without a UI harness
 - **Semantics**: set the correct `Role`; disabled and loading states must not invoke callbacks and must be announced; caller-configurable localized state descriptions, never buried wording
 - **RTL**: directional behavior uses layout direction; mirror start/end with `LocalLayoutDirection` + `placeRelative`/`graphicsLayer`, never hardcode left/right
@@ -65,7 +72,40 @@ Structure and conventions follow AGENTS.md (KDoc on every public declaration, pa
 
 ## Step 4: Showcase section
 
-1. Add a showcase section in `showcase/src/commonMain/kotlin/com/elegant/compose/showcase/ElegantShowcaseApp.kt`: a `"{slug}" ->` branch in the shared `when`, the route case, and one section composable registered in `SupportedShowcaseComponentIds`. The section covers the default look, public variants, the disabled state, and the important interaction or slot, in labeled `DemoCard` groups.
+1. Add a showcase section in `showcase/src/commonMain/kotlin/com/elegant/compose/showcase/ElegantShowcaseApp.kt`: a `"{slug}" ->` branch in the shared `when`, the route case, and one section composable registered in `SupportedShowcaseComponentIds`. The section covers the default look, public variants, the disabled state, and the important interaction or slot, in labeled `DemoCard` groups. Use this shape:
+
+```kotlin
+@Composable
+private fun XxxShowcase() {
+    ShowcasePage(title = "Elegant Xxx") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "...",
+            description = "...",
+        ) {
+            // default look + public variants
+        }
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "...",
+            description = "...",
+        ) {
+            // disabled state + important interaction or slot
+        }
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "...",
+            description = "...",
+        ) {
+            // realistic cross-component composition with existing components
+        }
+        Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+```
 2. The same route must work on Android, Desktop, and Web; Web uses `?id={slug}`. Keep launcher modules thin and do not make an HTML-only demo.
 3. Update the slug sets in `showcase/src/commonTest/kotlin/com/elegant/compose/showcase/ShowcaseContractTest.kt` and `ShowcaseRegistryTest.kt` in the same change.
 
