@@ -1,6 +1,7 @@
 package com.elegant.compose.ui.icon
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.unit.dp
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
