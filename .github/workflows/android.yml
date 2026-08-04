@@ -202,6 +202,48 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  windows:
+    name: Build Windows desktop sample
+    runs-on: windows-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.3.1"
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+
+      - name: Install WiX Toolset
+        run: choco install wixtoolset --version=3.14.0.5722 -y --no-progress
+
+      - name: Create Windows distributable
+        run: >-
+          gradle
+          :desktop-sample:createDistributable
+          --stacktrace
+          --warning-mode all
+          --no-daemon
+
+      - name: Upload Windows desktop sample
+        uses: actions/upload-artifact@v4
+        with:
+          name: elegant-ui-desktop-sample-windows
+          path: |
+            desktop-sample/build/compose/binaries/main/msi/**
+            desktop-sample/build/compose/binaries/main/app/**
+          if-no-files-found: error
+          retention-days: 14
+
   web:
     name: Build Web/Wasm sample
     runs-on: ubuntu-latest
