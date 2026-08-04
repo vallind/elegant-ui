@@ -19,7 +19,7 @@ Refined Compose Multiplatform UI component library. Targets Android (API 24+), D
 | Publish KMP repository | `gradle :elegant-ui:publishAllPublicationsToBuildRepository --stacktrace --no-daemon` |
 | Run Android sample | `gradle :sample:assembleDebug --stacktrace --no-daemon` |
 | Run Desktop sample | `gradle :desktop-sample:createDistributable --stacktrace --no-daemon` |
-| Run Windows desktop sample | `gradle :desktop-sample:packageMsi --stacktrace --no-daemon` (Windows host, requires WiX Toolset 3.14) |
+| Run Windows desktop sample | `gradle :desktop-sample:packageZip --stacktrace --no-daemon` (Windows host) |
 | Run Web/Wasm sample | `gradle :web-sample:wasmJsBrowserDistribution --stacktrace --no-daemon` |
 | Validate docs | `cd docs && npm install && npm run docs:check && npm run docs:build` |
 

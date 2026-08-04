@@ -29,7 +29,7 @@ compose.desktop {
         mainClass = "com.elegant.compose.sample.desktop.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Deb, TargetFormat.Zip)
             packageName = "ElegantUIShowcase"
             packageVersion = "0.1.0"
         }

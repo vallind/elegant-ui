@@ -223,9 +223,6 @@ jobs:
           gradle-version: "9.3.1"
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
-      - name: Install WiX Toolset
-        run: choco install wixtoolset --version=3.14.0.5722 -y --no-progress
-
       - name: Create Windows distributable
         run: >-
           gradle
@@ -239,7 +236,7 @@ jobs:
         with:
           name: elegant-ui-desktop-sample-windows
           path: |
-            desktop-sample/build/compose/binaries/main/msi/**
+            desktop-sample/build/compose/binaries/main/zip/**
             desktop-sample/build/compose/binaries/main/app/**
           if-no-files-found: error
           retention-days: 14
