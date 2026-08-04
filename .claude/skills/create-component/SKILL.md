@@ -38,8 +38,13 @@ Read the relevant API section of `AGENTS.md`, pick the closest type from the tab
 | Status/count/overlay | `badge/ElegantBadge.kt` | semantic tones, count coercion and overflow, logical RTL placement, overlay without changing content measurement |
 | Drawn separator | `divider/ElegantDivider.kt` | orientation, emphasis, stroke, decorative-by-default semantics |
 | Label/classification | `tag/ElegantTag.kt` | four variants, three sizes, optional selectable interaction, interactive versus non-interactive semantics |
+| Container | `card/ElegantCard.kt`, `surface/ElegantSurface.kt` | style presets, optional clickable, caller-owned padding |
 | Field / input family | `input/ElegantInput.kt`, `textarea/ElegantTextarea.kt` | Filled visuals, error semantics, icon slots, maxLength coercion |
 | Selection family | `checkbox/ElegantCheckbox.kt`, `togglebutton/ElegantToggleButton.kt` | toggleable/selectable role, checked-state resolution, group propagation |
+| Animated / custom-drawn | `progress/ElegantProgress.kt`, `switch/ElegantSwitch.kt`, `skeleton/ElegantSkeleton.kt` | infinite transitions, drag gestures, progress semantics |
+| Settings item | `preference/ElegantSwitchPreference.kt`, `preference/ElegantArrowPreference.kt` | preference row pattern: title block + end control, inset divider |
+| Grouped Colors (selected-state aware) | `preference/ElegantRadioPreference.kt` | colors resolved by a selected flag through internal accessor functions |
+| Row-based container API | `list/ElegantList.kt`, `list/ElegantListItem.kt` | item slots, 48dp rows, interactive versus plain rows |
 | Overlay family | `menu/ElegantMenu.kt`, `autocomplete/ElegantAutocomplete.kt` | anchored focusable popup, dismissal contract, focus handoff |
 | Calendar family | `calendar/ElegantCalendar.kt` | pure date math, Monday-first grid, ElegantDate model |
 | Icons / rendering | `icon/ElegantIcons.kt`, `shape/ElegantSquircleShape.kt` | vector geometry helpers, pure shape math, no Path in JUnit |
