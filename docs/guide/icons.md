@@ -87,3 +87,16 @@ Row(horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
     )
 }
 ```
+
+## Extended Icons
+
+`ElegantIcons` also carries an extended set of 32 lazily loaded glyphs for common actions and media, defined on the same 24dp stroke style and cached on first access:
+
+```kotlin
+ElegantIcon(
+    imageVector = ElegantIcons.Refresh,
+    contentDescription = "Refresh",
+)
+```
+
+Available glyphs: Refresh, Download, Upload, VolumeUp, VolumeDown, VolumeOff, Filter, Save, Send, Reply, Forward, Lock, Unlock, Eye, EyeOff, Calendar, Clock, Location, Camera, Image, Play, Pause, Info, Warning, Help, List, Grid, Sun, Moon, Brightness, Copy, Power.

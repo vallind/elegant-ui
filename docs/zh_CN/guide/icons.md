@@ -87,3 +87,16 @@ Row(horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
     )
 }
 ```
+
+## 扩展图标
+
+`ElegantIcons` 同时携带 32 个懒加载的扩展图形,覆盖常用动作与媒体,采用相同的 24dp 描边风格,首次访问时构建并缓存:
+
+```kotlin
+ElegantIcon(
+    imageVector = ElegantIcons.Refresh,
+    contentDescription = "刷新",
+)
+```
+
+可用图形:Refresh、Download、Upload、VolumeUp、VolumeDown、VolumeOff、Filter、Save、Send、Reply、Forward、Lock、Unlock、Eye、EyeOff、Calendar、Clock、Location、Camera、Image、Play、Pause、Info、Warning、Help、List、Grid、Sun、Moon、Brightness、Copy、Power。
