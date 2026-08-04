@@ -109,6 +109,12 @@ Choose references by responsibility. A milestone may use one component for behav
 - For a new action, start with Button or IconButton and reuse the shared action resolver when its state model matches.
 - For a non-interactive display primitive, start with Avatar and remove identity-specific assumptions.
 - For compact status, numeric overflow, or corner overlays, start with Badge and preserve its non-interactive and logical-placement contracts.
+- For a field, start with Input (Filled visuals, error semantics, slots) and adapt the Textarea/NumberField/SearchBar pattern for variants.
+- For a selection control, start with Checkbox or Radio; for grouped multi-select, start with CheckboxGroup/SwitchGroup; for a segmented exclusive set, use ButtonGroup.
+- For an anchored popup, start with Menu (focusable popup + dismissal contract) and adapt ListPopup/Autocomplete/CascadingMenu positioning; for a centered overlay, start with Modal and extend AlertDialog/Drawer.
+- For date selection, start with Calendar (ElegantDate model, pure date math) and compose DatePicker/DateRangePicker on top.
+- For icons, follow ElegantIcons vector geometry (pure helpers + ImageVector build); for shapes/effects, follow ElegantSquircleShape/ElegantBlur and keep geometry out of JUnit `Path` tests.
+- For theming work, start with ElegantDynamicColor (pure HSL derivation) and the additive-overload pattern in ElegantTheme.
 - For a component family not represented here, use the closest available component for repository delivery shape, inspect current Compose Multiplatform primitives, and define the new family contract inside the active milestone.
 - Do not copy dimensions, styles, state names, or slots merely because a reference has them. Reuse conventions only when they express the same product meaning.
 
