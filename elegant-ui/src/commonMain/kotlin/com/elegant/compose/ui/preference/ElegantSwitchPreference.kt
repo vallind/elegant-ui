@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.switch.ElegantSwitch
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponent
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponentColors
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantTheme
 
@@ -109,44 +111,22 @@ public fun ElegantSwitchPreference(
     showDivider: Boolean = true,
 ) {
     val resolvedSupportingText = resolveSupportingText(supportingText)
-    val resolvedTitleColor = if (enabled) {
-        colors.titleColor
-    } else {
-        colors.disabledTitleColor
-    }
 
     Column(modifier = modifier.fillMaxWidth()) {
-        Row(
-            modifier = Modifier
-                .defaultMinSize(minHeight = ElegantPreferenceDefaults.MinimumTouchHeight)
-                .fillMaxWidth()
-                .padding(horizontal = PreferenceMetrics.RowHorizontalPadding),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(PreferenceMetrics.TitleBlockSpacing),
-            ) {
-                Text(
-                    text = title,
-                    style = ElegantTheme.typography.labelMedium,
-                    color = resolvedTitleColor,
+        ElegantBasicComponent(
+            title = title,
+            summary = resolvedSupportingText,
+            endActions = {
+                ElegantSwitch(
+                    checked = checked,
+                    onCheckedChange = onCheckedChange,
+                    enabled = enabled,
                 )
-                if (resolvedSupportingText != null) {
-                    Text(
-                        text = resolvedSupportingText,
-                        style = ElegantTheme.typography.bodyMedium,
-                        color = colors.supportingTextColor,
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.width(PreferenceMetrics.EndControlGap))
-            ElegantSwitch(
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                enabled = enabled,
-            )
-        }
+            },
+            enabled = enabled,
+            colors = colors.toBasicComponentColors(),
+            insideMargin = PreferenceRowInsideMargin,
+        )
         if (showDivider) {
             Box(
                 modifier = Modifier
@@ -159,6 +139,7 @@ public fun ElegantSwitchPreference(
     }
 }
 
+
 /**
  * Resolves the theme-aware default preference colors.
  *
@@ -166,6 +147,15 @@ public fun ElegantSwitchPreference(
  * uses the secondary text role, the disabled title uses the tertiary text role, and the bottom
  * divider uses the default border role.
  */
+internal fun ElegantPreferenceColors.toBasicComponentColors(): ElegantBasicComponentColors =
+    ElegantBasicComponentColors(
+        containerColor = containerColor,
+        titleColor = titleColor,
+        summaryColor = supportingTextColor,
+        disabledTitleColor = disabledTitleColor,
+        disabledSummaryColor = supportingTextColor,
+    )
+
 internal fun resolvePreferenceColors(themeColors: ElegantColors): ElegantPreferenceColors =
     ElegantPreferenceColors(
         containerColor = Color.Transparent,

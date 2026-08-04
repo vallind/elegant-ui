@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.checkbox.ElegantCheckbox
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponent
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponentColors
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
@@ -103,37 +105,20 @@ public fun ElegantCheckboxPreference(
     val resolvedSupportingText = resolveSupportingText(supportingText)
 
     Column(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = ElegantCheckboxPreferenceDefaults.MinimumTouchHeight)
-                .padding(
-                    horizontal = CheckboxPreferenceRowHorizontalPadding,
-                    vertical = CheckboxPreferenceRowVerticalPadding,
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    style = ElegantTheme.typography.labelMedium,
-                    color = if (enabled) colors.titleColor else colors.disabledTitleColor,
+        ElegantBasicComponent(
+            title = title,
+            summary = resolvedSupportingText,
+            endActions = {
+                ElegantCheckbox(
+                    checked = checked,
+                    onCheckedChange = onCheckedChange,
+                    enabled = enabled,
                 )
-                if (resolvedSupportingText != null) {
-                    Text(
-                        text = resolvedSupportingText,
-                        style = ElegantTheme.typography.bodyMedium,
-                        color = colors.supportingTextColor,
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.width(CheckboxPreferenceControlGap))
-            ElegantCheckbox(
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                enabled = enabled,
-            )
-        }
+            },
+            enabled = enabled,
+            colors = colors.toBasicComponentColors(),
+            insideMargin = PreferenceRowInsideMargin,
+        )
         if (showDivider) {
             Box(
                 modifier = Modifier
@@ -146,6 +131,7 @@ public fun ElegantCheckboxPreference(
     }
 }
 
+
 /**
  * Resolves theme-aware colors for [ElegantCheckboxPreference] from [themeColors].
  *
@@ -153,6 +139,15 @@ public fun ElegantCheckboxPreference(
  * uses the secondary text role, the disabled title uses the tertiary text role, and the divider
  * uses the default border role.
  */
+internal fun ElegantCheckboxPreferenceColors.toBasicComponentColors(): ElegantBasicComponentColors =
+    ElegantBasicComponentColors(
+        containerColor = containerColor,
+        titleColor = titleColor,
+        summaryColor = supportingTextColor,
+        disabledTitleColor = disabledTitleColor,
+        disabledSummaryColor = supportingTextColor,
+    )
+
 internal fun resolveCheckboxPreferenceColors(themeColors: ElegantColors): ElegantCheckboxPreferenceColors =
     ElegantCheckboxPreferenceColors(
         containerColor = Color.Transparent,

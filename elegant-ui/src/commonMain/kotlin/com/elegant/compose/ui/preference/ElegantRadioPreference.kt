@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.divider.ElegantDivider
 import com.elegant.compose.ui.divider.ElegantDividerDefaults
 import com.elegant.compose.ui.radio.ElegantRadio
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponent
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponentColors
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantSpacing
@@ -115,70 +117,24 @@ public fun ElegantRadioPreference(
     colors: ElegantRadioPreferenceColors = ElegantRadioPreferenceDefaults.colors(),
     showDivider: Boolean = true,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val hovered by interactionSource.collectIsHoveredAsState()
-    val visuals = resolveRadioPreferenceVisuals(
-        colors = colors,
-        enabled = enabled,
-        pressed = pressed,
-        hovered = hovered,
-    )
-    val animatedContainer by animateColorAsState(
-        targetValue = visuals.containerColor,
-        animationSpec = tween(
-            durationMillis = ElegantRadioPreferenceDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
-        label = "ElegantRadioPreferenceContainer",
-    )
-    val resolvedSupportingText = resolveSupportingText(supportingText)
-    val resolvedTitleColor = if (enabled) colors.titleColor else colors.disabledTitleColor
-
-    Column(
-        modifier = modifier
-            .background(animatedContainer)
-            .defaultMinSize(minHeight = ElegantRadioPreferenceDefaults.MinimumTouchHeight)
-            .clickable(
-                enabled = enabled,
-                role = Role.RadioButton,
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onSelect,
-            )
-            .semantics {
-                role = Role.RadioButton
-                this.selected = selected
-                if (!enabled) disabled()
-            },
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = RadioPreferenceContentPadding),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    style = ElegantTheme.typography.labelMedium,
-                    color = resolvedTitleColor,
+    Column(modifier = modifier) {
+        ElegantBasicComponent(
+            title = title,
+            summary = resolveSupportingText(supportingText),
+            endActions = {
+                ElegantRadio(
+                    selected = selected,
+                    onSelect = onSelect,
+                    enabled = enabled,
                 )
-                if (resolvedSupportingText != null) {
-                    Text(
-                        text = resolvedSupportingText,
-                        style = ElegantTheme.typography.bodyMedium,
-                        color = colors.supportingTextColor,
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.width(RadioPreferenceGap))
-            ElegantRadio(
-                selected = selected,
-                onSelect = onSelect,
-                enabled = enabled,
-            )
-        }
+            },
+            onClick = onSelect,
+            role = Role.RadioButton,
+            selected = selected,
+            enabled = enabled,
+            colors = colors.toBasicComponentColors(),
+            insideMargin = PreferenceRowInsideMargin,
+        )
         if (showDivider) {
             ElegantDivider(
                 modifier = Modifier.padding(start = RadioPreferenceDividerInset),
@@ -187,6 +143,18 @@ public fun ElegantRadioPreference(
         }
     }
 }
+
+
+internal fun ElegantRadioPreferenceColors.toBasicComponentColors(): ElegantBasicComponentColors =
+    ElegantBasicComponentColors(
+        containerColor = containerColor,
+        titleColor = titleColor,
+        summaryColor = supportingTextColor,
+        disabledTitleColor = disabledTitleColor,
+        disabledSummaryColor = supportingTextColor,
+        hoveredContainerColor = hoveredContainerColor,
+        pressedContainerColor = pressedContainerColor,
+    )
 
 internal fun resolveRadioPreferenceColors(themeColors: ElegantColors): ElegantRadioPreferenceColors =
     ElegantRadioPreferenceColors(

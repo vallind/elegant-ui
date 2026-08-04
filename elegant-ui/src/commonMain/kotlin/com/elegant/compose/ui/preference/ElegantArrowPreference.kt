@@ -1,41 +1,24 @@
 package com.elegant.compose.ui.preference
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsHoveredAsState
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.disabled
-import androidx.compose.ui.semantics.role
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponent
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponentColors
 import com.elegant.compose.ui.divider.ElegantDivider
 import com.elegant.compose.ui.divider.ElegantDividerDefaults
 import com.elegant.compose.ui.theme.ElegantColors
@@ -85,29 +68,20 @@ internal data class ArrowPreferenceVisuals(
     val containerColor: Color,
 )
 
+
 internal val ArrowPreferenceContentPadding: Dp = ElegantSpacing.xl
 internal val ArrowPreferenceGap: Dp = ElegantSpacing.md
 internal val ArrowPreferenceDividerInset: Dp = ElegantSpacing.xl
 internal val ArrowPreferenceChevronSize: Dp = 18.dp
 internal val ArrowPreferenceChevronStrokeWidth: Dp = 2.dp
-internal const val ArrowPreferenceAnimationDurationMillis: Int = ElegantMotion.standardDurationMillis
+internal val ArrowPreferenceAnimationDurationMillis: Int = ElegantMotion.standardDurationMillis
+internal val PreferenceRowInsideMargin: PaddingValues = PaddingValues(
+    horizontal = ElegantSpacing.xl,
+    vertical = 0.dp,
+)
 
-/**
- * Presents one settings-style row that navigates or drills into another screen.
- *
- * The whole row is the interactive target: clicking the title, the supporting text, or the
- * trailing chevron activates [onClick]. The row keeps a 48dp minimum height, animates a hovered
- * and pressed container color, and announces [Role.Button] and the disabled state. The trailing
- * chevron points in the logical layout direction and mirrors horizontally in RTL.
- *
- * @param title row title.
- * @param onClick callback invoked when the row accepts a click.
- * @param modifier modifier applied once to the interactive row.
- * @param supportingText optional supporting text below the title; blank text is hidden.
- * @param enabled whether user interaction is accepted.
- * @param colors theme-aware state colors.
- * @param showDivider whether a bottom divider is drawn, inset 16dp from the start edge.
- */
+
+
 @Composable
 public fun ElegantArrowPreference(
     title: String,
@@ -118,65 +92,20 @@ public fun ElegantArrowPreference(
     colors: ElegantArrowPreferenceColors = ElegantArrowPreferenceDefaults.colors(),
     showDivider: Boolean = true,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val pressed by interactionSource.collectIsPressedAsState()
-    val hovered by interactionSource.collectIsHoveredAsState()
-    val visuals = resolveArrowPreferenceVisuals(
-        colors = colors,
-        enabled = enabled,
-        pressed = pressed,
-        hovered = hovered,
-    )
-    val animatedContainer by animateColorAsState(
-        targetValue = visuals.containerColor,
-        animationSpec = tween(
-            durationMillis = ArrowPreferenceAnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
-        label = "ElegantArrowPreferenceContainer",
-    )
     val resolvedSupportingText = resolveSupportingText(supportingText)
-    val resolvedTitleColor = if (enabled) colors.titleColor else colors.disabledTitleColor
 
-    Column(
-        modifier = modifier
-            .background(animatedContainer)
-            .defaultMinSize(minHeight = ElegantArrowPreferenceDefaults.MinimumTouchHeight)
-            .clickable(
-                enabled = enabled,
-                role = Role.Button,
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onClick,
-            )
-            .semantics {
-                role = Role.Button
-                if (!enabled) disabled()
+    Column(modifier = modifier) {
+        ElegantBasicComponent(
+            title = title,
+            summary = resolvedSupportingText,
+            endActions = {
+                ArrowPreferenceChevron(color = colors.arrowColor)
             },
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = ArrowPreferenceContentPadding),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = title,
-                    style = ElegantTheme.typography.labelMedium,
-                    color = resolvedTitleColor,
-                )
-                if (resolvedSupportingText != null) {
-                    Text(
-                        text = resolvedSupportingText,
-                        style = ElegantTheme.typography.bodyMedium,
-                        color = colors.supportingTextColor,
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.width(ArrowPreferenceGap))
-            ArrowPreferenceChevron(color = colors.arrowColor)
-        }
+            onClick = onClick,
+            enabled = enabled,
+            colors = colors.toBasicComponentColors(),
+            insideMargin = PreferenceRowInsideMargin,
+        )
         if (showDivider) {
             ElegantDivider(
                 modifier = Modifier.padding(start = ArrowPreferenceDividerInset),
@@ -233,6 +162,7 @@ private fun ArrowPreferenceChevron(
  * @param themeColors semantic roles of the active light or dark theme.
  * @return arrow-preference colors derived from the semantic roles.
  */
+
 internal fun resolveArrowPreferenceColors(themeColors: ElegantColors): ElegantArrowPreferenceColors =
     ElegantArrowPreferenceColors(
         containerColor = Color.Transparent,
@@ -269,3 +199,14 @@ internal fun resolveArrowPreferenceVisuals(
         else -> colors.containerColor
     },
 )
+
+internal fun ElegantArrowPreferenceColors.toBasicComponentColors(): ElegantBasicComponentColors =
+    ElegantBasicComponentColors(
+        containerColor = containerColor,
+        titleColor = titleColor,
+        summaryColor = supportingTextColor,
+        disabledTitleColor = disabledTitleColor,
+        disabledSummaryColor = supportingTextColor,
+        hoveredContainerColor = hoveredContainerColor,
+        pressedContainerColor = pressedContainerColor,
+    )

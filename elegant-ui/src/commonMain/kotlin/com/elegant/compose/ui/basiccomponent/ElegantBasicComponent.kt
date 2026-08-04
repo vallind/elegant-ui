@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -94,8 +95,9 @@ internal const val BasicComponentAnimationDurationMillis: Int = ElegantMotion.st
  * Presents a settings-style row with optional leading content, a title, a summary, trailing
  * content, and an optional bottom block.
  *
- * The whole row is the interactive target when [onClick] is provided: the row keeps a 48dp
- * minimum height, animates hovered and pressed container colors, and announces [role], an
+ * The whole row is the interactive target when [onClick] is provided: the row keeps the
+ * [ElegantBasicComponentDefaults.MinimumTouchHeight] minimum height, animates hovered and
+ * pressed container colors, and announces [role], an
  * optional [onClickLabel], and the disabled state. [holdDownState] forces the pressed visual
  * state while true. When [content] is provided it replaces the standard title and summary text
  * block; [bottomAction] renders below the row.
@@ -109,6 +111,7 @@ internal const val BasicComponentAnimationDurationMillis: Int = ElegantMotion.st
  * @param onClick optional callback invoked when the row accepts a click; null keeps it plain.
  * @param onClickLabel optional accessible label describing the row action.
  * @param role optional semantic role announced for the row.
+ * @param selected optional selected state announced for the row; null omits the property.
  * @param holdDownState forces the pressed visual state while true.
  * @param enabled whether user interaction is accepted.
  * @param colors theme-aware state colors.
@@ -126,6 +129,7 @@ public fun ElegantBasicComponent(
     onClick: (() -> Unit)? = null,
     onClickLabel: String? = null,
     role: Role? = null,
+    selected: Boolean? = null,
     holdDownState: Boolean = false,
     enabled: Boolean = true,
     colors: ElegantBasicComponentColors = ElegantBasicComponentDefaults.colors(),
@@ -164,13 +168,7 @@ public fun ElegantBasicComponent(
     Column(
         modifier = modifier
             .background(animatedContainer)
-            .defaultMinSize(
-                minHeight = if (interactive) {
-                    ElegantBasicComponentDefaults.MinimumTouchHeight
-                } else {
-                    0.dp
-                },
-            )
+            .defaultMinSize(minHeight = ElegantBasicComponentDefaults.MinimumTouchHeight)
             .then(
                 if (interactive) {
                     Modifier.clickable(
@@ -187,6 +185,7 @@ public fun ElegantBasicComponent(
             )
             .semantics {
                 if (resolvedRole != null) this.role = resolvedRole
+                if (selected != null) this.selected = selected!!
                 if (interactive && !enabled) disabled()
             }
             .padding(insideMargin),

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.slider.ElegantSlider
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponent
+import com.elegant.compose.ui.basiccomponent.ElegantBasicComponentColors
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
@@ -108,49 +111,32 @@ public fun ElegantSliderPreference(
     enabled: Boolean = true,
     colors: ElegantSliderPreferenceColors = ElegantSliderPreferenceDefaults.colors(),
     showDivider: Boolean = true,
-) {
-    val resolvedSupportingText = resolveSupportingText(supportingText)
-
+){
     Column(modifier = modifier) {
-        Column(
-            modifier = Modifier
-                .defaultMinSize(minHeight = ElegantSliderPreferenceDefaults.MinimumTouchHeight)
-                .padding(SliderPreferenceContentPadding),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(SliderPreferenceTitleValueGap),
-            ) {
-                Text(
-                    text = title,
-                    modifier = Modifier.weight(1f),
-                    style = ElegantTheme.typography.labelMedium,
-                    color = resolveSliderPreferenceTitleColor(colors, enabled),
-                )
+        ElegantBasicComponent(
+            title = title,
+            summary = resolveSupportingText(supportingText),
+            endActions = {
                 Text(
                     text = valueFormatter(value),
                     style = ElegantTheme.typography.labelMedium,
                     color = resolveSliderPreferenceValueColor(colors, enabled),
                 )
-            }
-            if (resolvedSupportingText != null) {
-                Text(
-                    text = resolvedSupportingText,
+            },
+            enabled = enabled,
+            colors = colors.toBasicComponentColors(),
+            insideMargin = PaddingValues(SliderPreferenceContentPadding),
+            bottomAction = {
+                ElegantSlider(
+                    value = value,
+                    onValueChange = onValueChange,
                     modifier = Modifier.fillMaxWidth(),
-                    style = ElegantTheme.typography.bodyMedium,
-                    color = colors.supportingTextColor,
+                    enabled = enabled,
+                    valueRange = valueRange,
+                    steps = steps,
                 )
-            }
-            ElegantSlider(
-                value = value,
-                onValueChange = onValueChange,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = enabled,
-                valueRange = valueRange,
-                steps = steps,
-            )
-        }
+            },
+        )
         if (showDivider) {
             Box(
                 modifier = Modifier
@@ -163,9 +149,19 @@ public fun ElegantSliderPreference(
     }
 }
 
+
 /**
  * Resolves theme-aware [ElegantSliderPreferenceColors] from [themeColors].
  */
+internal fun ElegantSliderPreferenceColors.toBasicComponentColors(): ElegantBasicComponentColors =
+    ElegantBasicComponentColors(
+        containerColor = Color.Transparent,
+        titleColor = titleColor,
+        summaryColor = supportingTextColor,
+        disabledTitleColor = disabledTitleColor,
+        disabledSummaryColor = supportingTextColor,
+    )
+
 internal fun resolveSliderPreferenceColors(themeColors: ElegantColors): ElegantSliderPreferenceColors =
     ElegantSliderPreferenceColors(
         titleColor = themeColors.textPrimary,
