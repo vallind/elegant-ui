@@ -243,9 +243,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: elegant-ui-desktop-sample-windows
-          path: |
-            desktop-sample/build/compose/binaries/main/zip/**
-            desktop-sample/build/compose/binaries/main/app/**
+          path: desktop-sample/build/compose/binaries/main/zip/**
           if-no-files-found: error
           retention-days: 14
 
