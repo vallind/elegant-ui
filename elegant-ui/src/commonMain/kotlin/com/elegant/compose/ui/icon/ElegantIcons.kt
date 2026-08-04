@@ -169,7 +169,7 @@ public object ElegantIcons {
     internal fun starPoints(center: Offset, outerRadius: Float, innerRadius: Float): List<Offset> {
         val points = mutableListOf<Offset>()
         for (index in 0 until 10) {
-            val angle = Math.toRadians((90.0 + index * 36.0))
+            val angle = kotlin.math.PI * (90.0 + index * 36.0) / 180.0
             val radius = if (index % 2 == 0) outerRadius else innerRadius
             points.add(
                 Offset(
@@ -426,7 +426,7 @@ private fun personIcon(): ImageVector = vectorIcon {
     }
     filledPath(this) {
         moveTo(geometry.shoulderLeft.x, geometry.shoulderLeft.y)
-        cubicTo(
+        curveTo(
             geometry.shoulderLeft.x + 1.2f,
             geometry.headCenter.y + geometry.headRadius * 1.2f,
             geometry.shoulderRight.x - 1.2f,
@@ -460,7 +460,7 @@ private fun settingsIcon(): ImageVector = vectorIcon {
     }
     strokedPath(this, 2.2f) {
         for (angle in intArrayOf(0, 45, 90, 135, 180, 225, 270, 315)) {
-            val radians = Math.toRadians(angle.toDouble())
+            val radians = kotlin.math.PI * angle / 180.0
             val cos = kotlin.math.cos(radians).toFloat()
             val sin = kotlin.math.sin(radians).toFloat()
             moveTo(12f + 8.5f * cos, 12f + 8.5f * sin)
@@ -501,12 +501,12 @@ private fun starIcon(): ImageVector = vectorIcon {
 private fun heartIcon(): ImageVector = vectorIcon {
     filledPath(this) {
         moveTo(12f, 20.5f)
-        cubicTo(13f, 19.5f, 20f, 14.5f, 20f, 8.5f)
-        cubicTo(20f, 5.6f, 17.5f, 4f, 15f, 4f)
-        cubicTo(13.1f, 4f, 12f, 5.4f, 12f, 7f)
-        cubicTo(12f, 5.4f, 10.9f, 4f, 9f, 4f)
-        cubicTo(6.5f, 4f, 4f, 5.6f, 4f, 8.5f)
-        cubicTo(4f, 14.5f, 11f, 19.5f, 12f, 20.5f)
+        curveTo(13f, 19.5f, 20f, 14.5f, 20f, 8.5f)
+        curveTo(20f, 5.6f, 17.5f, 4f, 15f, 4f)
+        curveTo(13.1f, 4f, 12f, 5.4f, 12f, 7f)
+        curveTo(12f, 5.4f, 10.9f, 4f, 9f, 4f)
+        curveTo(6.5f, 4f, 4f, 5.6f, 4f, 8.5f)
+        curveTo(4f, 14.5f, 11f, 19.5f, 12f, 20.5f)
         close()
     }
 }

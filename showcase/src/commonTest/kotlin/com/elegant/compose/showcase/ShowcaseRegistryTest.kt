@@ -84,6 +84,13 @@ internal class ShowcaseRegistryTest {
                 "date-picker",
                 "date-range-picker",
                 "number-picker",
+                "theme-controller",
+                "icons",
+                "squircle",
+                "blur",
+                "list-popup",
+                "cascading-menu",
+                "color-picker-panel",
             ),
             SupportedShowcaseComponentIds,
         )

@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -86,12 +87,15 @@ import com.elegant.compose.ui.calendar.ElegantCalendar
 import com.elegant.compose.ui.calendar.ElegantDate
 import com.elegant.compose.ui.card.ElegantCard
 import com.elegant.compose.ui.card.ElegantCardStyle
+import com.elegant.compose.ui.cascadingmenu.ElegantCascadingMenu
+import com.elegant.compose.ui.cascadingmenu.ElegantCascadingMenuItem
 import com.elegant.compose.ui.checkbox.ElegantCheckbox
 import com.elegant.compose.ui.checkboxgroup.ElegantCheckboxGroup
 import com.elegant.compose.ui.checkboxgroup.ElegantCheckboxGroupItem
 import com.elegant.compose.ui.closebutton.ElegantCloseButton
 import com.elegant.compose.ui.colorpicker.ElegantColorPicker
 import com.elegant.compose.ui.colorpicker.ElegantColorPickerDefaults
+import com.elegant.compose.ui.colorpicker.ElegantColorPickerPanel
 import com.elegant.compose.ui.datepicker.ElegantDatePicker
 import com.elegant.compose.ui.daterangepicker.ElegantDateRange
 import com.elegant.compose.ui.daterangepicker.ElegantDateRangePicker
@@ -107,10 +111,14 @@ import com.elegant.compose.ui.divider.ElegantDividerStyle
 import com.elegant.compose.ui.divider.ElegantLabeledDivider
 import com.elegant.compose.ui.drawer.ElegantDrawer
 import com.elegant.compose.ui.drawer.ElegantDrawerPlacement
+import com.elegant.compose.ui.effect.BlurEdgeTreatment
+import com.elegant.compose.ui.effect.elegantBlur
 import com.elegant.compose.ui.emptystate.ElegantEmptyState
 import com.elegant.compose.ui.fieldset.ElegantFieldset
 import com.elegant.compose.ui.floatingactionbutton.ElegantFloatingActionButton
 import com.elegant.compose.ui.floatingtoolbar.ElegantFloatingToolbar
+import com.elegant.compose.ui.icon.ElegantIcon
+import com.elegant.compose.ui.icon.ElegantIcons
 import com.elegant.compose.ui.iconbutton.ElegantIconButton
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonSize
 import com.elegant.compose.ui.iconbutton.ElegantIconButtonStyle
@@ -123,6 +131,8 @@ import com.elegant.compose.ui.label.ElegantLabel
 import com.elegant.compose.ui.link.ElegantLink
 import com.elegant.compose.ui.list.ElegantList
 import com.elegant.compose.ui.list.ElegantListItem
+import com.elegant.compose.ui.listpopup.ElegantListPopup
+import com.elegant.compose.ui.listpopup.ElegantListPopupOption
 import com.elegant.compose.ui.menu.ElegantMenu
 import com.elegant.compose.ui.menu.ElegantMenuItem
 import com.elegant.compose.ui.meter.ElegantMeter
@@ -158,6 +168,7 @@ import com.elegant.compose.ui.scrollshadow.ElegantScrollShadowOrientation
 import com.elegant.compose.ui.searchbar.ElegantSearchBar
 import com.elegant.compose.ui.select.ElegantSelect
 import com.elegant.compose.ui.select.ElegantSelectOption
+import com.elegant.compose.ui.shape.ElegantSquircleShape
 import com.elegant.compose.ui.sidebar.ElegantSidebar
 import com.elegant.compose.ui.sidebar.ElegantSidebarItem
 import com.elegant.compose.ui.skeleton.ElegantSkeleton
@@ -183,6 +194,7 @@ import com.elegant.compose.ui.tag.ElegantTagStyle
 import com.elegant.compose.ui.taggroup.ElegantTagGroup
 import com.elegant.compose.ui.taggroup.ElegantTagGroupItem
 import com.elegant.compose.ui.textarea.ElegantTextarea
+import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantRadius
 import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
@@ -323,6 +335,13 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "date-picker",
         "date-range-picker",
         "number-picker",
+        "theme-controller",
+        "icons",
+        "squircle",
+        "blur",
+        "list-popup",
+        "cascading-menu",
+        "color-picker-panel",
         "tag",
     )
 
@@ -411,6 +430,13 @@ public fun ElegantShowcaseApp(
         "date-picker" -> DatePickerShowcase()
         "date-range-picker" -> DateRangePickerShowcase()
         "number-picker" -> NumberPickerShowcase()
+        "theme-controller" -> ThemeControllerShowcase()
+        "icons" -> IconsShowcase()
+        "squircle" -> SquircleShowcase()
+        "blur" -> BlurShowcase()
+        "list-popup" -> ListPopupShowcase()
+        "cascading-menu" -> CascadingMenuShowcase()
+        "color-picker-panel" -> ColorPickerPanelShowcase()
         "tag" -> TagShowcase()
         else -> UnknownComponent(componentId)
     }
@@ -8131,6 +8157,612 @@ private fun NumberPickerShowcase() {
         }
 
         Spacer(Modifier.height(ElegantSpacing.md))
+    }
+}
+
+@Composable
+private fun ThemeControllerShowcase() {
+    ShowcasePage(title = "Elegant Dynamic Color") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Derivation Seeds",
+            description = "Each key color derives a full palette through a local ElegantTheme(keyColor = ...) override.",
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            ) {
+                KeyColorBlock(seed = Color(0xFF6C4EFF), label = "Violet 6C4EFF")
+                KeyColorBlock(seed = Color(0xFF147D64), label = "Green 147D64")
+                KeyColorBlock(seed = Color(0xFFB45309), label = "Orange B45309")
+            }
+        }
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Default Theme Comparison",
+            description = "The ambient default palette beside the same violet palette derived from an explicit key color.",
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            ) {
+                KeyColorBlock(seed = null, label = "Default Theme")
+                KeyColorBlock(seed = Color(0xFF6C4EFF), label = "Derived Violet")
+            }
+        }
+    }
+}
+
+@Composable
+private fun KeyColorBlock(
+    seed: Color?,
+    label: String,
+) {
+    if (seed == null) {
+        KeyColorSurface(label = label)
+    } else {
+        ElegantTheme(keyColor = seed) {
+            KeyColorSurface(label = label)
+        }
+    }
+}
+
+@Composable
+private fun KeyColorSurface(label: String) {
+    val colors = ElegantTheme.colors
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = colors.surfaceRaised,
+                shape = RoundedCornerShape(ElegantRadius.md),
+            )
+            .padding(ElegantSpacing.lg),
+        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+    ) {
+        Text(
+            text = label,
+            color = colors.textPrimary,
+            style = ElegantTheme.typography.labelLarge,
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ElegantButton(onClick = {}) {
+                Text("Action")
+            }
+            ElegantTag {
+                Text("Tag")
+            }
+            ElegantBadge {
+                Text("New")
+            }
+        }
+    }
+}
+
+@Composable
+private fun IconsShowcase() {
+    ShowcasePage(title = "Elegant Icons") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "The built-in vector set",
+            description = "24 tintable icons ship with the library; each inherits the ambient content color.",
+        ) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+            ) {
+                ElegantIcons.All.forEach { icon ->
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+                    ) {
+                        ElegantIcon(
+                            icon = icon,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                            tint = colors.textPrimary,
+                        )
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Role tinting and button slots",
+            description = "Icons take theme roles directly or ride inside button slots.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantIcon(
+                    icon = ElegantIcons.Check,
+                    contentDescription = null,
+                    tint = colors.statusPositive,
+                )
+                ElegantIcon(
+                    icon = ElegantIcons.Notifications,
+                    contentDescription = null,
+                    tint = colors.textSecondary,
+                )
+                ElegantIcon(
+                    icon = ElegantIcons.Delete,
+                    contentDescription = null,
+                    tint = colors.statusCritical,
+                )
+                ElegantButton(
+                    onClick = {},
+                    leadingIcon = {
+                        ElegantIcon(icon = ElegantIcons.Plus, contentDescription = null)
+                    },
+                ) {
+                    Text("Create")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SquircleShowcase() {
+    ShowcasePage(title = "Elegant Squircle") { compact ->
+        val colors = ElegantTheme.colors
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Smoothing scale",
+            description = "One shape, three curvatures: plain corners at 0, the default at 0.6, and the roundest superellipse at 1.",
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            ) {
+                SquircleSwatch(colors = colors, smoothing = 0f, label = "Plain corner")
+                SquircleSwatch(colors = colors, smoothing = 0.6f, label = "Default smooth")
+                SquircleSwatch(colors = colors, smoothing = 1f, label = "Roundest")
+            }
+        }
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Identity surfaces",
+            description = "Squircle avatars keep the rounded-square identity without the tangent break of plain rounded corners.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xl),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantAvatar(
+                    name = "Maya Chen",
+                    initials = "MC",
+                    size = ElegantAvatarSize.Large,
+                    shape = ElegantSquircleShape(cornerRadius = 18.dp, smoothing = 0.8f),
+                )
+                Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs)) {
+                    Text(
+                        text = "Maya Chen",
+                        style = ElegantTheme.typography.labelLarge,
+                        color = colors.textPrimary,
+                    )
+                    Text(
+                        text = "Design systems",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+            }
+            ElegantSurface(
+                shape = ElegantSquircleShape(cornerRadius = 20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = ElegantSpacing.lg),
+            ) {
+                Column(Modifier.padding(ElegantSpacing.xl)) {
+                    Text(
+                        text = "Squircle card",
+                        style = ElegantTheme.typography.labelLarge,
+                        color = colors.textPrimary,
+                    )
+                    Text(
+                        text = "Continuous curvature from corner to corner.",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SquircleSwatch(
+    colors: com.elegant.compose.ui.theme.ElegantColors,
+    smoothing: Float,
+    label: String,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ElegantSurface(
+            shape = ElegantSquircleShape(cornerRadius = 14.dp, smoothing = smoothing),
+            modifier = Modifier.size(width = 96.dp, height = 64.dp),
+        ) {
+            Text(
+                text = smoothing.toString(),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                style = ElegantTheme.typography.labelSmall,
+                color = colors.textSecondary,
+            )
+        }
+        Text(
+            text = label,
+            style = ElegantTheme.typography.labelMedium,
+            color = colors.textSecondary,
+        )
+    }
+}
+
+@Composable
+private fun BlurShowcase() {
+    ShowcasePage(title = "Elegant Blur") { compact ->
+        val colors = ElegantTheme.colors
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Blurred copy behind crisp copy",
+            description = "elegantBlur blurs the node's own content; layer a blurred copy behind crisp content for a frosted halo.",
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(96.dp),
+            ) {
+                Text(
+                    text = "Frosted",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .elegantBlur(radius = 10.dp),
+                    style = ElegantTheme.typography.titleMedium,
+                    color = colors.textPrimary,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = "Frosted",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = ElegantSpacing.lg),
+                    style = ElegantTheme.typography.titleMedium,
+                    color = colors.textPrimary,
+                    textAlign = TextAlign.Center,
+                )
+            }
+        }
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Toolbar with a blurred edge",
+            description = "An unbounded blur softens one label's edges without affecting its neighbors.",
+        ) {
+            ElegantSurface {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(ElegantSpacing.lg),
+                    horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.lg),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = "Library",
+                        style = ElegantTheme.typography.labelLarge,
+                        color = colors.textPrimary,
+                    )
+                    Text(
+                        text = "Recent",
+                        style = ElegantTheme.typography.labelMedium,
+                        color = colors.textSecondary,
+                    )
+                    Text(
+                        text = "Drafts",
+                        modifier = Modifier.elegantBlur(
+                            radius = 6.dp,
+                            edgeTreatment = BlurEdgeTreatment.Unbounded,
+                        ),
+                        style = ElegantTheme.typography.labelMedium,
+                        color = colors.textPrimary,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ListPopupShowcase() {
+    var expanded by remember { mutableStateOf(false) }
+    var statesExpanded by remember { mutableStateOf(false) }
+    var formExpanded by remember { mutableStateOf(false) }
+    var selectedValue by remember { mutableStateOf("paris") }
+    var note by remember { mutableStateOf("") }
+
+    val cities = listOf(
+        ElegantListPopupOption(text = "Paris", value = "paris"),
+        ElegantListPopupOption(text = "London", value = "london"),
+        ElegantListPopupOption(text = "Tokyo", value = "tokyo"),
+    )
+
+    ShowcasePage(title = "Elegant ListPopup") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A single-choice list anchored to its trigger",
+            description = "The trigger lives in a Box with ElegantListPopup; the surface drops below that Box, start-aligned, highlights the selected option, and dismisses on outside click, Escape, or back.",
+        ) {
+            Box {
+                ElegantButton(onClick = { expanded = true }) {
+                    Text("Choose city")
+                }
+                ElegantListPopup(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    options = cities,
+                    selectedValue = selectedValue,
+                    onOptionSelected = { option ->
+                        selectedValue = option.value
+                        expanded = false
+                    },
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled options and the selected check",
+            description = "The selected option shows the interactive color, a subtle background, and a check glyph; disabled options render with the tertiary color and never invoke callbacks.",
+        ) {
+            Box {
+                ElegantButton(onClick = { statesExpanded = true }) {
+                    Text("Choose city")
+                }
+                ElegantListPopup(
+                    expanded = statesExpanded,
+                    onDismissRequest = { statesExpanded = false },
+                    options = cities + ElegantListPopupOption(
+                        text = "Berlin",
+                        value = "berlin",
+                        enabled = false,
+                    ),
+                    selectedValue = selectedValue,
+                    onOptionSelected = { option ->
+                        selectedValue = option.value
+                        statesExpanded = false
+                    },
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "A form row with an input",
+            description = "The popup picks the city while ElegantInput collects a free-text note; both values stay caller-owned.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                ElegantInput(
+                    value = note,
+                    onValueChange = { note = it },
+                    modifier = Modifier.weight(1f),
+                    label = "Delivery note",
+                    placeholder = "Optional note",
+                )
+                Box {
+                    ElegantButton(onClick = { formExpanded = true }) {
+                        Text("City")
+                    }
+                    ElegantListPopup(
+                        expanded = formExpanded,
+                        onDismissRequest = { formExpanded = false },
+                        options = cities,
+                        selectedValue = selectedValue,
+                        onOptionSelected = { option ->
+                            selectedValue = option.value
+                            formExpanded = false
+                        },
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CascadingMenuShowcase() {
+    var editOpen by remember { mutableStateOf(false) }
+    var toolbarOpen by remember { mutableStateOf(false) }
+    var selected by remember { mutableStateOf("Nothing selected") }
+
+    val editItems = listOf(
+        ElegantCascadingMenuItem(
+            text = "Edit",
+            children = listOf(
+                ElegantCascadingMenuItem(text = "Copy"),
+                ElegantCascadingMenuItem(text = "Paste"),
+                ElegantCascadingMenuItem(text = "Restore", enabled = false),
+            ),
+        ),
+        ElegantCascadingMenuItem(
+            text = "Insert",
+            children = listOf(
+                ElegantCascadingMenuItem(text = "Image"),
+                ElegantCascadingMenuItem(text = "Table"),
+            ),
+        ),
+    )
+    val toolbarItems = listOf(
+        ElegantCascadingMenuItem(
+            text = "File",
+            children = listOf(
+                ElegantCascadingMenuItem(text = "New file"),
+                ElegantCascadingMenuItem(text = "Open"),
+                ElegantCascadingMenuItem(text = "Save as"),
+            ),
+        ),
+        ElegantCascadingMenuItem(
+            text = "View",
+            children = listOf(
+                ElegantCascadingMenuItem(text = "Zoom in"),
+                ElegantCascadingMenuItem(text = "Zoom out"),
+            ),
+        ),
+    )
+
+    ShowcasePage(title = "Elegant CascadingMenu") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "A two-level menu anchored to its trigger",
+            description = "Hovering or clicking a parent item opens its submenu beside it; clicking a leaf reports the ancestor chain and dismisses the menu.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                Box {
+                    ElegantButton(onClick = { editOpen = true }) {
+                        Text("Edit document")
+                    }
+                    ElegantCascadingMenu(
+                        expanded = editOpen,
+                        onDismissRequest = { editOpen = false },
+                        items = editItems,
+                        onItemClick = { path ->
+                            editOpen = false
+                            selected = path.joinToString(" > ") { it.text }
+                        },
+                    )
+                }
+                Text(text = selected, style = ElegantTheme.typography.bodyMedium)
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Toolbar menus",
+            description = "Two-level menus hang off toolbar buttons; each anchor Box wraps only its own trigger.",
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+            ) {
+                Box {
+                    ElegantButton(onClick = { toolbarOpen = true }) {
+                        Text("File")
+                    }
+                    ElegantCascadingMenu(
+                        expanded = toolbarOpen,
+                        onDismissRequest = { toolbarOpen = false },
+                        items = toolbarItems,
+                        onItemClick = { path ->
+                            toolbarOpen = false
+                            selected = path.joinToString(" > ") { it.text }
+                        },
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ColorPickerPanelShowcase() {
+    val defaultAccent = ElegantTheme.colors.interactivePrimary
+    var color by remember { mutableStateOf(Color(0xFF6C4EFF)) }
+    var accent by remember { mutableStateOf(defaultAccent) }
+
+    ShowcasePage(title = "Elegant ColorPicker Panel") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Free-form HSV selection",
+            description = "The area keeps the hue while the slider picks it; the caller owns the color.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                ElegantColorPickerPanel(
+                    color = color,
+                    onColorChange = { color = it },
+                )
+                Text(
+                    text = "Color ${hexReadout(color)}",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = colors.textSecondary,
+                )
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATES",
+            title = "Disabled without losing the choice",
+            description = "A disabled panel renders both controls at 40% opacity and never fires the callback.",
+        ) {
+            ElegantColorPickerPanel(
+                color = color,
+                onColorChange = {},
+                enabled = false,
+            )
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Theme accent editor",
+            description = "Drag through the continuous HSV space or jump straight to a curated swatch.",
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.lg)) {
+                ElegantColorPickerPanel(
+                    color = accent,
+                    onColorChange = { accent = it },
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "\u25CF",
+                        style = ElegantTheme.typography.titleMedium,
+                        color = accent,
+                    )
+                    Spacer(Modifier.width(ElegantSpacing.md))
+                    Text(
+                        text = "Accent ${hexReadout(accent)}",
+                        style = ElegantTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+                ElegantColorPicker(
+                    selectedColor = accent,
+                    onColorSelected = { accent = it },
+                )
+            }
+        }
     }
 }
 

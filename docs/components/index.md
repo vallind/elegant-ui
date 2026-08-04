@@ -73,15 +73,22 @@ Elegant UI V1 contains 75 components organized into four groups. Components beco
 | [Disclosure](./disclosure) | Expand single sections | Available |
 | [Fieldset](./fieldset) | Group form fields | Available |
 | [ColorPicker](./color-picker) | Pick from a curated palette | Available |
+| [ColorPickerPanel](./color-picker-panel) | Pick from HSV space | Available |
+| [ThemeController](./theme-controller) | Derive palettes from a key color | Available |
 | [Calendar](./calendar) | Pick dates from a month grid | Available |
 | [DatePicker](./date-picker) | Pick a date from a popup calendar | Available |
 | [DateRangePicker](./date-range-picker) | Pick a start and end date | Available |
 | [NumberPicker](./number-picker) | Step through bounded values | Available |
+| [Icons](./icons) | Render the built-in vector set | Available |
+| [Squircle](./squircle) | Continuous-curvature shapes | Available |
+| [Blur](./blur) | Blur node content | Available |
 | [Scaffold](./scaffold) | Shell bars and content | Available |
 | [CloseButton](./close-button) | Dismiss surfaces | Available |
 | [PullToRefresh](./pull-to-refresh) | Refresh scrollable content | Available |
 | [Popover](./popover) | Float contextual actions | Available |
 | [Menu](./menu) | Offer compact action lists | Available |
+| [ListPopup](./list-popup) | Choose from an anchored list | Available |
+| [CascadingMenu](./cascading-menu) | Offer nested menu levels | Available |
 | [Description](./description) | Present key-value rows | Available |
 | [Meter](./meter) | Show usage against thresholds | Available |
 | [FloatingActionButton](./floating-action-button) | Surface a primary action | Available |

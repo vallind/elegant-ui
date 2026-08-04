@@ -10,9 +10,11 @@ import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -42,6 +45,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.icon.ElegantIcon
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantRadius
@@ -59,6 +63,7 @@ import com.elegant.compose.ui.theme.ElegantTheme
 public data class ElegantTab(
     val text: String,
     val enabled: Boolean = true,
+    val icon: ImageVector? = null,
 )
 
 /**
@@ -188,6 +193,7 @@ public fun ElegantTabRow(
             tabs.forEachIndexed { index, tab ->
                 ElegantTabItem(
                     text = tab.text,
+                    icon = tab.icon,
                     selected = index == resolvedSelectedIndex,
                     enabled = enabled && tab.enabled,
                     colors = colors,
@@ -204,6 +210,7 @@ public fun ElegantTabRow(
             tabs.forEachIndexed { index, tab ->
                 ElegantTabItem(
                     text = tab.text,
+                    icon = tab.icon,
                     selected = index == resolvedSelectedIndex,
                     enabled = enabled && tab.enabled,
                     colors = colors,
@@ -218,6 +225,7 @@ public fun ElegantTabRow(
 @Composable
 private fun ElegantTabItem(
     text: String,
+    icon: ImageVector?,
     selected: Boolean,
     enabled: Boolean,
     colors: ElegantTabColors,
@@ -259,13 +267,26 @@ private fun ElegantTabItem(
             },
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = text,
-            style = ElegantTheme.typography.labelMedium,
-            color = animatedContentColor,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (icon != null) {
+                ElegantIcon(
+                    icon = icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp),
+                    tint = animatedContentColor,
+                )
+            }
+            Text(
+                text = text,
+                style = ElegantTheme.typography.labelMedium,
+                color = animatedContentColor,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)

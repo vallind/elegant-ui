@@ -73,15 +73,22 @@ Elegant UI V1 共包含 75 个组件，分为四个类别。只有完成 Compose
 | [Disclosure](./disclosure) | 展开单个区块 | 已完成 |
 | [Fieldset](./fieldset) | 分组表单字段 | 已完成 |
 | [ColorPicker](./color-picker) | 从精选色板中选择 | 已完成 |
+| [ColorPickerPanel](./color-picker-panel) | 从 HSV 空间选择 | 已完成 |
+| [ThemeController](./theme-controller) | 从关键色推导色板 | 已完成 |
 | [Calendar](./calendar) | 从月历网格选择日期 | 已完成 |
 | [DatePicker](./date-picker) | 从弹出日历选择日期 | 已完成 |
 | [DateRangePicker](./date-range-picker) | 选择开始与结束日期 | 已完成 |
 | [NumberPicker](./number-picker) | 步进选择有界数值 | 已完成 |
+| [Icons](./icons) | 渲染内置矢量图标集 | 已完成 |
+| [Squircle](./squircle) | 连续曲率形状 | 已完成 |
+| [Blur](./blur) | 模糊节点内容 | 已完成 |
 | [Scaffold](./scaffold) | 组合栏与内容的外壳 | 已完成 |
 | [CloseButton](./close-button) | 关闭表面 | 已完成 |
 | [PullToRefresh](./pull-to-refresh) | 下拉刷新可滚动内容 | 已完成 |
 | [Popover](./popover) | 浮动展示上下文操作 | 已完成 |
 | [Menu](./menu) | 提供紧凑操作列表 | 已完成 |
+| [ListPopup](./list-popup) | 从锚定列表选择 | 已完成 |
+| [CascadingMenu](./cascading-menu) | 提供多级菜单 | 已完成 |
 | [Description](./description) | 展示键值行 | 已完成 |
 | [Meter](./meter) | 按阈值展示用量 | 已完成 |
 | [FloatingActionButton](./floating-action-button) | 呈现主要操作 | 已完成 |

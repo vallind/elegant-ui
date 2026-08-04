@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.selected
@@ -39,6 +40,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.icon.ElegantIcon
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantRadius
@@ -56,6 +58,7 @@ import com.elegant.compose.ui.theme.ElegantTheme
 public data class ElegantNavigationBarItem(
     val text: String,
     val enabled: Boolean = true,
+    val icon: ImageVector? = null,
 )
 
 /**
@@ -162,6 +165,7 @@ public fun ElegantNavigationBar(
         items.forEachIndexed { index, item ->
             ElegantNavigationBarItem(
                 text = item.text,
+                icon = item.icon,
                 selected = index == resolvedSelectedIndex,
                 enabled = enabled && item.enabled,
                 colors = colors,
@@ -177,6 +181,7 @@ public fun ElegantNavigationBar(
 @Composable
 private fun ElegantNavigationBarItem(
     text: String,
+    icon: ImageVector?,
     selected: Boolean,
     enabled: Boolean,
     colors: ElegantNavigationBarColors,
@@ -253,13 +258,26 @@ private fun ElegantNavigationBarItem(
                     .padding(horizontal = ElegantSpacing.lg),
                 contentAlignment = Alignment.Center,
             ) {
-                Text(
-                    text = text,
-                    style = ElegantTheme.typography.labelMedium,
-                    color = animatedItemColor,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+                ) {
+                    if (icon != null) {
+                        ElegantIcon(
+                            icon = icon,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp),
+                            tint = animatedItemColor,
+                        )
+                    }
+                    Text(
+                        text = text,
+                        style = ElegantTheme.typography.labelMedium,
+                        color = animatedItemColor,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
             }
         }
     }

@@ -52,7 +52,6 @@ public class ElegantSquircleShape(
         val segments = squircleCornerSegments(size, squircleCornerGeometry(radiusPx, smoothing))
         return Outline.Generic(
             path = buildSquirclePath(segments),
-            bounds = Rect(0f, 0f, size.width, size.height),
         )
     }
 }

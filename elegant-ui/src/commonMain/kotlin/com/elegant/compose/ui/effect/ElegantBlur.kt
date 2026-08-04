@@ -53,7 +53,7 @@ public fun Modifier.elegantBlur(
 }
 
 internal fun resolveBlurRadius(radius: Dp): Dp {
-    if (!radius.isFinite) {
+    if (!radius.value.isFinite()) {
         return 0.dp
     }
     return radius.coerceAtLeast(0.dp)

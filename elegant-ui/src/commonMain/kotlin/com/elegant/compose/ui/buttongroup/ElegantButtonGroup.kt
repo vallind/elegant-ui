@@ -10,9 +10,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.role
@@ -33,9 +36,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.icon.ElegantIcon
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantRadius
+import com.elegant.compose.ui.theme.ElegantSpacing
 import com.elegant.compose.ui.theme.ElegantTheme
 
 /**
@@ -49,6 +54,7 @@ import com.elegant.compose.ui.theme.ElegantTheme
 public data class ElegantButtonGroupItem(
     val text: String,
     val enabled: Boolean = true,
+    val icon: ImageVector? = null,
 )
 
 /**
@@ -153,6 +159,7 @@ public fun ElegantButtonGroup(
             }
             ElegantButtonGroupCell(
                 text = item.text,
+                icon = item.icon,
                 selected = index == resolvedSelectedIndex,
                 enabled = enabled && item.enabled,
                 colors = colors,
@@ -166,6 +173,7 @@ public fun ElegantButtonGroup(
 @Composable
 private fun ElegantButtonGroupCell(
     text: String,
+    icon: ImageVector?,
     selected: Boolean,
     enabled: Boolean,
     colors: ElegantButtonGroupColors,
@@ -221,13 +229,26 @@ private fun ElegantButtonGroupCell(
             },
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = text,
-            style = ElegantTheme.typography.labelMedium,
-            color = animatedContent,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (icon != null) {
+                ElegantIcon(
+                    icon = icon,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                    tint = animatedContent,
+                )
+            }
+            Text(
+                text = text,
+                style = ElegantTheme.typography.labelMedium,
+                color = animatedContent,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 

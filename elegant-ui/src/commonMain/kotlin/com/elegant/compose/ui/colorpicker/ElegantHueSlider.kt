@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -126,7 +127,6 @@ public fun ElegantHueSlider(
     BoxWithConstraints(
         modifier = modifier
             .semantics(mergeDescendants = true) {
-                role = Role.Slider
                 progressBarRangeInfo = ProgressBarRangeInfo(hue, 0f..360f, 0)
                 if (!enabled) disabled()
             }

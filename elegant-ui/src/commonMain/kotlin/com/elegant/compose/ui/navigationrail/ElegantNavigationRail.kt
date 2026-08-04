@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.role
@@ -37,6 +39,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.icon.ElegantIcon
 import com.elegant.compose.ui.theme.ElegantColors
 import com.elegant.compose.ui.theme.ElegantMotion
 import com.elegant.compose.ui.theme.ElegantRadius
@@ -59,6 +62,7 @@ private val NavigationRailSlotVerticalPadding: Dp = ElegantSpacing.md
 public data class ElegantNavigationRailItem(
     val text: String,
     val enabled: Boolean = true,
+    val icon: ImageVector? = null,
 )
 
 /**
@@ -225,13 +229,26 @@ public fun ElegantNavigationRail(
                             .background(animatedIndicator),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Text(
-                            text = item.text,
-                            color = animatedContent,
-                            style = ElegantTheme.typography.labelSmall,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xxs),
+                        ) {
+                            if (item.icon != null) {
+                                ElegantIcon(
+                                    icon = item.icon,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp),
+                                    tint = animatedContent,
+                                )
+                            }
+                            Text(
+                                text = item.text,
+                                color = animatedContent,
+                                style = ElegantTheme.typography.labelSmall,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
                     }
                 }
             }

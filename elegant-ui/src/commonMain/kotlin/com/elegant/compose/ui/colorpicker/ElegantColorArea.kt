@@ -211,7 +211,6 @@ public fun ElegantColorArea(
     BoxWithConstraints(
         modifier = modifier
             .semantics(mergeDescendants = true) {
-                role = Role.Slider
                 contentDescription = colorHex(color)
                 if (!enabled) disabled()
             }
@@ -277,7 +276,7 @@ public fun ElegantColorArea(
                     )
                 }
             },
-        contentAlignment = Alignment.TopLeft,
+        contentAlignment = Alignment.TopStart,
     ) {
         Canvas(
             modifier = Modifier
