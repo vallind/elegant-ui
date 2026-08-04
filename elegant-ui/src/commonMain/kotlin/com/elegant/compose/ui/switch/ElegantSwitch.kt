@@ -25,8 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
@@ -135,6 +138,8 @@ public fun ElegantSwitch(
     interactionSource: MutableInteractionSource? = null,
 ) {
     val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val hapticFeedback = LocalHapticFeedback.current
+    val currentHaptic by rememberUpdatedState(hapticFeedback)
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
@@ -185,7 +190,16 @@ public fun ElegantSwitch(
                 role = Role.Switch,
                 interactionSource = resolvedInteractionSource,
                 indication = null,
-                onValueChange = onCheckedChange,
+                onValueChange = { newValue ->
+                    currentHaptic.performHapticFeedback(
+                        if (newValue) {
+                            HapticFeedbackType.ToggleOn
+                        } else {
+                            HapticFeedbackType.ToggleOff
+                        },
+                    )
+                    onCheckedChange(newValue)
+                },
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {

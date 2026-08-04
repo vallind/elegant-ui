@@ -97,6 +97,7 @@ ElegantInput(
 | `isError` | `Boolean` | 输入框是否表达错误状态 | `false` | 否 |
 | `errorText` | `String?` | 当 `isError` 时显示并播报的错误信息 | `null` | 否 |
 | `maxLength` | `Int` | 最大接受字符数;超出部分的输入会被截断 | `ElegantInputDefaults.MaxLengthUnlimited` | 否 |
+| `visualTransformation` | `VisualTransformation` | 转换显示文本而不改变底层值;用于密码掩码 | `VisualTransformation.None` | 否 |
 | `style` | `ElegantInputStyle` | 视觉变体 | `ElegantInputStyle.Filled` | 否 |
 | `colors` | `ElegantInputColors` | 主题感知的状态颜色 | `ElegantInputDefaults.colors(style)` | 否 |
 | `leadingIcon` | `@Composable (() -> Unit)?` | 输入区域前的内容 | `null` | 否 |

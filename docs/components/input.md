@@ -97,6 +97,7 @@ ElegantInput(
 | `isError` | `Boolean` | Whether the field communicates an error state | `false` | No |
 | `errorText` | `String?` | Error message shown below the field and announced when `isError` | `null` | No |
 | `maxLength` | `Int` | Maximum accepted character count; input is truncated at this length | `ElegantInputDefaults.MaxLengthUnlimited` | No |
+| `visualTransformation` | `VisualTransformation` | Transforms the displayed text without changing the underlying value; use for password masking | `VisualTransformation.None` | No |
 | `style` | `ElegantInputStyle` | Visual variant | `ElegantInputStyle.Filled` | No |
 | `colors` | `ElegantInputColors` | Theme-aware state colors | `ElegantInputDefaults.colors(style)` | No |
 | `leadingIcon` | `@Composable (() -> Unit)?` | Content before the input area | `null` | No |

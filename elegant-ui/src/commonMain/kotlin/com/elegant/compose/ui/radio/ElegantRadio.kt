@@ -25,8 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
@@ -116,6 +119,8 @@ public fun ElegantRadio(
     interactionSource: MutableInteractionSource? = null,
 ) {
     val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val hapticFeedback = LocalHapticFeedback.current
+    val currentHaptic by rememberUpdatedState(hapticFeedback)
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
@@ -159,7 +164,10 @@ public fun ElegantRadio(
                 indication = null,
                 enabled = enabled,
                 role = Role.RadioButton,
-                onClick = onSelect,
+                onClick = {
+                    currentHaptic.performHapticFeedback(HapticFeedbackType.ToggleOn)
+                    onSelect()
+                },
             )
             .indication(
                 interactionSource = resolvedInteractionSource,

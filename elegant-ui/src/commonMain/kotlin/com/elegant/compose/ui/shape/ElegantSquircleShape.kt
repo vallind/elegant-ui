@@ -1,6 +1,10 @@
 package com.elegant.compose.ui.shape
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.border
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -8,6 +12,8 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -154,3 +160,45 @@ internal fun buildSquirclePath(segments: List<CornerSegment>): Path {
         close()
     }
 }
+
+/**
+ * Enables or disables squircle rendering for the subtree.
+ *
+ * When disabled, the [Modifier.elegantSquircleSurface], [Modifier.elegantSquircleBorder], and
+ * [Modifier.elegantSquircleClip] helpers fall back to plain rounded rectangles with the same
+ * corner radius.
+ */
+public val LocalSquircleEnabled: androidx.compose.runtime.ProvidableCompositionLocal<Boolean> =
+    androidx.compose.runtime.staticCompositionLocalOf { true }
+
+/** Clips [this] node with a squircle of the given corner radius and smoothing. */
+@androidx.compose.runtime.Composable
+public fun Modifier.elegantSquircleClip(
+    cornerRadius: Dp = 16.dp,
+    smoothing: Float = 0.6f,
+): Modifier = clip(resolvedSquircleShape(cornerRadius, smoothing))
+
+/** Clips and fills [this] node with a squircle surface of [color]. */
+@androidx.compose.runtime.Composable
+public fun Modifier.elegantSquircleSurface(
+    color: Color,
+    cornerRadius: Dp = 16.dp,
+    smoothing: Float = 0.6f,
+): Modifier = clip(resolvedSquircleShape(cornerRadius, smoothing)).background(color)
+
+/** Draws a squircle border of [width] and [color] on [this] node. */
+@androidx.compose.runtime.Composable
+public fun Modifier.elegantSquircleBorder(
+    width: Dp,
+    color: Color,
+    cornerRadius: Dp = 16.dp,
+    smoothing: Float = 0.6f,
+): Modifier = border(width, color, resolvedSquircleShape(cornerRadius, smoothing))
+
+@androidx.compose.runtime.Composable
+internal fun resolvedSquircleShape(cornerRadius: Dp, smoothing: Float): Shape =
+    if (LocalSquircleEnabled.current) {
+        ElegantSquircleShape(cornerRadius = cornerRadius, smoothing = smoothing)
+    } else {
+        RoundedCornerShape(cornerRadius)
+    }

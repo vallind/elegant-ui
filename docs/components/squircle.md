@@ -76,3 +76,27 @@ ElegantSurface(shape = ElegantSquircleShape(cornerRadius = 8.dp, smoothing = 0.4
     Text("Compact squircle")
 }
 ```
+## Modifier Helpers
+
+When you only need a squircle silhouette, use the composable modifier helpers instead of a raw `ElegantSquircleShape`:
+
+```kotlin
+Modifier
+    .elegantSquircleSurface(
+        color = ElegantTheme.colors.surfaceRaised,
+        cornerRadius = 20.dp,
+    )
+    .elegantSquircleBorder(
+        width = 1.dp,
+        color = ElegantTheme.colors.borderStrong,
+        cornerRadius = 20.dp,
+    )
+```
+
+The helpers read `LocalSquircleEnabled`; when set to `false` they fall back to plain `RoundedCornerShape` with the same corner radius, which lets apps opt out of squircle rendering for the whole subtree.
+
+```kotlin
+CompositionLocalProvider(LocalSquircleEnabled provides false) {
+    // rounded corners here
+}
+```

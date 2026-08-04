@@ -137,6 +137,7 @@ import com.elegant.compose.ui.menu.ElegantMenu
 import com.elegant.compose.ui.menu.ElegantMenuItem
 import com.elegant.compose.ui.meter.ElegantMeter
 import com.elegant.compose.ui.meter.ElegantMeterTone
+import com.elegant.compose.ui.bottomsheet.ElegantBottomSheet
 import com.elegant.compose.ui.modal.ElegantModal
 import com.elegant.compose.ui.navbar.ElegantNavbar
 import com.elegant.compose.ui.navigationbar.ElegantNavigationBar
@@ -277,6 +278,7 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "list",
         "empty-state",
         "modal",
+        "bottom-sheet",
         "drawer",
         "table",
         "tabs",
@@ -372,6 +374,7 @@ public fun ElegantShowcaseApp(
         "list" -> ListShowcase()
         "empty-state" -> EmptyStateShowcase()
         "modal" -> ModalShowcase()
+        "bottom-sheet" -> BottomSheetShowcase()
         "drawer" -> DrawerShowcase()
         "table" -> TableShowcase()
         "tabs" -> TabsShowcase()
@@ -8240,6 +8243,121 @@ private fun KeyColorSurface(label: String) {
             }
             ElegantBadge {
                 Text("New")
+            }
+        }
+    }
+}
+
+@Composable
+private fun BottomSheetShowcase() {
+    ShowcasePage(title = "Elegant BottomSheet") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "OVERLAY",
+            title = "A bottom sheet",
+            description = "ElegantBottomSheet slides a width-capped, top-rounded panel over a scrim; Escape, back, and scrim clicks all dismiss.",
+        ) {
+            var visible by remember { mutableStateOf(false) }
+
+            Text(
+                text = "Tap the trigger to open the sheet from the bottom edge.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantButton(onClick = { visible = true }) {
+                Text("Open sheet")
+            }
+
+            ElegantBottomSheet(
+                visible = visible,
+                onDismissRequest = { visible = false },
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = ElegantSpacing.lg)
+                        .padding(bottom = ElegantSpacing.xl),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
+                ) {
+                    Text(
+                        text = "Share options",
+                        style = ElegantTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = "Pick where to share this file. The sheet keeps focus and returns it when dismissed.",
+                        color = colors.textSecondary,
+                        style = ElegantTheme.typography.bodyMedium,
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+                    ) {
+                        repeat(4) {
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(56.dp)
+                                    .clip(RoundedCornerShape(ElegantRadius.md))
+                                    .background(colors.surfaceSunken),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Text("\u2022", style = ElegantTheme.typography.titleMedium)
+                            }
+                        }
+                    }
+                    ElegantButton(
+                        onClick = { visible = false },
+                        style = ElegantButtonStyle.Secondary,
+                    ) {
+                        Text("Close")
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "STATE",
+            title = "Caller-owned dismissal",
+            description = "Every dismiss route funnels through onDismissRequest, so the sheet cannot close itself.",
+        ) {
+            var open by remember { mutableStateOf(false) }
+            var dismissed by remember { mutableStateOf(false) }
+
+            Text(
+                text = if (dismissed) "Sheet was dismissed by the caller." else "Open it, then dismiss with Escape or the button.",
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+            ElegantButton(onClick = { open = true }) {
+                Text("Open sheet")
+            }
+
+            ElegantBottomSheet(
+                visible = open,
+                onDismissRequest = {
+                    open = false
+                    dismissed = true
+                },
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(ElegantSpacing.lg),
+                ) {
+                    Text(
+                        text = "Dismissible sheet",
+                        style = ElegantTheme.typography.titleMedium,
+                    )
+                    ElegantButton(
+                        onClick = { open = false },
+                        style = ElegantButtonStyle.Secondary,
+                    ) {
+                        Text("Close")
+                    }
+                }
             }
         }
     }

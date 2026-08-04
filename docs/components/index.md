@@ -66,6 +66,8 @@ Elegant UI V1 contains 75 components organized into four groups. Components beco
 | [List](./list) | Present rows of related content | Available |
 | [EmptyState](./empty-state) | Explain an empty region | Available |
 | [Modal](./modal) | Focus a task in a centered surface | Available |
+| [BottomSheet](./bottom-sheet) | Slide a modal surface from the bottom edge | Available |
+
 | [Drawer](./drawer) | Reveal navigation or filters from an edge | Available |
 | [Table](./table) | Present tabular data | Available |
 | [Pagination](./pagination) | Page through long content | Available |

@@ -28,8 +28,11 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.lerp
 import androidx.compose.ui.graphics.Color
@@ -133,6 +136,8 @@ public fun ElegantCheckbox(
     interactionSource: MutableInteractionSource? = null,
 ) {
     val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
+    val hapticFeedback = LocalHapticFeedback.current
+    val currentHaptic by rememberUpdatedState(hapticFeedback)
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
@@ -200,7 +205,16 @@ public fun ElegantCheckbox(
                 role = Role.Checkbox,
                 interactionSource = resolvedInteractionSource,
                 indication = ripple(color = animatedRipple),
-                onValueChange = onCheckedChange,
+                onValueChange = { newValue ->
+                    currentHaptic.performHapticFeedback(
+                        if (newValue) {
+                            HapticFeedbackType.ToggleOn
+                        } else {
+                            HapticFeedbackType.ToggleOff
+                        },
+                    )
+                    onCheckedChange(newValue)
+                },
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {

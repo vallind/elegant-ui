@@ -66,6 +66,8 @@ Elegant UI V1 共包含 75 个组件，分为四个类别。只有完成 Compose
 | [List](./list) | 展示相关内容行 | 已完成 |
 | [EmptyState](./empty-state) | 解释空内容区域 | 已完成 |
 | [Modal](./modal) | 在居中表面聚焦任务 | 已完成 |
+| [BottomSheet](./bottom-sheet) | 从底部边缘滑出模态表面 | 已完成 |
+
 | [Drawer](./drawer) | 从边缘展开导航或筛选 | 已完成 |
 | [Table](./table) | 展示表格数据 | 已完成 |
 | [Pagination](./pagination) | 分页浏览长内容 | 已完成 |

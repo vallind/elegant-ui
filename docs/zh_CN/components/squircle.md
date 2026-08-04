@@ -76,3 +76,27 @@ ElegantSurface(shape = ElegantSquircleShape(cornerRadius = 8.dp, smoothing = 0.4
     Text("紧凑 Squircle")
 }
 ```
+## 修饰符辅助函数
+
+只需要超椭圆轮廓时,优先使用组合修饰符辅助函数,而不是直接使用 `ElegantSquircleShape`:
+
+```kotlin
+Modifier
+    .elegantSquircleSurface(
+        color = ElegantTheme.colors.surfaceRaised,
+        cornerRadius = 20.dp,
+    )
+    .elegantSquircleBorder(
+        width = 1.dp,
+        color = ElegantTheme.colors.borderStrong,
+        cornerRadius = 20.dp,
+    )
+```
+
+辅助函数会读取 `LocalSquircleEnabled`;设为 `false` 时回退为相同圆角半径的普通 `RoundedCornerShape`,让应用可以针对整个子树关闭超椭圆渲染。
+
+```kotlin
+CompositionLocalProvider(LocalSquircleEnabled provides false) {
+    // 此处为普通圆角
+}
+```

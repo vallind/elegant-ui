@@ -42,6 +42,7 @@ import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.error
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.theme.ElegantColors
@@ -175,6 +176,7 @@ public fun ElegantInput(
     isError: Boolean = false,
     errorText: String? = null,
     maxLength: Int = ElegantInputDefaults.MaxLengthUnlimited,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     style: ElegantInputStyle = ElegantInputStyle.Filled,
     colors: ElegantInputColors = ElegantInputDefaults.colors(style),
     leadingIcon: (@Composable () -> Unit)? = null,
@@ -288,6 +290,7 @@ public fun ElegantInput(
                     textStyle = inputTextStyle,
                     interactionSource = interactionSource,
                     cursorBrush = SolidColor(animatedContent),
+                    visualTransformation = visualTransformation,
                     decorationBox = { innerTextField ->
                         Box(
                             modifier = Modifier.fillMaxSize(),
