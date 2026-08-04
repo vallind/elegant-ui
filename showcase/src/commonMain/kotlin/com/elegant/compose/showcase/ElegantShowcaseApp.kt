@@ -201,6 +201,52 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
+/**
+ * Launcher entry that pairs a component selector bar with the shared showcase.
+ *
+ * Desktop and Android launchers call this instead of [ElegantShowcaseApp] so all registered
+ * components stay reachable; the Web launcher keeps the `?id={slug}` routing contract. The
+ * selector reads the same registry as [ElegantShowcaseApp], so unknown ids resolve to the
+ * fallback page.
+ */
+@Composable
+public fun ElegantShowcaseBrowser(initialComponentId: String = "button") {
+    val ids = SupportedShowcaseComponentIds.toList().sorted()
+    val startId = if (initialComponentId in ids) initialComponentId else ids.first()
+    var selected by rememberSaveable { mutableStateOf(startId) }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        ElegantTheme {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(ElegantTheme.colors.surfaceDefault)
+                    .horizontalScroll(rememberScrollState())
+                    .padding(ElegantSpacing.md),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                for (id in ids) {
+                    ElegantTag(
+                        onClick = { selected = id },
+                        selected = id == selected,
+                        style = if (id == selected) {
+                            ElegantTagStyle.Filled
+                        } else {
+                            ElegantTagStyle.Outlined
+                        },
+                    ) {
+                        Text(id)
+                    }
+                }
+            }
+        }
+        Box(modifier = Modifier.weight(1f)) {
+            ElegantShowcaseApp(componentId = selected)
+        }
+    }
+}
+
 internal val SupportedShowcaseComponentIds: Set<String> =
     setOf(
         "button",
