@@ -231,19 +231,11 @@ jobs:
           --warning-mode all
           --no-daemon
 
-      - name: Package Windows distributable as zip
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force -Path desktop-sample/build/compose/binaries/main/zip | Out-Null
-          Compress-Archive `
-            -Path desktop-sample/build/compose/binaries/main/app/* `
-            -DestinationPath desktop-sample/build/compose/binaries/main/zip/ElegantUIShowcase-0.1.0-windows.zip
-
       - name: Upload Windows desktop sample
         uses: actions/upload-artifact@v4
         with:
           name: elegant-ui-desktop-sample-windows
-          path: desktop-sample/build/compose/binaries/main/zip/**
+          path: desktop-sample/build/compose/binaries/main/app/**
           if-no-files-found: error
           retention-days: 14
 
