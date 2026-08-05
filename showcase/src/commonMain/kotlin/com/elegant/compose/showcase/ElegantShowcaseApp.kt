@@ -139,6 +139,17 @@ import com.elegant.compose.ui.meter.ElegantMeter
 import com.elegant.compose.ui.meter.ElegantMeterTone
 import com.elegant.compose.ui.bottomsheet.ElegantBottomSheet
 import com.elegant.compose.ui.modal.ElegantModal
+import com.elegant.compose.ui.nav.core.ElegantNavBackStack
+import com.elegant.compose.ui.nav.core.ElegantNavCornerClipMode
+import com.elegant.compose.ui.nav.core.ElegantNavDisplay
+import com.elegant.compose.ui.nav.core.ElegantNavDisplayEffects
+import com.elegant.compose.ui.nav.core.ElegantNavKey
+import com.elegant.compose.ui.nav.core.rememberElegantNavBackStack
+import com.elegant.compose.ui.nav.core.rememberElegantNavSystemCornerRadius
+import com.elegant.compose.ui.nav.transition.ElegantNavSwipeDirection
+import com.elegant.compose.ui.nav.transition.ElegantNavTransition
+import com.elegant.compose.ui.nav.transition.ElegantNavTransitions
+import com.elegant.compose.ui.nav.transition.elegantNavGraphicsTransition
 import com.elegant.compose.ui.navbar.ElegantNavbar
 import com.elegant.compose.ui.navigationbar.ElegantNavigationBar
 import com.elegant.compose.ui.navigationbar.ElegantNavigationBarItem
@@ -212,6 +223,7 @@ import com.elegant.compose.ui.tooltip.ElegantTooltipPlacement
 import kotlin.math.roundToInt
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -295,6 +307,7 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "search-bar",
         "pagination",
         "navigation-bar",
+        "navigation",
         "navigation-rail",
         "floating-action-button",
         "popover",
@@ -392,6 +405,7 @@ public fun ElegantShowcaseApp(
         "search-bar" -> SearchBarShowcase()
         "pagination" -> PaginationShowcase()
         "navigation-bar" -> NavigationBarShowcase()
+        "navigation" -> NavigationShowcase()
         "navigation-rail" -> NavigationRailShowcase()
         "floating-action-button" -> FloatingActionButtonShowcase()
         "popover" -> PopoverShowcase()
@@ -8989,6 +9003,211 @@ private fun UnknownComponent(componentId: String) {
                 color = colors.textSecondary,
                 style = ElegantTheme.typography.bodyMedium,
             )
+        }
+    }
+}
+
+@Serializable
+private sealed interface NavDemoRoute : ElegantNavKey {
+    @Serializable data object Home : NavDemoRoute
+    @Serializable data object Detail : NavDemoRoute
+    @Serializable data class Item(val id: Int) : NavDemoRoute
+    @Serializable data object Sheet : NavDemoRoute
+}
+
+private fun NavDemoRoute.label(): String = when (this) {
+    NavDemoRoute.Home -> "Home"
+    NavDemoRoute.Detail -> "Detail"
+    is NavDemoRoute.Item -> "Item ${id}"
+    NavDemoRoute.Sheet -> "Sheet"
+}
+
+private val navDemoScaleFade: ElegantNavTransition = elegantNavGraphicsTransition { scope ->
+    val d = scope.relativeDepth.coerceIn(-1f, 1f)
+    alpha = if (d <= 0f) 1f + d else 1f - d
+    scaleX = 1f - 0.08f * d.coerceAtLeast(0f)
+    scaleY = scaleX
+}
+
+private fun pushIdempotent(backStack: ElegantNavBackStack, key: NavDemoRoute) {
+    if (key !in backStack) backStack.add(key)
+}
+
+@Composable
+private fun NavDemoPage(route: NavDemoRoute, tint: Color, hint: String) {
+    val colors = ElegantTheme.colors
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(tint),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+        ) {
+            Text(
+                text = route.label(),
+                color = colors.textPrimary,
+                style = ElegantTheme.typography.titleMedium,
+            )
+            Text(
+                text = hint,
+                color = colors.textSecondary,
+                style = ElegantTheme.typography.bodyMedium,
+            )
+        }
+    }
+}
+
+@Composable
+private fun NavDemoPane(content: @Composable () -> Unit) {
+    val colors = ElegantTheme.colors
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(320.dp)
+            .clip(RoundedCornerShape(ElegantRadius.lg))
+            .border(
+                width = 1.dp,
+                color = colors.borderDefault,
+                shape = RoundedCornerShape(ElegantRadius.lg),
+            ),
+    ) {
+        content()
+    }
+}
+
+@Composable
+private fun NavDemoControls(
+    backStack: ElegantNavBackStack,
+    buttons: @Composable () -> Unit,
+) {
+    val colors = ElegantTheme.colors
+    Column(verticalArrangement = Arrangement.spacedBy(ElegantSpacing.sm)) {
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+            verticalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+        ) {
+            buttons()
+        }
+        Text(
+            text = "Stack: ${backStack.joinToString(" › ") { (it as NavDemoRoute).label() }}",
+            color = colors.textSecondary,
+            style = ElegantTheme.typography.bodyMedium,
+        )
+    }
+}
+
+@Composable
+private fun NavigationShowcase() {
+    ShowcasePage(title = "Elegant Navigation") { compact ->
+        val colors = ElegantTheme.colors
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "One float drives the whole stack",
+            description = "ElegantNavDisplay keeps a single animated depth float across the whole back stack. Push, pop, and replace settle through the same spring, and swipe-to-dismiss follows the finger 1:1.",
+        ) {
+            val backStack = rememberElegantNavBackStack<NavDemoRoute>(NavDemoRoute.Home)
+            NavDemoPane {
+                ElegantNavDisplay(backStack = backStack) {
+                    entry<NavDemoRoute.Home> {
+                        NavDemoPage(
+                            route = NavDemoRoute.Home,
+                            tint = colors.backgroundCanvas,
+                            hint = "The default slide keeps the page below parallaxing",
+                        )
+                    }
+                    entry<NavDemoRoute.Detail>(swipeDismiss = ElegantNavSwipeDirection.LeftToRight) {
+                        NavDemoPage(
+                            route = NavDemoRoute.Detail,
+                            tint = colors.surfaceDefault,
+                            hint = "Swipe right to dismiss",
+                        )
+                    }
+                    entry<NavDemoRoute.Item>(swipeDismiss = ElegantNavSwipeDirection.LeftToRight) { route ->
+                        NavDemoPage(
+                            route = route,
+                            tint = colors.interactivePrimary.copy(alpha = 0.06f),
+                            hint = "Swipe right to dismiss",
+                        )
+                    }
+                }
+            }
+            NavDemoControls(backStack = backStack) {
+                ElegantButton(onClick = { pushIdempotent(backStack, NavDemoRoute.Detail) }) {
+                    Text("Push detail")
+                }
+                ElegantButton(onClick = { pushIdempotent(backStack, NavDemoRoute.Item(2)) }) {
+                    Text("Push item")
+                }
+                ElegantButton(onClick = { backStack.removeLastOrNull() }) {
+                    Text("Pop")
+                }
+                ElegantButton(
+                    onClick = { if (backStack.isNotEmpty()) backStack[backStack.lastIndex] = NavDemoRoute.Item(9) },
+                ) {
+                    Text("Replace top")
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "TRANSITIONS",
+            title = "Presets, per-route overrides, and effects",
+            description = "The Modal preset slides up from the bottom and keeps the page below visible; a custom scale-fade transition applies per route; display effects round the corners, dim the stack, and paint a backdrop.",
+        ) {
+            val backStack = rememberElegantNavBackStack<NavDemoRoute>(NavDemoRoute.Home)
+            NavDemoPane {
+                ElegantNavDisplay(
+                    backStack = backStack,
+                    effects = ElegantNavDisplayEffects(
+                        cornerClipRadius = rememberElegantNavSystemCornerRadius(),
+                        cornerClipMode = ElegantNavCornerClipMode.All,
+                        dimAmount = 0.32f,
+                        backdropColor = colors.backgroundCanvas,
+                    ),
+                ) {
+                    entry<NavDemoRoute.Home> {
+                        NavDemoPage(
+                            route = NavDemoRoute.Home,
+                            tint = colors.backgroundCanvas,
+                            hint = "The backdrop extends the page background outward",
+                        )
+                    }
+                    entry<NavDemoRoute.Sheet>(
+                        transition = ElegantNavTransitions.Modal,
+                        swipeDismiss = ElegantNavSwipeDirection.TopToBottom,
+                    ) {
+                        NavDemoPage(
+                            route = NavDemoRoute.Sheet,
+                            tint = colors.surfaceRaised,
+                            hint = "Swipe down to dismiss",
+                        )
+                    }
+                    entry<NavDemoRoute.Item>(transition = navDemoScaleFade) { route ->
+                        NavDemoPage(
+                            route = route,
+                            tint = colors.interactivePrimary.copy(alpha = 0.06f),
+                            hint = "Custom scale-fade transition",
+                        )
+                    }
+                }
+            }
+            NavDemoControls(backStack = backStack) {
+                ElegantButton(onClick = { pushIdempotent(backStack, NavDemoRoute.Sheet) }) {
+                    Text("Open sheet")
+                }
+                ElegantButton(onClick = { pushIdempotent(backStack, NavDemoRoute.Item(2)) }) {
+                    Text("Open item")
+                }
+                ElegantButton(onClick = { backStack.removeLastOrNull() }) {
+                    Text("Pop")
+                }
+            }
         }
     }
 }

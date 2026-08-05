@@ -42,6 +42,7 @@ internal class ShowcaseRegistryTest {
                 "search-bar",
                 "pagination",
                 "navigation-bar",
+                "navigation",
                 "navigation-rail",
                 "floating-action-button",
                 "popover",

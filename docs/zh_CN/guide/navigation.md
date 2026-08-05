@@ -2,6 +2,8 @@
 
 `elegant-nav` 是一个自包含的 Compose Multiplatform 导航运行时,核心模型是**连续栈深度**。整个返回栈由单个 `Animatable<Float>` 驱动,每个页面的视觉效果都是其相对深度的纯函数。连续 push/pop、完全自定义的 float 驱动过渡、以及 1:1 手势返回因此自然成立。它**零依赖**于 `androidx.navigation`,也不依赖 `elegant-ui` 模块本身。
 
+<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=navigation" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+
 ## 引入
 
 在 `build.gradle.kts` 中添加依赖:
