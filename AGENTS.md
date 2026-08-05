@@ -32,6 +32,7 @@ GitHub Actions is the authoritative clean environment when local Android SDK, br
 | :--- | :--- |
 | `elegant-ui/` | Main UI library (Android, Desktop JVM, Web/JS + Web/Wasm KMP targets) |
 | `elegant-blur/` | Backdrop glass-effect library: texture blur, progressive blur, highlights, runtime shaders |
+| `elegant-nav/` | Self-contained navigation runtime: continuous-depth back stack, transitions, predictive back |
 | `showcase/` | Shared component gallery and component-slug registry |
 | `sample/` | Android application launcher |
 | `desktop-sample/` | Desktop JVM launcher |
@@ -75,6 +76,24 @@ level.
 `skikoMain`; Android `android.graphics.RenderEffect`/AGSL actuals live only in
 `androidMain`. `commonMain` never touches platform render types — everything crosses
 through `RenderEffectCompat` (expect) or `RuntimeShader` (expect).
+
+`elegant-nav/src/{commonMain,skikoMain,androidMain}/kotlin/com/elegant/compose/ui/nav/`:
+
+| Subdir | Contents |
+| :--- | :--- |
+| `nav/core/` | `ElegantNavKey`, `ElegantNavBackStack`, `ElegantNavController`, `ElegantNavDisplay` + `entry<T>` DSL, `ElegantNavDisplayEffects`, `rememberElegantNavSystemCornerRadius` expect |
+| `nav/transition/` | `ElegantNavTransition`, `elegantNavGraphicsTransition`, `ElegantNavTransitions` presets, `ElegantNavMotion`/`ElegantNavSettleSpec`, `ElegantNavRole` |
+| `nav/gesture/` | `ElegantPredictiveBackHandler`, `elegantNavSwipeDismiss`, `ElegantWindowNavigationEventBridge` expect |
+| `nav/state/` | Per-entry lifecycle owners, ViewModel stores, saveable-state holder |
+| `nav/runtime/` | Pure logic: `ElegantNavReconciler`, `ElegantNavDriver`, `ElegantNavPresentation`, `ElegantNavSettleEasing` |
+| `nav/internal/` | Inline path-based `absoluteSquircleClip` (no `:elegant-ui` dependency) |
+
+`elegant-nav` uses the same custom source set hierarchy as `elegant-blur`:
+`commonMain → skikoMain → {desktopMain, wasmJsMain, jsMain}`, with `androidMain` on
+`commonMain`. Android actuals (`NavSystemCornerRadius`, window bridge) live in
+`androidMain`; skiko platform actuals in `skikoMain`. The module depends on
+`androidx.navigationevent`, JetBrains lifecycle (runtime/viewmodel + compose), and
+`kotlinx-serialization-json` (back-stack save/restore); keys must be `@Serializable`.
 
 ### Platform Source Sets
 
