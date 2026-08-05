@@ -17,11 +17,13 @@ kotlin {
 
     sourceSets {
         wasmJsMain.dependencies {
+            implementation(project(":example"))
             implementation(project(":showcase"))
             implementation(compose.runtime)
             implementation(compose.ui)
         }
         jsMain.dependencies {
+            implementation(project(":example"))
             implementation(project(":showcase"))
             implementation(compose.runtime)
             implementation(compose.ui)

@@ -363,6 +363,12 @@ internal val SupportedShowcaseComponentIds: Set<String> =
     )
 
 /**
+ * All component ids accepted by [ElegantShowcaseApp], exposed so host apps can enumerate the
+ * gallery without depending on the internal registry.
+ */
+public val ElegantShowcaseIds: Set<String> = SupportedShowcaseComponentIds
+
+/**
  * Shared component showcase used by Android, Desktop JVM, and Web/Wasm launchers.
  *
  * [componentId] selects the component page requested by the documentation iframe. Unknown values
