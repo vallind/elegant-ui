@@ -261,7 +261,7 @@ export default defineConfig({
         nav: [
           { text: 'Guide', link: '/guide/getting-started' },
           { text: 'Components', link: '/components/' },
-          { text: 'Demo', link: '/demo' },
+          { text: 'Demo', link: '/compose/index.html', target: '_self' },
           { text: 'GitHub', link: repository },
         ],
         sidebar: englishSidebar,
@@ -288,7 +288,7 @@ export default defineConfig({
         nav: [
           { text: '指南', link: '/zh_CN/guide/getting-started' },
           { text: '组件', link: '/zh_CN/components/' },
-          { text: '在线演示', link: '/zh_CN/demo' },
+          { text: '在线演示', link: '/compose/index.html', target: '_self' },
           { text: 'GitHub', link: repository },
         ],
         sidebar: chineseSidebar,
