@@ -31,6 +31,7 @@ GitHub Actions is the authoritative clean environment when local Android SDK, br
 | Directory | Purpose |
 | :--- | :--- |
 | `elegant-ui/` | Main UI library (Android, Desktop JVM, Web/JS + Web/Wasm KMP targets) |
+| `elegant-blur/` | Backdrop glass-effect library: texture blur, progressive blur, highlights, runtime shaders |
 | `showcase/` | Shared component gallery and component-slug registry |
 | `sample/` | Android application launcher |
 | `desktop-sample/` | Desktop JVM launcher |
@@ -55,6 +56,25 @@ GitHub Actions is the authoritative clean environment when local Android SDK, br
 System facilities live under `foundation/`; component packages (`button/`, `card/`, ...) stay at the
 top level. Never recreate `theme/`, `shape/`, `effect/`, or `icon/ElegantIcons*` paths at the top
 level.
+
+### Module Source Layout
+
+`elegant-blur/src/{commonMain,skikoMain,androidMain}/kotlin/com/elegant/compose/ui/blur/`:
+
+| Subdir | Contents |
+| :--- | :--- |
+| `blur/` | `ElegantBackdrop` interfaces, `elegantBackdrop`/`elegantTextureBlur`/`elegantLayerBackdrop` modifiers, `ElegantBlurDefaults` |
+| `blur/highlight/` | `ElegantHighlight`, `ElegantHighlightStyle`, `ElegantBloomStroke`, `ElegantTiltLight` |
+| `blur/internal/` | Blur math, shader sources, layer recording, `RenderEffectCompat` expect declarations |
+| `blur/sensor/` | `ElegantDeviceTilt` rotation-sensor expect/actual |
+| `blur/shader/` | Inlined `RuntimeShader` bridge (SkSL/AGSL compilation) with skiko/android actuals |
+
+`elegant-blur` uses a custom source set hierarchy: `commonMain → skikoMain →
+{desktopMain, wasmJsMain, jsMain}`, with `androidMain` on `commonMain`. Skia-backed
+`RenderEffect`/image-filter actuals and `org.jetbrains.skia.*` imports live only in
+`skikoMain`; Android `android.graphics.RenderEffect`/AGSL actuals live only in
+`androidMain`. `commonMain` never touches platform render types — everything crosses
+through `RenderEffectCompat` (expect) or `RuntimeShader` (expect).
 
 ### Platform Source Sets
 
@@ -164,7 +184,10 @@ These were each discovered on a real target build; do not re-learn them:
 - `Composable` getters such as `ElegantTheme.colors` must not be read inside `remember { }`
   lambda bodies on every target — hoist the read to a local `val` first.
 - `RenderEffect`/`BlurEffect` exist only in the desktop artifact. Use `Modifier.blur` +
-  `BlurredEdgeTreatment` for common blur.
+  `BlurredEdgeTreatment` for common blur. Skia/Android `RenderEffect` types may appear
+  only in `elegant-blur` platform actuals — `commonMain` reaches them through the
+  `RenderEffectCompat` (elegant-blur `internal`) and `RuntimeShader`
+  (elegant-blur `blur/shader`) expect bridges.
 - `ImageVector.PathBuilder` exposes `curveTo`, not `cubicTo`; `Outline.Generic` has no `bounds`
   constructor parameter.
 - `Path` and skia-backed drawing APIs are not reliable in plain `commonTest` JUnit runs; test

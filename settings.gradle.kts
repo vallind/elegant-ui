@@ -16,6 +16,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "elegant-ui"
 include(":elegant-ui")
+include(":elegant-blur")
 include(":showcase")
 include(":sample")
 include(":desktop-sample")
