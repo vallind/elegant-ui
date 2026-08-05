@@ -1,6 +1,6 @@
 # Icons
 
-`ElegantIcon` renders the built-in `ElegantIcons` vector set with theme-aware tinting. The 24 icons are vector paths shipped with the library — no resource files, no platform assets — so they work identically on Android, Desktop JVM, and Web/Wasm.
+`ElegantIcon` renders the built-in `ElegantIcons` vector set with theme-aware tinting. The built-in 42 icons are vector paths shipped with the library — no resource files, no platform assets — so they work identically on Android, Desktop JVM, and Web/Wasm. A further 145 glyphs load lazily and cache on first access.
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=icons" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -48,7 +48,7 @@ ElegantIcon(
 
 ### ElegantIcons
 
-`ElegantIcons` exposes 24 icons: `ArrowLeft/Right/Up/Down`, `ChevronLeft/Right/Up/Down`, `Check`, `Close`, `Plus`, `Minus`, `Search`, `Edit`, `Delete`, `Share`, `MoreVert`, `MoreHoriz`, `Person`, `Home`, `Settings`, `Notifications`, `Star`, `Heart`, plus `All` (the full list in declaration order).
+`ElegantIcons` exposes 42 built-in icons: `ArrowLeft/Right/Up/Down`, `ChevronLeft/Right/Up/Down`, `Check`, `Close`, `Plus`, `Minus`, `Search`, `Edit`, `Delete`, `Share`, `MoreVert`, `MoreHoriz`, `Person`, `Home`, `Settings`, `Notifications`, `Star`, `Heart`, `Refresh`, `Download`, `VolumeUp`, `VolumeOff`, `Filter`, `Send`, `Reply`, `Forward`, `Lock`, `Unlock`, `Location`, `Image`, `Play`, `Pause`, `Info`, `Help`, `Grid`, `Copy`, plus `All` (the full list in declaration order).
 
 ### ElegantIconDefaults
 
@@ -90,13 +90,27 @@ Row(horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md)) {
 
 ## Extended Icons
 
-`ElegantIcons` also carries an extended set of 32 lazily loaded glyphs for common actions and media, defined on the same 24dp stroke style and cached on first access:
+`ElegantIcons` also carries 145 lazily loaded glyphs, built and cached on first access: 14 hand-drawn action glyphs in the same 24dp stroke style as the built-in set, plus 131 replicas of the Miuix Regular icon geometry grouped by category in `ElegantIconsFiles`, `ElegantIconsArrows`, `ElegantIconsMedia`, `ElegantIconsSocial`, `ElegantIconsSystem`, `ElegantIconsStatus`, and `ElegantIconsCalendar`:
 
 ```kotlin
 ElegantIcon(
-    imageVector = ElegantIcons.Refresh,
-    contentDescription = "Refresh",
+    icon = ElegantIcons.Folder,
+    contentDescription = "Folder",
 )
 ```
 
-Available glyphs: Refresh, Download, Upload, VolumeUp, VolumeDown, VolumeOff, Filter, Save, Send, Reply, Forward, Lock, Unlock, Eye, EyeOff, Calendar, Clock, Location, Camera, Image, Play, Pause, Info, Warning, Help, List, Grid, Sun, Moon, Brightness, Copy, Power.
+The Miuix replicas mirror the reference Regular-weight geometry exactly — same viewport and path data — so the rendered glyphs match the source set pixel for pixel while keeping the `ElegantIcons.<Name>` naming, the 24dp layout size, and lazy caching. Unused glyphs cost nothing at startup.
+
+Available file glyphs: AddFolder, Backup, ConvertFile, Create, Cut, File, FileDownloads, Folder, FolderFill, Import, Merge, MoveFile, Paste, Redo, Rename, Replace, TopDownloads, Undo, UploadCloud.
+
+Available arrow glyphs: Back, ChevronBackward, ChevronForward, ExpandLess, ExpandMore, RotateLeft, ZoomOut.
+
+Available media glyphs: Album, AppRecording, CallRecording, MapAlbum, Mic, MicSlash, Music, Notes, NotesFill, Photos, Playlist, Recording, RecordingTape, ScreenCapture, ScreenMirroring, Trim.
+
+Available social glyphs: BankCards, Carrier, Community, Contacts, ContactsBook, ContactsCircle, Email, Messages, Phone, RemoveContact, ReplyAll.
+
+Available system glyphs: Add, AddCircle, Background, Blocklist, Clear, Close2, CloudFill, Favorites, FavoritesFill, GridView, Hide, HorizontalSplit, Layers, Link, ListView, MindMap, More, MoreCircle, Ok, Pin, Recent, Remove, Scan, SearchDevice, SelectAll, Show, Sidebar, Sort, Tasks, Theme, Translate, Tune, Unpin, Update, VerticalSplit.
+
+Available status glyphs: Alarm, Answer, Months, Promotions, Report, Reset, Stopwatch, Store, Timer, Weeks, WorldClock, Years.
+
+Available calendar glyphs: Th1–Th31 (calendar day thumbnails).
