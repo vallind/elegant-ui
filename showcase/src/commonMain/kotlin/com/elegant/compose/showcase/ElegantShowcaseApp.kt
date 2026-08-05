@@ -8423,7 +8423,7 @@ private fun BasicComponentShowcase() {
                 holdDownState = held,
                 endActions = {
                     Icon(
-                        imageVector = com.elegant.compose.ui.foundation.icons.ElegantIcons.ChevronRight,
+                        imageVector = ElegantIcons.ChevronRight,
                         contentDescription = null,
                         tint = colors.textTertiary,
                     )

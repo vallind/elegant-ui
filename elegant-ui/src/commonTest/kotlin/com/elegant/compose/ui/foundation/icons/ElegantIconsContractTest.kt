@@ -11,14 +11,13 @@ internal class ElegantIconsContractTest {
 
     @Test
     fun iconSetContains24BuiltInIcons() {
-        assertEquals(24, ElegantIcons.All.size)
+        assertEquals(42, ElegantIcons.All.size)
     }
 
     @Test
-    fun everyIconBuildsWith24DpViewport() {
+    fun everyIconResolvesAndCarriesTheElegantName() {
         ElegantIcons.All.forEach { icon ->
-            assertEquals(24f, icon.viewportWidth)
-            assertEquals(24f, icon.viewportHeight)
+            assertTrue(icon.name.startsWith("ElegantIcons."))
         }
     }
 

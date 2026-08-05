@@ -18,45 +18,6 @@ import androidx.compose.ui.unit.dp
  * [ElegantIcons]. Icons are defined lazily and cached on first access, mirroring the pattern used
  * by reference icon sets, so unused glyphs cost nothing at startup.
  */
-private var refreshIconCache: ImageVector? = null
-
-/** Circular refresh arrow. */
-public val ElegantIcons.Refresh: ImageVector
-    get() {
-        refreshIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Refresh") {
-            moveTo(19f, 12f)
-            curveTo(19.5f, 7.86f, 16.14f, 4.5f, 12f, 4.5f)
-            curveTo(7.86f, 4.5f, 4.5f, 7.86f, 4.5f, 12f)
-            curveTo(4.5f, 16.14f, 7.86f, 19.5f, 12f, 19.5f)
-            moveTo(19.5f, 12f)
-            lineTo(16.5f, 9.5f)
-            moveTo(19.5f, 12f)
-            lineTo(16.5f, 14.5f)
-            moveTo(4.5f, 12f)
-            lineTo(7.5f, 9f)
-            moveTo(4.5f, 12f)
-            lineTo(7.5f, 15f)
-        }.also { refreshIconCache = it }
-    }
-
-private var downloadIconCache: ImageVector? = null
-
-/** Download arrow above a tray. */
-public val ElegantIcons.Download: ImageVector
-    get() {
-        downloadIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Download") {
-            moveTo(12f, 4f)
-            lineTo(12f, 14f)
-            moveTo(8f, 10.5f)
-            lineTo(12f, 14f)
-            lineTo(16f, 10.5f)
-            moveTo(4.5f, 18.5f)
-            lineTo(19.5f, 18.5f)
-        }.also { downloadIconCache = it }
-    }
-
 private var uploadIconCache: ImageVector? = null
 
 /** Upload arrow above a tray. */
@@ -72,27 +33,6 @@ public val ElegantIcons.Upload: ImageVector
             moveTo(4.5f, 18.5f)
             lineTo(19.5f, 18.5f)
         }.also { uploadIconCache = it }
-    }
-
-private var volumeUpIconCache: ImageVector? = null
-
-/** Speaker with a large sound wave. */
-public val ElegantIcons.VolumeUp: ImageVector
-    get() {
-        volumeUpIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.VolumeUp") {
-            moveTo(4.5f, 9.5f)
-            lineTo(9f, 9.5f)
-            lineTo(13f, 6f)
-            lineTo(13f, 18f)
-            lineTo(9f, 14.5f)
-            lineTo(4.5f, 14.5f)
-            close()
-            moveTo(16.5f, 9.5f)
-            quadTo(19f, 12f, 16.5f, 14.5f)
-            moveTo(19.5f, 7.5f)
-            quadTo(23f, 12f, 19.5f, 16.5f)
-        }.also { volumeUpIconCache = it }
     }
 
 private var volumeDownIconCache: ImageVector? = null
@@ -112,45 +52,6 @@ public val ElegantIcons.VolumeDown: ImageVector
             moveTo(16.5f, 9.5f)
             quadTo(18.5f, 12f, 16.5f, 14.5f)
         }.also { volumeDownIconCache = it }
-    }
-
-private var volumeOffIconCache: ImageVector? = null
-
-/** Muted speaker with a cross. */
-public val ElegantIcons.VolumeOff: ImageVector
-    get() {
-        volumeOffIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.VolumeOff") {
-            moveTo(4.5f, 9.5f)
-            lineTo(9f, 9.5f)
-            lineTo(13f, 6f)
-            lineTo(13f, 18f)
-            lineTo(9f, 14.5f)
-            lineTo(4.5f, 14.5f)
-            close()
-            moveTo(17f, 9f)
-            lineTo(21.5f, 15f)
-            moveTo(21.5f, 9f)
-            lineTo(17f, 15f)
-        }.also { volumeOffIconCache = it }
-    }
-
-private var filterIconCache: ImageVector? = null
-
-/** Funnel filter. */
-public val ElegantIcons.Filter: ImageVector
-    get() {
-        filterIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Filter") {
-            moveTo(4f, 5f)
-            lineTo(20f, 5f)
-            moveTo(9f, 5f)
-            lineTo(12.5f, 12f)
-            moveTo(15f, 5f)
-            lineTo(12.5f, 12f)
-            moveTo(12.5f, 12f)
-            lineTo(12.5f, 19f)
-        }.also { filterIconCache = it }
     }
 
 private var saveIconCache: ImageVector? = null
@@ -173,93 +74,6 @@ public val ElegantIcons.Save: ImageVector
             lineTo(15f, 13f)
             lineTo(15f, 18.5f)
         }.also { saveIconCache = it }
-    }
-
-private var sendIconCache: ImageVector? = null
-
-/** Paper plane send. */
-public val ElegantIcons.Send: ImageVector
-    get() {
-        sendIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Send") {
-            moveTo(4f, 5f)
-            lineTo(20f, 12f)
-            lineTo(4f, 19f)
-            lineTo(7.5f, 12f)
-            lineTo(4f, 5f)
-            close()
-        }.also { sendIconCache = it }
-    }
-
-private var replyIconCache: ImageVector? = null
-
-/** Reply arrow pointing back. */
-public val ElegantIcons.Reply: ImageVector
-    get() {
-        replyIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Reply") {
-            moveTo(19.5f, 17.5f)
-            lineTo(19.5f, 11f)
-            lineTo(11f, 11f)
-            moveTo(15f, 14.5f)
-            lineTo(11f, 11f)
-            lineTo(15f, 7.5f)
-        }.also { replyIconCache = it }
-    }
-
-private var forwardIconCache: ImageVector? = null
-
-/** Forward arrow. */
-public val ElegantIcons.Forward: ImageVector
-    get() {
-        forwardIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Forward") {
-            moveTo(4.5f, 17.5f)
-            lineTo(4.5f, 11f)
-            lineTo(13f, 11f)
-            moveTo(9f, 14.5f)
-            lineTo(13f, 11f)
-            lineTo(9f, 7.5f)
-        }.also { forwardIconCache = it }
-    }
-
-private var lockIconCache: ImageVector? = null
-
-/** Locked padlock. */
-public val ElegantIcons.Lock: ImageVector
-    get() {
-        lockIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Lock") {
-            moveTo(9f, 11f)
-            lineTo(9f, 7.5f)
-            quadTo(9f, 4.5f, 12f, 4.5f)
-            quadTo(15f, 4.5f, 15f, 7.5f)
-            lineTo(15f, 11f)
-            moveTo(6.5f, 11f)
-            lineTo(6.5f, 19.5f)
-            lineTo(17.5f, 19.5f)
-            lineTo(17.5f, 11f)
-            close()
-        }.also { lockIconCache = it }
-    }
-
-private var unlockIconCache: ImageVector? = null
-
-/** Unlocked padlock with an open shackle. */
-public val ElegantIcons.Unlock: ImageVector
-    get() {
-        unlockIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Unlock") {
-            moveTo(9f, 11f)
-            lineTo(9f, 7.5f)
-            quadTo(9f, 4.5f, 12f, 4.5f)
-            quadTo(14f, 4.5f, 14.5f, 6.5f)
-            moveTo(6.5f, 11f)
-            lineTo(6.5f, 19.5f)
-            lineTo(17.5f, 19.5f)
-            lineTo(17.5f, 11f)
-            close()
-        }.also { unlockIconCache = it }
     }
 
 private var eyeIconCache: ImageVector? = null
@@ -337,19 +151,6 @@ public val ElegantIcons.Clock: ImageVector
         }.also { clockIconCache = it }
     }
 
-private var locationIconCache: ImageVector? = null
-
-/** Location pin. */
-public val ElegantIcons.Location: ImageVector
-    get() {
-        locationIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Location") {
-            circle(12f, 8.5f, 4f)
-            moveTo(12f, 12.5f)
-            lineTo(12f, 19.5f)
-        }.also { locationIconCache = it }
-    }
-
 private var cameraIconCache: ImageVector? = null
 
 /** Camera body with a lens. */
@@ -370,68 +171,6 @@ public val ElegantIcons.Camera: ImageVector
         }.also { cameraIconCache = it }
     }
 
-private var imageIconCache: ImageVector? = null
-
-/** Picture frame with a landscape. */
-public val ElegantIcons.Image: ImageVector
-    get() {
-        imageIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Image") {
-            moveTo(4.5f, 5f)
-            lineTo(4.5f, 19f)
-            lineTo(19.5f, 19f)
-            lineTo(19.5f, 5f)
-            close()
-            moveTo(5f, 18.5f)
-            lineTo(10.5f, 12.5f)
-            lineTo(14f, 16f)
-            lineTo(18.5f, 10.5f)
-            circle(16.5f, 8.5f, 1.5f)
-        }.also { imageIconCache = it }
-    }
-
-private var playIconCache: ImageVector? = null
-
-/** Play triangle. */
-public val ElegantIcons.Play: ImageVector
-    get() {
-        playIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Play") {
-            moveTo(8.5f, 6f)
-            lineTo(19f, 12f)
-            lineTo(8.5f, 18f)
-            close()
-        }.also { playIconCache = it }
-    }
-
-private var pauseIconCache: ImageVector? = null
-
-/** Pause bars. */
-public val ElegantIcons.Pause: ImageVector
-    get() {
-        pauseIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Pause") {
-            moveTo(8.5f, 6f)
-            lineTo(8.5f, 18f)
-            moveTo(15.5f, 6f)
-            lineTo(15.5f, 18f)
-        }.also { pauseIconCache = it }
-    }
-
-private var infoIconCache: ImageVector? = null
-
-/** Info circle with an i. */
-public val ElegantIcons.Info: ImageVector
-    get() {
-        infoIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Info") {
-            circle(12f, 12f, 7.5f)
-            moveTo(12f, 11f)
-            lineTo(12f, 16.5f)
-            circle(12f, 7.5f, 1f)
-        }.also { infoIconCache = it }
-    }
-
 private var warningIconCache: ImageVector? = null
 
 /** Warning triangle with an exclamation. */
@@ -447,23 +186,6 @@ public val ElegantIcons.Warning: ImageVector
             lineTo(12f, 15.5f)
             circle(12f, 17.5f, 1f)
         }.also { warningIconCache = it }
-    }
-
-private var helpIconCache: ImageVector? = null
-
-/** Help circle with a question mark. */
-public val ElegantIcons.Help: ImageVector
-    get() {
-        helpIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Help") {
-            circle(12f, 12f, 7.5f)
-            moveTo(9.8f, 9.5f)
-            quadTo(9.8f, 7f, 12f, 7f)
-            quadTo(14.2f, 7f, 14.2f, 9.3f)
-            quadTo(14.2f, 11.5f, 12f, 12.5f)
-            lineTo(12f, 15f)
-            circle(12f, 17f, 1f)
-        }.also { helpIconCache = it }
     }
 
 private var listIconCache: ImageVector? = null
@@ -483,25 +205,6 @@ public val ElegantIcons.List: ImageVector
             circle(5.5f, 11.5f, 1f)
             circle(5.5f, 17.5f, 1f)
         }.also { listIconCache = it }
-    }
-
-private var gridIconCache: ImageVector? = null
-
-/** Grid of four cells. */
-public val ElegantIcons.Grid: ImageVector
-    get() {
-        gridIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Grid") {
-            moveTo(5f, 5f)
-            lineTo(5f, 19f)
-            lineTo(19f, 19f)
-            lineTo(19f, 5f)
-            close()
-            moveTo(12f, 5f)
-            lineTo(12f, 19f)
-            moveTo(5f, 12f)
-            lineTo(19f, 12f)
-        }.also { gridIconCache = it }
     }
 
 private var sunIconCache: ImageVector? = null
@@ -558,26 +261,6 @@ public val ElegantIcons.Brightness: ImageVector
             moveTo(5.5f, 12f)
             lineTo(18.5f, 12f)
         }.also { brightnessIconCache = it }
-    }
-
-private var copyIconCache: ImageVector? = null
-
-/** Two overlapping sheets. */
-public val ElegantIcons.Copy: ImageVector
-    get() {
-        copyIconCache?.let { return it }
-        return strokeIcon("ElegantIcons.Copy") {
-            moveTo(9.5f, 9.5f)
-            lineTo(9.5f, 5.5f)
-            lineTo(18.5f, 5.5f)
-            lineTo(18.5f, 14.5f)
-            lineTo(14.5f, 14.5f)
-            moveTo(5.5f, 9.5f)
-            lineTo(5.5f, 18.5f)
-            lineTo(14.5f, 18.5f)
-            lineTo(14.5f, 9.5f)
-            close()
-        }.also { copyIconCache = it }
     }
 
 private var powerIconCache: ImageVector? = null
