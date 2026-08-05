@@ -14,5 +14,6 @@ kotlin-js-store/
 docs/node_modules/
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+docs/public/compose/
 # Local generation metadata
 .file-manifest
