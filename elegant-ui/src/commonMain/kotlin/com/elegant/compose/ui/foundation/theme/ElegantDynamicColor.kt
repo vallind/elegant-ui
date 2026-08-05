@@ -1,14 +1,12 @@
 package com.elegant.compose.ui.foundation.theme
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 
-private const val TextInverseLuminanceThreshold = 0.45f
-private const val HoverLightenAmount = 0.06f
-private const val PressedDarkenAmount = 0.10f
-private const val FocusRingLightenAmount = 0.30f
+internal const val TextInverseLuminanceThreshold = 0.45f
+internal const val HoverLightenAmount = 0.06f
+internal const val PressedDarkenAmount = 0.10f
+internal const val FocusRingLightenAmount = 0.30f
 private const val StatusHuePositive = 150f
 private const val StatusHueWarning = 45f
 private const val StatusHueCritical = 350f
@@ -212,26 +210,3 @@ public fun deriveElegantColors(keyColor: Color, darkTheme: Boolean): ElegantColo
     }
 }
 
-/**
- * Monet-style dynamic color controller for Elegant UI.
- *
- * Holds a single [keyColor] seed and exposes the palettes [deriveElegantColors] produces from it
- * for the light and dark themes. The controller is a plain state holder with no platform coupling;
- * pass the palette to `ElegantTheme(colors = ...)` or use the `ElegantTheme(keyColor = ...)`
- * overload directly.
- *
- * @property keyColor seed color the derived palettes build on.
- */
-public class ElegantThemeController(
-    public val keyColor: Color,
-) {
-    /** Palette derived from [keyColor] for the light theme. */
-    @Composable
-    @ReadOnlyComposable
-    public fun lightColors(): ElegantColors = deriveElegantColors(keyColor, darkTheme = false)
-
-    /** Palette derived from [keyColor] for the dark theme. */
-    @Composable
-    @ReadOnlyComposable
-    public fun darkColors(): ElegantColors = deriveElegantColors(keyColor, darkTheme = true)
-}

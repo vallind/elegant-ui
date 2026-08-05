@@ -16,30 +16,30 @@ Without arguments the theme follows the current system appearance and uses the b
 
 ## Seed-Derived Palettes
 
-`ElegantThemeController` derives both palettes from one seed color; derivation never touches platform color APIs, so results are identical on Android, Desktop JVM, and Web.
+`ElegantThemeController` derives both palettes from one seed color; the `Monet*` modes use the Material 3 dynamic color algorithm (HCT), while the seed-only constructor keeps the original HSL derivation. Pass the controller to `ElegantTheme` and mutate it to recompose the theme:
 
 ```kotlin
 val controller = remember { ElegantThemeController(keyColor = Color(0xFF147D64)) }
 
 ElegantTheme(
-    darkTheme = true,
-    colors = controller.darkColors(),
+    controller = controller,
 ) {
-    // Green-derived dark palette
+    // Green-derived palette follows the system appearance
 }
 ```
 
 ## Following System Appearance
 
 ```kotlin
-val darkTheme = isSystemInDarkTheme()
-val controller = remember { ElegantThemeController(keyColor = Color(0xFFB45309)) }
+val controller = remember {
+    ElegantThemeController(
+        colorSchemeMode = ElegantColorSchemeMode.MonetSystem,
+        keyColor = Color(0xFFB45309),
+    )
+}
 
-ElegantTheme(
-    darkTheme = darkTheme,
-    colors = if (darkTheme) controller.darkColors() else controller.lightColors(),
-) {
-    // Palette switches with the system
+ElegantTheme(controller = controller) {
+    // Palette derives from the seed and switches with the system
 }
 ```
 

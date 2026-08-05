@@ -52,6 +52,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.animation)
             implementation(compose.material3)
+            implementation("com.materialkolor:material-color-utilities:5.0.0")
         }
 
         commonTest.dependencies {

@@ -16,30 +16,30 @@ ElegantTheme(
 
 ## 种子色推导色板
 
-`ElegantThemeController` 从一个种子色推导两套色板;推导过程不接触平台颜色 API,因此在 Android、Desktop JVM 与 Web 上的结果完全一致。
+`ElegantThemeController` 从一个种子色推导两套色板;`Monet*` 模式使用 Material 3 动态色彩算法(HCT),种子色构造函数则保留原有 HSL 推导。将控制器传给 `ElegantTheme` 并修改它即可重组主题:
 
 ```kotlin
 val controller = remember { ElegantThemeController(keyColor = Color(0xFF147D64)) }
 
 ElegantTheme(
-    darkTheme = true,
-    colors = controller.darkColors(),
+    controller = controller,
 ) {
-    // 绿色系暗色色板
+    // 绿色系色板跟随系统外观
 }
 ```
 
 ## 跟随系统外观
 
 ```kotlin
-val darkTheme = isSystemInDarkTheme()
-val controller = remember { ElegantThemeController(keyColor = Color(0xFFB45309)) }
+val controller = remember {
+    ElegantThemeController(
+        colorSchemeMode = ElegantColorSchemeMode.MonetSystem,
+        keyColor = Color(0xFFB45309),
+    )
+}
 
-ElegantTheme(
-    darkTheme = darkTheme,
-    colors = if (darkTheme) controller.darkColors() else controller.lightColors(),
-) {
-    // 色板随系统切换
+ElegantTheme(controller = controller) {
+    // 色板从种子派生并随系统切换
 }
 ```
 

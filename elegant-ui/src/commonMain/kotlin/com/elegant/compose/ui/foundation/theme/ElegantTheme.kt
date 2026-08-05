@@ -75,6 +75,30 @@ public fun ElegantTheme(
 }
 
 /**
+ * Provides Elegant UI colors from a [controller] and typography to [content].
+ *
+ * Resolves the palette through [ElegantThemeController.currentColors] so fixed, system-following,
+ * seed-derived, and platform dynamic color schemes share one entry point. Mutating the controller
+ * recomposes the theme.
+ *
+ * @param controller state holder that resolves the active [ElegantColors].
+ * @param typography typography roles provided to [content].
+ * @param content content rendered with the resolved palette.
+ */
+@Composable
+public fun ElegantTheme(
+    controller: ElegantThemeController,
+    typography: ElegantTypography = DefaultElegantTypography,
+    content: @Composable () -> Unit,
+) {
+    ElegantTheme(
+        colors = controller.currentColors(),
+        typography = typography,
+        content = content,
+    )
+}
+
+/**
  * Provides Elegant UI colors derived from a single [keyColor] seed.
  *
  * Convenience overload of [ElegantTheme] that derives the full [ElegantColors] palette from
