@@ -13,6 +13,11 @@ import androidx.compose.ui.unit.sp
  * @property labelLarge prominent component label style.
  * @property bodyMedium default supporting-content style.
  * @property titleMedium standard section-title style.
+ * @property bodyLarge large supporting-content style on the HyperOS 17sp reading scale.
+ * @property titleLarge prominent section-title style; used by collapsed app-bar titles.
+ * @property titleXl large section-title style.
+ * @property headlineLarge display title style; used by expanded large app-bar titles.
+ * @property footnote small annotation style.
  */
 @Immutable
 public data class ElegantTypography(
@@ -21,6 +26,31 @@ public data class ElegantTypography(
     val labelLarge: TextStyle,
     val bodyMedium: TextStyle,
     val titleMedium: TextStyle,
+    val bodyLarge: TextStyle = TextStyle(
+        fontSize = 17.sp,
+        lineHeight = 24.sp,
+        fontWeight = FontWeight.Normal,
+    ),
+    val titleLarge: TextStyle = TextStyle(
+        fontSize = 20.sp,
+        lineHeight = 26.sp,
+        fontWeight = FontWeight.SemiBold,
+    ),
+    val titleXl: TextStyle = TextStyle(
+        fontSize = 24.sp,
+        lineHeight = 30.sp,
+        fontWeight = FontWeight.SemiBold,
+    ),
+    val headlineLarge: TextStyle = TextStyle(
+        fontSize = 32.sp,
+        lineHeight = 40.sp,
+        fontWeight = FontWeight.Normal,
+    ),
+    val footnote: TextStyle = TextStyle(
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
+        fontWeight = FontWeight.Normal,
+    ),
 )
 
 internal val DefaultElegantTypography = ElegantTypography(

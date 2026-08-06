@@ -1,6 +1,6 @@
 # Text Styles
 
-`ElegantTypography` owns five text roles shared by every component on every target.
+`ElegantTypography` owns ten text roles shared by every component on every target. The five base roles cover compact labels, supporting content, and section titles; the extended roles add the HyperOS reading scale (17sp body and large display sizes) used by app bars and large content surfaces.
 
 ## Roles
 
@@ -10,7 +10,12 @@
 | `labelMedium` | 14sp | Default component labels |
 | `labelLarge` | 16sp | Prominent component labels |
 | `bodyMedium` | 14sp | Default supporting content |
-| `titleMedium` | 16sp | Standard section titles |
+| `bodyLarge` | 17sp | Large supporting content |
+| `footnote` | 13sp | Small annotations |
+| `titleMedium` | 18sp | Standard section titles |
+| `titleLarge` | 20sp | Prominent section titles, collapsed app-bar titles |
+| `titleXl` | 24sp | Large section titles |
+| `headlineLarge` | 32sp | Display titles, expanded large app-bar titles |
 
 ## Reading Styles
 
