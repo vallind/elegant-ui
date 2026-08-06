@@ -7,6 +7,9 @@ on:
     paths:
       - "docs/**"
       - "elegant-ui/**"
+      - "elegant-blur/**"
+      - "elegant-nav/**"
+      - "example/**"
       - "showcase/**"
       - "web-sample/**"
       - "build.gradle.kts"
