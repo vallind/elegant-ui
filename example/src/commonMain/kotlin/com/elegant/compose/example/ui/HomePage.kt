@@ -3,8 +3,9 @@
 
 package com.elegant.compose.example.ui
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.example.ExampleRoute
@@ -41,18 +43,19 @@ import com.elegant.compose.ui.smalltitle.ElegantSmallTitle
 /**
  * Landing tab of the example app.
  *
- * Offers a component search, a matrix of scene entry cards, a gallery entry, and the full sorted
- * component list; every entry pushes its route or component detail page onto the shared stack.
+ * Offers a component search above the categorized component list: every scene category renders its
+ * component rows, and each category header opens its hand-written scene page. This mirrors the
+ * reference example, where the home page scrolls through all components grouped by category.
  *
- * @param onOpenScene callback opening a scene route.
+ * @param onOpenScene callback pushing a scene route (and the gallery) onto the stack.
+ * @param onOpenTab callback switching to a tab destination such as Settings.
  * @param onOpenComponent callback opening the component detail page of a showcase slug.
- * @param onOpenGallery callback opening the showcase browser.
  */
 @Composable
 internal fun HomePage(
     onOpenScene: (ExampleRoute) -> Unit,
+    onOpenTab: (ExampleRoute) -> Unit,
     onOpenComponent: (String) -> Unit,
-    onOpenGallery: () -> Unit,
 ) {
     var query by rememberSaveable { mutableStateOf("") }
     val componentIds = remember { ElegantShowcaseIds }
@@ -82,99 +85,101 @@ internal fun HomePage(
             onClear = { query = "" },
         )
         Spacer(modifier = Modifier.height(ElegantSpacing.xl))
-        SceneGrid(
-            onOpenScene = onOpenScene,
+        for (scene in ExampleScenes) {
+            CategorySection(
+                scene = scene,
+                query = query,
+                onOpenScene = { onOpenScene(scene.route) },
+                onOpenTab = { onOpenTab(scene.route) },
+                onOpenComponent = onOpenComponent,
+            )
+            Spacer(modifier = Modifier.height(ElegantSpacing.xl))
+        }
+        GalleryCard(
+            onClick = { onOpenScene(ExampleRoute.Gallery) },
         )
-        ElegantCard(
-            onClick = onOpenGallery,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(ElegantSpacing.md),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Component Gallery",
-                        style = ElegantTheme.typography.titleMedium,
-                    )
-                    Spacer(modifier = Modifier.height(ElegantSpacing.xs))
-                    Text(
-                        text = "Browse every component demo in the showcase browser",
-                        style = ElegantTheme.typography.bodyMedium,
-                        color = ElegantTheme.colors.textSecondary,
-                    )
-                }
-                Icon(
-                    imageVector = ElegantIcons.ChevronRight,
-                    contentDescription = null,
-                    tint = ElegantTheme.colors.textSecondary,
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(ElegantSpacing.xl))
-        ElegantSmallTitle(text = "All components")
-        Spacer(modifier = Modifier.height(ElegantSpacing.sm))
-        ElegantList(modifier = Modifier.fillMaxWidth()) {
-            for (slug in filterComponentIds(componentIds, query)) {
-                ElegantListItem(
-                    title = { Text(text = slug) },
-                    trailingContent = {
-                        Icon(
-                            imageVector = ElegantIcons.ChevronRight,
-                            contentDescription = null,
-                            tint = ElegantTheme.colors.textSecondary,
-                        )
-                    },
-                    onClick = { onOpenComponent(slug) },
-                )
-            }
-        }
         Spacer(modifier = Modifier.height(ElegantSpacing.xl))
     }
 }
 
-/** Scene entry cards laid out in rows of two (narrow) or three (wide) equal cards. */
+/**
+ * One component category: a header row with the scene entry and the category's component rows,
+ * filtered by [query]. Hidden entirely when the query matches no component of the category.
+ */
 @Composable
-private fun SceneGrid(onOpenScene: (ExampleRoute) -> Unit) {
-    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
-        val perRow = if (maxWidth >= 600.dp) 3 else 2
-        for (row in ExampleScenes.chunked(perRow)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
-            ) {
-                for (scene in row) {
-                    SceneCard(
-                        scene = scene,
-                        onClick = { onOpenScene(scene.route) },
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-                repeat(perRow - row.size) {
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-            }
-            Spacer(modifier = Modifier.height(ElegantSpacing.md))
-        }
-    }
-}
-
-/** One tappable scene entry card. */
-@Composable
-private fun SceneCard(
+private fun CategorySection(
     scene: Scene,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    query: String,
+    onOpenScene: () -> Unit,
+    onOpenTab: () -> Unit,
+    onOpenComponent: (String) -> Unit,
 ) {
-    ElegantCard(onClick = onClick, modifier = modifier) {
-        Column(modifier = Modifier.padding(ElegantSpacing.md)) {
-            Text(text = scene.title, style = ElegantTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.height(ElegantSpacing.xs))
-            Text(
-                text = scene.description,
-                style = ElegantTheme.typography.bodyMedium,
-                color = ElegantTheme.colors.textSecondary,
+    val slugs = filterComponentIds(scene.slugs.toSet(), query)
+    if (slugs.isEmpty()) return
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ElegantSmallTitle(
+            text = scene.title,
+            modifier = Modifier.weight(1f),
+        )
+        val openScene = if (scene.route == ExampleRoute.Settings) onOpenTab else onOpenScene
+        Text(
+            text = "Open scene",
+            style = ElegantTheme.typography.labelMedium,
+            color = ElegantTheme.colors.interactivePrimary,
+            modifier = Modifier
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = openScene,
+                )
+                .padding(vertical = ElegantSpacing.sm),
+        )
+    }
+    Spacer(modifier = Modifier.height(ElegantSpacing.sm))
+    ElegantList(modifier = Modifier.fillMaxWidth()) {
+        for (slug in slugs) {
+            ElegantListItem(
+                title = { Text(text = slug) },
+                trailingContent = {
+                    Icon(
+                        imageVector = ElegantIcons.ChevronRight,
+                        contentDescription = null,
+                        tint = ElegantTheme.colors.textSecondary,
+                    )
+                },
+                onClick = { onOpenComponent(slug) },
+            )
+        }
+    }
+}
+
+/** Gallery entry card opening the showcase browser. */
+@Composable
+private fun GalleryCard(onClick: () -> Unit) {
+    ElegantCard(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(ElegantSpacing.md),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Component Gallery",
+                    style = ElegantTheme.typography.titleMedium,
+                )
+                Spacer(modifier = Modifier.height(ElegantSpacing.xs))
+                Text(
+                    text = "Browse every component demo in the showcase browser",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = ElegantTheme.colors.textSecondary,
+                )
+            }
+            Icon(
+                imageVector = ElegantIcons.ChevronRight,
+                contentDescription = null,
+                tint = ElegantTheme.colors.textSecondary,
             )
         }
     }

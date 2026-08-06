@@ -17,15 +17,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.example.ui.ButtonsPage
+import com.elegant.compose.example.ui.ColorsPage
 import com.elegant.compose.example.ui.ComponentPage
 import com.elegant.compose.example.ui.DisplayPage
 import com.elegant.compose.example.ui.FeedbackPage
 import com.elegant.compose.example.ui.GalleryPage
 import com.elegant.compose.example.ui.HomePage
+import com.elegant.compose.example.ui.IconsPage
 import com.elegant.compose.example.ui.InputsPage
 import com.elegant.compose.example.ui.NavigationPage
 import com.elegant.compose.example.ui.OverlaysPage
 import com.elegant.compose.example.ui.SettingsPage
+import com.elegant.compose.example.ui.TypographyPage
+import com.elegant.compose.ui.foundation.icons.Brightness
 import com.elegant.compose.ui.foundation.icons.ElegantIcons
 import com.elegant.compose.ui.foundation.theme.ElegantSpacing
 import com.elegant.compose.ui.foundation.theme.ElegantTheme
@@ -39,22 +43,24 @@ import com.elegant.compose.ui.navigationrail.ElegantNavigationRailItem
 
 /**
  * Tab destinations surfaced by the bottom navigation bar on narrow windows and the navigation
- * rail on wide windows. The remaining scene pages are reached from the home page.
+ * rail on wide windows, mirroring the five-page structure of the reference example: a home page
+ * plus the icon, color, and typography rosters and settings. The scene pages are reached from the
+ * home page's category sections.
  */
 internal val ExampleTabs: List<ExampleRoute> = listOf(
     ExampleRoute.Home,
-    ExampleRoute.Inputs,
-    ExampleRoute.Display,
-    ExampleRoute.Gallery,
+    ExampleRoute.Icons,
+    ExampleRoute.Colors,
+    ExampleRoute.Typography,
     ExampleRoute.Settings,
 )
 
 /** Icon of a tab destination; non-tab routes fall back to the home glyph. */
 internal fun ExampleRoute.tabIcon(): ImageVector = when (this) {
     ExampleRoute.Home -> ElegantIcons.Home
-    ExampleRoute.Inputs -> ElegantIcons.Edit
-    ExampleRoute.Display -> ElegantIcons.Info
-    ExampleRoute.Gallery -> ElegantIcons.Image
+    ExampleRoute.Icons -> ElegantIcons.Star
+    ExampleRoute.Colors -> ElegantIcons.Brightness
+    ExampleRoute.Typography -> ElegantIcons.Edit
     ExampleRoute.Settings -> ElegantIcons.Settings
     else -> ElegantIcons.Home
 }
@@ -132,9 +138,18 @@ private fun ExampleNavDisplay(backStack: ElegantNavBackStack) {
         entry<ExampleRoute.Home> {
             HomePage(
                 onOpenScene = { pushIdempotent(backStack, it) },
+                onOpenTab = { navigateToTab(backStack, it) },
                 onOpenComponent = { pushIdempotent(backStack, ExampleRoute.Component(it)) },
-                onOpenGallery = { pushIdempotent(backStack, ExampleRoute.Gallery) },
             )
+        }
+        entry<ExampleRoute.Icons> {
+            IconsPage()
+        }
+        entry<ExampleRoute.Colors> {
+            ColorsPage()
+        }
+        entry<ExampleRoute.Typography> {
+            TypographyPage()
         }
         entry<ExampleRoute.Inputs> {
             InputsPage(onBack = { popBackStack(backStack) })

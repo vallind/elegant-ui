@@ -48,6 +48,9 @@ class ScenesTest {
     fun routeLabelsAreUniqueAndNonBlank() {
         val routes = listOf(
             ExampleRoute.Home,
+            ExampleRoute.Icons,
+            ExampleRoute.Colors,
+            ExampleRoute.Typography,
             ExampleRoute.Inputs,
             ExampleRoute.Buttons,
             ExampleRoute.Display,
@@ -70,13 +73,13 @@ class ScenesTest {
         assertEquals(
             1,
             selectedTabIndex(
-                elegantNavBackStackOf(ExampleRoute.Home, ExampleRoute.Inputs),
+                elegantNavBackStackOf(ExampleRoute.Home, ExampleRoute.Icons),
                 ExampleTabs,
             ),
         )
         val stack = elegantNavBackStackOf(
             ExampleRoute.Home,
-            ExampleRoute.Inputs,
+            ExampleRoute.Icons,
             ExampleRoute.Component("button"),
         )
         assertEquals(1, selectedTabIndex(stack, ExampleTabs))
@@ -84,9 +87,25 @@ class ScenesTest {
     }
 
     @Test
-    fun tabDestinationsAreValidRoutes() {
+    fun tabDestinationsMatchTheFivePageStructure() {
+        assertEquals(
+            listOf<ExampleRoute>(
+                ExampleRoute.Home,
+                ExampleRoute.Icons,
+                ExampleRoute.Colors,
+                ExampleRoute.Typography,
+                ExampleRoute.Settings,
+            ),
+            ExampleTabs,
+            "Tabs must mirror the reference example's five-page structure",
+        )
         ExampleTabs.forEach { route ->
-            assertTrue(route in ExampleScenes.map { it.route } || route == ExampleRoute.Home || route == ExampleRoute.Gallery)
+            assertTrue(
+                route == ExampleRoute.Home ||
+                    route == ExampleRoute.Settings ||
+                    route in listOf(ExampleRoute.Icons, ExampleRoute.Colors, ExampleRoute.Typography),
+                "Tab $route must be a registered tab route",
+            )
         }
     }
 

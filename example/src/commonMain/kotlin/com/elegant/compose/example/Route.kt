@@ -16,9 +16,21 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 public sealed interface ExampleRoute : ElegantNavKey {
-    /** Landing page with search, scene entries, and the full component list. */
+    /** Landing page with search and the categorized component list. */
     @Serializable
     public data object Home : ExampleRoute
+
+    /** Built-in icon set gallery. */
+    @Serializable
+    public data object Icons : ExampleRoute
+
+    /** Theme color roles palette. */
+    @Serializable
+    public data object Colors : ExampleRoute
+
+    /** Typography style roster. */
+    @Serializable
+    public data object Typography : ExampleRoute
 
     /** Form and control inputs scene. */
     @Serializable
@@ -62,6 +74,9 @@ public sealed interface ExampleRoute : ElegantNavKey {
  */
 internal fun ExampleRoute.label(): String = when (this) {
     ExampleRoute.Home -> "Home"
+    ExampleRoute.Icons -> "Icons"
+    ExampleRoute.Colors -> "Colors"
+    ExampleRoute.Typography -> "Typography"
     ExampleRoute.Inputs -> "Inputs"
     ExampleRoute.Buttons -> "Buttons"
     ExampleRoute.Display -> "Display"
