@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.example.ui.ButtonsPage
 import com.elegant.compose.example.ui.ColorsPage
@@ -103,6 +104,8 @@ public fun AppContent() {
                         Text(
                             text = "Elegant",
                             style = ElegantTheme.typography.titleMedium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.padding(
                                 horizontal = ElegantSpacing.lg,
                                 vertical = ElegantSpacing.xl,
