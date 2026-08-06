@@ -46,7 +46,7 @@ ElegantCard(style = ElegantCardStyle.Elevated) {
 
 ## Component States
 
-Non-interactive cards have no hover, press, focus, or disabled state. Passing `onClick` turns the card into a button-like surface: it announces `Role.Button`, keeps a 48dp minimum interactive root, shows a visible focus ring, applies hover and press color feedback with a ripple, and drops to no elevation while pressed or disabled.
+Non-interactive cards have no hover, press, focus, or disabled state. Passing `onClick` turns the card into a button-like surface: it announces `Role.Button`, keeps a 48dp minimum interactive root, shows a visible focus ring, applies hover and press color feedback with an overlay indication, and drops to no elevation while pressed or disabled.
 
 State precedence for interactive cards: disabled, pressed, focused border, hovered, resting. Elevation stays at the resting value for hover and focus.
 
@@ -85,6 +85,7 @@ ElegantCard(
 | `colors` | `ElegantCardColors` | Theme-aware state colors | `ElegantCardDefaults.colors(style)` | No |
 | `elevation` | `Dp` | Resting shadow elevation; press and disabled drop to none | `ElegantCardDefaults.elevation(style)` | No |
 | `holdDownState` | `Boolean` | Forces the pressed visual state while true | `false` | No |
+| `pressFeedback` | `ElegantPressFeedbackType` | Press physics; `Sink` compresses the card, `Tilt` rotates it around the touch anchor | `ElegantPressFeedbackType.None` | No |
 | `content` | `@Composable () -> Unit` | Card content; padding is the caller's responsibility | - | Yes |
 
 ### ElegantCardStyle Values

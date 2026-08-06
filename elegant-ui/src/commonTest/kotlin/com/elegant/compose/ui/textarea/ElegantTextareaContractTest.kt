@@ -148,6 +148,6 @@ internal class ElegantTextareaContractTest {
             ElegantMotion.standardDurationMillis,
             ElegantTextareaDefaults.AnimationDurationMillis,
         )
-        assertEquals(RoundedCornerShape(ElegantRadius.md), ElegantTextareaDefaults.shape())
+        assertEquals(RoundedCornerShape(ElegantRadius.lg), ElegantTextareaDefaults.shape())
     }
 }

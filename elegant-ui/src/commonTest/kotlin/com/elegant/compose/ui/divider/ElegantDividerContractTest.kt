@@ -32,7 +32,7 @@ internal class ElegantDividerContractTest {
 
     @Test
     fun publicMetricsRemainOnTheElegantSpacingRhythm() {
-        assertEquals(1.dp, ElegantDividerDefaults.Thickness)
+        assertEquals(0.75.dp, ElegantDividerDefaults.Thickness)
         assertEquals(12.dp, ElegantDividerDefaults.LabelGap)
         assertEquals(8.dp, ElegantDividerDefaults.DashLength)
         assertEquals(4.dp, ElegantDividerDefaults.DashGap)

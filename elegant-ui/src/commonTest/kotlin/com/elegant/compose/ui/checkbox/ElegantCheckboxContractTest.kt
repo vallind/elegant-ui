@@ -169,11 +169,11 @@ internal class ElegantCheckboxContractTest {
     }
 
     @Test
-    fun rippleFollowsCheckWhenCheckedAndBorderWhenUnchecked() {
+    fun containerFollowsCheckWhenCheckedAndBorderWhenUnchecked() {
         val colors = resolveCheckboxColors(ElegantLightColors)
 
         assertEquals(
-            colors.checkedContentColor,
+            colors.checkedContainerColor,
             resolveCheckboxVisuals(
                 colors = colors,
                 enabled = true,
@@ -181,7 +181,7 @@ internal class ElegantCheckboxContractTest {
                 hovered = false,
                 focused = false,
                 checked = true,
-            ).ripple,
+            ).container,
         )
         assertEquals(
             colors.borderColor,
@@ -192,7 +192,7 @@ internal class ElegantCheckboxContractTest {
                 hovered = false,
                 focused = false,
                 checked = false,
-            ).ripple,
+            ).border,
         )
     }
 

@@ -1,6 +1,7 @@
 package com.elegant.compose.ui.taggroup
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -155,7 +156,7 @@ public fun ElegantTagGroup(
                     .clickable(
                         enabled = interactive,
                         interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
+                        indication = LocalIndication.current,
                         onClick = { onToggle(item.value, !checked) },
                     ),
                 contentAlignment = Alignment.Center,

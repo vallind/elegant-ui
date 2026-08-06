@@ -1,13 +1,12 @@
 package com.elegant.compose.ui.togglebutton
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.indication
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -40,6 +38,7 @@ import androidx.compose.ui.semantics.toggleableState
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantRadius
@@ -172,26 +171,17 @@ public fun ElegantToggleButton(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantToggleButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantToggleButtonContainer",
     )
     val animatedContent by animateColorAsState(
         targetValue = visuals.content,
-        animationSpec = tween(
-            durationMillis = ElegantToggleButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantToggleButtonContent",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = tween(
-            durationMillis = ElegantToggleButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantToggleButtonBorder",
     )
 
@@ -220,7 +210,7 @@ public fun ElegantToggleButton(
                 .background(animatedContainer)
                 .indication(
                     interactionSource = interactionSource,
-                    indication = ripple(color = animatedContent),
+                    indication = LocalIndication.current,
                 )
                 .border(
                     border = BorderStroke(visuals.borderWidth, animatedBorder),

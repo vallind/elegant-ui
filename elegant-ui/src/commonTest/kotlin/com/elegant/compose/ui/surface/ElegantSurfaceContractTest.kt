@@ -65,7 +65,7 @@ internal class ElegantSurfaceContractTest {
             ElegantSurfaceDefaults.AnimationDurationMillis,
         )
         assertEquals(
-            RoundedCornerShape(ElegantRadius.md),
+            RoundedCornerShape(ElegantRadius.lg),
             ElegantSurfaceDefaults.shape(),
         )
     }

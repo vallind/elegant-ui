@@ -69,6 +69,10 @@ gradle :web-sample:wasmJsBrowserDistribution  # web launcher
 
 GitHub Actions is the authoritative clean environment for Android assembly, browser tests, and final artifacts. See `AGENTS.md` for the full repository guidance and component workflows.
 
+## Acknowledgments
+
+The HyperOS visual language behind the v0.2 feedback baseline — overlay indication, Folme springs, squircle shapes, and density dimensions — is ported from [Miuix](https://github.com/yukonga/Miuix) (Apache-2.0) by compose-miuix-ui contributors. The ported foundation files retain their copyright headers and attribution.
+
 ## License
 
 Apache-2.0

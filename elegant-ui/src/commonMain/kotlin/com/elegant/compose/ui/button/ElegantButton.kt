@@ -3,9 +3,8 @@ package com.elegant.compose.ui.button
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,7 +25,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -52,6 +50,7 @@ import com.elegant.compose.ui.internal.action.ActionStateColors
 import com.elegant.compose.ui.internal.action.ActionStateElevation
 import com.elegant.compose.ui.internal.action.ActionVisuals
 import com.elegant.compose.ui.internal.action.resolveActionVisuals
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.shape.resolveSquircleAwareShape
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -71,7 +70,7 @@ public enum class ElegantButtonStyle {
 
 /** Visual size presets supported by [ElegantButton]. */
 public enum class ElegantButtonSize {
-    /** 36dp visual height inside a 48dp minimum touch target. */
+    /** 40dp visual height inside a 48dp minimum touch target. */
     Small,
 
     /** 40dp visual height inside a 48dp minimum touch target. */
@@ -230,12 +229,8 @@ public object ElegantButtonDefaults {
         }
     }
 
-    /** Returns the optically tuned default shape for [size]. */
-    public fun shape(size: ElegantButtonSize = ElegantButtonSize.Medium): Shape = when (size) {
-        ElegantButtonSize.Small -> RoundedCornerShape(10.dp)
-        ElegantButtonSize.Medium -> RoundedCornerShape(12.dp)
-        ElegantButtonSize.Large -> RoundedCornerShape(14.dp)
-    }
+    /** Returns the squircle-aware default container shape, a 16dp rounded square across sizes. */
+    public fun shape(size: ElegantButtonSize = ElegantButtonSize.Medium): Shape = RoundedCornerShape(16.dp)
 
     /** Returns the interaction elevation model for [style]. */
     public fun elevation(
@@ -332,54 +327,32 @@ public fun ElegantButton(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantButtonContainer",
     )
     val animatedContent by animateColorAsState(
         targetValue = visuals.content,
-        animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantButtonContent",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantButtonBorder",
     )
     val animatedBorderWidth by animateDpAsState(
         targetValue = visuals.borderWidth,
-        animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantButtonBorderWidth",
     )
     val animatedElevation by animateDpAsState(
         targetValue = visuals.elevation,
-        animationSpec = tween(
-            durationMillis = ElegantButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantButtonElevation",
     )
     val animatedScale by animateFloatAsState(
         targetValue = visuals.scale,
-        animationSpec = tween(
-            durationMillis = if (pressed) {
-                ElegantButtonDefaults.PressAnimationDurationMillis
-            } else {
-                ElegantButtonDefaults.AnimationDurationMillis
-            },
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 0.8f, responseSeconds = 0.25f),
         label = "ElegantButtonScale",
     )
 
@@ -431,7 +404,7 @@ public fun ElegantButton(
                 .background(animatedContainer)
                 .indication(
                     interactionSource = resolvedInteractionSource,
-                    indication = ripple(color = animatedContent),
+                    indication = LocalIndication.current,
                 )
                 .then(borderModifier)
                 .padding(horizontal = metrics.horizontalPadding),
@@ -476,7 +449,7 @@ public fun ElegantButton(
 
 internal fun metricsFor(size: ElegantButtonSize): ButtonMetrics = when (size) {
     ElegantButtonSize.Small -> ButtonMetrics(
-        visualHeight = 36.dp,
+        visualHeight = 40.dp,
         minWidth = 64.dp,
         horizontalPadding = 12.dp,
         iconSize = 16.dp,
@@ -507,11 +480,7 @@ private fun textStyleFor(size: ElegantButtonSize): TextStyle = when (size) {
     ElegantButtonSize.Large -> ElegantTheme.typography.labelLarge
 }
 
-internal fun buttonDefaultCornerRadius(size: ElegantButtonSize): Dp = when (size) {
-    ElegantButtonSize.Small -> 10.dp
-    ElegantButtonSize.Medium -> 12.dp
-    ElegantButtonSize.Large -> 14.dp
-}
+internal fun buttonDefaultCornerRadius(size: ElegantButtonSize): Dp = 16.dp
 
 internal fun resolveButtonVisuals(
     colors: ElegantButtonColors,

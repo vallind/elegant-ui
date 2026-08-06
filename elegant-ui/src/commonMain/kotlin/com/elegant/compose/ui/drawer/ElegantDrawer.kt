@@ -1,9 +1,7 @@
 package com.elegant.compose.ui.drawer
 
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +33,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -158,18 +157,12 @@ private fun DrawerDialog(
                 layoutDirection = layoutDirection,
             ).toDp()
         },
-        animationSpec = tween(
-            durationMillis = ElegantDrawerDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantDrawerOffset",
     )
     val scrimAlpha by animateFloatAsState(
         targetValue = if (entered) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = ElegantDrawerDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantDrawerScrimAlpha",
     )
     val panelAlignment = when (layoutDirection) {

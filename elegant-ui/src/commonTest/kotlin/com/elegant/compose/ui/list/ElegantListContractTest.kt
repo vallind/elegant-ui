@@ -217,7 +217,7 @@ internal class ElegantListContractTest {
 
     @Test
     fun defaultsExposeAccessibilityFloorAndStandardMotion() {
-        assertTrue(ElegantListItemDefaults.MinimumTouchHeight >= 48.dp)
+        assertTrue(ElegantListItemDefaults.MinimumTouchHeight >= 56.dp)
         assertEquals(
             ElegantMotion.standardDurationMillis,
             ElegantListItemDefaults.AnimationDurationMillis,

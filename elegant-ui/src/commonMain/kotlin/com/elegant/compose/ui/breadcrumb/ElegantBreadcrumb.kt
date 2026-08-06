@@ -1,5 +1,6 @@
 package com.elegant.compose.ui.breadcrumb
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -168,7 +169,7 @@ private fun BreadcrumbItem(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = null,
+                indication = LocalIndication.current,
                 onClick = { onItemClick?.invoke(index) },
             )
     } else {

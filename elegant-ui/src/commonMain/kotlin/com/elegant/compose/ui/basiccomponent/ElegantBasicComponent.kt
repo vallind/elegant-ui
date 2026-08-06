@@ -4,8 +4,7 @@
 package com.elegant.compose.ui.basiccomponent
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -38,6 +37,7 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantSpacing
@@ -71,7 +71,7 @@ public data class ElegantBasicComponentColors(
 /** Theme-aware defaults for [ElegantBasicComponent]. */
 public object ElegantBasicComponentDefaults {
     /** Minimum interactive row height. */
-    public val MinimumTouchHeight: Dp = 48.dp
+    public val MinimumTouchHeight: Dp = 56.dp
 
     /** Default padding inside the row. */
     public val InsideMargin: PaddingValues = PaddingValues(
@@ -155,10 +155,7 @@ public fun ElegantBasicComponent(
     )
     val animatedContainer by animateColorAsState(
         targetValue = visuals.containerColor,
-        animationSpec = tween(
-            durationMillis = BasicComponentAnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantBasicComponentContainer",
     )
     val currentOnClick by rememberUpdatedState(onClick)
@@ -176,7 +173,7 @@ public fun ElegantBasicComponent(
                         role = resolvedRole,
                         onClickLabel = onClickLabel,
                         interactionSource = interactionSource,
-                        indication = null,
+                        indication = LocalIndication.current,
                         onClick = { currentOnClick?.invoke() },
                     )
                 } else {

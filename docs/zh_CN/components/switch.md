@@ -71,7 +71,7 @@ ElegantSwitch(
 | `TrackHeight` | `Dp` | 24dp 视觉轨道高度 |
 | `ThumbSize` | `Dp` | 16dp 视觉滑块直径 |
 | `MinimumTouchHeight` | `Dp` | 48dp 最小交互行高 |
-| `AnimationDurationMillis` | `Int` | 标准 160ms 状态过渡时长 |
+| `PressedThumbScale` | `Float` | 按下或拖动时的滑块缩放系数 |
 | `colors()` | `ElegantSwitchColors` | 主题感知的 Light/Dark 颜色 |
 
 ### ElegantSwitchColors

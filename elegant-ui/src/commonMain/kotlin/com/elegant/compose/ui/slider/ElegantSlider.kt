@@ -1,9 +1,7 @@
 package com.elegant.compose.ui.slider
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -55,6 +53,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -207,34 +206,22 @@ public fun ElegantSlider(
 
     val animatedTrackColor by animateColorAsState(
         targetValue = trackColor,
-        animationSpec = tween(
-            durationMillis = ElegantSliderDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantSliderTrackColor",
     )
     val animatedActiveTrackColor by animateColorAsState(
         targetValue = activeTrackColor,
-        animationSpec = tween(
-            durationMillis = ElegantSliderDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantSliderActiveTrackColor",
     )
     val animatedThumbColor by animateColorAsState(
         targetValue = thumbColor,
-        animationSpec = tween(
-            durationMillis = ElegantSliderDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantSliderThumbColor",
     )
     val animatedThumbScale by animateFloatAsState(
         targetValue = if (pressed && enabled) PressedThumbScale else 1f,
-        animationSpec = tween(
-            durationMillis = ElegantSliderDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantSliderThumbScale",
     )
 

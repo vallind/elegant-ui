@@ -85,6 +85,7 @@ ElegantCard(
 | `colors` | `ElegantCardColors` | 主题感知的状态颜色 | `ElegantCardDefaults.colors(style)` | 否 |
 | `elevation` | `Dp` | 常驻阴影高度;按下与禁用时降为 none | `ElegantCardDefaults.elevation(style)` | 否 |
 | `holdDownState` | `Boolean` | 为 true 时强制按下视觉状态 | `false` | 否 |
+| `pressFeedback` | `ElegantPressFeedbackType` | 按压物理反馈;`Sink` 压缩卡片,`Tilt` 围绕触点旋转卡片 | `ElegantPressFeedbackType.None` | 否 |
 | `content` | `@Composable () -> Unit` | Card 内容;内边距由调用方负责 | - | 是 |
 
 ### ElegantCardStyle 可选值

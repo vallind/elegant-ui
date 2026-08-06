@@ -1,5 +1,6 @@
 package com.elegant.compose.ui.colorpicker
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -174,7 +175,7 @@ public fun ElegantColorPicker(
                     }
                     .clickable(
                         interactionSource = interactionSource,
-                        indication = null,
+                        indication = LocalIndication.current,
                         enabled = enabled,
                         role = Role.Button,
                         onClick = { onColorSelected(color) },

@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -58,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -269,10 +271,7 @@ private fun ListPopupOptionRow(
             hovered = hovered,
             selected = isOptionSelected,
         ),
-        animationSpec = tween(
-            durationMillis = ElegantListPopupDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantListPopupItemBackground",
     )
     val contentColor = listPopupItemTextColor(
@@ -290,7 +289,7 @@ private fun ListPopupOptionRow(
                 enabled = option.enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = null,
+                indication = LocalIndication.current,
                 onClick = onClick,
             )
             .semantics {

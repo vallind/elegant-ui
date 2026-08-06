@@ -1,8 +1,6 @@
 package com.elegant.compose.ui.label
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -13,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantSpacing
@@ -72,10 +71,7 @@ public fun ElegantLabel(
 ) {
     val animatedColor by animateColorAsState(
         targetValue = resolveLabelColor(colors = colors, enabled = enabled),
-        animationSpec = tween(
-            durationMillis = ElegantMotion.standardDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantLabelContent",
     )
 

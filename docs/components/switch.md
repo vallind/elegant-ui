@@ -28,7 +28,7 @@ ElegantSwitch(
 
 ## Component States
 
-A 44x24dp capsule track carries the checked and unchecked containers, while a 2dp focus ring appears only while the row has keyboard focus. The 16dp thumb travels across the track with a standard 160ms motion. `checked` is a semantic state that combines with interaction visuals: a pressed on switch shows the pressed on colors, and disabled switches never invoke `onCheckedChange` and are announced through the `Role.Switch` semantics of the toggleable row.
+A 49x28dp capsule track carries the checked and unchecked containers, while a 2dp focus ring appears only while the row has keyboard focus. The 20dp thumb travels across the track on a Folme spring and scales to 1.127x while pressed or dragged. `checked` is a semantic state that combines with interaction visuals: a pressed on switch shows the pressed on colors, and disabled switches never invoke `onCheckedChange` and are announced through the `Role.Switch` semantics of the toggleable row.
 
 State precedence: disabled, pressed, hovered, resting; the on or off visuals are then applied on top of the winning interaction state.
 
@@ -67,11 +67,11 @@ ElegantSwitch(
 
 | Member | Type | Description |
 | --- | --- | --- |
-| `TrackWidth` | `Dp` | 44dp visual track width |
-| `TrackHeight` | `Dp` | 24dp visual track height |
-| `ThumbSize` | `Dp` | 16dp visual thumb diameter |
+| `TrackWidth` | `Dp` | 49dp visual track width |
+| `TrackHeight` | `Dp` | 28dp visual track height |
+| `ThumbSize` | `Dp` | 20dp visual thumb diameter |
 | `MinimumTouchHeight` | `Dp` | 48dp minimum interactive row height |
-| `AnimationDurationMillis` | `Int` | Standard 160ms state-transition duration |
+| `PressedThumbScale` | `Float` | Thumb scale factor while pressed or dragged |
 | `colors()` | `ElegantSwitchColors` | Theme-aware Light/Dark colors |
 
 ### ElegantSwitchColors

@@ -116,7 +116,7 @@ internal class ElegantSquircleShapeContractTest {
     fun shapeExposesConfiguredRadiusAndSmoothing() {
         val defaults = ElegantSquircleShape()
         assertEquals(16.dp, defaults.cornerRadius)
-        assertEquals(0.6f, defaults.smoothing)
+        assertEquals(0.65f, defaults.smoothing)
 
         val custom = ElegantSquircleShape(cornerRadius = 24.dp, smoothing = 1f)
         assertEquals(24.dp, custom.cornerRadius)

@@ -1,11 +1,10 @@
 package com.elegant.compose.ui.card
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,7 +20,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.CompositionLocalProvider
@@ -41,6 +39,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
+import com.elegant.compose.ui.foundation.indication.ElegantPressFeedbackType
+import com.elegant.compose.ui.foundation.indication.resolvePressFeedback
 import com.elegant.compose.ui.foundation.shape.resolveSquircleAwareShape
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -140,6 +141,8 @@ internal data class CardVisuals(
  * @param shape clipping, border, and shadow shape.
  * @param colors theme-aware state colors.
  * @param elevation resting shadow elevation.
+ * @param pressFeedback press physics applied while the interactive card is pressed; the default
+ *   [ElegantPressFeedbackType.None] draws the theme overlay indication.
  * @param holdDownState forces the pressed visual state while true.
  * @param content card content; padding is the caller's responsibility.
  */
@@ -154,6 +157,7 @@ public fun ElegantCard(
     shape: Shape = ElegantCardDefaults.shape(style),
     colors: ElegantCardColors = ElegantCardDefaults.colors(style),
     elevation: Dp = ElegantCardDefaults.elevation(style),
+    pressFeedback: ElegantPressFeedbackType = ElegantPressFeedbackType.None,
     holdDownState: Boolean = false,
     content: @Composable () -> Unit,
 ) {
@@ -185,36 +189,26 @@ public fun ElegantCard(
         interactive = interactive,
     )
 
+    val pressFeedbackIndication = resolvePressFeedback(pressFeedback)
+
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantCardDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCardContainer",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = tween(
-            durationMillis = ElegantCardDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCardBorder",
     )
     val animatedBorderWidth by animateDpAsState(
         targetValue = visuals.borderWidth,
-        animationSpec = tween(
-            durationMillis = ElegantCardDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCardBorderWidth",
     )
     val animatedElevation by animateDpAsState(
         targetValue = visuals.elevation,
-        animationSpec = tween(
-            durationMillis = ElegantCardDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCardElevation",
     )
 
@@ -270,7 +264,7 @@ public fun ElegantCard(
                 .indication(
                     interactionSource = resolvedInteractionSource,
                     indication = if (interactive) {
-                        ripple(color = visuals.content)
+                        pressFeedbackIndication ?: LocalIndication.current
                     } else {
                         null
                     },

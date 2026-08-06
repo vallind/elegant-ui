@@ -1,8 +1,7 @@
 package com.elegant.compose.ui.sidebar
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -39,6 +38,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantRadius
@@ -199,10 +199,7 @@ public fun ElegantSidebar(
                             selected = selected,
                             hovered = hovered,
                         ),
-                        animationSpec = tween(
-                            durationMillis = ElegantSidebarDefaults.AnimationDurationMillis,
-                            easing = FastOutSlowInEasing,
-                        ),
+                        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
                         label = "ElegantSidebarItemContainer",
                     )
                     val animatedContent by animateColorAsState(
@@ -212,10 +209,7 @@ public fun ElegantSidebar(
                             hovered = hovered,
                             enabled = enabled && item.enabled,
                         ),
-                        animationSpec = tween(
-                            durationMillis = ElegantSidebarDefaults.AnimationDurationMillis,
-                            easing = FastOutSlowInEasing,
-                        ),
+                        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
                         label = "ElegantSidebarItemContent",
                     )
 
@@ -240,7 +234,7 @@ public fun ElegantSidebar(
                                 if (interactive) {
                                     Modifier.clickable(
                                         interactionSource = interactionSource,
-                                        indication = null,
+                                        indication = LocalIndication.current,
                                         role = Role.Tab,
                                         onClick = { onSelect?.invoke(index) },
                                     )

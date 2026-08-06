@@ -1,11 +1,10 @@
 package com.elegant.compose.ui.daterangepicker
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -60,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.calendar.ElegantCalendar
 import com.elegant.compose.ui.calendar.ElegantCalendarDefaults
 import com.elegant.compose.ui.calendar.ElegantDate
@@ -242,34 +242,22 @@ public fun ElegantDateRangePicker(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = DateRangePickerMetrics.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantDateRangePickerContainer",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = tween(
-            durationMillis = DateRangePickerMetrics.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantDateRangePickerBorder",
     )
     val animatedBorderWidth by animateDpAsState(
         targetValue = visuals.borderWidth,
-        animationSpec = tween(
-            durationMillis = DateRangePickerMetrics.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantDateRangePickerBorderWidth",
     )
     val animatedContent by animateColorAsState(
         targetValue = if (enabled) colors.contentColor else colors.disabledContentColor,
-        animationSpec = tween(
-            durationMillis = DateRangePickerMetrics.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantDateRangePickerContent",
     )
 
@@ -333,7 +321,7 @@ public fun ElegantDateRangePicker(
                     .clickable(
                         enabled = enabled,
                         interactionSource = interactionSource,
-                        indication = null,
+                        indication = LocalIndication.current,
                         onClick = { expanded = true },
                     )
                     .padding(horizontal = DateRangePickerMetrics.FieldHorizontalPadding),
@@ -502,7 +490,7 @@ private fun RangePairNavButton(
             .clickable(
                 enabled = enabled,
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null,
+                indication = LocalIndication.current,
                 onClick = onClick,
             )
             .semantics {

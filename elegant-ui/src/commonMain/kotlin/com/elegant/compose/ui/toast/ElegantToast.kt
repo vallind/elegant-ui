@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,6 +41,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.indication.ElegantIndication
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -312,7 +312,7 @@ public fun ElegantToast(
                     .clickable(
                         role = Role.Button,
                         interactionSource = interactionSource,
-                        indication = ripple(color = colors.closeIconColor),
+                        indication = ElegantIndication(color = colors.closeIconColor),
                         onClick = onClose,
                     )
                     .padding(horizontal = ElegantSpacing.xs),

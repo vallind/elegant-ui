@@ -181,6 +181,7 @@ import com.elegant.compose.ui.scrollshadow.ElegantScrollShadowOrientation
 import com.elegant.compose.ui.searchbar.ElegantSearchBar
 import com.elegant.compose.ui.select.ElegantSelect
 import com.elegant.compose.ui.select.ElegantSelectOption
+import com.elegant.compose.ui.foundation.indication.ElegantPressFeedbackType
 import com.elegant.compose.ui.foundation.shape.ElegantSquircleShape
 import com.elegant.compose.ui.sidebar.ElegantSidebar
 import com.elegant.compose.ui.sidebar.ElegantSidebarItem
@@ -2852,6 +2853,7 @@ private fun SelectShowcase() {
 @Composable
 private fun CardShowcase() {
     var openCount by remember { mutableIntStateOf(0) }
+    var pressFeedback by remember { mutableStateOf(ElegantPressFeedbackType.None) }
 
     ShowcasePage(title = "Elegant Card") { compact ->
         val colors = ElegantTheme.colors
@@ -2900,11 +2902,33 @@ private fun CardShowcase() {
             compact = compact,
             eyebrow = "INTERACTIVE",
             title = "Cards that respond",
-            description = "Passing onClick adds hover, press, focus, and ripple without changing layout.",
+            description = "Passing onClick adds hover, press, focus, and overlay feedback without changing layout.",
         ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(ElegantSpacing.md),
+                horizontalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                for (feedback in ElegantPressFeedbackType.entries) {
+                    ElegantTag(
+                        onClick = { pressFeedback = feedback },
+                        selected = feedback == pressFeedback,
+                        style = if (feedback == pressFeedback) {
+                            ElegantTagStyle.Filled
+                        } else {
+                            ElegantTagStyle.Outlined
+                        },
+                    ) {
+                        Text(feedback.name)
+                    }
+                }
+            }
             ElegantCard(
                 onClick = { openCount++ },
                 style = ElegantCardStyle.Outlined,
+                pressFeedback = pressFeedback,
             ) {
                 Row(
                     modifier = Modifier
@@ -4137,7 +4161,7 @@ private fun SnackbarShowcase() {
             compact = compact,
             eyebrow = "ACTION",
             title = "One clear call to action",
-            description = "An action label keeps a 48dp touch target, shows a ripple, and dismisses the message on click.",
+            description = "An action label keeps a 48dp touch target, shows overlay feedback, and dismisses the message on click.",
         ) {
             ElegantButton(
                 onClick = {
@@ -5430,7 +5454,7 @@ private fun SurfaceShowcase() {
                         Column(Modifier.weight(1f)) {
                             Text("Clickable", style = ElegantTheme.typography.labelLarge)
                             Text(
-                                text = "Hover, press, focus, and ripple land here.",
+                                text = "Hover, press, focus, and overlay feedback land here.",
                                 color = colors.textSecondary,
                                 style = ElegantTheme.typography.bodyMedium,
                             )
@@ -8546,14 +8570,14 @@ private fun SquircleShowcase() {
             compact = compact,
             eyebrow = "FOUNDATIONS",
             title = "Smoothing scale",
-            description = "One shape, three curvatures: plain corners at 0, the default at 0.6, and the roundest superellipse at 1.",
+            description = "One shape, three curvatures: plain corners at 0, the default at 0.65, and the roundest superellipse at 1.",
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(ElegantSpacing.md),
             ) {
                 SquircleSwatch(colors = colors, smoothing = 0f, label = "Plain corner")
-                SquircleSwatch(colors = colors, smoothing = 0.6f, label = "Default smooth")
+                SquircleSwatch(colors = colors, smoothing = 0.65f, label = "Default smooth")
                 SquircleSwatch(colors = colors, smoothing = 1f, label = "Roundest")
             }
         }

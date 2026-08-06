@@ -1,10 +1,9 @@
 package com.elegant.compose.ui.closebutton
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,6 +32,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantTheme
@@ -204,18 +204,12 @@ public fun ElegantCloseButton(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantCloseButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCloseButtonContainer",
     )
     val animatedContent by animateColorAsState(
         targetValue = visuals.content,
-        animationSpec = tween(
-            durationMillis = ElegantCloseButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCloseButtonContent",
     )
 
@@ -234,7 +228,7 @@ public fun ElegantCloseButton(
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = resolvedInteractionSource,
-                indication = null,
+                indication = LocalIndication.current,
                 onClick = onClick,
             ),
         contentAlignment = Alignment.Center,

@@ -1,8 +1,7 @@
 package com.elegant.compose.ui.navigationrail
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -39,6 +38,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.iconbutton.ElegantIcon
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -184,18 +184,12 @@ public fun ElegantNavigationRail(
 
                 val animatedIndicator by animateColorAsState(
                     targetValue = resolveIndicatorContainer(colors, selected, hovered),
-                    animationSpec = tween(
-                        durationMillis = ElegantNavigationRailDefaults.AnimationDurationMillis,
-                        easing = FastOutSlowInEasing,
-                    ),
+                    animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
                     label = "ElegantNavigationRailItemIndicator",
                 )
                 val animatedContent by animateColorAsState(
                     targetValue = resolveItemColor(colors, selected, hovered, enabled = interactive),
-                    animationSpec = tween(
-                        durationMillis = ElegantNavigationRailDefaults.AnimationDurationMillis,
-                        easing = FastOutSlowInEasing,
-                    ),
+                    animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
                     label = "ElegantNavigationRailItemContent",
                 )
 
@@ -212,7 +206,7 @@ public fun ElegantNavigationRail(
                             if (interactive) {
                                 Modifier.clickable(
                                     interactionSource = interactionSource,
-                                    indication = null,
+                                    indication = LocalIndication.current,
                                     role = Role.Tab,
                                     onClick = { onSelect(index) },
                                 )

@@ -122,7 +122,7 @@ Loading keeps the measured label and icon content in place, overlays a centered 
 
 | Value | Visual Height | Minimum Touch Height | Horizontal Padding | Icon Size |
 | --- | --- | --- | --- | --- |
-| `Small` | `36.dp` | `48.dp` | `12.dp` | `16.dp` |
+| `Small` | `40.dp` | `48.dp` | `12.dp` | `16.dp` |
 | `Medium` | `40.dp` | `48.dp` | `16.dp` | `18.dp` |
 | `Large` | `48.dp` | `48.dp` | `20.dp` | `20.dp` |
 

@@ -145,12 +145,12 @@ internal class ElegantInputContractTest {
     }
 
     @Test
-    fun stylesResolveDistinctShapes() {
+    fun stylesResolveTheSameSquircleAwareShape() {
         val filled = ElegantInputDefaults.shape(ElegantInputStyle.Filled)
         val outlined = ElegantInputDefaults.shape(ElegantInputStyle.Outlined)
 
-        assertEquals(RoundedCornerShape(ElegantRadius.md), filled)
-        assertEquals(RoundedCornerShape(10.dp), outlined)
-        assertNotEquals(filled, outlined)
+        assertEquals(RoundedCornerShape(16.dp), filled)
+        assertEquals(RoundedCornerShape(16.dp), outlined)
+        assertEquals(filled, outlined)
     }
 }

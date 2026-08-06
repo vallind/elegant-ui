@@ -1,9 +1,8 @@
 package com.elegant.compose.ui.pagination
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -38,6 +36,7 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantRadius
@@ -235,7 +234,7 @@ private fun PaginationPageButton(
             .background(animatedContainer)
             .indication(
                 interactionSource = interactionSource,
-                indication = ripple(color = animatedContent),
+                indication = LocalIndication.current,
             )
             .then(
                 if (focused) {
@@ -297,7 +296,7 @@ private fun PaginationNavButton(
             .background(animatedContainer)
             .indication(
                 interactionSource = interactionSource,
-                indication = ripple(color = animatedContent),
+                indication = LocalIndication.current,
             )
             .then(
                 if (focused) {
@@ -366,10 +365,7 @@ private fun PaginationChevron(
 private fun animatedItemColor(target: Color): Color {
     val animated by animateColorAsState(
         targetValue = target,
-        animationSpec = tween(
-            durationMillis = ElegantPaginationDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantPaginationItemColor",
     )
     return animated

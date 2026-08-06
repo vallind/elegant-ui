@@ -1,10 +1,9 @@
 package com.elegant.compose.ui.radio
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Text
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -35,6 +33,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantSpacing
@@ -135,18 +134,12 @@ public fun ElegantRadio(
 
     val animatedColor by animateColorAsState(
         targetValue = visuals.color,
-        animationSpec = tween(
-            durationMillis = ElegantRadioDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantRadioColor",
     )
     val animatedDotScale by animateFloatAsState(
         targetValue = visuals.dotScale,
-        animationSpec = tween(
-            durationMillis = ElegantRadioDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantRadioDotScale",
     )
     val labelColor = if (enabled) {
@@ -171,7 +164,7 @@ public fun ElegantRadio(
             )
             .indication(
                 interactionSource = resolvedInteractionSource,
-                indication = ripple(color = animatedColor),
+                indication = LocalIndication.current,
             )
             .padding(horizontal = ElegantSpacing.md),
         verticalAlignment = Alignment.CenterVertically,

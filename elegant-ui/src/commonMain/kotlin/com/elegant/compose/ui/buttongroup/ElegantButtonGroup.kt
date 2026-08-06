@@ -1,9 +1,8 @@
 package com.elegant.compose.ui.buttongroup
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -36,6 +35,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.iconbutton.ElegantIcon
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -192,10 +192,7 @@ private fun ElegantButtonGroupCell(
             pressed = pressed,
             hovered = hovered,
         ),
-        animationSpec = tween(
-            durationMillis = ElegantButtonGroupDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantButtonGroupContainer",
     )
     val animatedContent by animateColorAsState(
@@ -204,10 +201,7 @@ private fun ElegantButtonGroupCell(
             enabled = enabled,
             selected = selected,
         ),
-        animationSpec = tween(
-            durationMillis = ElegantButtonGroupDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantButtonGroupContent",
     )
 
@@ -219,7 +213,7 @@ private fun ElegantButtonGroupCell(
                 enabled = enabled,
                 role = Role.RadioButton,
                 interactionSource = interactionSource,
-                indication = null,
+                indication = LocalIndication.current,
                 onClick = onSelect,
             )
             .semantics {

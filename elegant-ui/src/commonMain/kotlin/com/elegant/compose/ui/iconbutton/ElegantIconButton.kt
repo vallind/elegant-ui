@@ -1,11 +1,10 @@
 package com.elegant.compose.ui.iconbutton
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -46,6 +44,7 @@ import com.elegant.compose.ui.internal.action.ActionStateColors
 import com.elegant.compose.ui.internal.action.ActionStateElevation
 import com.elegant.compose.ui.internal.action.ActionVisuals
 import com.elegant.compose.ui.internal.action.resolveActionVisuals
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.shape.resolveSquircleAwareShape
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -224,13 +223,9 @@ public object ElegantIconButtonDefaults {
         }
     }
 
-    /** Returns the optically tuned shape for [size]. */
+    /** Returns the squircle-aware default container shape, a 16dp rounded square across sizes. */
     public fun shape(size: ElegantIconButtonSize = ElegantIconButtonSize.Medium): Shape =
-        when (size) {
-            ElegantIconButtonSize.Small -> RoundedCornerShape(10.dp)
-            ElegantIconButtonSize.Medium -> RoundedCornerShape(12.dp)
-            ElegantIconButtonSize.Large -> RoundedCornerShape(14.dp)
-        }
+        RoundedCornerShape(16.dp)
 
     /** Returns the interaction elevation model for [style]. */
     public fun elevation(
@@ -325,54 +320,32 @@ public fun ElegantIconButton(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantIconButtonContainer",
     )
     val animatedContent by animateColorAsState(
         targetValue = visuals.content,
-        animationSpec = tween(
-            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantIconButtonContent",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = tween(
-            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantIconButtonBorder",
     )
     val animatedBorderWidth by animateDpAsState(
         targetValue = visuals.borderWidth,
-        animationSpec = tween(
-            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantIconButtonBorderWidth",
     )
     val animatedElevation by animateDpAsState(
         targetValue = visuals.elevation,
-        animationSpec = tween(
-            durationMillis = ElegantIconButtonDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantIconButtonElevation",
     )
     val animatedScale by animateFloatAsState(
         targetValue = visuals.scale,
-        animationSpec = tween(
-            durationMillis = if (pressed) {
-                ElegantIconButtonDefaults.PressAnimationDurationMillis
-            } else {
-                ElegantIconButtonDefaults.AnimationDurationMillis
-            },
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 0.8f, responseSeconds = 0.25f),
         label = "ElegantIconButtonScale",
     )
 
@@ -425,7 +398,7 @@ public fun ElegantIconButton(
                 .background(animatedContainer)
                 .indication(
                     interactionSource = resolvedInteractionSource,
-                    indication = ripple(color = animatedContent),
+                    indication = LocalIndication.current,
                 )
                 .then(borderModifier),
             contentAlignment = Alignment.Center,
@@ -469,11 +442,7 @@ internal fun iconButtonMetricsFor(size: ElegantIconButtonSize): IconButtonMetric
     )
 }
 
-internal fun iconButtonDefaultCornerRadius(size: ElegantIconButtonSize): Dp = when (size) {
-    ElegantIconButtonSize.Small -> 10.dp
-    ElegantIconButtonSize.Medium -> 12.dp
-    ElegantIconButtonSize.Large -> 14.dp
-}
+internal fun iconButtonDefaultCornerRadius(size: ElegantIconButtonSize): Dp = 16.dp
 
 internal fun resolveIconButtonVisuals(
     colors: ElegantIconButtonColors,

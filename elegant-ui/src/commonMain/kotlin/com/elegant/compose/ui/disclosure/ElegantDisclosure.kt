@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -49,6 +50,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantRadius
@@ -148,18 +150,12 @@ public fun ElegantDisclosure(
     )
     val animatedHeaderContainer by animateColorAsState(
         targetValue = headerContainer,
-        animationSpec = tween(
-            durationMillis = ElegantDisclosureDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantDisclosureHeaderContainer",
     )
     val animatedChevronRotation by animateFloatAsState(
         targetValue = chevronRotation(expanded),
-        animationSpec = tween(
-            durationMillis = ElegantDisclosureDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantDisclosureChevronRotation",
     )
     val isExpanded = expanded
@@ -206,7 +202,7 @@ public fun ElegantDisclosure(
                         enabled = enabled,
                         role = Role.Button,
                         interactionSource = resolvedInteractionSource,
-                        indication = null,
+                        indication = LocalIndication.current,
                         onClick = { onToggle() },
                     )
                     .padding(horizontal = ElegantSpacing.xl),

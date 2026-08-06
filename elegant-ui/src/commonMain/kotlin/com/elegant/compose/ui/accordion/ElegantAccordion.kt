@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -51,6 +52,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantRadius
@@ -187,18 +189,12 @@ public fun ElegantAccordionItem(
     )
     val animatedHeaderContainer by animateColorAsState(
         targetValue = headerContainer,
-        animationSpec = tween(
-            durationMillis = ElegantAccordionDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantAccordionHeaderContainer",
     )
     val animatedChevronRotation by animateFloatAsState(
         targetValue = chevronRotation(expanded),
-        animationSpec = tween(
-            durationMillis = ElegantAccordionDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantAccordionChevronRotation",
     )
     val isExpanded = expanded
@@ -235,8 +231,8 @@ public fun ElegantAccordionItem(
                 .clickable(
                     enabled = enabled,
                     role = Role.Button,
-                    interactionSource = resolvedInteractionSource,
-                    indication = null,
+                interactionSource = resolvedInteractionSource,
+                indication = LocalIndication.current,
                     onClick = { onToggle() },
                 )
                 .padding(horizontal = ElegantSpacing.xl),

@@ -355,7 +355,9 @@ internal fun resolveBadgeColors(
     )
 
     ElegantBadgeStyle.Accent -> ElegantBadgeColors(
-        containerColor = themeColors.interactivePrimary,
+        // The pressed primary variant keeps white text at WCAG AA on both palettes,
+        // while the resting primary stays reserved for interactive containers.
+        containerColor = themeColors.interactivePrimaryPressed,
         contentColor = themeColors.textInverse,
         borderColor = themeColors.textInverse.copy(alpha = 0.18f),
     )

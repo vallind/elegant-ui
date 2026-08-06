@@ -6,6 +6,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -58,6 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
@@ -365,10 +367,7 @@ private fun CascadingMenuItemRow(
     val hovered by interactionSource.collectIsHoveredAsState()
     val background by animateColorAsState(
         targetValue = if (item.enabled && hovered) colors.hoveredContainerColor else Color.Transparent,
-        animationSpec = tween(
-            durationMillis = ElegantCascadingMenuDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCascadingMenuItemBackground",
     )
     val contentColor = if (item.enabled) colors.contentColor else colors.disabledContentColor
@@ -394,7 +393,7 @@ private fun CascadingMenuItemRow(
                 enabled = item.enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = null,
+                indication = LocalIndication.current,
                 onClick = {
                     if (hasChildren(item)) {
                         currentOnSubmenuPathChange(resolveSubmenuPath(item, remainingPath, index))

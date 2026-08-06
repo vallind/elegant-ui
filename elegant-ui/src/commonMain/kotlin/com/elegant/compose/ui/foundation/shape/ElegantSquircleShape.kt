@@ -43,7 +43,7 @@ import kotlin.math.min
 @Immutable
 public class ElegantSquircleShape(
     public val cornerRadius: Dp = 16.dp,
-    public val smoothing: Float = 0.6f,
+    public val smoothing: Float = 0.65f,
 ) : Shape {
 
     override fun createOutline(
@@ -175,7 +175,7 @@ public val LocalSquircleEnabled: androidx.compose.runtime.ProvidableCompositionL
 @androidx.compose.runtime.Composable
 public fun Modifier.elegantSquircleClip(
     cornerRadius: Dp = 16.dp,
-    smoothing: Float = 0.6f,
+    smoothing: Float = 0.65f,
 ): Modifier = clip(resolvedSquircleShape(cornerRadius, smoothing))
 
 /** Clips and fills [this] node with a squircle surface of [color]. */
@@ -183,7 +183,7 @@ public fun Modifier.elegantSquircleClip(
 public fun Modifier.elegantSquircleSurface(
     color: Color,
     cornerRadius: Dp = 16.dp,
-    smoothing: Float = 0.6f,
+    smoothing: Float = 0.65f,
 ): Modifier = clip(resolvedSquircleShape(cornerRadius, smoothing)).background(color)
 
 /** Draws a squircle border of [width] and [color] on [this] node. */
@@ -192,7 +192,7 @@ public fun Modifier.elegantSquircleBorder(
     width: Dp,
     color: Color,
     cornerRadius: Dp = 16.dp,
-    smoothing: Float = 0.6f,
+    smoothing: Float = 0.65f,
 ): Modifier = border(width, color, resolvedSquircleShape(cornerRadius, smoothing))
 
 /**

@@ -2,8 +2,8 @@ package com.elegant.compose.ui.switch
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.border
@@ -38,13 +38,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.abs
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantElevation
-import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantSpacing
 import com.elegant.compose.ui.foundation.theme.ElegantTheme
 
@@ -91,20 +92,20 @@ public data class ElegantSwitchColors(
 
 /** Theme-aware defaults for [ElegantSwitch]. */
 public object ElegantSwitchDefaults {
-    /** 44dp visual track width. */
-    public val TrackWidth: Dp = 44.dp
+    /** 49dp visual track width. */
+    public val TrackWidth: Dp = 49.dp
 
-    /** 24dp visual track height. */
-    public val TrackHeight: Dp = 24.dp
+    /** 28dp visual track height. */
+    public val TrackHeight: Dp = 28.dp
 
-    /** 16dp visual thumb diameter. */
-    public val ThumbSize: Dp = 16.dp
+    /** 20dp visual thumb diameter. */
+    public val ThumbSize: Dp = 20.dp
+
+    /** Thumb scale while the switch is pressed or dragged. */
+    public const val PressedThumbScale: Float = 1.127f
 
     /** Minimum interactive root height used by the switch row. */
     public val MinimumTouchHeight: Dp = 48.dp
-
-    /** Standard state-transition duration. */
-    public const val AnimationDurationMillis: Int = ElegantMotion.standardDurationMillis
 
     /** Returns theme-aware state colors. */
     @Composable
@@ -169,18 +170,12 @@ public fun ElegantSwitch(
 
     val animatedTrack by animateColorAsState(
         targetValue = visuals.track,
-        animationSpec = tween(
-            durationMillis = ElegantSwitchDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantSwitchTrack",
     )
     val animatedThumb by animateColorAsState(
         targetValue = visuals.thumb,
-        animationSpec = tween(
-            durationMillis = ElegantSwitchDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantSwitchThumb",
     )
     val animatedOffset by animateDpAsState(
@@ -189,11 +184,17 @@ public fun ElegantSwitch(
         } else {
             0.dp
         },
-        animationSpec = tween(
-            durationMillis = ElegantSwitchDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = spring(dampingRatio = 0.7f, stiffness = 987f),
         label = "ElegantSwitchThumbOffset",
+    )
+    val animatedThumbScale by animateFloatAsState(
+        targetValue = if (pressed || rawDragOffset != 0f) {
+            ElegantSwitchDefaults.PressedThumbScale
+        } else {
+            1f
+        },
+        animationSpec = spring(dampingRatio = 0.6f, stiffness = 987f),
+        label = "ElegantSwitchThumbScale",
     )
     val displayedOffset = if (rawDragOffset != 0f) {
         with(density) {
@@ -286,6 +287,10 @@ public fun ElegantSwitch(
             Box(
                 modifier = Modifier
                     .size(ElegantSwitchDefaults.ThumbSize)
+                    .graphicsLayer {
+                        scaleX = animatedThumbScale
+                        scaleY = animatedThumbScale
+                    }
                     .shadow(
                         elevation = ElegantElevation.low,
                         shape = CircleShape,

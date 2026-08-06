@@ -51,6 +51,6 @@ internal class ElegantBasicComponentContractTest {
 
     @Test
     fun defaultsMeetAccessibilityAndTokenBaselines() {
-        assertTrue(ElegantBasicComponentDefaults.MinimumTouchHeight >= 48.dp)
+        assertTrue(ElegantBasicComponentDefaults.MinimumTouchHeight >= 56.dp)
     }
 }

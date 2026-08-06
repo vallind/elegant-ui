@@ -1,9 +1,7 @@
 package com.elegant.compose.ui.textarea
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -45,6 +43,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
+import com.elegant.compose.ui.foundation.shape.resolveSquircleAwareShape
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantSpacing
 import com.elegant.compose.ui.foundation.theme.ElegantTheme
@@ -111,8 +111,8 @@ public object ElegantTextareaDefaults {
     @Composable
     public fun colors(): ElegantTextareaColors = resolveTextareaColors(ElegantTheme.colors)
 
-    /** Returns the container shape for [ElegantTextarea]. */
-    public fun shape(): Shape = RoundedCornerShape(12.dp)
+    /** Returns the squircle-aware container shape for [ElegantTextarea], a 16dp rounded square. */
+    public fun shape(): Shape = RoundedCornerShape(16.dp)
 }
 
 @Immutable
@@ -176,7 +176,11 @@ public fun ElegantTextarea(
     val resolvedErrorText = if (isError && !errorText.isNullOrBlank()) errorText else null
     val resolvedMaxLength = resolveMaxLength(maxLength)
     val (resolvedMinLines, resolvedMaxLines) = resolveLines(minLines, maxLines)
-    val shape = ElegantTextareaDefaults.shape()
+    val effectiveShape = resolveSquircleAwareShape(
+        userShape = ElegantTextareaDefaults.shape(),
+        defaultShape = ElegantTextareaDefaults.shape(),
+        cornerRadius = 16.dp,
+    )
     val interactionSource = remember { MutableInteractionSource() }
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
@@ -190,34 +194,22 @@ public fun ElegantTextarea(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantTextareaDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantTextareaContainer",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = tween(
-            durationMillis = ElegantTextareaDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantTextareaBorder",
     )
     val animatedBorderWidth by animateDpAsState(
         targetValue = visuals.borderWidth,
-        animationSpec = tween(
-            durationMillis = ElegantTextareaDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantTextareaBorderWidth",
     )
     val animatedContent by animateColorAsState(
         targetValue = if (enabled) colors.contentColor else colors.disabledContentColor,
-        animationSpec = tween(
-            durationMillis = ElegantTextareaDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantTextareaContent",
     )
     val inputTextStyle = ElegantTheme.typography.bodyMedium.copy(color = animatedContent)
@@ -249,11 +241,11 @@ public fun ElegantTextarea(
                     if (!enabled) disabled()
                     if (resolvedErrorText != null) error(resolvedErrorText)
                 }
-                .clip(shape)
+                .clip(effectiveShape)
                 .background(animatedContainer)
                 .border(
                     border = BorderStroke(animatedBorderWidth, animatedBorder),
-                    shape = shape,
+                    shape = effectiveShape,
                 )
                 .hoverable(
                     interactionSource = interactionSource,

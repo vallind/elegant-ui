@@ -26,7 +26,7 @@ internal class ElegantButtonContractTest {
     fun sizeMetricsRemainOpticallyTuned() {
         assertEquals(
             ButtonMetrics(
-                visualHeight = 36.dp,
+                visualHeight = 40.dp,
                 minWidth = 64.dp,
                 horizontalPadding = 12.dp,
                 iconSize = 16.dp,

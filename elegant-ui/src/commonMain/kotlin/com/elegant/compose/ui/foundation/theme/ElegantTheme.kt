@@ -1,5 +1,6 @@
 package com.elegant.compose.ui.foundation.theme
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -7,8 +8,10 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import com.elegant.compose.ui.foundation.indication.ElegantIndication
 
 private val LocalElegantColors = staticCompositionLocalOf { ElegantLightColors }
 private val LocalElegantTypography = staticCompositionLocalOf { DefaultElegantTypography }
@@ -29,7 +32,12 @@ public object ElegantTheme {
 }
 
 /**
- * Provides Elegant UI colors and typography to [content].
+ * Provides Elegant UI colors, typography, and the default overlay indication to [content].
+ *
+ * The provided [androidx.compose.foundation.LocalIndication] is an [ElegantIndication] colored with
+ * the primary text color, so interactive components under this theme press with the HyperOS flat
+ * overlay instead of a Material ripple. Provide a different [androidx.compose.foundation.LocalIndication]
+ * around a subtree to opt out.
  *
  * Android, Desktop JVM, and Web/Wasm share this implementation from `commonMain`, preserving
  * one visual and semantic contract across supported targets.
@@ -62,10 +70,14 @@ public fun ElegantTheme(
             outline = colors.borderDefault,
         )
     }
+    val overlayIndication = remember(colors.textPrimary) {
+        ElegantIndication(color = colors.textPrimary)
+    }
 
     CompositionLocalProvider(
         LocalElegantColors provides colors,
         LocalElegantTypography provides typography,
+        LocalIndication provides overlayIndication,
     ) {
         MaterialTheme(
             colorScheme = materialColors,

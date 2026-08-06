@@ -1,6 +1,7 @@
 package com.elegant.compose.ui.calendar
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -246,7 +247,7 @@ private fun CalendarNavButton(
             .clickable(
                 enabled = enabled,
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null,
+                indication = LocalIndication.current,
                 onClick = onClick,
             )
             .semantics {
@@ -314,7 +315,7 @@ private fun CalendarDayCell(
             .clickable(
                 enabled = selectable,
                 interactionSource = interactionSource,
-                indication = null,
+                indication = LocalIndication.current,
                 onClick = onClick,
             )
             .clip(CircleShape)

@@ -81,7 +81,7 @@ public data class ElegantDividerColors(
 /** Defaults and theme-aware factories shared by Elegant UI divider APIs. */
 public object ElegantDividerDefaults {
     /** Default hairline thickness. */
-    public val Thickness: Dp = 1.dp
+    public val Thickness: Dp = 0.75.dp
 
     /** Horizontal breathing room around labeled-divider content. */
     public val LabelGap: Dp = ElegantSpacing.lg

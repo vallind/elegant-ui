@@ -1,14 +1,13 @@
 package com.elegant.compose.ui.list
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.indication
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -25,7 +24,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -42,6 +40,7 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantTheme
@@ -82,7 +81,7 @@ public data class ElegantListItemColors(
 /** Theme-aware defaults for [ElegantListItem]. */
 public object ElegantListItemDefaults {
     /** Minimum row height kept by every list item. */
-    public val MinimumTouchHeight: Dp = 48.dp
+    public val MinimumTouchHeight: Dp = 56.dp
 
     /** Standard state-transition duration. */
     public const val AnimationDurationMillis: Int = ElegantMotion.standardDurationMillis
@@ -141,7 +140,7 @@ public fun ElegantList(
  *
  * An item without [onClick] is non-interactive: it renders the title, supporting text, and slots,
  * keeps the semantics of its content, and supports no focus. Passing [onClick] turns the item into
- * a button-like row with a 48dp minimum interactive root, a merged [Role.Button] label that
+ * a button-like row with a 56dp minimum interactive root, a merged [Role.Button] label that
  * announces [selected] and [enabled], a visible focus ring, and animated hover and press container
  * feedback with a ripple. Hover and press feedback apply only while [onClick] is set; [selected]
  * is a semantic state that replaces the resting container with the accent-tinted container
@@ -150,7 +149,7 @@ public fun ElegantList(
  * The item owns the text styles: the [title] lambda receives `labelLarge` typography and the
  * [supportingText] lambda receives `bodyMedium` typography plus the supporting text color. Leading
  * and trailing slots are centered in 20dp boxes separated by 16dp gaps and receive their slot
- * colors through [LocalContentColor]. The item keeps a 48dp minimum row height and fills the width
+ * colors through [LocalContentColor]. The item keeps a 56dp minimum row height and fills the width
  * of its container.
  *
  * State precedence: disabled, pressed, selected, hovered, resting. The focus ring renders only for
@@ -199,42 +198,27 @@ public fun ElegantListItem(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantListItemDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantListItemContainer",
     )
     val animatedContent by animateColorAsState(
         targetValue = visuals.content,
-        animationSpec = tween(
-            durationMillis = ElegantListItemDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantListItemContent",
     )
     val animatedSupportingText by animateColorAsState(
         targetValue = visuals.supportingText,
-        animationSpec = tween(
-            durationMillis = ElegantListItemDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantListItemSupportingText",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = tween(
-            durationMillis = ElegantListItemDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantListItemBorder",
     )
     val animatedBorderWidth by animateDpAsState(
         targetValue = visuals.borderWidth,
-        animationSpec = tween(
-            durationMillis = ElegantListItemDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantListItemBorderWidth",
     )
 
@@ -267,7 +251,7 @@ public fun ElegantListItem(
                 .indication(
                     interactionSource = interactionSource,
                     indication = if (interactive) {
-                        ripple(color = animatedContent)
+                        LocalIndication.current
                     } else {
                         null
                     },

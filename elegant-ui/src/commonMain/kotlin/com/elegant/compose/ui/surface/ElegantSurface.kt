@@ -1,9 +1,8 @@
 package com.elegant.compose.ui.surface
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
@@ -34,6 +32,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.elegant.compose.ui.foundation.theme.ElegantColors
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
+import com.elegant.compose.ui.foundation.shape.resolveSquircleAwareShape
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantRadius
 import com.elegant.compose.ui.foundation.theme.ElegantTheme
@@ -78,8 +78,8 @@ public object ElegantSurfaceDefaults {
     @Composable
     public fun colors(): ElegantSurfaceColors = resolveSurfaceColors(ElegantTheme.colors)
 
-    /** Returns the shared 8dp rounded shape used by default. */
-    public fun shape(): Shape = RoundedCornerShape(ElegantRadius.md)
+    /** Returns the squircle-aware default container shape, a 16dp rounded square. */
+    public fun shape(): Shape = RoundedCornerShape(ElegantRadius.lg)
 }
 
 @Immutable
@@ -128,11 +128,16 @@ public fun ElegantSurface(
     borderWidth: Dp = 0.dp,
     content: @Composable () -> Unit,
 ) {
+    val effectiveShape = resolveSquircleAwareShape(
+        userShape = shape,
+        defaultShape = ElegantSurfaceDefaults.shape(),
+        cornerRadius = ElegantRadius.lg,
+    )
     if (onClick == null) {
         val borderModifier = if (borderWidth > 0.dp) {
             Modifier.border(
                 border = BorderStroke(borderWidth, colors.borderColor),
-                shape = shape,
+                shape = effectiveShape,
             )
         } else {
             Modifier
@@ -140,7 +145,7 @@ public fun ElegantSurface(
 
         Box(
             modifier = modifier
-                .clip(shape)
+                .clip(effectiveShape)
                 .background(colors.containerColor)
                 .then(borderModifier),
         ) {
@@ -167,10 +172,7 @@ public fun ElegantSurface(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantSurfaceDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantSurfaceContainer",
     )
 
@@ -192,7 +194,7 @@ public fun ElegantSurface(
         val borderModifier = if (visuals.borderWidth > 0.dp) {
             Modifier.border(
                 border = BorderStroke(visuals.borderWidth, visuals.border),
-                shape = shape,
+                shape = effectiveShape,
             )
         } else {
             Modifier
@@ -201,11 +203,11 @@ public fun ElegantSurface(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(shape)
+                .clip(effectiveShape)
                 .background(animatedContainer)
                 .indication(
                     interactionSource = interactionSource,
-                    indication = ripple(color = visuals.content),
+                    indication = LocalIndication.current,
                 )
                 .then(borderModifier),
         ) {

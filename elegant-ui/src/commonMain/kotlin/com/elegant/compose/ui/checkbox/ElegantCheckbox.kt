@@ -2,9 +2,8 @@ package com.elegant.compose.ui.checkbox
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -22,7 +21,6 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,6 +38,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.elegant.compose.ui.foundation.animation.elegantFolmeSpring
 import com.elegant.compose.ui.foundation.theme.ElegantColors
 import com.elegant.compose.ui.foundation.theme.ElegantMotion
 import com.elegant.compose.ui.foundation.theme.ElegantSpacing
@@ -105,7 +104,6 @@ internal data class CheckboxVisuals(
     val container: Color,
     val border: Color,
     val check: Color,
-    val ripple: Color,
 )
 
 /**
@@ -152,44 +150,24 @@ public fun ElegantCheckbox(
 
     val animatedContainer by animateColorAsState(
         targetValue = visuals.container,
-        animationSpec = tween(
-            durationMillis = ElegantCheckboxDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCheckboxContainer",
     )
     val animatedBorder by animateColorAsState(
         targetValue = visuals.border,
-        animationSpec = tween(
-            durationMillis = ElegantCheckboxDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCheckboxBorder",
     )
     val animatedCheck by animateColorAsState(
         targetValue = visuals.check,
-        animationSpec = tween(
-            durationMillis = ElegantCheckboxDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
+        animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         label = "ElegantCheckboxCheck",
-    )
-    val animatedRipple by animateColorAsState(
-        targetValue = visuals.ripple,
-        animationSpec = tween(
-            durationMillis = ElegantCheckboxDefaults.AnimationDurationMillis,
-            easing = FastOutSlowInEasing,
-        ),
-        label = "ElegantCheckboxRipple",
     )
     val checkmarkProgress = remember { Animatable(0f) }
     LaunchedEffect(checked) {
         checkmarkProgress.animateTo(
             targetValue = if (checked) 1f else 0f,
-            animationSpec = tween(
-                durationMillis = ElegantCheckboxDefaults.AnimationDurationMillis,
-                easing = FastOutSlowInEasing,
-            ),
+            animationSpec = elegantFolmeSpring(dampingRatio = 1.0f, responseSeconds = 0.3f),
         )
     }
 
@@ -204,7 +182,7 @@ public fun ElegantCheckbox(
                 enabled = enabled,
                 role = Role.Checkbox,
                 interactionSource = resolvedInteractionSource,
-                indication = ripple(color = animatedRipple),
+                indication = LocalIndication.current,
                 onValueChange = { newValue ->
                     currentHaptic.performHapticFeedback(
                         if (newValue) {
@@ -354,12 +332,10 @@ internal fun resolveCheckboxVisuals(
     } else {
         colors.disabledCheckedContentColor
     }
-    val ripple = if (checked) check else border
 
     return CheckboxVisuals(
         container = container,
         border = border,
         check = check,
-        ripple = ripple,
     )
 }

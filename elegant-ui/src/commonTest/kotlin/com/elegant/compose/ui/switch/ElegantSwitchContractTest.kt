@@ -236,11 +236,11 @@ internal class ElegantSwitchContractTest {
 
     @Test
     fun defaultsMeetAccessibilityAndRhythmContracts() {
-        assertEquals(44.dp, ElegantSwitchDefaults.TrackWidth)
-        assertEquals(24.dp, ElegantSwitchDefaults.TrackHeight)
-        assertEquals(16.dp, ElegantSwitchDefaults.ThumbSize)
+        assertEquals(49.dp, ElegantSwitchDefaults.TrackWidth)
+        assertEquals(28.dp, ElegantSwitchDefaults.TrackHeight)
+        assertEquals(20.dp, ElegantSwitchDefaults.ThumbSize)
         assertTrue(ElegantSwitchDefaults.MinimumTouchHeight >= 48.dp)
-        assertEquals(ElegantMotion.standardDurationMillis, ElegantSwitchDefaults.AnimationDurationMillis)
+        assertEquals(1.127f, ElegantSwitchDefaults.PressedThumbScale, absoluteTolerance = 0.001f)
     }
     @Test
     fun dragTargetCrossesHalfTravel() {
