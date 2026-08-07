@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +34,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -69,7 +69,7 @@ public data class ElegantNavigationBarItem(
  * @property containerColor bar background color.
  * @property selectedItemColor faint pill background shown behind the label while a pointer hovers
  *   or presses an unselected item.
- * @property selectedContentColor label and active-dot color of the selected item.
+ * @property selectedContentColor label and icon color of the selected item.
  * @property itemColor resting label color.
  * @property hoveredItemColor label color while a pointer hovers an unselected item.
  * @property pressedItemColor label color while an unselected item is pressed.
@@ -91,7 +91,7 @@ public data class ElegantNavigationBarColors(
 /** Theme-aware defaults for [ElegantNavigationBar]. */
 public object ElegantNavigationBarDefaults {
     /** Minimum interactive root height of the bar. */
-    public val MinimumTouchHeight: Dp = 56.dp
+    public val MinimumTouchHeight: Dp = 64.dp
 
     /** Height of the selection pill shown behind the selected label. */
     public val IndicatorSize: Dp = 32.dp
@@ -115,12 +115,12 @@ public object ElegantNavigationBarDefaults {
  * least [ElegantNavigationBarDefaults.MinimumTouchHeight] of height; a 1dp hairline runs across
  * the top edge of the bar.
  *
- * The selected item shows a rounded pill ([ElegantNavigationBarDefaults.IndicatorSize] tall)
- * behind its label in [ElegantNavigationBarColors.indicatorColor] together with a small dot above
- * the label. While a pointer hovers or presses an unselected item, a faint pill in
- * [ElegantNavigationBarColors.selectedItemColor] is shown behind the label. The label color
- * follows the precedence disabled, selected, pressed, hovered, resting and transitions with
- * [ElegantNavigationBarDefaults.AnimationDurationMillis].
+ * The selected item shows a solid rounded pill ([ElegantNavigationBarDefaults.IndicatorSize] tall)
+ * behind its label in [ElegantNavigationBarColors.indicatorColor] and its label is drawn
+ * semi-bold; a small dot above the label is not rendered. While a pointer hovers or presses an
+ * unselected item, a faint pill in [ElegantNavigationBarColors.selectedItemColor] is shown behind
+ * the label. The label color follows the precedence disabled, selected, pressed, hovered, resting
+ * and transitions with [ElegantNavigationBarDefaults.AnimationDurationMillis].
  *
  * Every item announces [Role.Tab] with its selected and disabled state; an item never invokes
  * [onSelect] while the bar or the item is disabled.
@@ -235,13 +235,6 @@ private fun ElegantNavigationBarItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(ElegantSpacing.xs),
         ) {
-            if (selected && enabled) {
-                Box(
-                    modifier = Modifier
-                        .size(ElegantSpacing.sm)
-                        .background(animatedItemColor, CircleShape),
-                )
-            }
             Box(
                 modifier = Modifier
                     .height(ElegantNavigationBarDefaults.IndicatorSize)
@@ -265,7 +258,9 @@ private fun ElegantNavigationBarItem(
                     }
                     Text(
                         text = text,
-                        style = ElegantTheme.typography.labelMedium,
+                        style = ElegantTheme.typography.labelMedium.copy(
+                            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                        ),
                         color = animatedItemColor,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -286,7 +281,7 @@ internal fun resolveNavigationBarColors(
     hoveredItemColor = themeColors.textPrimary,
     pressedItemColor = themeColors.textPrimary,
     disabledItemColor = themeColors.textTertiary,
-    indicatorColor = themeColors.interactivePrimary.copy(alpha = 0.12f),
+    indicatorColor = themeColors.surfaceHover,
 )
 
 internal fun resolveSelectedIndex(

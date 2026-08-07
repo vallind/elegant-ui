@@ -54,14 +54,12 @@ internal class ElegantNavigationBarContractTest {
         assertEquals(ElegantLightColors.textPrimary, light.hoveredItemColor)
         assertEquals(ElegantLightColors.textPrimary, light.pressedItemColor)
         assertEquals(ElegantLightColors.textTertiary, light.disabledItemColor)
-        assertEquals(
-            ElegantLightColors.interactivePrimary.copy(alpha = 0.12f),
-            light.indicatorColor,
-        )
+        assertEquals(ElegantLightColors.surfaceHover, light.indicatorColor)
         assertEquals(ElegantDarkColors.surfaceRaised, dark.containerColor)
         assertEquals(ElegantDarkColors.surfaceHover, dark.selectedItemColor)
         assertEquals(ElegantDarkColors.interactivePrimary, dark.selectedContentColor)
         assertEquals(ElegantDarkColors.textTertiary, dark.disabledItemColor)
+        assertEquals(ElegantDarkColors.surfaceHover, dark.indicatorColor)
         assertNotEquals(light, dark, "the bar must follow the active theme")
     }
 
@@ -72,7 +70,7 @@ internal class ElegantNavigationBarContractTest {
             selectedItemColor = ElegantLightColors.surfaceHover,
             selectedContentColor = ElegantLightColors.interactivePrimary,
             itemColor = ElegantLightColors.textSecondary,
-            indicatorColor = ElegantLightColors.interactivePrimary.copy(alpha = 0.12f),
+            indicatorColor = ElegantLightColors.surfaceHover,
         )
 
         assertEquals(base.itemColor, base.hoveredItemColor)
@@ -83,7 +81,7 @@ internal class ElegantNavigationBarContractTest {
     @Test
     fun defaultsMeetInteractionAndIndicatorContracts() {
         assertTrue(ElegantNavigationBarDefaults.MinimumTouchHeight >= 48.dp)
-        assertEquals(56.dp, ElegantNavigationBarDefaults.MinimumTouchHeight)
+        assertEquals(64.dp, ElegantNavigationBarDefaults.MinimumTouchHeight)
         assertEquals(32.dp, ElegantNavigationBarDefaults.IndicatorSize)
         assertEquals(
             ElegantMotion.standardDurationMillis,

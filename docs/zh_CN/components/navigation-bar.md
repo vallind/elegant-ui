@@ -1,6 +1,6 @@
 # NavigationBar
 
-`ElegantNavigationBar` 是用于切换主要目的地的受控底部导航栏。它默认将 `ElegantNavigationBarItem` 模型渲染为等宽项目,用标签后的胶囊指示器与标签上方的小圆点标记当前目的地,并在 Android、Desktop 与 Web 上保持一致的可达性。
+`ElegantNavigationBar` 是用于切换主要目的地的受控底部导航栏。它默认将 `ElegantNavigationBarItem` 模型渲染为等宽项目,用标签后的实色胶囊指示器标记当前目的地,并在 Android、Desktop 与 Web 上保持一致的可达性。
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=navigation-bar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -46,7 +46,7 @@ val items = listOf(
 
 ## 组件状态
 
-每个项目播报 `Role.Tab` 及其 `selected`、`disabled` 状态。超出项目范围的 `selectedIndex` 会被钳制到最后一个项目,空项目列表不渲染任何内容。选中项目在标签后显示 32dp 胶囊指示器,并在标签上方显示一个小圆点;悬停或按压未选中项目时,其标签后显示浅色胶囊。
+每个项目播报 `Role.Tab` 及其 `selected`、`disabled` 状态。超出项目范围的 `selectedIndex` 会被钳制到最后一个项目,空项目列表不渲染任何内容。选中项目在标签后显示实色 32dp 胶囊指示器,并以半粗体渲染标签;悬停或按压未选中项目时,其标签后显示浅色胶囊。
 
 标签文字颜色的状态优先级:disabled、selected、pressed、hovered、resting。
 
@@ -95,7 +95,7 @@ ElegantNavigationBar(
 
 | 成员 | 类型 | 说明 |
 | --- | --- | --- |
-| `MinimumTouchHeight` | `Dp` | 56dp 最小交互根高度 |
+| `MinimumTouchHeight` | `Dp` | 64dp 最小交互根高度 |
 | `IndicatorSize` | `Dp` | 32dp 选中胶囊指示器高度 |
 | `AnimationDurationMillis` | `Int` | 标准 160ms 标签文字颜色过渡时长 |
 | `colors()` | `ElegantNavigationBarColors` | Light/Dark 主题感知颜色 |
@@ -145,7 +145,7 @@ ElegantNavigationBar(
     items = listOf(ElegantNavigationBarItem("首页"), ElegantNavigationBarItem("我的")),
     colors = baseColors.copy(
         selectedContentColor = Color(0xFF147D64),
-        indicatorColor = Color(0xFF147D64).copy(alpha = 0.12f),
+        indicatorColor = Color(0xFFDCE8FF),
     ),
 )
 ```

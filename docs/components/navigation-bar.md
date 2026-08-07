@@ -1,6 +1,6 @@
 # NavigationBar
 
-`ElegantNavigationBar` is a controlled bottom navigation bar for switching between primary destinations. It renders `ElegantNavigationBarItem` models at equal width, marks the current destination with a pill indicator behind the label and a small active dot, and keeps the selection reachable on Android, Desktop, and Web.
+`ElegantNavigationBar` is a controlled bottom navigation bar for switching between primary destinations. It renders `ElegantNavigationBarItem` models at equal width, marks the current destination with a solid pill indicator behind the label, and keeps the selection reachable on Android, Desktop, and Web.
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=navigation-bar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -46,7 +46,7 @@ val items = listOf(
 
 ## Component States
 
-Each item announces `Role.Tab` with its `selected` and `disabled` state. `selectedIndex` outside the item range is clamped to the last item, and an empty item list renders nothing. The selected item shows a 32dp pill behind its label together with a small dot above it; hovering or pressing an unselected item shows a faint pill behind its label.
+Each item announces `Role.Tab` with its `selected` and `disabled` state. `selectedIndex` outside the item range is clamped to the last item, and an empty item list renders nothing. The selected item shows a solid 32dp pill behind its label and a semi-bold label; hovering or pressing an unselected item shows a faint pill behind its label.
 
 State precedence for the label color: disabled, selected, pressed, hovered, resting.
 
@@ -95,7 +95,7 @@ ElegantNavigationBar(
 
 | Member | Type | Description |
 | --- | --- | --- |
-| `MinimumTouchHeight` | `Dp` | 56dp minimum interactive root height |
+| `MinimumTouchHeight` | `Dp` | 64dp minimum interactive root height |
 | `IndicatorSize` | `Dp` | 32dp selection pill height |
 | `AnimationDurationMillis` | `Int` | Standard 160ms label-color transition duration |
 | `colors()` | `ElegantNavigationBarColors` | Theme-aware Light/Dark colors |
@@ -145,7 +145,7 @@ ElegantNavigationBar(
     items = listOf(ElegantNavigationBarItem("Home"), ElegantNavigationBarItem("Profile")),
     colors = baseColors.copy(
         selectedContentColor = Color(0xFF147D64),
-        indicatorColor = Color(0xFF147D64).copy(alpha = 0.12f),
+        indicatorColor = Color(0xFFDCE8FF),
     ),
 )
 ```
