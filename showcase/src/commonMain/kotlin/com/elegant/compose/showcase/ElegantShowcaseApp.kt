@@ -50,6 +50,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.elegant.compose.showcase.generated.resources.Res
 import com.elegant.compose.showcase.generated.resources.add_rounded
 import com.elegant.compose.showcase.generated.resources.arrow_forward_rounded
@@ -218,6 +219,8 @@ import com.elegant.compose.ui.toast.ElegantToastHostState
 import com.elegant.compose.ui.togglebutton.ElegantToggleButton
 import com.elegant.compose.ui.togglebutton.ElegantToggleButtonGroup
 import com.elegant.compose.ui.toolbar.ElegantToolbar
+import com.elegant.compose.ui.topappbar.ElegantTopAppBar
+import com.elegant.compose.ui.topappbar.rememberElegantTopAppBarScrollBehavior
 import com.elegant.compose.ui.tooltip.ElegantTooltip
 import com.elegant.compose.ui.tooltip.ElegantTooltipBox
 import com.elegant.compose.ui.tooltip.ElegantTooltipPlacement
@@ -344,6 +347,7 @@ internal val SupportedShowcaseComponentIds: Set<String> =
         "fieldset",
         "switch-group",
         "tag-group",
+        "top-app-bar",
         "toolbar",
         "toast",
         "autocomplete",
@@ -448,6 +452,7 @@ public fun ElegantShowcaseApp(
         "fieldset" -> FieldsetShowcase()
         "switch-group" -> SwitchGroupShowcase()
         "tag-group" -> TagGroupShowcase()
+        "top-app-bar" -> TopAppBarShowcase()
         "toolbar" -> ToolbarShowcase()
         "toast" -> ToastShowcase()
         "autocomplete" -> AutocompleteShowcase()
@@ -7454,6 +7459,122 @@ private fun TagGroupShowcase() {
                         ElegantTagGroupItem(text = "Notifications", value = "notifications"),
                         ElegantTagGroupItem(text = "Announcements", value = "announcements"),
                     ),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun TopAppBarShowcase() {
+    val colors = ElegantTheme.colors
+
+    ShowcasePage(title = "Elegant TopAppBar") { compact ->
+        DemoCard(
+            compact = compact,
+            eyebrow = "FOUNDATIONS",
+            title = "Large title collapses as content scrolls",
+            description = "The 52dp collapsed bar grows to fit the large title; scrolling up collapses it back and fades it into a small title.",
+        ) {
+            val scrollBehavior = rememberElegantTopAppBarScrollBehavior()
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(if (compact) 320.dp else 360.dp)
+                    .clip(RoundedCornerShape(ElegantRadius.lg))
+                    .background(colors.backgroundCanvas),
+            ) {
+                ElegantTopAppBar(
+                    title = "Library",
+                    largeTitle = "Library",
+                    subtitle = "10 albums",
+                    navigationIcon = {
+                        ShowcaseIconButton(
+                            resource = Res.drawable.arrow_forward_rounded,
+                            contentDescription = "Back",
+                            onClick = {},
+                        )
+                    },
+                    actions = {
+                        ShowcaseIconButton(
+                            resource = Res.drawable.add_rounded,
+                            contentDescription = "Add album",
+                            onClick = {},
+                        )
+                        ShowcaseIconButton(
+                            resource = Res.drawable.more_vert_rounded,
+                            contentDescription = "More options",
+                            onClick = {},
+                        )
+                    },
+                    scrollBehavior = scrollBehavior,
+                )
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                        .nestedScroll(scrollBehavior.nestedScrollConnection)
+                        .padding(horizontal = ElegantSpacing.xl),
+                    verticalArrangement = Arrangement.spacedBy(ElegantSpacing.sm),
+                ) {
+                    repeat(10) { index ->
+                        Text(
+                            text = "Track ${index + 1}",
+                            style = ElegantTheme.typography.bodyMedium,
+                            color = colors.textPrimary,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = ElegantSpacing.md),
+                        )
+                    }
+                }
+            }
+        }
+
+        DemoCard(
+            compact = compact,
+            eyebrow = "IN CONTEXT",
+            title = "Static bar with a subtitle",
+            description = "Without a scroll behavior the bar stays fixed; the subtitle keeps its place under the title.",
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(ElegantRadius.lg))
+                    .background(colors.backgroundCanvas),
+            ) {
+                ElegantTopAppBar(
+                    title = "Device",
+                    largeTitle = "Device",
+                    subtitle = "Storage & memory",
+                    navigationIcon = {
+                        ShowcaseIconButton(
+                            resource = Res.drawable.person_rounded,
+                            contentDescription = "Profile",
+                            onClick = {},
+                        )
+                    },
+                    actions = {
+                        ShowcaseIconButton(
+                            resource = Res.drawable.share_rounded,
+                            contentDescription = "Share",
+                            onClick = {},
+                        )
+                        ShowcaseIconButton(
+                            resource = Res.drawable.more_vert_rounded,
+                            contentDescription = "More options",
+                            onClick = {},
+                        )
+                    },
+                )
+                Text(
+                    text = "Free 42.0 GB of 128 GB",
+                    style = ElegantTheme.typography.bodyMedium,
+                    color = colors.textSecondary,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(ElegantSpacing.xl),
                 )
             }
         }
