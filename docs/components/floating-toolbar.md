@@ -2,7 +2,7 @@
 
 `ElegantFloatingToolbar` is a floating action strip that hovers above content. A raised pill with fully rounded ends and medium elevation hosts a row of icon actions; the row wraps its content and grows in height from a 48dp minimum. The component provides no positioning of its own — wrap it in a `Box` to float it over a selection, a paragraph, or an editor.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=floating-toolbar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=floating-toolbar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

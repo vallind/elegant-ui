@@ -2,7 +2,7 @@
 
 一种设置行基座:将前导内容、标题块、尾部控件与可选底部内容组合成一个可交互行。用于构建与偏好设置家族保持一致的自定义设置行。
 
-<iframe id="demoIframe" src="../../compose/index.html?id=basic-component" style="width: 100%; height: 320px; border: 1px solid var(--vp-c-divider); border-radius: 8px;"></iframe>
+<iframe id="demoIframe" src="../../compose/index.html?id=basic-component" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);"></iframe>
 
 ## 引入
 

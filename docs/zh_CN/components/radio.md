@@ -2,7 +2,7 @@
 
 `ElegantRadio` 是精致的单选指示组件,用于互斥的选项集合。它渲染一个 20dp 的圆形指示器,选中时以动画圆点填充,保持 48dp 最小交互行,并播报合并后的 `Role.RadioButton` 状态。它适用于设置、筛选与表单中必须从一组里恰好选择一个的场景。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=radio" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=radio" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

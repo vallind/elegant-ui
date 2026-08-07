@@ -2,7 +2,7 @@
 
 `ElegantSmallTitle` 为偏好分组与设置界面提供紧凑且不可交互的小节标题。它使用 `labelSmall` 排版与次要文本色将标签渲染为单行，对过长的文本以省略号截断，并适配 Light 与 Dark 主题，同时不引入交互角色或自身的语义节点。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=small-title" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=small-title" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

@@ -2,7 +2,7 @@
 
 `ElegantPagination` 是 Elegant UI 中紧凑的跨平台分页控件。它渲染一行有边界的页码项与上一页、下一页的 chevron 按钮,始终保留首页与末页,将远处的页码折叠为省略号,并通过受控的 `page` 状态配合 `onPageChange` 暴露当前页。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=pagination" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=pagination" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

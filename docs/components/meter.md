@@ -2,7 +2,7 @@
 
 `ElegantMeter` is a refined non-interactive determinate meter. It renders a full-width rounded track with a filled portion proportional to the coerced value, a semantic fill tone that auto-resolves from usage zones (healthy, elevated, critical) or can be forced by the caller, an optional label below the bar, and `progressBarRangeInfo` accessibility semantics with Light/Dark theme awareness.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=meter" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=meter" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

@@ -2,7 +2,7 @@
 
 `ElegantPullToRefresh` adds a pull-to-refresh gesture to any scrollable content without nesting a scrollable. While the content is at its start, dragging downward accumulates a pull distance; releasing at or beyond the 80dp threshold invokes `onRefresh` once and snaps the indicator into an indeterminate rotation that stays visible until the caller flips `isRefreshing` back to false.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=pull-to-refresh" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=pull-to-refresh" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

@@ -2,7 +2,7 @@
 
 `ElegantList` and `ElegantListItem` build accessible, theme-aware vertical rows for settings, navigation, and roster surfaces. `ElegantList` is a plain non-scrolling column container, and `ElegantListItem` is the row primitive with an optional leading slot, a two-line title block, an optional trailing slot, and an optional selection interaction.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=list" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=list" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

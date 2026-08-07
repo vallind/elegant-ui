@@ -2,7 +2,7 @@
 
 `ElegantPopover` shows a floating surface anchored to a trigger: clicking the trigger opens it, and clicking outside or pressing Escape dismisses it. Use it for contextual settings, menus, and quick actions that stay anchored to their control. The focusable popup moves keyboard focus into the popover when it opens and returns it to the trigger on dismissal, and the surface is a floating card without an arrow.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=popover" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=popover" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

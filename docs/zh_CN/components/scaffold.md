@@ -2,7 +2,7 @@
 
 `ElegantScaffold` 构建屏幕外壳:顶部与底部栏固定在边缘,浮动操作按钮与 Snackbar 宿主悬浮其上。它通过 `onSizeChanged` 测量栏高度,并通过 `PaddingValues` 将计算出的内边距交给内容槽位,保证可滚动内容不会被界面框架遮挡。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=scaffold" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=scaffold" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

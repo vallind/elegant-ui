@@ -2,7 +2,7 @@
 
 `ElegantLinearProgressIndicator` and `ElegantCircularProgressIndicator` are refined non-interactive progress indicators. They render a full-width rounded linear track and a circular ring with a filled segment or arc, supporting both a determinate fraction in `0f..1f` and a continuous indeterminate sweep, with `progressBarRangeInfo` accessibility semantics and Light/Dark theme awareness.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=progress-indicator" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=progress-indicator" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

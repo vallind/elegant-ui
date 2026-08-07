@@ -2,7 +2,7 @@
 
 `ElegantInputOtp` is a refined one-time-passcode (OTP) entry control built from a row of square cells. It accepts digits only, truncates input at the configured length, highlights the focused cell with a caret and, when the theme enables focus rings, a focus ring, and can surface an inline error message. Use it for verification codes, two-factor authentication, and other short numeric secrets.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=input-otp" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=input-otp" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

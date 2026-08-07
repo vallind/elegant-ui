@@ -2,7 +2,7 @@
 
 `ElegantMeter` 是精致的非交互确定值仪表。它渲染全宽圆角轨道,以与约束后数值成比例的部分展示填充,填充色调可从使用区间(健康、高位、临界)自动解析,也可由调用方强制指定;轨道下方可显示可选标签,同时提供 `progressBarRangeInfo` 无障碍语义与 Light/Dark 主题感知。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=meter" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=meter" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

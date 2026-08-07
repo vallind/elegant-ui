@@ -2,7 +2,7 @@
 
 `ElegantTextarea` is a refined multi-line text field for forms and notes with a label and placeholder, supporting or error text, an optional character limit, a configurable visible line range, and leading and trailing icons. It reuses the `ElegantInput` visual contract: a sunken container that outlines only on focus or error, starting from 3 lines and growing to 8 before scrolling.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=textarea" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=textarea" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

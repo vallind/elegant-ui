@@ -2,7 +2,7 @@
 
 `ElegantDateRangePicker` 是只读的日期范围字段,点击后打开双月日历面板:它并排复用 `ElegantCalendar` 网格,遵循输入家族 Filled 输入节奏,并携带可在 `commonMain` 中跨 Android、Desktop JVM 与 Web/Wasm 使用的受控不可变 `ElegantDateRange` 模型,不依赖平台日期 API。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=date-range-picker" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=date-range-picker" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

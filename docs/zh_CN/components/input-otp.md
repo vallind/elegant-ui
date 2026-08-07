@@ -2,7 +2,7 @@
 
 `ElegantInputOtp` 是用于验证码场景的精致一次性密码（OTP）输入组件,由一排方形单元格组成。它只接受数字,按配置长度截断输入,以插入符高亮当前单元格,并在主题启用焦点环时以聚焦环描边,并可显示内联错误信息。适用于验证码、双因素认证与其他短数字密钥。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=input-otp" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=input-otp" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

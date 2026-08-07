@@ -2,7 +2,7 @@
 
 `ElegantListPopup` 在同时包含触发器和弹出列表的 Box 下方显示一个数据驱动的单选选项列表:触发器由调用方持有,`ElegantListPopup` 与触发器放在同一个 Box 中,列表表面从该 Box 的下缘落下,起始侧对齐并限制在窗口内。与选中值匹配的选项以交互色、浅色背景和尾部勾选标记高亮。点击外部、按 Escape 或使用平台返回手势都会关闭列表。可聚焦的弹窗在打开时把键盘焦点移入列表;选择选项通过 `onOptionSelected` 上报,`expanded` 由调用方持有——弹出列表在选中后不会自行关闭。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=list-popup" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=list-popup" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

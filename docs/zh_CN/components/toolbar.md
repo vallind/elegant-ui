@@ -2,7 +2,7 @@
 
 `ElegantToolbar` 是嵌入调用方布局的内联操作条。扁平的、无边框表面以固定 48dp 高度填满容器宽度,承载一行图标操作。与 `ElegantFloatingToolbar`(带中等级别投影、两端全圆角的高起浮动药丸)不同,Toolbar 本身不加投影、不加圆角、也不做任何定位:它适合放在卡片、列表或编辑器的顶部或底部,边框与分隔线由调用方自行决定。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=toolbar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=toolbar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

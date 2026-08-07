@@ -2,7 +2,7 @@
 
 `ElegantRadioGroup` 以纵列展示一组共享互斥选择状态的 `ElegantRadio` 行。每一行由行内 Radio 保持自身的 48dp 交互目标,组负责行与行之间的垂直节奏,并在选项下方提供可选的辅助文本。它适用于设置、筛选与表单中必须从有界集合里恰好选择一个的场景。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=radio-group" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=radio-group" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

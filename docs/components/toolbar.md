@@ -2,7 +2,7 @@
 
 `ElegantToolbar` is an inline action strip that sits flush in the caller's layout. A flat, borderless surface fills the width of its container at a fixed 48dp height and hosts a row of icon actions. Unlike `ElegantFloatingToolbar` — a raised floating pill with fully rounded ends and medium elevation — the Toolbar adds no shadow, no rounding, and no positioning of its own: it is meant to sit at the top or bottom of a card, list, or editor, where borders and separators are the caller's choice.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=toolbar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=toolbar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

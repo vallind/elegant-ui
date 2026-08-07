@@ -2,7 +2,7 @@
 
 `ElegantMenu` 在同时包含触发器和菜单的 Box 下方显示一个临时动作列表:触发器由调用方持有,`ElegantMenu` 与触发器放在同一个 Box 中,菜单表面从该 Box 的下缘落下,起始侧对齐并限制在窗口内。点击外部、按 Escape 或使用平台返回手势都会关闭菜单。可聚焦的弹窗在打开时把键盘焦点移入菜单;菜单项是带可选前置与后置插槽的 40dp 行。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=menu" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=menu" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

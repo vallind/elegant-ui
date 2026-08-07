@@ -2,7 +2,7 @@
 
 `ElegantAutocomplete` 是带内联建议列表的受控文本输入组件:当输入框聚焦时,匹配查询的选项会出现在锚定于输入框下方的浮层上,选择其中一项会触发选中回调。它适用于由调用方持有查询文本、且需要结构化选项的自由输入场景,例如国家或产品选择器。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=autocomplete" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=autocomplete" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

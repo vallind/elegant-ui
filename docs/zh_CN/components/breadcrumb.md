@@ -2,7 +2,7 @@
 
 `ElegantBreadcrumb` 是精致的导航辅助组件，用于展示当前页面在层级中的位置。当前页之前的条目作为链接，拥有 48dp 触摸目标、悬停反馈并支持禁用态；末尾条目是当前页，始终保持不可交互的纯文本。逻辑方向的分隔符在 RTL 中自动镜像，并对辅助技术保持纯装饰。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=breadcrumb" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=breadcrumb" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

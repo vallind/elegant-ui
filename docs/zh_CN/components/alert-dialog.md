@@ -2,7 +2,7 @@
 
 `ElegantAlertDialog` 是 Elegant UI 遮罩组件家族中的确认变体:一个包含标题、可选描述,以及成对的取消/确认操作行的紧凑表面,在平台对话框窗口内居中于变暗的遮罩层之上。它适用于破坏性或重要的确认,这些确认必须阻止应用其余部分继续操作直到处理完成。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=alert-dialog" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=alert-dialog" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

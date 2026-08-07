@@ -2,7 +2,7 @@
 
 `ElegantToast` is a top-positioned transient message surface for lightweight feedback that appears briefly and dismisses itself. Unlike `ElegantSnackbar`, which anchors to the bottom of a screen, a toast slides down from the top, supports a title with an optional description, and offers a close action. An `ElegantToastHostState` paired with an `ElegantToastHost` animates the message in and out, auto-dismisses it after a preset duration, and suspends the calling coroutine until the message is dismissed.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=toast" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=toast" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

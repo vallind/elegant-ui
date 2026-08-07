@@ -2,7 +2,7 @@
 
 `ElegantSurface` 是组件库中的低层容器原语。与 `ElegantCard`(带 `Filled`/`Outlined`/`Elevated` 风格预设的内容表面)不同,Surface 没有风格枚举、没有内置内边距,也没有文本样式:它只渲染背景、可选边框与可选点击交互,把间距与样式完全交给调用方。请把它用作自定义容器的地基,或嵌套它来搭建分层布局。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=surface" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=surface" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

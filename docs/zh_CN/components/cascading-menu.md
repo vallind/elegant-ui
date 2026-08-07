@@ -2,7 +2,7 @@
 
 `ElegantCascadingMenu` 在同时包含触发器和菜单的 Box 下方,以嵌套的表面显示多级动作列表:触发器由调用方持有,`ElegantCascadingMenu` 与触发器放在同一个 Box 中,根表面从该 Box 的下缘落下,起始侧对齐并限制在窗口内。带子项的菜单项会渲染尾部箭头,并在其旁边打开子菜单表面;指向或点击这样的菜单项会替换当前打开的级联链,点击叶子菜单项会通过 `onItemClick` 报告其祖先链并关闭菜单。点击外部、按 Escape 或使用平台返回手势都会通过可聚焦的根弹窗关闭整条链。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=cascading-menu" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=cascading-menu" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

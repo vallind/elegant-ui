@@ -2,7 +2,7 @@
 
 `ElegantPopover` 在触发器附近显示浮层:点击触发器打开,点击外部或按 Escape 关闭。它适用于锚定在控件上的情境设置、菜单与快捷操作。可聚焦的弹窗在打开时把键盘焦点移入浮层,关闭时归还给触发器;浮层是无箭头的悬浮卡片。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=popover" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=popover" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

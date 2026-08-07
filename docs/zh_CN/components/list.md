@@ -2,7 +2,7 @@
 
 `ElegantList` 与 `ElegantListItem` 用于构建设置页、导航与成员名册等场景中无障碍且主题感知的纵向行。`ElegantList` 是不滚动的普通列容器,`ElegantListItem` 是行原语,提供可选的前置槽、两行标题块、可选的后置槽以及可选的选中交互。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=list" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=list" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

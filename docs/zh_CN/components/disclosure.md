@@ -2,7 +2,7 @@
 
 `ElegantDisclosure` 是单个可展开区块,以独立带边框块呈现:48dp 的头部带有标题、可选辅助文本与尾部 chevron,正文以垂直动画展开。`ElegantDisclosureGroup` 将多个 disclosure 包裹在一个带边框的表面中。它适用于 FAQ、筛选面板与渐进式展示。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=disclosure" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=disclosure" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

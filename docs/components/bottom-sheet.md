@@ -2,7 +2,7 @@
 
 A modal sheet that slides in from the bottom edge over a scrim. Use it for share sheets, actions tied to a selection, or any flow that benefits from a wide, near-full-height surface on mobile.
 
-<iframe id="demoIframe" src="../compose/index.html?id=bottom-sheet" style="width: 100%; height: 320px; border: 1px solid var(--vp-c-divider); border-radius: 8px;"></iframe>
+<iframe id="demoIframe" src="../compose/index.html?id=bottom-sheet" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);"></iframe>
 
 ## Import
 

@@ -2,7 +2,7 @@
 
 `ElegantSelect` 是适用于表单与筛选的精致单选字段:带标签的 Filled 风格触发器会打开一个主题化的选项菜单,并在所选项目上显示对勾;菜单负责焦点、键盘遍历、Esc 与点击外部区域的关闭处理。当必须从预定义列表中选择恰好一个值、而 Radio 行占用过多空间时,请使用它。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=select" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=select" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

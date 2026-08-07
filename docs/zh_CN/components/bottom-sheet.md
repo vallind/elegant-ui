@@ -2,7 +2,7 @@
 
 从屏幕底部边缘滑出的模态面板,覆盖在遮罩之上。适合分享面板、与选中项关联的操作,或任何在移动端受益于宽大近全高表面的流程。
 
-<iframe id="demoIframe" src="../../compose/index.html?id=bottom-sheet" style="width: 100%; height: 320px; border: 1px solid var(--vp-c-divider); border-radius: 8px;"></iframe>
+<iframe id="demoIframe" src="../../compose/index.html?id=bottom-sheet" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);"></iframe>
 
 ## 引入
 

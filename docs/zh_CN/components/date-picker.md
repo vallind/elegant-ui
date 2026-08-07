@@ -2,7 +2,7 @@
 
 `ElegantDatePicker` 是带日历弹层的只读日期字段:字段在 Filled 输入表面上渲染所选日期,点击后在其下方打开 `ElegantCalendar`。适用于调用方需要选择一个受边界约束的公历日期的场景,如预订或表单流程,支持 Android、Desktop JVM 与 Web/Wasm。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=date-picker" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=date-picker" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

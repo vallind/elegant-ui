@@ -2,7 +2,7 @@
 
 `ElegantAccordion` 是带边框的表面组件,将可展开内容组织为堆叠的 `ElegantAccordionItem`。每个条目将 48dp 的头部与 chevron、标题以及可选辅助文本配对,并以垂直动画展开正文。它适用于 FAQ、设置分组与渐进式展示。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=accordion" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=accordion" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

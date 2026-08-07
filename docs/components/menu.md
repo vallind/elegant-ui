@@ -2,7 +2,7 @@
 
 `ElegantMenu` shows a list of actions on a temporary surface anchored below the Box that contains both the trigger and the menu: the caller owns the trigger, places `ElegantMenu` next to it in the same Box, and the surface drops below that Box, start-aligned and clamped into the window. Clicking outside, pressing Escape, or using the platform back gesture dismisses it. The focusable popup moves keyboard focus into the menu when it opens; items are 40dp rows with optional leading and trailing slots.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=menu" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=menu" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

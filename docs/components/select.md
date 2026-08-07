@@ -2,7 +2,7 @@
 
 `ElegantSelect` is a refined single-choice field for forms and filters: a labeled, Filled-style trigger opens a themed menu of options with a check mark on the selected item, and the menu handles focus, keyboard traversal, escape, and outside-click dismissal. Use it whenever exactly one value must be picked from a predefined list where Radio rows would take too much space.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=select" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=select" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

@@ -2,7 +2,7 @@
 
 `ElegantCascadingMenu` shows multi-level actions on nested surfaces anchored below the Box that contains both the trigger and the menu: the caller owns the trigger, places `ElegantCascadingMenu` next to it in the same Box, and the root surface drops below that Box, start-aligned and clamped into the window. Items with children render a trailing chevron and open a child surface beside them; pointing at or clicking such an item replaces the open submenu chain, and clicking a leaf item reports its ancestor chain through `onItemClick` and dismisses the menu. Clicking outside, pressing Escape, or using the platform back gesture closes the whole chain through the focusable root popup.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=cascading-menu" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=cascading-menu" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

@@ -2,7 +2,7 @@
 
 `ElegantArrowPreference` is a settings-style row that navigates or drills into another screen. The whole row is the interactive target: clicking the title, the supporting text, or the trailing chevron activates `onClick`. It renders a `labelMedium` title with an optional `bodyMedium` supporting line, a trailing chevron that points in the logical layout direction, hovered and pressed container feedback, and an optional bottom divider inset 16dp from the start edge.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=arrow-preference" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=arrow-preference" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

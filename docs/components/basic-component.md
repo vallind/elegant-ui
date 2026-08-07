@@ -2,7 +2,7 @@
 
 A settings-style row base that composes leading content, a title block, trailing controls, and an optional bottom block into one interactive row. Use it to build custom settings rows that stay consistent with the preference family.
 
-<iframe id="demoIframe" src="../compose/index.html?id=basic-component" style="width: 100%; height: 320px; border: 1px solid var(--vp-c-divider); border-radius: 8px;"></iframe>
+<iframe id="demoIframe" src="../compose/index.html?id=basic-component" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);"></iframe>
 
 ## Import
 

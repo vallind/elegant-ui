@@ -2,7 +2,7 @@
 
 `ElegantDateRangePicker` is a read-only date-range field that opens a two-month calendar panel: it reuses `ElegantCalendar` grids side by side, follows the Filled input rhythm of the input family, and carries a controlled immutable `ElegantDateRange` model across Android, Desktop JVM, and Web/Wasm from `commonMain` without platform date APIs.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=date-range-picker" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=date-range-picker" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

@@ -2,7 +2,7 @@
 
 `ElegantToggleButton` 是 Elegant UI 中经过细化的跨平台开关组件。它提供可选择的单一状态与复选框风格的语义契约、指针悬停、触控按压、键盘焦点，以及动画化的容器、内容与边框反馈。`ElegantToggleButtonGroup` 将多个开关以零间距拼合成单个圆角簇，同时每个子项保留自己的边框与交互行为。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=toggle-button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=toggle-button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

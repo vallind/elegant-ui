@@ -2,7 +2,7 @@
 
 `ElegantFloatingToolbar` 是悬浮在内容上方的浮动操作条。带中等级别投影、两端全圆角的高起药丸形表面承载一行图标操作;行按内容自适应宽度,高度从 48dp 最小值起自适应增长。组件本身不做任何定位——请把它包进 `Box`,悬浮在选区、段落或编辑器之上。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=floating-toolbar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=floating-toolbar" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

@@ -2,7 +2,7 @@
 
 `ElegantRadio` is a refined single-choice indicator for mutually exclusive options. It renders a 20dp circular indicator that fills with an animated dot when selected, keeps a 48dp minimum interactive row, and announces a merged `Role.RadioButton` state. Use it for settings, filters, and forms where exactly one option must be chosen from a group.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=radio" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=radio" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 

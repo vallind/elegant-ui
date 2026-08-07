@@ -2,7 +2,7 @@
 
 `ElegantPullToRefresh` 无需嵌套滚动容器即可为任意可滚动内容添加下拉刷新手势。当内容位于起始位置时,向下拖拽会累积下拉距离;在达到或超过 80dp 阈值时松手会调用一次 `onRefresh`,并将指示器吸附到无限态旋转,保持可见直到调用方将 `isRefreshing` 重新置为 false。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=pull-to-refresh" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=pull-to-refresh" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

@@ -2,7 +2,7 @@
 
 `ElegantScrollShadow` 是用于可滚动内容的装饰性边缘淡出遮罩。将其放置在 `verticalScroll` 列或 `horizontalScroll` 行之上,当内容滚离起始边缘时淡出起始边缘,当仍有更多内容在前方时淡出末端边缘,让长列表不再突兀地结束。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=scroll-shadow" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=scroll-shadow" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

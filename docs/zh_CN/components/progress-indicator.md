@@ -2,7 +2,7 @@
 
 `ElegantLinearProgressIndicator` 与 `ElegantCircularProgressIndicator` 是精致的非交互进度指示器。它们渲染全宽圆角线性轨道与圆形圆环,并以已填充的段或弧展示进度,支持 `0f..1f` 内的确定值进度与持续的无限态扫描,同时提供 `progressBarRangeInfo` 无障碍语义与 Light/Dark 主题感知。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=progress-indicator" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=progress-indicator" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

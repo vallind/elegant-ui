@@ -2,7 +2,7 @@
 
 `ElegantRadioPreference` 是设置风格的单选行,用于呈现一个可选项。与裸 `ElegantRadio` 不同,整行都是交互目标:点击标题、辅助文本或尾部指示器都会触发 `onSelect`。它渲染 `labelMedium` 标题与可选的 `bodyMedium` 辅助行、尾部 `ElegantRadio` 指示器、hovered 与 pressed 容器反馈,以及从起始边缘内缩 16dp 的可选底部分割线。
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=radio-preference" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../../compose/index.html?id=radio-preference" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## 引入
 

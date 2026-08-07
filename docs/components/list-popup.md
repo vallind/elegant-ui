@@ -2,7 +2,7 @@
 
 `ElegantListPopup` shows a data-driven single-choice option list on a temporary surface anchored below the Box that contains both the trigger and the popup: the caller owns the trigger, places `ElegantListPopup` next to it in the same Box, and the surface drops below that Box, start-aligned and clamped into the window. The option matching the selected value is highlighted with the interactive color, a subtle background, and a trailing check glyph. Clicking outside, pressing Escape, or using the platform back gesture dismisses it. The focusable popup moves keyboard focus into the list when it opens; selecting an option reports it through `onOptionSelected`, and the caller owns `expanded` — the popup does not close itself after a selection.
 
-<iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=list-popup" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe id="demoIframe" style="width: 100%; height: 460px; border: 1px solid var(--vp-c-divider); border-radius: 12px; display: block; background: var(--vp-c-bg-alt);" src="../compose/index.html?id=list-popup" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Import
 
