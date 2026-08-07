@@ -32,7 +32,7 @@ ElegantRadio(
 
 ## 组件状态
 
-Radio 行会播报 `Role.RadioButton` 与 `selected` 状态,在指示器上显示可见焦点环,提供 hover 与 press 反馈,并保持 48dp 最小交互目标。
+Radio 行会播报 `Role.RadioButton` 与 `selected` 状态,在主题启用焦点环时在指示器上显示焦点环,提供 hover 与 press 反馈,并保持 48dp 最小交互目标。
 
 状态优先级:disabled、pressed、focused 圆环、hovered、resting。Selected 与 unselected 是语义状态,可与交互颜色组合。
 

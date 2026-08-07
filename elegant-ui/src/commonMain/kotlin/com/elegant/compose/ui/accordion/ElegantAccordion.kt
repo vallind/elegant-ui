@@ -180,12 +180,13 @@ public fun ElegantAccordionItem(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val themeColors = ElegantTheme.colors
     val headerContainer = resolveAccordionHeaderContainer(
         colors = colors,
         enabled = enabled,
         pressed = pressed,
-        hovered = hovered || focused,
+        hovered = hovered || (focused && focusRingEnabled),
     )
     val animatedHeaderContainer by animateColorAsState(
         targetValue = headerContainer,

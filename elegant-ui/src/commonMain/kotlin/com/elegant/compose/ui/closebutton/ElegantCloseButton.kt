@@ -195,6 +195,7 @@ public fun ElegantCloseButton(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveCloseButtonVisuals(
         colors = colors,
         enabled = enabled,
@@ -239,7 +240,7 @@ public fun ElegantCloseButton(
                 .clip(CircleShape)
                 .background(animatedContainer)
                 .then(
-                    if (focused && enabled) {
+                    if (focused && enabled && focusRingEnabled) {
                         Modifier.border(
                             border = BorderStroke(
                                 width = CloseButtonFocusedBorderWidth,

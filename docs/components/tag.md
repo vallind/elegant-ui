@@ -51,7 +51,7 @@ ElegantTag(size = ElegantTagSize.Large) {
 
 ## Component States
 
-Non-interactive tags have no hover, press, focus, or disabled state. Passing `onClick` turns the tag into a selectable control: it announces `Role.Button` and its `selected` state, shows a visible focus ring, applies hover and press feedback, and keeps a 48dp minimum interactive root while the optical pill stays compact.
+Non-interactive tags have no hover, press, focus, or disabled state. Passing `onClick` turns the tag into a selectable control: it announces `Role.Button` and its `selected` state, shows a focus ring when the theme enables focus rings, applies hover and press feedback, and keeps a 48dp minimum interactive root while the optical pill stays compact.
 
 State precedence for interactive tags: disabled, pressed, selected, focused border, hovered, resting. `selected` is a semantic state that combines with interaction visuals.
 

@@ -1,6 +1,6 @@
 # CloseButton
 
-`ElegantCloseButton` 是面向对话框、卡片与浮层的紧凑关闭操作组件。它在 48dp 交互目标内绘制一个安静的透明胶囊与固定的 X 字形，并提供胶囊悬停、克制的按压反馈、可见的键盘焦点环，以及可本地化的无障碍名称。
+`ElegantCloseButton` 是面向对话框、卡片与浮层的紧凑关闭操作组件。它在 48dp 交互目标内绘制一个安静的透明胶囊与固定的 X 字形，并提供胶囊悬停、克制的按压反馈、主题启用时的键盘焦点环，以及可本地化的无障碍名称。
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=close-button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -24,7 +24,7 @@ ElegantCloseButton(
 
 ## 组件状态
 
-悬停、按压与键盘焦点由同一个交互源解析。悬停时胶囊填充容器，按压时加深，聚焦时显示焦点环；禁用状态会淡化字形并拒绝激活。
+悬停、按压与键盘焦点由同一个交互源解析。悬停时胶囊填充容器，按压时加深，主题启用焦点环时,聚焦时显示焦点环；禁用状态会淡化字形并拒绝激活。
 
 ```kotlin
 ElegantCloseButton(

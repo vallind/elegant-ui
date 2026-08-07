@@ -158,6 +158,7 @@ public fun ElegantSelect(
     val resolvedInteractionSource = interactionSource ?: remember { MutableInteractionSource() }
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     var expanded by remember { mutableStateOf(false) }
     val currentOnOptionSelected by rememberUpdatedState(onOptionSelected)
 
@@ -168,7 +169,7 @@ public fun ElegantSelect(
     val visuals = resolveSelectVisuals(
         enabled = enabled,
         hovered = hovered,
-        focused = focused || expanded,
+        focused = (focused || expanded) && focusRingEnabled,
         isError = isError,
         themeColors = themeColors,
     )

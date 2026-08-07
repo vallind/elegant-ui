@@ -15,6 +15,7 @@ import com.elegant.compose.ui.foundation.indication.ElegantIndication
 
 private val LocalElegantColors = staticCompositionLocalOf { ElegantLightColors }
 private val LocalElegantTypography = staticCompositionLocalOf { DefaultElegantTypography }
+private val LocalElegantFocusRingEnabled = staticCompositionLocalOf { false }
 
 /** Accesses Elegant UI semantic values from the current composition. */
 public object ElegantTheme {
@@ -29,15 +30,32 @@ public object ElegantTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalElegantTypography.current
+
+    /**
+     * Whether the visual focus ring is enabled for this subtree.
+     *
+     * Disabled by default (HyperOS style): focused components keep reporting their focus through
+     * semantics and the overlay indication, and only draw the explicit border ring when the theme
+     * opts in.
+     */
+    public val focusRingEnabled: Boolean
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalElegantFocusRingEnabled.current
 }
 
 /**
- * Provides Elegant UI colors, typography, and the default overlay indication to [content].
+ * Provides Elegant UI colors, typography, the focus-ring policy, and the default overlay indication
+ * to [content].
  *
  * The provided [androidx.compose.foundation.LocalIndication] is an [ElegantIndication] colored with
  * the primary text color, so interactive components under this theme press with the HyperOS flat
  * overlay instead of a Material ripple. Provide a different [androidx.compose.foundation.LocalIndication]
  * around a subtree to opt out.
+ *
+ * Focus rings follow [focusRingEnabled]: disabled by default (HyperOS style), focused components
+ * still report focus through semantics and the overlay indication. Opt in per theme or per subtree
+ * when an explicit keyboard-focus border is required.
  *
  * Android, Desktop JVM, and Web/Wasm share this implementation from `commonMain`, preserving
  * one visual and semantic contract across supported targets.
@@ -47,6 +65,7 @@ public fun ElegantTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     colors: ElegantColors = if (darkTheme) ElegantDarkColors else ElegantLightColors,
     typography: ElegantTypography = DefaultElegantTypography,
+    focusRingEnabled: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val materialColors = if (darkTheme) {
@@ -77,6 +96,7 @@ public fun ElegantTheme(
     CompositionLocalProvider(
         LocalElegantColors provides colors,
         LocalElegantTypography provides typography,
+        LocalElegantFocusRingEnabled provides focusRingEnabled,
         LocalIndication provides overlayIndication,
     ) {
         MaterialTheme(
@@ -101,11 +121,13 @@ public fun ElegantTheme(
 public fun ElegantTheme(
     controller: ElegantThemeController,
     typography: ElegantTypography = DefaultElegantTypography,
+    focusRingEnabled: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     ElegantTheme(
         colors = controller.currentColors(),
         typography = typography,
+        focusRingEnabled = focusRingEnabled,
         content = content,
     )
 }
@@ -128,12 +150,14 @@ public fun ElegantTheme(
     keyColor: Color,
     darkTheme: Boolean = isSystemInDarkTheme(),
     typography: ElegantTypography = DefaultElegantTypography,
+    focusRingEnabled: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     ElegantTheme(
         darkTheme = darkTheme,
         colors = deriveElegantColors(keyColor, darkTheme),
         typography = typography,
+        focusRingEnabled = focusRingEnabled,
         content = content,
     )
 }

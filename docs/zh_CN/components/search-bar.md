@@ -28,7 +28,7 @@ ElegantSearchBar(
 
 ## 组件状态
 
-`ElegantSearchBar` 遵循交互优先级:disabled、focused、hovered、resting。聚焦时容器提升为 `surfaceRaised`,并以 `focusRing` 颜色勾勒胶囊轮廓;悬停时容器轻微着色,几何形状不变。当 `enabled` 为 false 时,输入框拒绝聚焦与输入,并以透明边框渲染凹陷容器。
+`ElegantSearchBar` 遵循交互优先级:disabled、focused、hovered、resting。主题启用焦点环时,聚焦以 `focusRing` 颜色勾勒胶囊轮廓;悬停时容器轻微着色,几何形状不变。当 `enabled` 为 false 时,输入框拒绝聚焦与输入,并以透明边框渲染凹陷容器。
 
 当查询不为空时,尾端会出现带手绘 X 的清除按钮;点击它会调用 `onClear`,默认行为是清空查询。占位符仅在输入框启用且为空时显示。
 

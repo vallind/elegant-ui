@@ -118,10 +118,11 @@ public fun ElegantHueSlider(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val currentOnHueChange by rememberUpdatedState(onHueChange)
     val layoutDirection = LocalLayoutDirection.current
-    val trackBorderColor = if (focused && enabled) colors.focusedBorderColor else colors.borderColor
-    val thumbRingColor = if (focused && enabled) colors.focusedBorderColor else colors.borderColor
+    val trackBorderColor = if (focused && enabled && focusRingEnabled) colors.focusedBorderColor else colors.borderColor
+    val thumbRingColor = if (focused && enabled && focusRingEnabled) colors.focusedBorderColor else colors.borderColor
     val fillAlpha = if (enabled) 1f else ColorPickerDisabledAlpha
 
     BoxWithConstraints(

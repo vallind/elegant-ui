@@ -160,13 +160,14 @@ public fun ElegantToggleButton(
     val pressed by interactionSource.collectIsPressedAsState()
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveToggleButtonVisuals(
         colors = colors,
         enabled = effectiveEnabled,
         selected = selected,
         pressed = pressed,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
     )
 
     val animatedContainer by animateColorAsState(

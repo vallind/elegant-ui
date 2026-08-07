@@ -1,6 +1,6 @@
 # Floating Action Button
 
-`ElegantFloatingActionButton` 是 Elegant UI 中用于屏幕主要操作的圆形、抬升式操作组件。它提供标准与紧凑两种尺寸、指针悬停、带克制缩放的触控按压、键盘焦点环以及主题感知的禁用颜色。
+`ElegantFloatingActionButton` 是 Elegant UI 中用于屏幕主要操作的圆形、抬升式操作组件。它提供标准与紧凑两种尺寸、指针悬停、带克制缩放的触控按压、主题启用时的键盘焦点环以及主题感知的禁用颜色。
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=floating-action-button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -29,7 +29,7 @@ ElegantFloatingActionButton(
 
 ## 组件状态
 
-悬停、按压和键盘焦点反馈会通过共享交互源自动解析。悬停时容器色发生偏移，按压时容器色沉淀并在固定触控区域内应用克制缩放，键盘焦点会在圆形周围绘制可见的焦点环。
+悬停、按压和键盘焦点反馈会通过共享交互源自动解析。悬停时容器色发生偏移，按压时容器色沉淀并在固定触控区域内应用克制缩放，主题启用焦点环时,键盘焦点会在圆形周围绘制焦点环。
 
 ### 禁用状态
 

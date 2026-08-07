@@ -28,7 +28,7 @@ ElegantSearchBar(
 
 ## Component States
 
-`ElegantSearchBar` follows the interaction precedence: disabled, focused, hovered, resting. Focus raises the container to `surfaceRaised` and outlines the pill with the `focusRing` color; hovering tints the container without changing the geometry. When `enabled` is false the field rejects focus and input and renders the sunken container with a transparent border.
+`ElegantSearchBar` follows the interaction precedence: disabled, focused, hovered, resting. Focus outlines the pill with the `focusRing` color when the theme enables focus rings; hovering tints the container without changing the geometry. When `enabled` is false the field rejects focus and input and renders the sunken container with a transparent border.
 
 While the query is not empty, a clear button with a drawn X appears at the trailing edge; activating it calls `onClear` or, by default, clears the query. The placeholder is shown only while the field is enabled and empty.
 

@@ -32,7 +32,7 @@ ElegantRadioGroup(
 
 ## Component States
 
-Each row announces `Role.RadioButton` and its selection state, shows a visible focus ring, and keeps the 48dp minimum interactive target. A disabled group rejects interaction on every row; a disabled item keeps its selection visible but rejects interaction on that row only. When `selectedValue` is null or blank, no item is selected.
+Each row announces `Role.RadioButton` and its selection state, shows a focus ring when the theme enables focus rings, and keeps the 48dp minimum interactive target. A disabled group rejects interaction on every row; a disabled item keeps its selection visible but rejects interaction on that row only. When `selectedValue` is null or blank, no item is selected.
 
 ```kotlin
 var plan by remember { mutableStateOf("pro") }

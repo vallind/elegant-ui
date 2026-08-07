@@ -1,6 +1,6 @@
 # InputOtp
 
-`ElegantInputOtp` 是用于验证码场景的精致一次性密码（OTP）输入组件,由一排方形单元格组成。它只接受数字,按配置长度截断输入,以聚焦环与插入符高亮当前单元格,并可显示内联错误信息。适用于验证码、双因素认证与其他短数字密钥。
+`ElegantInputOtp` 是用于验证码场景的精致一次性密码（OTP）输入组件,由一排方形单元格组成。它只接受数字,按配置长度截断输入,以插入符高亮当前单元格,并在主题启用焦点环时以聚焦环描边,并可显示内联错误信息。适用于验证码、双因素认证与其他短数字密钥。
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../../compose/index.html?id=input-otp" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -27,7 +27,7 @@ ElegantInputOtp(
 
 ## 组件状态
 
-当隐藏的文本输入框聚焦时,插入符所在位置的单元格（第一个空单元格;若 `value` 已满则为最后一个单元格）会以 `focusRing` 边框高亮并显示插入符。`isError` 会将所有单元格边框变为 `statusCritical` 并加粗至 2dp,同时在单元格下方显示 `errorText`;该错误信息也会通过语义播报。
+当隐藏的文本输入框聚焦时,插入符所在位置的单元格（第一个空单元格;若 `value` 已满则为最后一个单元格）会显示插入符,并在主题启用焦点环时以 `focusRing` 边框高亮。`isError` 会将所有单元格边框变为 `statusCritical` 并加粗至 2dp,同时在单元格下方显示 `errorText`;该错误信息也会通过语义播报。
 
 当 `enabled` 为 false 时,输入框拒绝聚焦与输入:单元格保持凹陷容器,但数字会被调暗为 `textTertiary`。组件只接受数字,字母与符号会在回调触发前被静默丢弃。
 

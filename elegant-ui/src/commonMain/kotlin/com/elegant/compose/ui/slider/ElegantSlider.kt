@@ -160,6 +160,7 @@ public fun ElegantSlider(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val currentValueRange by rememberUpdatedState(valueRange)
     val currentSteps by rememberUpdatedState(steps)
     val hapticFeedback = LocalHapticFeedback.current
@@ -199,7 +200,7 @@ public fun ElegantSlider(
     val thumbColor = when {
         !enabled -> colors.disabledThumbColor
         pressed -> colors.pressedThumbColor
-        focused -> colors.focusedThumbColor
+        focused && focusRingEnabled -> colors.focusedThumbColor
         hovered -> colors.hoveredThumbColor
         else -> colors.thumbColor
     }

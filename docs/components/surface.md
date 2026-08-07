@@ -27,7 +27,7 @@ ElegantSurface(borderWidth = 1.dp) {
 
 ## Component States
 
-Passing `onClick` turns the surface into a button-like container: it keeps a 48dp minimum interactive root, announces `Role.Button`, applies hover and press container colors with a ripple, draws a 2dp focus ring while focused and enabled, and rejects interaction when `enabled` is false.
+Passing `onClick` turns the surface into a button-like container: it keeps a 48dp minimum interactive root, announces `Role.Button`, applies hover and press container colors with a ripple, draws a 2dp focus ring while focused and enabled when the theme enables focus rings, and rejects interaction when `enabled` is false.
 
 State precedence: disabled, pressed, hovered, resting. Focus overrides only the border, never the container color.
 

@@ -11,7 +11,7 @@
 | 文本 | `textPrimary`、`textSecondary`、`textTertiary`、`textInverse` | 内容层级与主色上的反色文本 |
 | 边框 | `borderDefault`、`borderStrong` | 细线与强分隔线 |
 | 交互 | `interactivePrimary`、`interactivePrimaryPressed`、`interactivePrimaryHover` | 主操作在各交互状态下的颜色 |
-| 焦点 | `focusRing` | 键盘焦点可见性 |
+| 焦点 | `focusRing` | 键盘焦点可见性(通过 `ElegantTheme(focusRingEnabled = true)` 开启) |
 | 状态 | `statusPositive`、`statusWarning`、`statusCritical` + `onStatus*` | 语义反馈色 |
 
 ## 读取角色

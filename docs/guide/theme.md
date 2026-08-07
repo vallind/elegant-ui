@@ -71,3 +71,15 @@ Modifier.padding(ElegantSpacing.lg)
 RoundedCornerShape(ElegantRadius.md)
 tween(durationMillis = ElegantMotion.standardDurationMillis)
 ```
+
+## Focus Rings
+
+Keyboard focus rings are opt-in through the theme. Pass `focusRingEnabled = true` to `ElegantTheme` to draw the focus border on interactive components while they hold keyboard focus; by default (`false`) the focused state keeps its semantics and overlay indication, and focused visuals fall back to the hovered or resting colors.
+
+```kotlin
+ElegantTheme(
+    focusRingEnabled = true,
+) {
+    // Interactive components show focus borders while keyboard-focused
+}
+```

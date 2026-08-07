@@ -1,6 +1,6 @@
 # CloseButton
 
-`ElegantCloseButton` is a compact dismiss action for dialogs, cards, and floating surfaces. It draws a fixed X glyph on a quiet transparent pill inside a 48dp interaction target, with a pill hover, a restrained press, a visible keyboard-focus ring, and a localizable accessible name.
+`ElegantCloseButton` is a compact dismiss action for dialogs, cards, and floating surfaces. It draws a fixed X glyph on a quiet transparent pill inside a 48dp interaction target, with a pill hover, a restrained press, a keyboard-focus ring when the theme enables focus rings, and a localizable accessible name.
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=close-button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -24,7 +24,7 @@ ElegantCloseButton(
 
 ## Component States
 
-Hover, press, and keyboard focus are resolved from one interaction source. The pill fills on hover, darkens while pressed, and shows a focus ring while focused; the disabled state dims the glyph and rejects activation.
+Hover, press, and keyboard focus are resolved from one interaction source. The pill fills on hover, darkens while pressed, and shows a focus ring while focused when the theme enables focus rings; the disabled state dims the glyph and rejects activation.
 
 ```kotlin
 ElegantCloseButton(

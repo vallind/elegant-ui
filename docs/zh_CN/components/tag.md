@@ -51,7 +51,7 @@ ElegantTag(size = ElegantTagSize.Large) {
 
 ## 组件状态
 
-非交互 Tag 没有 hover、press、focus 或 disabled 状态。传入 `onClick` 后 Tag 变为可选控件:它会播报 `Role.Button` 与 `selected` 状态,显示可见焦点环,提供 hover 与 press 反馈,并保持 48dp 最小交互目标,同时药丸外形仍保持紧凑。
+非交互 Tag 没有 hover、press、focus 或 disabled 状态。传入 `onClick` 后 Tag 变为可选控件:它会播报 `Role.Button` 与 `selected` 状态,在主题启用焦点环时显示焦点环,提供 hover 与 press 反馈,并保持 48dp 最小交互目标,同时药丸外形仍保持紧凑。
 
 交互 Tag 的状态优先级:disabled、pressed、selected、focused 边框、hovered、resting。`selected` 是语义状态,可与交互视觉组合。
 

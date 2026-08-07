@@ -185,6 +185,7 @@ public fun ElegantListItem(
     val pressed by interactionSource.collectIsPressedAsState()
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveListItemVisuals(
         colors = colors,
         themeColors = ElegantTheme.colors,
@@ -192,7 +193,7 @@ public fun ElegantListItem(
         enabled = enabled,
         pressed = pressed,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
         interactive = interactive,
     )
 

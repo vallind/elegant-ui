@@ -229,6 +229,7 @@ public fun ElegantDateRangePicker(
     val interactionSource = remember { MutableInteractionSource() }
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     var expanded by remember { mutableStateOf(false) }
     val currentRange by rememberUpdatedState(range)
     val currentOnRangeSelected by rememberUpdatedState(onRangeSelected)
@@ -236,7 +237,7 @@ public fun ElegantDateRangePicker(
         colors = colors,
         enabled = enabled,
         hovered = hovered,
-        focused = focused || expanded,
+        focused = (focused || expanded) && focusRingEnabled,
         isError = isError,
     )
 

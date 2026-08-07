@@ -204,11 +204,12 @@ public fun ElegantNumberField(
     val interactionSource = remember { MutableInteractionSource() }
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveNumberFieldVisuals(
         colors = colors,
         enabled = enabled,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
         isError = isError,
     )
 
@@ -521,12 +522,13 @@ private fun NumberFieldStepButton(
     val pressed by interactionSource.collectIsPressedAsState()
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveStepButtonVisuals(
         themeColors = ElegantTheme.colors,
         enabled = enabled,
         pressed = pressed,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
     )
 
     val animatedContainer by animateColorAsState(

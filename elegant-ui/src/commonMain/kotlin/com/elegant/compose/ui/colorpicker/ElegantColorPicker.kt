@@ -157,12 +157,13 @@ public fun ElegantColorPicker(
             val interactionSource = remember(color) { MutableInteractionSource() }
             val hovered by interactionSource.collectIsHoveredAsState()
             val focused by interactionSource.collectIsFocusedAsState()
+            val focusRingEnabled = ElegantTheme.focusRingEnabled
             val selected = isSelected(color, selectedColor)
             val visuals = resolveColorSwatchVisuals(
                 colors = paletteColors,
                 enabled = enabled,
                 selected = selected,
-                hovered = hovered || focused,
+                hovered = hovered || (focused && focusRingEnabled),
             )
             Box(
                 modifier = Modifier

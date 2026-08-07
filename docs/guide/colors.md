@@ -11,7 +11,7 @@
 | Text | `textPrimary`, `textSecondary`, `textTertiary`, `textInverse` | Content hierarchy and inverted-on-primary text |
 | Border | `borderDefault`, `borderStrong` | Hairlines and strong separators |
 | Interaction | `interactivePrimary`, `interactivePrimaryPressed`, `interactivePrimaryHover` | Primary actions across their interaction states |
-| Focus | `focusRing` | Keyboard focus visibility |
+| Focus | `focusRing` | Keyboard focus visibility (opt-in via `ElegantTheme(focusRingEnabled = true)`) |
 | Status | `statusPositive`, `statusWarning`, `statusCritical` + `onStatus*` | Semantic feedback tones |
 
 ## Reading Roles

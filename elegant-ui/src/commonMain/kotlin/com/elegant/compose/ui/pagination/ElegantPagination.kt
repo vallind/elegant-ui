@@ -205,6 +205,7 @@ private fun PaginationPageButton(
     val pressed by interactionSource.collectIsPressedAsState()
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolvePaginationItemVisuals(
         colors = colors,
         enabled = enabled,
@@ -237,7 +238,7 @@ private fun PaginationPageButton(
                 indication = LocalIndication.current,
             )
             .then(
-                if (focused) {
+                if (focused && focusRingEnabled) {
                     Modifier.border(
                         width = 2.dp,
                         color = ElegantTheme.colors.focusRing,
@@ -268,6 +269,7 @@ private fun PaginationNavButton(
     val pressed by interactionSource.collectIsPressedAsState()
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolvePaginationItemVisuals(
         colors = colors,
         enabled = enabled,
@@ -299,7 +301,7 @@ private fun PaginationNavButton(
                 indication = LocalIndication.current,
             )
             .then(
-                if (focused) {
+                if (focused && focusRingEnabled) {
                     Modifier.border(
                         width = 2.dp,
                         color = ElegantTheme.colors.focusRing,

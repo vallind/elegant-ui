@@ -1,6 +1,6 @@
 # Floating Action Button
 
-`ElegantFloatingActionButton` is a circular, elevated action component in Elegant UI for the primary action of a screen. It provides standard and compact sizes, pointer hover, touch press with a restrained scale, a keyboard focus ring, and theme-aware disabled colors.
+`ElegantFloatingActionButton` is a circular, elevated action component in Elegant UI for the primary action of a screen. It provides standard and compact sizes, pointer hover, touch press with a restrained scale, a keyboard focus ring when the theme enables it, and theme-aware disabled colors.
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=floating-action-button" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 

@@ -203,11 +203,12 @@ public fun ElegantDatePicker(
     val interactionSource = remember { MutableInteractionSource() }
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveDatePickerVisuals(
         colors = colors,
         enabled = enabled,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
         isError = isError,
     )
 

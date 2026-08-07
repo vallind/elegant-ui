@@ -138,6 +138,7 @@ public fun ElegantInputOtp(
     val shape = RoundedCornerShape(ElegantRadius.sm)
     val interactionSource = remember { MutableInteractionSource() }
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val activeCaretIndex = when {
         !enabled || !focused -> -1
         else -> focusedCellIndex(caretIndex(resolvedValue, resolvedLength), resolvedLength)
@@ -160,12 +161,12 @@ public fun ElegantInputOtp(
                     val cellBorder = when {
                         !enabled -> colors.cellBorderColor
                         isError -> colors.errorCellBorderColor
-                        isFocusedCell -> colors.focusedCellBorderColor
+                        isFocusedCell && focusRingEnabled -> colors.focusedCellBorderColor
                         else -> colors.cellBorderColor
                     }
                     val cellBorderWidth = when {
                         !enabled -> 1.dp
-                        isError || isFocusedCell -> 2.dp
+                        isError || (isFocusedCell && focusRingEnabled) -> 2.dp
                         else -> 1.dp
                     }
                     val contentColor = if (enabled) {

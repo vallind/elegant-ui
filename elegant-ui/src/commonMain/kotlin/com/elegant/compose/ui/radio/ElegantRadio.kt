@@ -123,13 +123,14 @@ public fun ElegantRadio(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveRadioVisuals(
         colors = colors,
         enabled = enabled,
         selected = selected,
         pressed = pressed,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
     )
 
     val animatedColor by animateColorAsState(

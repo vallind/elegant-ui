@@ -1,6 +1,6 @@
 # InputOtp
 
-`ElegantInputOtp` is a refined one-time-passcode (OTP) entry control built from a row of square cells. It accepts digits only, truncates input at the configured length, highlights the focused cell with a focus ring and caret, and can surface an inline error message. Use it for verification codes, two-factor authentication, and other short numeric secrets.
+`ElegantInputOtp` is a refined one-time-passcode (OTP) entry control built from a row of square cells. It accepts digits only, truncates input at the configured length, highlights the focused cell with a caret and, when the theme enables focus rings, a focus ring, and can surface an inline error message. Use it for verification codes, two-factor authentication, and other short numeric secrets.
 
 <iframe id="demoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="../compose/index.html?id=input-otp" title="Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
@@ -27,7 +27,7 @@ ElegantInputOtp(
 
 ## Component States
 
-While the hidden text field is focused, the cell at the caret position (the first empty cell, or the last cell when `value` is full) is highlighted with the `focusRing` border and shows a caret. `isError` turns every cell border `statusCritical` with a 2dp stroke and shows `errorText` below the cells; the error message is also announced through semantics.
+While the hidden text field is focused, the cell at the caret position (the first empty cell, or the last cell when `value` is full) shows a caret and, when the theme enables focus rings, is highlighted with the `focusRing` border. `isError` turns every cell border `statusCritical` with a 2dp stroke and shows `errorText` below the cells; the error message is also announced through semantics.
 
 When `enabled` is false the field rejects focus and input: the cells keep their sunken container, but their digits are dimmed to `textTertiary`. Only digits are accepted, so letters and symbols are silently dropped before the callback fires.
 

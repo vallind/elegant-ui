@@ -33,9 +33,9 @@ ElegantList {
 
 ## Component States
 
-Passing `onClick` turns the item into a button-like row: it announces `Role.Button` with `selected` and `disabled`, keeps the 48dp minimum row height, shows a visible focus ring, and animates hover and press container feedback with a ripple. Selected items replace the resting transparent container with the accent-tinted container resolved from the active theme, which also applies to non-interactive items.
+Passing `onClick` turns the item into a button-like row: it announces `Role.Button` with `selected` and `disabled`, keeps the 48dp minimum row height, shows a focus ring when the theme enables focus rings, and animates hover and press container feedback with a ripple. Selected items replace the resting transparent container with the accent-tinted container resolved from the active theme, which also applies to non-interactive items.
 
-State precedence: disabled, pressed, selected, hovered, resting. Hover and press feedback apply only to interactive items, and the focus ring renders only for focused interactive items.
+State precedence: disabled, pressed, selected, hovered, resting. Hover and press feedback apply only to interactive items, and the focus ring renders only for focused interactive items and only when the theme enables focus rings.
 
 ```kotlin
 var selected by remember { mutableIntStateOf(0) }

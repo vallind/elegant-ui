@@ -33,9 +33,9 @@ ElegantList {
 
 ## 组件状态
 
-传入 `onClick` 后条目变为按钮式行:它会播报 `Role.Button` 以及 `selected` 与 `disabled`,保持 48dp 最小行高,显示可见焦点环,并带有波纹的 hover 与 press 容器反馈动画。选中的条目会将常驻透明容器替换为由当前主题解析出的强调色调容器,该效果同样适用于非交互条目。
+传入 `onClick` 后条目变为按钮式行:它会播报 `Role.Button` 以及 `selected` 与 `disabled`,保持 48dp 最小行高,在主题启用焦点环时显示焦点环,并带有波纹的 hover 与 press 容器反馈动画。选中的条目会将常驻透明容器替换为由当前主题解析出的强调色调容器,该效果同样适用于非交互条目。
 
-状态优先级:disabled、pressed、selected、hovered、resting。hover 与 press 反馈仅作用于交互条目,焦点环也仅对聚焦的交互条目渲染。
+状态优先级:disabled、pressed、selected、hovered、resting。hover 与 press 反馈仅作用于交互条目,焦点环也仅在主题启用时对聚焦的交互条目渲染。
 
 ```kotlin
 var selected by remember { mutableIntStateOf(0) }

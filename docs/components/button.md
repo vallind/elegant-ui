@@ -72,7 +72,7 @@ ElegantButton(
 
 ## Component States
 
-Hover, press, and keyboard focus feedback are resolved automatically from the shared interaction source. Primary buttons subtly raise on hover and settle on press; all styles keep a visible focus ring.
+Hover, press, and keyboard focus feedback are resolved automatically from the shared interaction source. Primary buttons subtly raise on hover and settle on press; all styles keep a focus ring when the theme enables focus rings.
 
 ### Disabled State
 

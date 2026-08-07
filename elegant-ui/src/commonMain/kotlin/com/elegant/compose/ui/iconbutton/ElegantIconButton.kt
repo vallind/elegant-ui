@@ -308,6 +308,7 @@ public fun ElegantIconButton(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val metrics = iconButtonMetricsFor(size)
     val visuals = resolveIconButtonVisuals(
         colors = colors,
@@ -315,7 +316,7 @@ public fun ElegantIconButton(
         enabled = enabled,
         pressed = pressed,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
     )
 
     val animatedContainer by animateColorAsState(

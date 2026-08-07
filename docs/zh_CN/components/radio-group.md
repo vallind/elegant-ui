@@ -32,7 +32,7 @@ ElegantRadioGroup(
 
 ## 组件状态
 
-每一行都会播报 `Role.RadioButton` 与选中状态,显示可见焦点环,并保持 48dp 最小交互目标。禁用整组会拒绝所有行的交互;禁用单个条目会保留其选中态,但仅拒绝该行交互。当 `selectedValue` 为 null 或空白时,不选中任何项。
+每一行都会播报 `Role.RadioButton` 与选中状态,在主题启用焦点环时显示焦点环,并保持 48dp 最小交互目标。禁用整组会拒绝所有行的交互;禁用单个条目会保留其选中态,但仅拒绝该行交互。当 `selectedValue` 为 null 或空白时,不选中任何项。
 
 ```kotlin
 var plan by remember { mutableStateOf("pro") }

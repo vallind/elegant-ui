@@ -28,7 +28,7 @@ ElegantCheckbox(
 
 ## Component States
 
-A 20dp rounded box carries the checked and unchecked containers, while a 2dp border communicates hover and keyboard focus. `checked` is a semantic state that combines with interaction visuals: a pressed checked checkbox shows the pressed checked colors, and the focus ring always wins over the hover border. Disabled checkboxes never invoke `onCheckedChange` and are announced through the `Role.Checkbox` semantics of the toggleable row.
+A 20dp rounded box carries the checked and unchecked containers, while a 2dp border communicates hover and keyboard focus. `checked` is a semantic state that combines with interaction visuals: a pressed checked checkbox shows the pressed checked colors, and the focus ring, when enabled, wins over the hover border. Disabled checkboxes never invoke `onCheckedChange` and are announced through the `Role.Checkbox` semantics of the toggleable row.
 
 State precedence: disabled, pressed, hovered, resting; the checked or unchecked container is then applied on top of the winning interaction state.
 

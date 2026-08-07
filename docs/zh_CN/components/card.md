@@ -46,7 +46,7 @@ ElegantCard(style = ElegantCardStyle.Elevated) {
 
 ## 组件状态
 
-非交互 Card 没有 hover、press、focus 或 disabled 状态。传入 `onClick` 后 Card 变为按钮式表面:它会播报 `Role.Button`,保持 48dp 最小交互根,显示可见焦点环,提供带波纹的 hover 与 press 颜色反馈,并在按下或禁用时降为零级阴影。
+非交互 Card 没有 hover、press、focus 或 disabled 状态。传入 `onClick` 后 Card 变为按钮式表面:它会播报 `Role.Button`,保持 48dp 最小交互根,在主题启用焦点环时显示焦点环,提供带波纹的 hover 与 press 颜色反馈,并在按下或禁用时降为零级阴影。
 
 交互 Card 的状态优先级:disabled、pressed、focused 边框、hovered、resting。hover 与 focus 状态下阴影保持常驻值。
 

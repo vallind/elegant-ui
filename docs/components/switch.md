@@ -28,7 +28,7 @@ ElegantSwitch(
 
 ## Component States
 
-A 49x28dp capsule track carries the checked and unchecked containers, while a 2dp focus ring appears only while the row has keyboard focus. The 20dp thumb travels across the track on a Folme spring and scales to 1.127x while pressed or dragged. `checked` is a semantic state that combines with interaction visuals: a pressed on switch shows the pressed on colors, and disabled switches never invoke `onCheckedChange` and are announced through the `Role.Switch` semantics of the toggleable row.
+A 49x28dp capsule track carries the checked and unchecked containers, while a 2dp focus ring appears only while the row has keyboard focus and the theme enables focus rings. The 20dp thumb travels across the track on a Folme spring and scales to 1.127x while pressed or dragged. `checked` is a semantic state that combines with interaction visuals: a pressed on switch shows the pressed on colors, and disabled switches never invoke `onCheckedChange` and are announced through the `Role.Switch` semantics of the toggleable row.
 
 State precedence: disabled, pressed, hovered, resting; the on or off visuals are then applied on top of the winning interaction state.
 

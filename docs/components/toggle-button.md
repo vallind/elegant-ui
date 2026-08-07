@@ -59,7 +59,7 @@ ElegantToggleButtonGroup {
 
 ## Component States
 
-Hover, press, and keyboard focus feedback are resolved automatically from the shared interaction source. The selected state wins over pressed and hovered visuals: a selected toggle keeps its accent container and content while pressed. Keyboard focus replaces the border with the focus ring, and the border keeps a constant width across every state. Disabled toggles drop to muted container and text tones and never invoke `onToggle`.
+Hover, press, and keyboard focus feedback are resolved automatically from the shared interaction source. The selected state wins over pressed and hovered visuals: a selected toggle keeps its accent container and content while pressed. When the theme enables focus rings, keyboard focus replaces the border with the focus ring, and the border keeps a constant width across every state. Disabled toggles drop to muted container and text tones and never invoke `onToggle`.
 
 ### Selected State
 

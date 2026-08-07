@@ -28,7 +28,7 @@ ElegantCheckbox(
 
 ## 组件状态
 
-20dp 圆角方框承载 checked 与 unchecked 容器,2dp 边框传达 hover 与键盘焦点。`checked` 是语义状态,可与交互视觉组合:按下的已勾选 Checkbox 显示按下态已勾选颜色,焦点环始终优先于 hover 边框。禁用 Checkbox 不会调用 `onCheckedChange`,并通过可切换行的 `Role.Checkbox` 语义播报禁用状态。
+20dp 圆角方框承载 checked 与 unchecked 容器,2dp 边框传达 hover 与键盘焦点。`checked` 是语义状态,可与交互视觉组合:按下的已勾选 Checkbox 显示按下态已勾选颜色,启用焦点环时,焦点环优先于 hover 边框。禁用 Checkbox 不会调用 `onCheckedChange`,并通过可切换行的 `Role.Checkbox` 语义播报禁用状态。
 
 状态优先级:disabled、pressed、hovered、resting;随后在获胜的交互状态上叠加 checked 或 unchecked 容器。
 

@@ -28,7 +28,7 @@ ElegantSwitch(
 
 ## 组件状态
 
-44x24dp 胶囊轨道承载 checked 与 unchecked 容器,2dp 焦点环仅在行获得键盘焦点时出现。16dp 滑块以标准 160ms 动效在轨道内滑动。`checked` 是语义状态,可与交互视觉组合:按下的开启 Switch 显示按下态开启颜色;禁用 Switch 不会调用 `onCheckedChange`,并通过可切换行的 `Role.Switch` 语义播报禁用状态。
+44x24dp 胶囊轨道承载 checked 与 unchecked 容器,2dp 焦点环仅在行获得键盘焦点且主题启用焦点环时出现。16dp 滑块以标准 160ms 动效在轨道内滑动。`checked` 是语义状态,可与交互视觉组合:按下的开启 Switch 显示按下态开启颜色;禁用 Switch 不会调用 `onCheckedChange`,并通过可切换行的 `Role.Switch` 语义播报禁用状态。
 
 状态优先级:disabled、pressed、hovered、resting;随后在获胜的交互状态上叠加 on 或 off 视觉。
 

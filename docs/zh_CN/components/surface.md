@@ -27,7 +27,7 @@ ElegantSurface(borderWidth = 1.dp) {
 
 ## 组件状态
 
-传入 `onClick` 后 Surface 变为按钮式容器:它保持 48dp 最小交互根,播报 `Role.Button`,提供带波纹的 hover 与 press 容器色反馈,在聚焦且启用时绘制 2dp 焦点环,并在 `enabled` 为 false 时拒绝交互。
+传入 `onClick` 后 Surface 变为按钮式容器:它保持 48dp 最小交互根,播报 `Role.Button`,提供带波纹的 hover 与 press 容器色反馈,在主题启用焦点环且聚焦、启用时绘制 2dp 焦点环,并在 `enabled` 为 false 时拒绝交互。
 
 状态优先级:disabled、pressed、hovered、resting。focus 只覆盖边框,从不改变容器色。
 

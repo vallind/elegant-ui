@@ -178,6 +178,7 @@ public fun ElegantCard(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveCardVisuals(
         colors = colors,
         style = style,
@@ -185,7 +186,7 @@ public fun ElegantCard(
         enabled = enabled,
         pressed = pressed,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
         interactive = interactive,
     )
 

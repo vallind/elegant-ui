@@ -153,6 +153,7 @@ public fun ElegantSwitch(
     val pressed by resolvedInteractionSource.collectIsPressedAsState()
     val hovered by resolvedInteractionSource.collectIsHoveredAsState()
     val focused by resolvedInteractionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val density = LocalDensity.current
     val maxOffsetPx = with(density) {
         ElegantSwitchDefaults.TrackWidth.toPx() - ElegantSwitchDefaults.ThumbSize.toPx() -
@@ -271,7 +272,7 @@ public fun ElegantSwitch(
                 }
                 .background(color = animatedTrack, shape = CircleShape)
                 .then(
-                    if (focused) {
+                    if (focused && focusRingEnabled) {
                         Modifier.border(
                             width = 2.dp,
                             color = colors.focusedTrackColor,

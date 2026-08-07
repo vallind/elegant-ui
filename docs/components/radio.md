@@ -32,7 +32,7 @@ ElegantRadio(
 
 ## Component States
 
-A radio row announces `Role.RadioButton` and its `selected` state, shows a visible focus ring on the indicator, applies hover and press feedback, and keeps a 48dp minimum interactive target.
+A radio row announces `Role.RadioButton` and its `selected` state, shows a focus ring on the indicator when the theme enables focus rings, applies hover and press feedback, and keeps a 48dp minimum interactive target.
 
 State precedence: disabled, pressed, focused ring, hovered, resting. Selected and unselected are semantic states that combine with the interaction colors.
 

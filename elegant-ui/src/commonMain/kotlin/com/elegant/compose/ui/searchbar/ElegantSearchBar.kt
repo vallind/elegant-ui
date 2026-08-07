@@ -183,11 +183,12 @@ public fun ElegantSearchBar(
     val interactionSource = remember { MutableInteractionSource() }
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveSearchBarVisuals(
         colors = colors,
         enabled = enabled,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
     )
     val iconColor = resolveSearchBarIconColor(
         themeColors = ElegantTheme.colors,

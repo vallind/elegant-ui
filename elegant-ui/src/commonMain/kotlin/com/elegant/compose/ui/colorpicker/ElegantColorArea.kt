@@ -201,11 +201,12 @@ public fun ElegantColorArea(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val currentColor by rememberUpdatedState(color)
     val currentOnColorChange by rememberUpdatedState(onColorChange)
     val hueColor = hueToRgb(rgbToHsv(color).hue)
     val position = thumbPosition(color)
-    val ringColor = if (focused && enabled) colors.focusedBorderColor else colors.borderColor
+    val ringColor = if (focused && enabled && focusRingEnabled) colors.focusedBorderColor else colors.borderColor
     val fillAlpha = if (enabled) 1f else ColorPickerDisabledAlpha
 
     BoxWithConstraints(

@@ -46,7 +46,7 @@ ElegantCard(style = ElegantCardStyle.Elevated) {
 
 ## Component States
 
-Non-interactive cards have no hover, press, focus, or disabled state. Passing `onClick` turns the card into a button-like surface: it announces `Role.Button`, keeps a 48dp minimum interactive root, shows a visible focus ring, applies hover and press color feedback with an overlay indication, and drops to no elevation while pressed or disabled.
+Non-interactive cards have no hover, press, focus, or disabled state. Passing `onClick` turns the card into a button-like surface: it announces `Role.Button`, keeps a 48dp minimum interactive root, shows a focus ring when the theme enables focus rings, applies hover and press color feedback with an overlay indication, and drops to no elevation while pressed or disabled.
 
 State precedence for interactive cards: disabled, pressed, focused border, hovered, resting. Elevation stays at the resting value for hover and focus.
 

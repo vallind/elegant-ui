@@ -71,3 +71,15 @@ Modifier.padding(ElegantSpacing.lg)
 RoundedCornerShape(ElegantRadius.md)
 tween(durationMillis = ElegantMotion.standardDurationMillis)
 ```
+
+## 焦点环
+
+键盘焦点环通过主题开启。向 `ElegantTheme` 传入 `focusRingEnabled = true` 后,交互组件在持有键盘焦点时会绘制焦点边框;默认(`false`)下,聚焦状态仍通过语义与覆盖层指示播报,聚焦视觉回落到 hovered 或 resting 颜色。
+
+```kotlin
+ElegantTheme(
+    focusRingEnabled = true,
+) {
+    // 键盘聚焦时,交互组件会显示焦点边框
+}
+```

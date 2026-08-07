@@ -160,13 +160,14 @@ public fun ElegantSurface(
     val pressed by interactionSource.collectIsPressedAsState()
     val hovered by interactionSource.collectIsHoveredAsState()
     val focused by interactionSource.collectIsFocusedAsState()
+    val focusRingEnabled = ElegantTheme.focusRingEnabled
     val visuals = resolveSurfaceVisuals(
         colors = colors,
         borderWidth = borderWidth,
         enabled = enabled,
         pressed = pressed,
         hovered = hovered,
-        focused = focused,
+        focused = focused && focusRingEnabled,
         interactive = true,
     )
 
