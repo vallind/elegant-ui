@@ -34,7 +34,6 @@ import component.blend.ColorBlendToken
 import component.effect.BgEffectBackground
 import component.highlight.HighlightConfig
 import component.highlight.rememberContainerHighlight
-import org.jetbrains.compose.resources.painterResource
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.HorizontalDivider
 import io.elyon.kmp.basic.SmallTitle
@@ -54,6 +53,7 @@ import io.elyon.kmp.preference.SwitchPreference
 import io.elyon.kmp.shared.generated.resources.Res
 import io.elyon.kmp.shared.generated.resources.blur_test
 import io.elyon.kmp.theme.ElyonTheme
+import org.jetbrains.compose.resources.painterResource
 import ui.isInDarkTheme
 import androidx.compose.ui.graphics.BlendMode as ComposeBlendMode
 

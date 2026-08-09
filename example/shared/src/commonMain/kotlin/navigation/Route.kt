@@ -3,8 +3,8 @@
 
 package navigation
 
-import kotlinx.serialization.Serializable
 import io.elyon.kmp.nav.core.NavKey
+import kotlinx.serialization.Serializable
 
 /**
  * Type-safe navigation keys for the app, backed by elyon-nav.

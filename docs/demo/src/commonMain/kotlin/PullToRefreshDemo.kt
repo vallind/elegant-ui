@@ -21,12 +21,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
 import io.elyon.kmp.basic.BasicComponent
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.PullToRefresh
 import io.elyon.kmp.basic.rememberPullToRefreshState
 import io.elyon.kmp.utils.overScrollVertical
+import kotlinx.coroutines.delay
 
 @Composable
 fun PullToRefreshDemo() {

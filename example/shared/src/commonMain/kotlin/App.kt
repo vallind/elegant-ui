@@ -12,8 +12,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.drop
 import io.elyon.kmp.squircle.LocalSquircleEnabled
+import kotlinx.coroutines.flow.drop
 import ui.AppTheme
 import ui.keyColorFor
 

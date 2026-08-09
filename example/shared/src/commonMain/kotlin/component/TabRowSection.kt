@@ -17,12 +17,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.SmallTitle
 import io.elyon.kmp.basic.TabRow
 import io.elyon.kmp.basic.TabRowWithContour
 import io.elyon.kmp.basic.Text
+import kotlinx.coroutines.launch
 
 fun LazyListScope.tabRowSection() {
     item(key = "tabRow") {

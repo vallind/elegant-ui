@@ -8,10 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import navigation.Route
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.SmallTitle
 import io.elyon.kmp.preference.ArrowPreference
+import navigation.Route
 import kotlin.random.Random
 
 fun LazyListScope.otherPageSection() {

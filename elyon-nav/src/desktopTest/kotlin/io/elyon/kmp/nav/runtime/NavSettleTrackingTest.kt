@@ -3,10 +3,10 @@
 
 package io.elyon.kmp.nav.runtime
 
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import io.elyon.kmp.nav.transition.NavSettle
 import io.elyon.kmp.nav.transition.NavSettlePhase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

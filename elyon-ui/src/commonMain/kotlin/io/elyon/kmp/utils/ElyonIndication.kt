@@ -17,10 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.node.DelegatableNode
 import androidx.compose.ui.node.DrawModifierNode
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import io.elyon.kmp.anim.folmeSpring
 import io.elyon.kmp.interfaces.HoldDownInteraction
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 private const val HOVER_ALPHA_DELTA = 0.06f
 private const val FOCUS_ALPHA_DELTA = 0.08f

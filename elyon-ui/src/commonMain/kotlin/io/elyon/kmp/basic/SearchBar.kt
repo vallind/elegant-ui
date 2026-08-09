@@ -56,13 +56,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
-import kotlinx.coroutines.delay
 import io.elyon.kmp.icon.ElyonIcons
 import io.elyon.kmp.icon.basic.Search
 import io.elyon.kmp.icon.basic.SearchCleanup
-import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.utils.hasFocusReassignBug
+import kotlinx.coroutines.delay
 
 /**
  * A [SearchBar] component with Elyon style.

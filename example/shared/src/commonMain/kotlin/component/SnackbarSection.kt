@@ -16,7 +16,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import io.elyon.kmp.basic.ButtonDefaults
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.SmallTitle
@@ -24,6 +23,7 @@ import io.elyon.kmp.basic.SnackbarDuration
 import io.elyon.kmp.basic.SnackbarHostState
 import io.elyon.kmp.basic.SnackbarResult
 import io.elyon.kmp.basic.TextButton
+import kotlinx.coroutines.launch
 
 fun LazyListScope.snackbarSection(snackbarHostState: SnackbarHostState) {
     item(key = "snackbar") {

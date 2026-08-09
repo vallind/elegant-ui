@@ -28,8 +28,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.elyon.kmp.squircle.squircleSurface
-import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalContentColor
 
 /**
  * A [Button] component with Elyon style.

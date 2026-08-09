@@ -18,8 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import misc.VersionInfo
-import navigation.Route
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.ElyonScrollBehavior
 import io.elyon.kmp.basic.Scaffold
@@ -37,6 +35,8 @@ import io.elyon.kmp.preference.SwitchPreference
 import io.elyon.kmp.theme.ElyonTheme
 import io.elyon.kmp.theme.ThemeColorSpec
 import io.elyon.kmp.theme.ThemePaletteStyle
+import misc.VersionInfo
+import navigation.Route
 import utils.AdaptiveTopAppBar
 import utils.BlurredBar
 import utils.pageContentPadding

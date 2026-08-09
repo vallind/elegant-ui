@@ -25,8 +25,8 @@ import io.elyon.kmp.icon.ElyonIcons
 import io.elyon.kmp.icon.extended.Close
 import io.elyon.kmp.icon.extended.Ok
 import io.elyon.kmp.preference.SwitchPreference
-import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.window.WindowBottomSheet
 
 @Composable

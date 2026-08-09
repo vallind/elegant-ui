@@ -24,8 +24,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.CardDefaults
-import io.elyon.kmp.basic.HorizontalDivider
 import io.elyon.kmp.basic.ElyonScrollBehavior
+import io.elyon.kmp.basic.HorizontalDivider
 import io.elyon.kmp.basic.Scaffold
 import io.elyon.kmp.basic.SmallTitle
 import io.elyon.kmp.basic.Text

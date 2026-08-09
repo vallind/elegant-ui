@@ -21,12 +21,12 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
-import kotlinx.serialization.Serializable
 import io.elyon.kmp.nav.core.NavBackStack
 import io.elyon.kmp.nav.core.NavDisplay
 import io.elyon.kmp.nav.core.NavDisplayEffects
 import io.elyon.kmp.nav.core.NavKey
 import io.elyon.kmp.nav.core.rememberNavBackStack
+import kotlinx.serialization.Serializable
 import kotlin.test.Test
 
 @Serializable

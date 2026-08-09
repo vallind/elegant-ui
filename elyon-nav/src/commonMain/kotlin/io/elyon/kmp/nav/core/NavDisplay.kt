@@ -41,8 +41,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigationevent.NavigationEventDispatcher
 import androidx.navigationevent.NavigationEventDispatcherOwner
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import io.elyon.kmp.nav.gesture.PredictiveBackHandlerWithSessions
 import io.elyon.kmp.nav.gesture.drivePredictiveBack
 import io.elyon.kmp.nav.gesture.navSwipeDismissImpl
@@ -75,6 +73,8 @@ import io.elyon.kmp.nav.transition.NavSwipeDirection
 import io.elyon.kmp.nav.transition.NavTransition
 import io.elyon.kmp.nav.transition.NavTransitions
 import io.elyon.kmp.squircle.absoluteSquircleClip
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
 /**

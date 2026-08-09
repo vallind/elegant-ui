@@ -6,9 +6,9 @@ package io.elyon.kmp.nav.runtime
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.runtime.MonotonicFrameClock
-import kotlinx.coroutines.runBlocking
 import io.elyon.kmp.nav.transition.NavMotion
 import io.elyon.kmp.nav.transition.NavSettleSpec
+import kotlinx.coroutines.runBlocking
 import kotlin.math.min
 import kotlin.test.Test
 import kotlin.test.assertEquals

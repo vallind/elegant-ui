@@ -13,7 +13,6 @@ plugins {
     id("module.spotless")
 }
 
-
 kotlin {
     withSourcesJar(true)
 

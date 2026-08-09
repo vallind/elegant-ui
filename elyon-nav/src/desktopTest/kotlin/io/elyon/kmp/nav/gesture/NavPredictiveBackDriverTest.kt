@@ -4,10 +4,10 @@
 package io.elyon.kmp.nav.gesture
 
 import androidx.compose.animation.core.Animatable
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import io.elyon.kmp.nav.runtime.NavDriverSpec
 import io.elyon.kmp.nav.transition.NavSwipeEdge
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

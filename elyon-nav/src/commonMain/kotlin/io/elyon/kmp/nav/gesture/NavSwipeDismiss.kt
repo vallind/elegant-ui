@@ -15,9 +15,6 @@ import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import io.elyon.kmp.nav.runtime.NavSettleSink
 import io.elyon.kmp.nav.runtime.anchoredProgress
 import io.elyon.kmp.nav.runtime.commitVelocityFloor
@@ -31,6 +28,9 @@ import io.elyon.kmp.nav.transition.NavMotion
 import io.elyon.kmp.nav.transition.NavSettlePhase
 import io.elyon.kmp.nav.transition.NavSwipeDirection
 import io.elyon.kmp.nav.transition.NavSwipeEdge
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.coroutineContext
 import kotlin.math.abs
 

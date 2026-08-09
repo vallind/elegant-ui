@@ -19,7 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import io.elyon.kmp.basic.ButtonDefaults
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.Scaffold
@@ -28,6 +27,7 @@ import io.elyon.kmp.basic.SnackbarHost
 import io.elyon.kmp.basic.SnackbarHostState
 import io.elyon.kmp.basic.SnackbarResult
 import io.elyon.kmp.basic.TextButton
+import kotlinx.coroutines.launch
 
 @Composable
 fun SnackbarDemo() {

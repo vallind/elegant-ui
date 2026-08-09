@@ -44,6 +44,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastRoundToInt
+import io.elyon.kmp.interfaces.ExperimentalScrollBarApi
+import io.elyon.kmp.theme.ElyonTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
@@ -52,8 +54,6 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import io.elyon.kmp.interfaces.ExperimentalScrollBarApi
-import io.elyon.kmp.theme.ElyonTheme
 import kotlin.math.abs
 
 /**

@@ -75,7 +75,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import component.animation.DampedDragAnimation
 import component.animation.InteractiveHighlight
-import kotlinx.coroutines.launch
 import io.elyon.kmp.basic.BadgedBox
 import io.elyon.kmp.basic.Icon
 import io.elyon.kmp.basic.NavigationItem
@@ -90,10 +89,11 @@ import io.elyon.kmp.blur.highlight.LightSource
 import io.elyon.kmp.blur.layerBackdrop
 import io.elyon.kmp.blur.rememberLayerBackdrop
 import io.elyon.kmp.blur.sensor.rememberDeviceTilt
-import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.utils.Platform
 import io.elyon.kmp.utils.platform
+import kotlinx.coroutines.launch
 import ui.isInDarkTheme
 import kotlin.math.PI
 import kotlin.math.abs

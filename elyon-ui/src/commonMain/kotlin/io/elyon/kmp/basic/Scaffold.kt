@@ -37,12 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import io.elyon.kmp.overlay.OverlayDialog
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.utils.ElyonPopupUtils
+import io.elyon.kmp.utils.ElyonPopupUtils.Companion.ElyonPopupHost
 import io.elyon.kmp.utils.LocalDialogStates
 import io.elyon.kmp.utils.LocalPopupStates
 import io.elyon.kmp.utils.LocalRootDialogStates
 import io.elyon.kmp.utils.LocalRootPopupStates
-import io.elyon.kmp.utils.ElyonPopupUtils
-import io.elyon.kmp.utils.ElyonPopupUtils.Companion.ElyonPopupHost
 
 /**
  * A [Scaffold] component with Elyon style.

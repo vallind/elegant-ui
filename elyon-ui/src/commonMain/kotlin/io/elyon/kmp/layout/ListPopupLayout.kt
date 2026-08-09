@@ -34,15 +34,15 @@ import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.NavigationEventTransitionState
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
-import kotlinx.coroutines.launch
 import io.elyon.kmp.basic.ListPopupContent
 import io.elyon.kmp.basic.ListPopupDefaults
 import io.elyon.kmp.basic.PopupPositionProvider
 import io.elyon.kmp.basic.rememberListPopupLayoutInfo
 import io.elyon.kmp.overlay.OverlayListPopup
-import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.window.WindowListPopup
+import kotlinx.coroutines.launch
 
 /**
  * Internal shared layout logic for [OverlayListPopup] and [WindowListPopup].

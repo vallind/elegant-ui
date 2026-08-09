@@ -27,8 +27,8 @@ import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalContentColor
 
 /**
  * A [Surface] component with Elyon style.

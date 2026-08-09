@@ -23,7 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import component.BackNavigationIcon
-import navigation.Route
 import io.elyon.kmp.basic.BasicComponent
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.ElyonScrollBehavior
@@ -38,6 +37,7 @@ import io.elyon.kmp.blur.rememberLayerBackdrop
 import io.elyon.kmp.interfaces.ExperimentalScrollBarApi
 import io.elyon.kmp.preference.ArrowPreference
 import io.elyon.kmp.theme.ElyonTheme
+import navigation.Route
 import utils.AdaptiveTopAppBar
 import utils.BlurredBar
 import utils.pageContentPadding

@@ -53,9 +53,9 @@ import component.tooltipSection
 import io.elyon.kmp.basic.BasicComponent
 import io.elyon.kmp.basic.DropdownEntry
 import io.elyon.kmp.basic.DropdownItem
+import io.elyon.kmp.basic.ElyonScrollBehavior
 import io.elyon.kmp.basic.Icon
 import io.elyon.kmp.basic.InputField
-import io.elyon.kmp.basic.ElyonScrollBehavior
 import io.elyon.kmp.basic.Scaffold
 import io.elyon.kmp.basic.SearchBar
 import io.elyon.kmp.basic.SmallTitle

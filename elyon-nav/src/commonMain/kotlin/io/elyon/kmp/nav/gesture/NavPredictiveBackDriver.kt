@@ -5,8 +5,8 @@ package io.elyon.kmp.nav.gesture
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
-import kotlinx.coroutines.flow.Flow
 import io.elyon.kmp.nav.runtime.snapToFinger
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Drives `animatedTop` from a predictive-back [NavBackEvent] stream, implementing the finger-

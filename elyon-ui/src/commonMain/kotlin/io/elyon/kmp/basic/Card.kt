@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.elyon.kmp.interfaces.HoldDownObserver
 import io.elyon.kmp.squircle.squircleSurface
-import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.utils.PressFeedbackType
 import io.elyon.kmp.utils.SinkFeedback
 import io.elyon.kmp.utils.TiltFeedback

@@ -14,7 +14,6 @@ plugins {
     id("module.spotless")
 }
 
-
 /**
  * Bakes the squircle SDF into a generated `BakedSquircleSdf` object so the runtime skips the
  * first-paint distance-field sweep. Bytes are emitted as a chunked Base64 literal (each chunk

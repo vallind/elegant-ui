@@ -49,8 +49,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.elyon.kmp.squircle.squircleBackground
 import io.elyon.kmp.squircle.squircleBorder
-import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalContentColor
 
 /**
  * A [TextField] component with Elyon style.

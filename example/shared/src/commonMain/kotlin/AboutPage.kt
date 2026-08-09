@@ -48,9 +48,6 @@ import androidx.compose.ui.unit.sp
 import component.BackNavigationIcon
 import component.blend.ColorBlendToken
 import component.effect.BgEffectBackground
-import misc.VersionInfo
-import navigation.Route
-import org.jetbrains.compose.resources.painterResource
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.CardDefaults
 import io.elyon.kmp.basic.ElyonScrollBehavior
@@ -74,6 +71,9 @@ import io.elyon.kmp.preference.SwitchPreference
 import io.elyon.kmp.shared.generated.resources.Res
 import io.elyon.kmp.shared.generated.resources.ic_launcher
 import io.elyon.kmp.theme.ElyonTheme
+import misc.VersionInfo
+import navigation.Route
+import org.jetbrains.compose.resources.painterResource
 import ui.isInDarkTheme
 import utils.BlurredBar
 import utils.pageContentPadding

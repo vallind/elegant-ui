@@ -48,9 +48,9 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import io.elyon.kmp.theme.LocalColors
 import io.elyon.kmp.theme.ElyonTheme
 import io.elyon.kmp.theme.ElyonTheme.isDynamicColor
+import io.elyon.kmp.theme.LocalColors
 import kotlin.math.absoluteValue
 
 /**

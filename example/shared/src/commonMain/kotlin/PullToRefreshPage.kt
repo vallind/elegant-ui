@@ -32,12 +32,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import component.BackNavigationIcon
-import kotlinx.coroutines.delay
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.CardDefaults
+import io.elyon.kmp.basic.ElyonScrollBehavior
 import io.elyon.kmp.basic.Icon
 import io.elyon.kmp.basic.IconButton
-import io.elyon.kmp.basic.ElyonScrollBehavior
 import io.elyon.kmp.basic.PullToRefresh
 import io.elyon.kmp.basic.Scaffold
 import io.elyon.kmp.basic.Text
@@ -55,6 +54,7 @@ import io.elyon.kmp.squircle.squircleClip
 import io.elyon.kmp.theme.ElyonTheme
 import io.elyon.kmp.utils.PressFeedbackType
 import io.elyon.kmp.window.WindowBottomSheet
+import kotlinx.coroutines.delay
 import utils.AdaptiveTopAppBar
 import utils.BlurredBar
 import utils.pageContentPadding

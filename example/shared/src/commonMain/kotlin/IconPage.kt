@@ -41,12 +41,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import component.SearchBarFake
 import component.SearchPager
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import io.elyon.kmp.basic.BasicComponent
 import io.elyon.kmp.basic.Card
-import io.elyon.kmp.basic.Icon
 import io.elyon.kmp.basic.ElyonScrollBehavior
+import io.elyon.kmp.basic.Icon
 import io.elyon.kmp.basic.Scaffold
 import io.elyon.kmp.basic.Text
 import io.elyon.kmp.basic.VerticalScrollBar
@@ -59,6 +57,8 @@ import io.elyon.kmp.interfaces.ExperimentalScrollBarApi
 import io.elyon.kmp.squircle.squircleClip
 import io.elyon.kmp.theme.ElyonTheme
 import io.elyon.kmp.theme.ElyonTheme.colorScheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import utils.AdaptiveTopAppBar
 import utils.All
 import utils.BlurredBar

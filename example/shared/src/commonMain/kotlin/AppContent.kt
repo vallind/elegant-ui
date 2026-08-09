@@ -65,13 +65,6 @@ import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
 import component.liquid.IosLiquidGlassNavigationBar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.job
-import kotlinx.coroutines.launch
-import navigation.CrossActivityTransition
-import navigation.Navigator
-import navigation.Route
 import io.elyon.kmp.basic.Badge
 import io.elyon.kmp.basic.FabPosition
 import io.elyon.kmp.basic.FloatingActionButton
@@ -120,6 +113,13 @@ import io.elyon.kmp.nav.transition.NavSwipeDirection
 import io.elyon.kmp.nav.transition.NavTransition
 import io.elyon.kmp.nav.transition.NavTransitions
 import io.elyon.kmp.theme.ElyonTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
+import navigation.CrossActivityTransition
+import navigation.Navigator
+import navigation.Route
 import ui.isInDarkTheme
 import utils.FPSMonitor
 import utils.shouldExpandNavigationRail

@@ -13,10 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import io.elyon.kmp.blur.isRuntimeShaderSupported
 import io.elyon.kmp.theme.ElyonTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import ui.isInDarkTheme
 import utils.shouldShowSplitPane
 import kotlin.math.floor

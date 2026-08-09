@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import component.BackNavigationIcon
-import kotlinx.coroutines.CancellationException
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.ElyonScrollBehavior
 import io.elyon.kmp.basic.Scaffold
@@ -38,6 +37,7 @@ import io.elyon.kmp.interfaces.ExperimentalScrollBarApi
 import io.elyon.kmp.preference.ArrowPreference
 import io.elyon.kmp.shared.generated.resources.Res
 import io.elyon.kmp.theme.ElyonTheme
+import kotlinx.coroutines.CancellationException
 import utils.AdaptiveTopAppBar
 import utils.BlurredBar
 import utils.Library

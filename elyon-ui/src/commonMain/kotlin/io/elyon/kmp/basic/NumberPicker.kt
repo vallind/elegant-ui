@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastRoundToInt
 import androidx.compose.ui.util.lerp
-import kotlinx.coroutines.flow.distinctUntilChanged
 import io.elyon.kmp.theme.ElyonTheme
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlin.math.abs
 
 /**

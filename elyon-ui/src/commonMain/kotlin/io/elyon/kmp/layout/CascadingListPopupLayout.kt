@@ -42,8 +42,6 @@ import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.NavigationEventTransitionState
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import io.elyon.kmp.anim.folmeSpring
 import io.elyon.kmp.basic.DropdownColors
 import io.elyon.kmp.basic.DropdownDefaults
@@ -53,8 +51,10 @@ import io.elyon.kmp.basic.ListPopupDefaults
 import io.elyon.kmp.basic.ListPopupLayoutInfo
 import io.elyon.kmp.basic.PopupPositionProvider
 import io.elyon.kmp.basic.rememberListPopupLayoutInfo
-import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalDismissState
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 internal val CascadingPopupCornerRadius = 16.dp
 

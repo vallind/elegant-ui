@@ -58,16 +58,16 @@ import androidx.navigationevent.NavigationEventInfo
 import androidx.navigationevent.NavigationEventTransitionState
 import androidx.navigationevent.compose.NavigationBackHandler
 import androidx.navigationevent.compose.rememberNavigationEventState
-import kotlinx.coroutines.launch
 import io.elyon.kmp.anim.DecelerateEasing
 import io.elyon.kmp.anim.folmeSpring
 import io.elyon.kmp.basic.Text
 import io.elyon.kmp.overlay.OverlayDialog
 import io.elyon.kmp.squircle.squircleSurface
-import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.utils.getRoundedCorner
 import io.elyon.kmp.window.WindowDialog
+import kotlinx.coroutines.launch
 
 /**
  * Internal shared layout logic for [OverlayDialog] and [WindowDialog].

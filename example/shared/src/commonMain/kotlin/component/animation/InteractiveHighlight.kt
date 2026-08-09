@@ -17,11 +17,11 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import io.elyon.kmp.blur.RuntimeShader
 import io.elyon.kmp.blur.asBrush
 import io.elyon.kmp.blur.isRuntimeShaderSupported
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 internal class InteractiveHighlight(
     private val animationScope: CoroutineScope,

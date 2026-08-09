@@ -4,9 +4,9 @@
 package io.elyon.kmp.nav.gesture
 
 import androidx.navigationevent.NavigationEvent
+import io.elyon.kmp.nav.runtime.NavDriverSpec
 import kotlinx.coroutines.job
 import kotlinx.coroutines.runBlocking
-import io.elyon.kmp.nav.runtime.NavDriverSpec
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals

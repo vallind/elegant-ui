@@ -24,8 +24,8 @@ import androidx.compose.ui.node.LayoutModifierNode
 import androidx.compose.ui.node.PointerInputModifierNode
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
-import kotlinx.coroutines.launch
 import io.elyon.kmp.interfaces.HoldDownInteraction
+import kotlinx.coroutines.launch
 
 @Stable
 data class SinkFeedback(

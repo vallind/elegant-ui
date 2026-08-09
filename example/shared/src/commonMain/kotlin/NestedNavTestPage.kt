@@ -24,8 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import component.BackNavigationIcon
-import kotlinx.serialization.Serializable
-import navigation.Route
 import io.elyon.kmp.basic.BasicComponent
 import io.elyon.kmp.basic.Card
 import io.elyon.kmp.basic.ElyonScrollBehavior
@@ -42,6 +40,8 @@ import io.elyon.kmp.nav.core.NavKey
 import io.elyon.kmp.nav.core.rememberNavBackStack
 import io.elyon.kmp.preference.ArrowPreference
 import io.elyon.kmp.theme.ElyonTheme
+import kotlinx.serialization.Serializable
+import navigation.Route
 import utils.AdaptiveTopAppBar
 import utils.BlurredBar
 import utils.pageContentPadding

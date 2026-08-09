@@ -34,8 +34,8 @@ import io.elyon.kmp.basic.VerticalDivider
 import io.elyon.kmp.layout.DialogDefaults
 import io.elyon.kmp.overlay.OverlayDialog
 import io.elyon.kmp.preference.ArrowPreference
-import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalDismissState
 import io.elyon.kmp.window.WindowDialog
 
 fun LazyListScope.dialogSection() {

@@ -62,16 +62,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastRoundToInt
 import androidx.compose.ui.zIndex
+import io.elyon.kmp.icon.ElyonIcons
+import io.elyon.kmp.icon.basic.Close
+import io.elyon.kmp.squircle.squircleBackground
+import io.elyon.kmp.theme.ElyonTheme
+import io.elyon.kmp.theme.LocalContentColor
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import io.elyon.kmp.icon.ElyonIcons
-import io.elyon.kmp.icon.basic.Close
-import io.elyon.kmp.squircle.squircleBackground
-import io.elyon.kmp.theme.LocalContentColor
-import io.elyon.kmp.theme.ElyonTheme
 import kotlin.time.Duration.Companion.milliseconds
 
 /**

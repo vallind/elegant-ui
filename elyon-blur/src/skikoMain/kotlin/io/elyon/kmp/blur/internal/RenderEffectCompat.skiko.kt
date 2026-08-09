@@ -6,12 +6,12 @@ package io.elyon.kmp.blur.internal
 import androidx.compose.ui.graphics.RenderEffect
 import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.graphics.skiaImageFilter
-import org.jetbrains.skia.BlendMode
-import org.jetbrains.skia.FilterTileMode
-import org.jetbrains.skia.ImageFilter
 import io.elyon.kmp.blur.BackdropEffectScopeImpl
 import io.elyon.kmp.shader.RuntimeShader
 import io.elyon.kmp.shader.asSkikoRuntimeShader
+import org.jetbrains.skia.BlendMode
+import org.jetbrains.skia.FilterTileMode
+import org.jetbrains.skia.ImageFilter
 
 internal actual fun RenderEffect?.chain(other: RenderEffect): RenderEffect = if (this != null) {
     ImageFilter.makeCompose(

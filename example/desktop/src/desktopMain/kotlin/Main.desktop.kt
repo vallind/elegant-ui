@@ -8,9 +8,9 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import org.jetbrains.compose.resources.painterResource
 import io.elyon.kmp.shared.generated.resources.Res
 import io.elyon.kmp.shared.generated.resources.icon
+import org.jetbrains.compose.resources.painterResource
 import java.awt.Dimension
 
 fun main() = application {

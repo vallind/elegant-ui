@@ -30,9 +30,9 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastFirst
+import io.elyon.kmp.theme.ElyonTheme
 import io.elyon.kmp.theme.LocalContentColor
 import io.elyon.kmp.theme.LocalTextStyles
-import io.elyon.kmp.theme.ElyonTheme
 
 /**
  * Elyon badge box.
