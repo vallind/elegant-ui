@@ -8,6 +8,10 @@ A UI library for Compose Multiplatform.
 [![Compose Multiplatform](https://img.shields.io/badge/compose-1.11.1-4285F4)](https://kotlinlang.org/compose-multiplatform/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue)](LICENSE)
 
+### Online Demo
+
+[![WasmJs](https://img.shields.io/badge/Demo-Web-654FF0?logo=webassembly&logoColor=white)](https://vallind.github.io/elegant-ui/demo/)
+
 ### Supported Platforms
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)
