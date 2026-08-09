@@ -1,0 +1,51 @@
+name: Refresh Baseline Profiles
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Sources
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: "zulu"
+          java-version: "21"
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+      - name: Generate baseline profiles on emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: aosp_atd
+          arch: x86_64
+          disable-animations: true
+          script: ./gradlew :example:android:generateBaselineProfile
+      - name: Commit refreshed profiles
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            elyon-effects/src/androidMain/baselineProfiles \
+            elyon-blur/src/androidMain/baselineProfiles \
+            elyon-nav/src/androidMain/baselineProfiles \
+            elyon-ui/src/androidMain/baselineProfiles \
+            example/android/src/release/generated/baselineProfiles
+          if git diff --cached --quiet; then
+            echo "No baseline profile changes"
+          else
+            git commit -m "chore(baseline): refresh baseline profiles"
+            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
+          fi
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
