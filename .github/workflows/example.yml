@@ -141,12 +141,23 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - name: Decode android signing key
-        if: ${{ secrets.SIGNING_KEY != '' }}
-        run: echo ${{ secrets.SIGNING_KEY }} | base64 -d > keystore.jks
-      - name: Build android universal platform
-        run: ./gradlew assembleRelease
+        run: |
+          if [ -n "$SIGNING_KEY" ]; then
+            echo "$SIGNING_KEY" | base64 -d > keystore.jks
+          fi
         env:
-          KEYSTORE_PATH: ${{ secrets.SIGNING_KEY != '' && '../../keystore.jks' || '' }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      - name: Build android universal platform
+        run: |
+          if [ -n "$SIGNING_KEY" ]; then
+            export KEYSTORE_PATH="../../keystore.jks"
+            export KEYSTORE_PASS="$KEY_STORE_PASSWORD"
+            export KEY_ALIAS="$ALIAS"
+            export KEY_PASSWORD="$KEY_PASSWORD"
+          fi
+          ./gradlew assembleRelease
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           KEYSTORE_PASS: ${{ secrets.KEY_STORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
