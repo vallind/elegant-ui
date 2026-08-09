@@ -1,0 +1,94 @@
+# 快速开始
+
+当前支持的平台: **Android** / **Desktop(JVM)** / **iOS** / **WasmJs** / **Js** / **macOS(Native)**
+
+::: warning 注意
+此库处于实验阶段，API 可能会在未来版本中变更而不另行通知
+:::
+
+## 添加依赖
+
+Elyon 尚未发布到 Maven Central。如需使用，请通过复合构建（composite build）引入本仓库：
+
+```kotlin
+// settings.gradle.kts
+includeBuild("../elyon")
+```
+
+```kotlin
+// build.gradle.kts
+dependencies {
+    implementation(project(":elyon-ui"))
+    // 可选：添加 elyon-preference 以获取 Preference 组件
+    implementation(project(":elyon-preference"))
+    // 可选：添加 elyon-icons 以获取更多图标
+    implementation(project(":elyon-icons"))
+    // 可选：添加 elyon-blur 以获取模糊效果
+    implementation(project(":elyon-blur"))
+    // 可选：添加 elyon-squircle 以获取平滑圆角形状
+    implementation(project(":elyon-squircle"))
+    // 可选：添加 elyon-nav 以获取导航支持
+    implementation(project(":elyon-nav"))
+}
+```
+
+Elyon 由多个可独立使用的模块组成：
+
+| 模块 | 说明 |
+|---|---|
+| `elyon-ui` | 核心 UI 组件库（自动包含 `elyon-core`） |
+| `elyon-preference` | Preference 组件（SwitchPreference、CheckboxPreference 等），依赖 `elyon-ui` |
+| `elyon-icons` | 扩展图标库，可独立使用，也可与 `elyon-ui` 同时使用（自动包含 `elyon-core`） |
+| `elyon-blur` | 模糊效果库，可独立使用 |
+| `elyon-squircle` | 平滑圆角形状，可独立使用（已由 `elyon-ui` 传递包含） |
+| `elyon-shader` | 底层运行时着色器 / 渲染效果抽象，已由 `elyon-blur` / `elyon-squircle` 传递包含 |
+| `elyon-nav` | 自包含导航库，可独立使用 |
+
+## 基本用法
+
+### 应用 Elyon 主题
+
+```kotlin
+@Composable
+fun AppTheme(
+    content: @Composable () -> Unit
+) {
+    // 可用模式: System, Light, Dark, MonetSystem, MonetLight, MonetDark
+    val controller = remember { ThemeController(ColorSchemeMode.System) }
+    return ElyonTheme(
+        controller = controller,
+        content = content
+    )
+}
+```
+
+### 使用 Elyon 脚手架
+
+```kotlin
+Scaffold(
+    topBar = {
+        // TopBar
+    },
+    bottomBar = {
+        // BottomBar
+    },
+    floatingActionButton = {
+        // FloatingActionButton
+    },
+    floatingToolbar = {
+        // FloatingToolbar
+    }
+) {
+    // Content...
+}
+```
+
+::: warning 注意
+Scaffold 组件为跨平台提供了一个合适的弹出窗口的容器。`OverlayDialog`、`OverlayDropdownPreference`、`OverlaySpinnerPreference`、
+`OverlayListPopup` 等组件都基于此实现弹出窗口，因此都需要被该组件包裹。
+:::
+
+## API 文档
+
+- 查看 [API 文档](/elyon/dokka/index.html){target="_blank"}，此文档使用 Dokka 生成，包含了所有 API
+  的详细信息。

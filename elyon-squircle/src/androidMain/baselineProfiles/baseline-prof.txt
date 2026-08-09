@@ -1,0 +1,8 @@
+HSPLio/elyon/kmp/squircle/LocalSquircleEnabledKt**->**(**)**
+HSPLio/elyon/kmp/squircle/SquircleBackgroundKt**->**(**)**
+HSPLio/elyon/kmp/squircle/SquircleBorderKt**->**(**)**
+HSPLio/elyon/kmp/squircle/SquircleDefaults;->**(**)**
+HSPLio/elyon/kmp/squircle/SquirclePathKt**->**(**)**
+HSPLio/elyon/kmp/squircle/SquircleShaderBrush;->**(**)**
+HSPLio/elyon/kmp/squircle/internal/AlphaImageBitmap_androidKt**->**(**)**
+HSPLio/elyon/kmp/squircle/internal/BakedSquircleSdf;->**(**)**

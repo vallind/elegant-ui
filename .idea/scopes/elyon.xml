@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="elyon" pattern="(file[elyon.docs*]:*//*||file[elyon.example*]:*//*||file[elyon.elyon*]:*//*)&amp;&amp;!file[elyon.docs]:.vitepress//*&amp;&amp;!file[elyon.docs]:.vitepress/locales//*&amp;&amp;!file[elyon.docs]:.vitepress/theme//*&amp;&amp;!file[elyon.docs]:.vitepress/theme/style//*&amp;&amp;!file[elyon.docs]:components//*&amp;&amp;!file[elyon.docs]:guide//*&amp;&amp;!file[elyon.docs]:public//*&amp;&amp;!file[elyon.docs]:zh_CN//*&amp;&amp;!file[elyon.docs]:zh_CN/components//*&amp;&amp;!file[elyon.docs]:zh_CN/guide//*||file[elyon.docs.demo]:*/||file[elyon.example]:*/||file[elyon.example]:kotlin-js-store//*||file[elyon.example]:webpack.config.d//*||file[elyon.elyon]:*/" />
+</component>
