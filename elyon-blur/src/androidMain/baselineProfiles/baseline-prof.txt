@@ -24,13 +24,5 @@ HSPLio/elyon/kmp/blur/internal/ShadersKt**->**(**)**
 HSPLio/elyon/kmp/blur/internal/ShapeProvider;->**(**)**
 Lio/elyon/kmp/blur/Backdrop;
 Lio/elyon/kmp/blur/BackdropEffectScope;
+Lio/elyon/kmp/blur/ProgressiveBlur;
 Lio/elyon/kmp/blur/RuntimeShaderCache;
-PLio/elyon/kmp/blur/highlight/BloomStroke;->**(**)**
-PLio/elyon/kmp/blur/highlight/Highlight;->**(**)**
-PLio/elyon/kmp/blur/highlight/HighlightDrawingKt**->**(**)**
-PLio/elyon/kmp/blur/highlight/HighlightStyleKt**->**(**)**
-PLio/elyon/kmp/blur/highlight/LightPosition;->**(**)**
-PLio/elyon/kmp/blur/highlight/LightSource;->**(**)**
-PLio/elyon/kmp/blur/highlight/TiltLightKt**->**(**)**
-PLio/elyon/kmp/blur/sensor/DeviceTilt;->**(**)**
-PLio/elyon/kmp/blur/sensor/DeviceTilt_androidKt**->**(**)**

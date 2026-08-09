@@ -8,6 +8,7 @@ HSPLio/elyon/kmp/nav/core/NavEntry;->**(**)**
 HSPLio/elyon/kmp/nav/core/NavEntryBuilder;->**(**)**
 HSPLio/elyon/kmp/nav/core/NavPresentationState;->**(**)**
 HSPLio/elyon/kmp/nav/core/NavSystemCornerRadius_androidKt**->**(**)**
+HSPLio/elyon/kmp/nav/core/PredictiveBackOwnership;->**(**)**
 HSPLio/elyon/kmp/nav/gesture/NavSwipeDismissKt**->**(**)**
 HSPLio/elyon/kmp/nav/gesture/NavigationEventFlowAdapter;->**(**)**
 HSPLio/elyon/kmp/nav/gesture/PredictiveBackHandlerKt**->**(**)**
