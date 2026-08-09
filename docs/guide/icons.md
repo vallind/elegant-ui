@@ -4,14 +4,12 @@ Elyon provides a rich built-in icon system that meets the primary design needs o
 
 ## Installation
 
-The basic `elyon-ui` library includes only a small set of essential icons. To access the full collection of Elyon icons, you need to add the `elyon-icons` dependency to your project.
+The `elyon-ui` library includes the full Elyon icon collection. Basic icons live in `io.elyon.kmp.icon`, and extended icons in `io.elyon.kmp.icon.extended` — both are part of `elyon-core`, which `elyon-ui` already brings in.
 
 ```kotlin
 // build.gradle.kts
 commonMain.dependencies {
     implementation("io.elyon.kmp:elyon-ui:<version>")
-    // Add the extended icon library
-    implementation("io.elyon.kmp:elyon-icons:<version>")
 }
 ```
 
@@ -243,4 +241,3 @@ Extended icons include a wide variety of icons for different use cases. Below is
 | `WorldClock` | <img src="/icons/extended/WorldClock.Light.svg" width="24" height="24" /> | <img src="/icons/extended/WorldClock.Normal.svg" width="24" height="24" /> | <img src="/icons/extended/WorldClock.Regular.svg" width="24" height="24" /> | <img src="/icons/extended/WorldClock.Medium.svg" width="24" height="24" /> | <img src="/icons/extended/WorldClock.Demibold.svg" width="24" height="24" /> |
 | `Years` | <img src="/icons/extended/Years.Light.svg" width="24" height="24" /> | <img src="/icons/extended/Years.Normal.svg" width="24" height="24" /> | <img src="/icons/extended/Years.Regular.svg" width="24" height="24" /> | <img src="/icons/extended/Years.Medium.svg" width="24" height="24" /> | <img src="/icons/extended/Years.Demibold.svg" width="24" height="24" /> |
 | `ZoomOut` | <img src="/icons/extended/ZoomOut.Light.svg" width="24" height="24" /> | <img src="/icons/extended/ZoomOut.Normal.svg" width="24" height="24" /> | <img src="/icons/extended/ZoomOut.Regular.svg" width="24" height="24" /> | <img src="/icons/extended/ZoomOut.Medium.svg" width="24" height="24" /> | <img src="/icons/extended/ZoomOut.Demibold.svg" width="24" height="24" /> |
-

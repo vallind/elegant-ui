@@ -26,14 +26,11 @@ Compose Multiplatform UI component library. Targets Android, iOS, Desktop (JVM),
 
 | Directory           | Purpose                                                                    |
 | :------------------ | :------------------------------------------------------------------------- |
-| `elyon-core/`       | Utilities + ElyonIcons base (depended on by `ui` and `icons`)              |
-| `elyon-ui/`         | Main UI library                                                            |
-| `elyon-preference/` | Preference / menu / popup components                                       |
-| `elyon-shader/`     | Runtime shader / render effect abstraction (used by `blur` and `squircle`) |
-| `elyon-blur/`       | Blur effects (Android minSdk=33; depends on `elyon-shader`)                |
-| `elyon-squircle/`   | Squircle corner shapes (depends on `elyon-shader`)                         |
-| `elyon-icons/`      | Extended icon resources                                                    |
-| `elyon-nav/`        | Navigation runtime (depends on `elyon-squircle`)                           |
+| `elyon-core/`       | Utilities + basic and extended icons                                      |
+| `elyon-effects/`    | Runtime shader + squircle corner shapes                                    |
+| `elyon-blur/`       | Blur effects (Android minSdk=33; depends on `elyon-effects`)               |
+| `elyon-ui/`         | Main UI library + preference / menu / popup components                     |
+| `elyon-nav/`        | Navigation runtime (depends on `elyon-effects`)                            |
 | `example/`          | Demo app                                                                   |
 | `baselineprofile/`  | Android baseline profile generation                                        |
 | `docs/`             | VitePress documentation site                                               |
@@ -57,7 +54,7 @@ Compose Multiplatform UI component library. Targets Android, iOS, Desktop (JVM),
 | `icon/`       | Built-in basic icons (ArrowRight, Check, Search, …)             |
 | `interfaces/` | Shared interfaces                                               |
 
-`elyon-preference/src/commonMain/kotlin/io/elyon/kmp/`:
+`elyon-ui` also contains the preference area:
 
 | Subdir        | Contents                                                        |
 | :------------ | :-------------------------------------------------------------- |
@@ -191,7 +188,7 @@ data class ButtonColors(
 
 ### Adding a New Component
 
-1. Create the `@Composable` function in `elyon-ui/src/commonMain/kotlin/io/elyon/kmp/basic/` (or `preference/` in `elyon-preference` for preference components)
+1. Create the `@Composable` function in `elyon-ui/src/commonMain/kotlin/io/elyon/kmp/basic/` (or `preference/` in `elyon-ui` for preference components)
 2. Follow the API conventions above (parameter ordering, Defaults object, Colors data class)
 3. Add a demo section in `example/shared/src/commonMain/kotlin/component/` and register it in the example app
 4. Verify on at least Android and Desktop
@@ -207,7 +204,7 @@ When changing a component's API, defaults, or behavior, update all related artif
 ### Fixing Bugs
 
 1. Reproduce in the `example` app
-2. Fix in `elyon-ui/` or `elyon-preference/`
+2. Fix in `elyon-ui/`
 3. If platform-specific, verify the fix across affected platforms
 
 ## Git Commit Style

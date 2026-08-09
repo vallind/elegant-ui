@@ -16,8 +16,8 @@ Ask the user for whatever is not yet provided:
 1. **Component name** — PascalCase (e.g. `Chip`, `Badge`, `Tooltip`)
 2. **Category** —
    - **basic** (`basic/` in `elyon-ui`): standalone UI components, e.g. Button, Slider, Switch, TabRow
-   - **preference** (`preference/` in `elyon-preference`): settings-item components built on `BasicComponent` with title/summary/action slots, named `XxxPreference` (SwitchPreference, CheckboxPreference, …)
-   - Overlays (`overlay/`, `window/`) and menus/popups (`menu/`, `popup/` in `elyon-preference`) are rarely added; confirm the design with the user before starting
+   - **preference** (`preference/` in `elyon-ui`): settings-item components built on `BasicComponent` with title/summary/action slots, named `XxxPreference` (SwitchPreference, CheckboxPreference, …)
+   - Overlays (`overlay/`, `window/`) and menus/popups (`menu/`, `popup/` in `elyon-ui`) are rarely added; confirm the design with the user before starting
 3. **Brief description** — what it does and where it is used
 4. **Key parameters** — state, callbacks, content slots, configuration
 5. **Whether a Colors class is needed** — most components need one; minimal components can take plain `Color` parameters (see how Divider does it)
@@ -32,25 +32,25 @@ Before generating code, read the API Conventions section of `AGENTS.md`, pick th
 | Container | `basic/Card.kt` | two overloads: non-interactive `@NonRestartableComposable` one + interactive one (`combinedClickable` / `pressable` / `HoldDownObserver`) |
 | Minimal drawn | `basic/Divider.kt` | `Canvas` drawing; plain `Color` parameters, no Colors class; theme colors in Defaults via `@Composable get()` |
 | Animated / custom-drawn | `basic/ProgressIndicator.kt`, `basic/Switch.kt` | looping animation, drag gestures, haptics, semantics such as `progressBarRangeInfo` |
-| Settings item | `elyon-preference/.../preference/SwitchPreference.kt` | delegates to `BasicComponent`, control placed in `endActions`, whole-row click callback + correct `Role` |
+| Settings item | `elyon-ui/.../preference/SwitchPreference.kt` | delegates to `BasicComponent`, control placed in `endActions`, whole-row click callback + correct `Role` |
 | BasicComponent API | `basic/Component.kt` | see AGENTS.md Critical Constraints: its custom `Layout` must not be replaced with `Row + weight(1f)` |
-| Grouped Colors (selected-state aware) | `elyon-preference/.../preference/RadioButtonPreference.kt` | `@Immutable` data class holding several `BasicComponentColors` + `@Stable internal fun xxx(selected)` accessors |
+| Grouped Colors (selected-state aware) | `elyon-ui/.../preference/RadioButtonPreference.kt` | `@Immutable` data class holding several `BasicComponentColors` + `@Stable internal fun xxx(selected)` accessors |
 
 ## Step 3: Write the component source file
 
 Locations:
 
 - basic: `elyon-ui/src/commonMain/kotlin/io/elyon/kmp/basic/{Name}.kt`
-- preference: `elyon-preference/src/commonMain/kotlin/io/elyon/kmp/preference/{Name}Preference.kt`
+- preference: `elyon-ui/src/commonMain/kotlin/io/elyon/kmp/preference/{Name}Preference.kt`
 
 Structure and conventions follow AGENTS.md (license header, parameter order, Defaults object, `@Immutable` Colors class, when `@NonRestartableComposable` applies, where `rememberUpdatedState` applies, `@Immutable`/`@Stable` and collection-stability rules). Below are only the pitfalls AGENTS.md does not spell out:
 
-- **Backgrounds and shapes**: filled backgrounds (including those of clickable components) use `Modifier.squircleSurface(color = …, cornerRadius = …)`; borders use `Modifier.squircleBorder(…)`; squircle-radius clipping uses `Modifier.squircleClip(…)` (all from `elyon-squircle`; they fall back to rounded rectangles when `LocalSquircleEnabled` is off, and their outlines align at equal radii). Where an actual `Shape` value is required (e.g. `dropShadow`, the `shape` parameter of `Surface`), use `RoundedCornerShape(cornerRadius)` / `CircleShape`
+- **Backgrounds and shapes**: filled backgrounds (including those of clickable components) use `Modifier.squircleSurface(color = …, cornerRadius = …)`; borders use `Modifier.squircleBorder(…)`; squircle-radius clipping uses `Modifier.squircleClip(…)` (all from `elyon-effects`; they fall back to rounded rectangles when `LocalSquircleEnabled` is off, and their outlines align at equal radii). Where an actual `Shape` value is required (e.g. `dropShadow`, the `shape` parameter of `Surface`), use `RoundedCornerShape(cornerRadius)` / `CircleShape`
 - **Theming**: colors always come from `ElyonTheme.colorScheme.*` (full list in `theme/Colors.kt`) and text styles from `ElyonTheme.textStyles.*` (`theme/TextStyles.kt`); never hardcode
 - **Resolving state to color**: prefer a `@Stable internal fun` on the Colors class (e.g. `color(enabled: Boolean)`; most of the library does this); a simple two-state case may also resolve inline like `Button.kt` does — follow the chosen reference file
 - **Haptics**: toggle-like components fire haptics inside the click callback (`HapticFeedbackType.ToggleOn`/`ToggleOff`, following the `rememberUpdatedState(hapticFeedback)` pattern in `Switch.kt`/`Checkbox.kt`/`RadioButton.kt`); never fire on state change — programmatic state writes would trigger it
 - **Semantics**: set the correct `Role` (Button/Switch/Checkbox/RadioButton…); the non-interactive form (`onClick = null`) still needs a `semantics` block declaring role and state
-- **RTL**: for directional icons, capture `val layoutDirection = LocalLayoutDirection.current` first, then `graphicsLayer { scaleX = if (layoutDirection == LayoutDirection.Rtl) -1f else 1f }` (`GraphicsLayerScope` does not expose layoutDirection; see `elyon-preference/.../preference/ArrowPreference.kt`)
+- **RTL**: for directional icons, capture `val layoutDirection = LocalLayoutDirection.current` first, then `graphicsLayer { scaleX = if (layoutDirection == LayoutDirection.Rtl) -1f else 1f }` (`GraphicsLayerScope` does not expose layoutDirection; see `elyon-ui/.../preference/ArrowPreference.kt`)
 - **Platforms**: implement in `commonMain` first; use expect/actual only for genuine platform differences (see Platform Source Sets in AGENTS.md)
 - **Naming and wording**: no Material components or dependencies; code, comments, and KDoc must not reference external design systems or vendor names
 - **Single-file layout**: the main composable, private helper composables, the Defaults object, and the Colors class live in one file; extract complex `startAction`/`endActions` content into private helper composables
@@ -121,7 +121,7 @@ Commits follow the AGENTS.md Git Commit Style (the component and its example/doc
 
 A new component lands only when all 8 are done:
 
-1. Component source file (elyon-ui or elyon-preference)
+1. Component source file (elyon-ui)
 2. `example/shared/.../component/{Name}Section.kt`
 3. `example/shared/.../MainPage.kt` registration (import + call)
 4. `docs/demo/.../{Name}Demo.kt`

@@ -48,7 +48,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.elyonCore)
-            api(projects.elyonSquircle)
+            api(projects.elyonEffects)
             api(libs.jetbrains.compose.foundation)
 
             implementation(libs.androidx.navigationevent)
@@ -81,13 +81,6 @@ val convertBaselineProfile by tasks.registering(ConvertBaselineProfileTask::clas
         ),
     )
     additionalOutputs.put(
-        "io/elyon/kmp/preference/",
-        rootProject.layout.projectDirectory
-            .file(
-                "elyon-preference/src/androidMain/baselineProfiles/baseline-prof.txt",
-            ).asFile.absolutePath,
-    )
-    additionalOutputs.put(
         "io/elyon/kmp/blur/",
         rootProject.layout.projectDirectory
             .file(
@@ -99,20 +92,6 @@ val convertBaselineProfile by tasks.registering(ConvertBaselineProfileTask::clas
         rootProject.layout.projectDirectory
             .file(
                 "elyon-nav/src/androidMain/baselineProfiles/baseline-prof.txt",
-            ).asFile.absolutePath,
-    )
-    additionalOutputs.put(
-        "io/elyon/kmp/shader/",
-        rootProject.layout.projectDirectory
-            .file(
-                "elyon-shader/src/androidMain/baselineProfiles/baseline-prof.txt",
-            ).asFile.absolutePath,
-    )
-    additionalOutputs.put(
-        "io/elyon/kmp/squircle/",
-        rootProject.layout.projectDirectory
-            .file(
-                "elyon-squircle/src/androidMain/baselineProfiles/baseline-prof.txt",
             ).asFile.absolutePath,
     )
 }

@@ -25,8 +25,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.elyonUi)
-            api(projects.elyonPreference)
-            implementation(projects.elyonIcons)
             implementation(projects.elyonNav)
         }
     }

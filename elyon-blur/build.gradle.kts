@@ -49,7 +49,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.elyonShader)
+            api(projects.elyonEffects)
             implementation(libs.jetbrains.compose.foundation)
         }
     }

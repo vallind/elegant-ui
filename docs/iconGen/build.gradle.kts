@@ -16,7 +16,7 @@ val iconsSourceDir =
         .asFile
 val extendedIconsSourceDir =
     rootProject.layout.projectDirectory
-        .dir("elyon-icons/src/commonMain/kotlin/io/elyon/kmp/icon")
+        .dir("elyon-core/src/commonMain/kotlin/io/elyon/kmp/icon")
         .asFile
 val outputDir = project.file("../public/icons")
 val docFile = project.file("../guide/icons.md")

@@ -1,9 +1,9 @@
 # Squircle Shapes
 
-`elyon-squircle` is a standalone library that provides squircle (continuous-corner)
-rounded-rectangle shapes for Compose Multiplatform. It exposes `Modifier` extensions
-for fill / clip / border and a low-level `Path` builder. The library supports
-Android, Desktop (JVM), iOS, macOS, and Web (WasmJs/Js).
+The `elyon-effects` module provides squircle (continuous-corner) rounded-rectangle
+shapes for Compose Multiplatform. It exposes `Modifier` extensions for fill / clip /
+border and a low-level `Path` builder. The module supports Android, Desktop (JVM),
+iOS, macOS, and Web (WasmJs/Js).
 
 ::: tip Squircle vs. RoundedCornerShape
 A `RoundedCornerShape` corner is a pure quarter circle, so the curvature jumps
@@ -22,13 +22,13 @@ manual gating. See [Global Toggle](#global-toggle) for the runtime opt-out.
 
 ## Setup
 
-Add the `elyon-squircle` dependency to your project:
+Add the `elyon-effects` dependency to your project:
 
 ```kotlin
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.elyon.kmp:elyon-squircle:<version>")
+            implementation("io.elyon.kmp:elyon-effects:<version>")
         }
     }
 }
@@ -38,7 +38,7 @@ For Android-only projects:
 
 ```kotlin
 dependencies {
-    implementation("io.elyon.kmp:elyon-squircle-android:<version>")
+    implementation("io.elyon.kmp:elyon-effects-android:<version>")
 }
 ```
 

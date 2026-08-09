@@ -63,11 +63,9 @@ kotlin {
             kotlin.srcDir(generatedSrcDir.map { it.dir("kotlin") })
             dependencies {
                 api(projects.elyonUi)
-                api(projects.elyonPreference)
                 api(libs.jetbrains.compose.components.resources)
                 implementation(projects.elyonBlur)
-                implementation(projects.elyonSquircle)
-                implementation(projects.elyonIcons)
+                implementation(projects.elyonEffects)
                 implementation(projects.elyonNav)
                 implementation(libs.androidx.navigationevent)
                 implementation(libs.aboutlibraries.core)

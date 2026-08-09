@@ -19,14 +19,8 @@ includeBuild("../elyon")
 // build.gradle.kts
 dependencies {
     implementation(project(":elyon-ui"))
-    // Optional: add elyon-preference for preference components
-    implementation(project(":elyon-preference"))
-    // Optional: add elyon-icons for more icons
-    implementation(project(":elyon-icons"))
     // Optional: add elyon-blur for blur effects
     implementation(project(":elyon-blur"))
-    // Optional: add elyon-squircle for squircle (smooth rounded corner) shapes
-    implementation(project(":elyon-squircle"))
     // Optional: add elyon-nav for navigation
     implementation(project(":elyon-nav"))
 }
@@ -36,13 +30,11 @@ Elyon is composed of several modules that can be used independently:
 
 | Module             | Description                                          |
 | ------------------ | ---------------------------------------------------- |
-| `elyon-ui`         | Core UI component library                            |
-| `elyon-preference` | Preference components library, depends on `elyon-ui` |
-| `elyon-icons`      | Extended icon library, can be used independently     |
-| `elyon-blur`       | Blur effect library, can be used independently       |
-| `elyon-squircle`   | Squircle shapes library, can be used independently   |
-| `elyon-nav`        | Navigation library, can be used independently        |
-| `elyon-shader`     | Low-level runtime shader / render effect abstraction |
+| `elyon-core`       | Utilities + basic and extended icons                  |
+| `elyon-effects`    | Runtime shader + squircle shapes                      |
+| `elyon-blur`       | Blur effect library, can be used independently        |
+| `elyon-ui`         | Core UI + preference components                       |
+| `elyon-nav`        | Navigation library, can be used independently         |
 
 ## Basic Usage
 

@@ -4,14 +4,12 @@ Elyon 提供了一套丰富的内置图标系统，满足大多数应用的主�
 
 ## 安装
 
-基础的 `elyon-ui` 库仅包含少量核心图标。如需使用完整的 Elyon 图标库，您需要将 `elyon-icons` 依赖添加到您的项目中。
+`elyon-ui` 库已包含完整的 Elyon 图标集合。基础图标位于 `io.elyon.kmp.icon`，扩展图标位于 `io.elyon.kmp.icon.extended` —— 两者都属于 `elyon-core`，由 `elyon-ui` 自动传递引入。
 
 ```kotlin
 // build.gradle.kts
 commonMain.dependencies {
     implementation("io.elyon.kmp:elyon-ui:<version>")
-    // 添加扩展图标库
-    implementation("io.elyon.kmp:elyon-icons:<version>")
 }
 ```
 
@@ -243,4 +241,3 @@ Elyon 图标支持五种粗细，对应字体源 `misymbol_vf.ttf` 的 5 个命�
 | `WorldClock` | <img src="/icons/extended/WorldClock.Light.svg" width="24" height="24" /> | <img src="/icons/extended/WorldClock.Normal.svg" width="24" height="24" /> | <img src="/icons/extended/WorldClock.Regular.svg" width="24" height="24" /> | <img src="/icons/extended/WorldClock.Medium.svg" width="24" height="24" /> | <img src="/icons/extended/WorldClock.Demibold.svg" width="24" height="24" /> |
 | `Years` | <img src="/icons/extended/Years.Light.svg" width="24" height="24" /> | <img src="/icons/extended/Years.Normal.svg" width="24" height="24" /> | <img src="/icons/extended/Years.Regular.svg" width="24" height="24" /> | <img src="/icons/extended/Years.Medium.svg" width="24" height="24" /> | <img src="/icons/extended/Years.Demibold.svg" width="24" height="24" /> |
 | `ZoomOut` | <img src="/icons/extended/ZoomOut.Light.svg" width="24" height="24" /> | <img src="/icons/extended/ZoomOut.Normal.svg" width="24" height="24" /> | <img src="/icons/extended/ZoomOut.Regular.svg" width="24" height="24" /> | <img src="/icons/extended/ZoomOut.Medium.svg" width="24" height="24" /> | <img src="/icons/extended/ZoomOut.Demibold.svg" width="24" height="24" /> |
-

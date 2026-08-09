@@ -19,14 +19,8 @@ includeBuild("../elyon")
 // build.gradle.kts
 dependencies {
     implementation(project(":elyon-ui"))
-    // 可选：添加 elyon-preference 以获取 Preference 组件
-    implementation(project(":elyon-preference"))
-    // 可选：添加 elyon-icons 以获取更多图标
-    implementation(project(":elyon-icons"))
     // 可选：添加 elyon-blur 以获取模糊效果
     implementation(project(":elyon-blur"))
-    // 可选：添加 elyon-squircle 以获取平滑圆角形状
-    implementation(project(":elyon-squircle"))
     // 可选：添加 elyon-nav 以获取导航支持
     implementation(project(":elyon-nav"))
 }
@@ -36,12 +30,10 @@ Elyon 由多个可独立使用的模块组成：
 
 | 模块 | 说明 |
 |---|---|
-| `elyon-ui` | 核心 UI 组件库（自动包含 `elyon-core`） |
-| `elyon-preference` | Preference 组件（SwitchPreference、CheckboxPreference 等），依赖 `elyon-ui` |
-| `elyon-icons` | 扩展图标库，可独立使用，也可与 `elyon-ui` 同时使用（自动包含 `elyon-core`） |
+| `elyon-core` | 工具 + 基础与扩展图标 |
+| `elyon-effects` | 运行时着色器 + 平滑圆角形状 |
 | `elyon-blur` | 模糊效果库，可独立使用 |
-| `elyon-squircle` | 平滑圆角形状，可独立使用（已由 `elyon-ui` 传递包含） |
-| `elyon-shader` | 底层运行时着色器 / 渲染效果抽象，已由 `elyon-blur` / `elyon-squircle` 传递包含 |
+| `elyon-ui` | 核心 UI + Preference 组件（自动包含 core/effects） |
 | `elyon-nav` | 自包含导航库，可独立使用 |
 
 ## 基本用法

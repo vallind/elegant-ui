@@ -25,13 +25,11 @@ A UI library for Compose Multiplatform.
 
 | Module             | Description                                          |
 | ------------------ | ---------------------------------------------------- |
-| `elyon-ui`         | Core UI component library                            |
-| `elyon-preference` | Preference components library, depends on `elyon-ui` |
-| `elyon-icons`      | Extended icon library, can be used independently     |
-| `elyon-blur`       | Blur effect library, can be used independently       |
-| `elyon-squircle`   | Squircle shapes library, can be used independently   |
-| `elyon-nav`        | Navigation library, can be used independently        |
-| `elyon-shader`     | Low-level runtime shader / render effect abstraction |
+| `elyon-core`       | Utilities + basic and extended icons                  |
+| `elyon-effects`    | Runtime shader + squircle shapes                      |
+| `elyon-blur`       | Blur effect library, can be used independently        |
+| `elyon-ui`         | Core UI + preference components                       |
+| `elyon-nav`        | Navigation library, can be used independently         |
 
 ### Getting Started
 
@@ -46,14 +44,8 @@ includeBuild("../elyon")
 // build.gradle.kts
 dependencies {
     implementation(project(":elyon-ui"))
-    // Optional: Add elyon-preference for preference components
-    implementation(project(":elyon-preference"))
-    // Optional: Add elyon-icons for more icons
-    implementation(project(":elyon-icons"))
     // Optional: Add elyon-blur for blur effects
     implementation(project(":elyon-blur"))
-    // Optional: Add elyon-squircle for squircle (smooth rounded corner) shapes
-    implementation(project(":elyon-squircle"))
     // Optional: Add elyon-nav for navigation
     implementation(project(":elyon-nav"))
 }

@@ -41,11 +41,8 @@ plugins {
 
 include(":elyon-core")
 include(":elyon-ui")
-include(":elyon-preference")
-include(":elyon-shader")
+include(":elyon-effects")
 include(":elyon-blur")
-include(":elyon-squircle")
-include(":elyon-icons")
 include(":elyon-nav")
 
 include(":baselineprofile")

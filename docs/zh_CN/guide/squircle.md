@@ -1,7 +1,7 @@
 # 平滑圆角
 
-`elyon-squircle` 是一个独立的 Compose Multiplatform 平滑圆角（squircle，连续
-曲率圆角）矩形库。它通过 `Modifier` 扩展提供填充 / 裁剪 / 描边，并暴露底层的
+`elyon-effects` 模块提供 Compose Multiplatform 平滑圆角（squircle，连续曲率
+圆角）矩形。它通过 `Modifier` 扩展提供填充 / 裁剪 / 描边，并暴露底层的
 `Path` 构造器。支持 Android、Desktop (JVM)、iOS、macOS 和 Web (WasmJs/Js) 平台。
 
 ::: tip 与 RoundedCornerShape 的区别
@@ -19,13 +19,13 @@
 
 ## 配置
 
-在项目中添加 `elyon-squircle` 依赖：
+在项目中添加 `elyon-effects` 依赖：
 
 ```kotlin
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.elyon.kmp:elyon-squircle:<version>")
+            implementation("io.elyon.kmp:elyon-effects:<version>")
         }
     }
 }
@@ -35,7 +35,7 @@ Android 项目：
 
 ```kotlin
 dependencies {
-    implementation("io.elyon.kmp:elyon-squircle-android:<version>")
+    implementation("io.elyon.kmp:elyon-effects-android:<version>")
 }
 ```
 
