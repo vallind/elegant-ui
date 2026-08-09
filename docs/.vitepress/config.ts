@@ -34,6 +34,9 @@ export default defineConfig({
     },
   },
   cleanUrls: true,
+  ignoreDeadLinks: [
+    /^\/elegant-ui\/dokka\//,
+  ],
   themeConfig: {
     logo: "/logo.svg",
     search: {
