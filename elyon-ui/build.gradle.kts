@@ -60,7 +60,6 @@ kotlin {
 }
 
 baselineProfile {
-    useConnectedDevices = true
     filter {
         include("io.elyon.kmp.**")
     }
