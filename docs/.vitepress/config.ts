@@ -1,5 +1,9 @@
 import { defineConfig } from "vitepress";
 import locales from "./locales";
+import {
+  GitChangelog,
+  GitChangelogMarkdownSection,
+} from "@nolebase/vitepress-plugin-git-changelog/vite";
 
 export default defineConfig({
   base: "/elegant-ui/",
@@ -39,6 +43,9 @@ export default defineConfig({
   ],
   themeConfig: {
     logo: "/logo.svg",
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/vallind/elegant-ui' }
+    ],
     search: {
       provider: "local",
       options: {
@@ -82,6 +89,15 @@ export default defineConfig({
         "@nolebase/ui",
       ],
     },
-    plugins: [],
+    plugins: [
+      GitChangelog({
+        repoURL: () => "https://github.com/vallind/elegant-ui",
+      }),
+      GitChangelogMarkdownSection({
+        sections: {
+          disableContributors: true,
+        },
+      }),
+    ],
   },
 });

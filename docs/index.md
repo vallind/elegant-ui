@@ -16,6 +16,9 @@ hero:
     - theme: alt
       text: Components
       link: /components/index
+    - theme: alt
+      text: GitHub
+      link: https://github.com/vallind/elegant-ui
 
 features:
   - icon: 🚀

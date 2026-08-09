@@ -7,6 +7,12 @@ import {
 } from "@nolebase/vitepress-plugin-enhanced-readabilities/client";
 import "@nolebase/vitepress-plugin-enhanced-readabilities/client/style.css";
 
+import {
+  NolebaseGitChangelogPlugin,
+  InjectionKey as InjectionKeyGitChangelogPlugin,
+} from "@nolebase/vitepress-plugin-git-changelog/client";
+import "@nolebase/vitepress-plugin-git-changelog/client/style.css";
+
 import type { App } from "vue";
 import { onMounted, watch, nextTick, h } from "vue";
 
@@ -27,6 +33,23 @@ export default {
     });
   },
   enhanceApp({ app }: { app: App }) {
+    app.use(NolebaseGitChangelogPlugin);
+    app.provide(InjectionKeyGitChangelogPlugin, {
+      hideChangelogNoChangesText: true,
+      displayAuthorsInsideCommitLine: true,
+      locales: {
+        zh_CN: {
+          changelog: {
+            title: "变更日志",
+            noData: "暂无最近变更日志",
+            viewFullHistory: "查看完整变更日志",
+            committedOn: " 提交于 {{date}}",
+            lastEdited: "最后编辑于 {{daysAgo}}",
+            lastEditedDateFnsLocaleName: "zhCN",
+          },
+        },
+      },
+    });
     app.provide(InjectionKeyEnhancedReadabilities, {
       locales: {
         zh_CN: {
