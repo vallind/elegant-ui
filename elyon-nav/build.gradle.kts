@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
     id("module.kotlin-jvm-toolchain")
-    id("module.spotless")
 }
 
 kotlin {

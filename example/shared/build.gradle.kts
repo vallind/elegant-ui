@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
     id("module.kotlin-jvm-toolchain")
-    id("module.spotless")
 }
 
 val generatedSrcDir: Provider<Directory> = layout.buildDirectory.dir("generated/elyon-example")

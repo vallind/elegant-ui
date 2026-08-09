@@ -15,8 +15,6 @@ Compose Multiplatform UI component library. Targets Android, iOS, Desktop (JVM),
 | Build (full)        | `./gradlew assemble`                                    |
 | Build (quick check) | `./gradlew compileKotlinDesktop`                        |
 | Test                | `./gradlew check`                                       |
-| Check formatting    | `./gradlew spotlessCheck`                               |
-| **Fix formatting**  | `./gradlew spotlessApply`                               |
 | Run Android demo    | `./gradlew :example:android:installDebug`               |
 | Run Desktop demo    | `./gradlew :example:desktop:hotRunDesktop --auto`       |
 | Run WasmJs demo     | `./gradlew :example:web:wasmJsBrowserRun`               |
@@ -86,19 +84,17 @@ commonMain
 
 ## Code Style
 
-- **Formatter**: Spotless + ktlint with Compose rules (`io.nlopez.compose.rules:ktlint`); exact versions in `build-plugins/src/main/kotlin/module.spotless.gradle.kts`
-- **License header** (required on all `.kt` and `.kts` files; Spotless auto-fills `$YEAR` with the current year — do not manually change years in existing headers):
+- **License header** (required on all `.kt` and `.kts` files):
 
   ```
   // Copyright $YEAR, compose-miuix-ui contributors
   // SPDX-License-Identifier: Apache-2.0
   ```
 
-  Spotless auto-fills `$YEAR` with the current year. Do not manually change years in existing file headers.
+  Do not manually change years in existing file headers.
 
-- **Spotless exclusions**: Icon files (`**/icon/**/*.kt`) are excluded from formatting.
 - Line endings: platform-native
-- Composable function names may use PascalCase (ktlint rule disabled for `@Composable`)
+- Composable function names may use PascalCase
 
 ## API Conventions
 
@@ -223,4 +219,3 @@ Format: `<scope>: <summary>`
 - Reference PRs as `(#1234)` at subject end; issues as `* Fix #1234` in the body
 - Keep the body terse — omit it when the subject says everything; never restate the diff file by file
 - Check recent `git log --oneline` to stay consistent with current conventions
-- **Run `./gradlew spotlessCheck` before every commit; only run `./gradlew spotlessApply` if it reports violations — CI rejects formatting violations**

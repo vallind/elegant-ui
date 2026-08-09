@@ -14,7 +14,6 @@ jetbrains-dokka = "2.2.0"
 jetbrains-compose-hotReload = "1.2.0"
 jetbrains-lifecycle = "2.11.0"
 materialKolor-utilities = "5.0.0"
-spotless = "8.9.0"
 
 junit = "1.3.0"
 espresso-core = "3.7.0"
@@ -26,7 +25,6 @@ profileinstaller = "1.4.1"
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-spotless-plugin-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }

@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.kotlinMultiplatform)
     id("module.kotlin-jvm-toolchain")
-    id("module.spotless")
 }
 
 kotlin {

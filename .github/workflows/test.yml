@@ -28,7 +28,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - target: "spotlessCheck macosArm64Test iosSimulatorArm64Test"
+          - target: "macosArm64Test iosSimulatorArm64Test"
             os: macos-latest
           - target: "desktopTest"
             os: ubuntu-latest

@@ -2,5 +2,5 @@
 // SPDX-License-Identifier: Apache-2.0
 
 plugins {
-    id("module.spotless")
+    id("module.kotlin-jvm-toolchain")
 }

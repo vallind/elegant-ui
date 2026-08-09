@@ -113,7 +113,6 @@ Structure and conventions follow AGENTS.md (license header, parameter order, Def
 ## Step 6: Verify
 
 - `./gradlew compileKotlinDesktop` (fast compile of library + example); also run `./gradlew :docs:demo:compileKotlinJs` if the docs demo changed
-- `./gradlew spotlessCheck`; run `spotlessApply` only if it reports violations
 - Run the example app on at least Android and Desktop to confirm visuals and interaction (commands in AGENTS.md Key Commands)
 
 Commits follow the AGENTS.md Git Commit Style (the component and its example/docs companion changes go in one `library:` commit).
