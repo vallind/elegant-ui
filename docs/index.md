@@ -7,7 +7,7 @@ hero:
   text: A UI library for Compose MultiPlatform
   tagline: Provides components with Xiaomi HyperOS design style
   image:
-    src: /logo.svg
+    src: /logo-512.png
     alt: Logo
   actions:
     - theme: brand
