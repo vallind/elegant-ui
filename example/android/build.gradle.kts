@@ -59,9 +59,7 @@ android {
         release {
             optimization.enable = true
             vcsInfo.include = false
-            if (keystorePath != null) {
-                signingConfig = signingConfigs.getByName("github")
-            }
+            signingConfig = signingConfigs.getByName(if (keystorePath != null) "github" else "debug")
         }
         debug {
             if (keystorePath != null) signingConfig = signingConfigs.getByName("github")
