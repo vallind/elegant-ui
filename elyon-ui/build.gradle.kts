@@ -122,18 +122,18 @@ val fatAar by tasks.registering(FatAarTask::class) {
     group = "distribution"
     description = "Merge all library module AARs into a single AAR (includes blur, requires minSdk 33)"
     dependsOn(
-        ":elyon-ui:assembleRelease",
-        ":elyon-core:assembleRelease",
-        ":elyon-effects:assembleRelease",
-        ":elyon-blur:assembleRelease",
-        ":elyon-nav:assembleRelease",
+        ":elyon-ui:bundleAndroidMainAar",
+        ":elyon-core:bundleAndroidMainAar",
+        ":elyon-effects:bundleAndroidMainAar",
+        ":elyon-blur:bundleAndroidMainAar",
+        ":elyon-nav:bundleAndroidMainAar",
     )
     inputAars.from(
-        layout.projectDirectory.file("build/outputs/aar/elyon-ui-release.aar"),
-        rootProject.layout.projectDirectory.file("elyon-core/build/outputs/aar/elyon-core-release.aar"),
-        rootProject.layout.projectDirectory.file("elyon-effects/build/outputs/aar/elyon-effects-release.aar"),
-        rootProject.layout.projectDirectory.file("elyon-blur/build/outputs/aar/elyon-blur-release.aar"),
-        rootProject.layout.projectDirectory.file("elyon-nav/build/outputs/aar/elyon-nav-release.aar"),
+        layout.projectDirectory.file("build/outputs/aar/elyon-ui.aar"),
+        rootProject.layout.projectDirectory.file("elyon-core/build/outputs/aar/elyon-core.aar"),
+        rootProject.layout.projectDirectory.file("elyon-effects/build/outputs/aar/elyon-effects.aar"),
+        rootProject.layout.projectDirectory.file("elyon-blur/build/outputs/aar/elyon-blur.aar"),
+        rootProject.layout.projectDirectory.file("elyon-nav/build/outputs/aar/elyon-nav.aar"),
     )
     outputFile.set(layout.buildDirectory.file("fatAar/elyon-all-release.aar"))
 }
@@ -142,16 +142,16 @@ val fatAarNoBlur by tasks.registering(FatAarTask::class) {
     group = "distribution"
     description = "Merge library AARs without blur into a single AAR (minSdk 23)"
     dependsOn(
-        ":elyon-ui:assembleRelease",
-        ":elyon-core:assembleRelease",
-        ":elyon-effects:assembleRelease",
-        ":elyon-nav:assembleRelease",
+        ":elyon-ui:bundleAndroidMainAar",
+        ":elyon-core:bundleAndroidMainAar",
+        ":elyon-effects:bundleAndroidMainAar",
+        ":elyon-nav:bundleAndroidMainAar",
     )
     inputAars.from(
-        layout.projectDirectory.file("build/outputs/aar/elyon-ui-release.aar"),
-        rootProject.layout.projectDirectory.file("elyon-core/build/outputs/aar/elyon-core-release.aar"),
-        rootProject.layout.projectDirectory.file("elyon-effects/build/outputs/aar/elyon-effects-release.aar"),
-        rootProject.layout.projectDirectory.file("elyon-nav/build/outputs/aar/elyon-nav-release.aar"),
+        layout.projectDirectory.file("build/outputs/aar/elyon-ui.aar"),
+        rootProject.layout.projectDirectory.file("elyon-core/build/outputs/aar/elyon-core.aar"),
+        rootProject.layout.projectDirectory.file("elyon-effects/build/outputs/aar/elyon-effects.aar"),
+        rootProject.layout.projectDirectory.file("elyon-nav/build/outputs/aar/elyon-nav.aar"),
     )
     outputFile.set(layout.buildDirectory.file("fatAar/elyon-all-noblur-release.aar"))
 }
