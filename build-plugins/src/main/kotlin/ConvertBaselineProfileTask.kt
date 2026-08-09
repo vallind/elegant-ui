@@ -96,11 +96,15 @@ abstract class ConvertBaselineProfileTask : DefaultTask() {
         // Write main output
         writeProfileFile(output, mainClasses)
 
-        // Write additional outputs
-        for ((pkg, path) in additional) {
-            val classes = additionalClasses[pkg] ?: emptyMap()
-            if (classes.isNotEmpty()) {
-                writeProfileFile(java.io.File(path), classes)
+        // Write additional outputs, merging packages that share the same file
+        val packagesByPath = additional.entries.groupBy({ it.value }, { it.key })
+        for ((path, pkgs) in packagesByPath) {
+            val mergedClasses = linkedMapOf<String, Set<Char>>()
+            for (pkg in pkgs) {
+                additionalClasses[pkg]?.let { mergedClasses.putAll(it) }
+            }
+            if (mergedClasses.isNotEmpty()) {
+                writeProfileFile(java.io.File(path), mergedClasses)
             }
         }
     }

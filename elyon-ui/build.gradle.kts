@@ -94,6 +94,20 @@ val convertBaselineProfile by tasks.registering(ConvertBaselineProfileTask::clas
                 "elyon-nav/src/androidMain/baselineProfiles/baseline-prof.txt",
             ).asFile.absolutePath,
     )
+    additionalOutputs.put(
+        "io/elyon/kmp/shader/",
+        rootProject.layout.projectDirectory
+            .file(
+                "elyon-effects/src/androidMain/baselineProfiles/baseline-prof.txt",
+            ).asFile.absolutePath,
+    )
+    additionalOutputs.put(
+        "io/elyon/kmp/squircle/",
+        rootProject.layout.projectDirectory
+            .file(
+                "elyon-effects/src/androidMain/baselineProfiles/baseline-prof.txt",
+            ).asFile.absolutePath,
+    )
 }
 
 tasks.matching { it.name == "generateBaselineProfile" }.configureEach {
