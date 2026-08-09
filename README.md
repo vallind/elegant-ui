@@ -10,7 +10,7 @@ A UI library for Compose Multiplatform.
 
 ### Online Demo
 
-[![WasmJs](https://img.shields.io/badge/Demo-Web-654FF0?logo=webassembly&logoColor=white)](https://vallind.github.io/elegant-ui/demo/)
+[![WasmJs](https://img.shields.io/badge/Demo-Web-654FF0?logo=webassembly&logoColor=white)](https://vallind.github.io/elyon/demo/)
 
 ### Supported Platforms
 

@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 object BuildConfig {
-    const val LIBRARY_VERSION = "0.9.3"
+    const val LIBRARY_VERSION = "0.1.0"
     const val LIBRARY_ID = "io.elyon.kmp"
     const val APPLICATION_NAME = "Elyon"
-    const val APPLICATION_VERSION_NAME = "1.0.9"
+    const val APPLICATION_VERSION_NAME = "0.1.0"
     const val APPLICATION_ID = "io.elyon.uitest"
     const val APPLICATION_SHARED_ID = "io.elyon.shared"
     const val COMPILE_SDK = 37

@@ -18,10 +18,10 @@ hero:
       link: /zh_CN/components/index
     - theme: alt
       text: 在线演示
-      link: https://vallind.github.io/elegant-ui/demo/
+      link: https://vallind.github.io/elyon/demo/
     - theme: alt
       text: GitHub
-      link: https://github.com/vallind/elegant-ui
+      link: https://github.com/vallind/elyon
 
 features:
   - icon: 🚀

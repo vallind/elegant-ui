@@ -6,7 +6,7 @@ import {
 } from "@nolebase/vitepress-plugin-git-changelog/vite";
 
 export default defineConfig({
-  base: "/elegant-ui/",
+  base: "/elyon/",
   title: "Elyon",
   locales: locales.locales,
   head: [
@@ -20,7 +20,7 @@ export default defineConfig({
         var lang = (navigator.language || '').toLowerCase();
         var isSimplifiedZh = lang === 'zh-cn' || lang === 'zh-sg' || lang.indexOf('zh-hans') === 0;
         if (!isSimplifiedZh) return;
-        var base = '/elegant-ui/';
+        var base = '/elyon/';
         var path = window.location.pathname;
         if (path.indexOf(base) !== 0) return;
         if (path.indexOf(base + 'zh_CN') === 0) return;
@@ -29,7 +29,7 @@ export default defineConfig({
       } catch (e) {}
     })();`],
     ['meta', { name: 'color-scheme', content: 'light dark' }],
-    ['link', { rel: 'icon', href: '/elegant-ui/logo.svg' }],
+    ['link', { rel: 'icon', href: '/elyon/logo.svg' }],
     ['link', { rel: 'preconnect', href: 'https://cdn-font.hyperos.mi.com/font/css?family=MiSans_VF:VF:Chinese_Simplify,Latin&display=swap' }],
   ],
   markdown: {
@@ -39,12 +39,12 @@ export default defineConfig({
   },
   cleanUrls: true,
   ignoreDeadLinks: [
-    /^\/elegant-ui\/dokka\//,
+    /^\/elyon\/dokka\//,
   ],
   themeConfig: {
     logo: "/logo.svg",
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vallind/elegant-ui' }
+      { icon: 'github', link: 'https://github.com/vallind/elyon' }
     ],
     search: {
       provider: "local",
@@ -91,7 +91,7 @@ export default defineConfig({
     },
     plugins: [
       GitChangelog({
-        repoURL: () => "https://github.com/vallind/elegant-ui",
+        repoURL: () => "https://github.com/vallind/elyon",
       }),
       GitChangelogMarkdownSection({
         sections: {

@@ -18,10 +18,10 @@ hero:
       link: /components/index
     - theme: alt
       text: Online Demo
-      link: https://vallind.github.io/elegant-ui/demo/
+      link: https://vallind.github.io/elyon/demo/
     - theme: alt
       text: GitHub
-      link: https://github.com/vallind/elegant-ui
+      link: https://github.com/vallind/elyon
 
 features:
   - icon: 🚀
