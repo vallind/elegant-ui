@@ -18,7 +18,7 @@ hero:
       link: /zh_CN/components/index
     - theme: alt
       text: 在线演示
-      link: /demo/
+      link: https://vallind.github.io/elegant-ui/demo/
     - theme: alt
       text: GitHub
       link: https://github.com/vallind/elegant-ui

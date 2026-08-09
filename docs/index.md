@@ -18,7 +18,7 @@ hero:
       link: /components/index
     - theme: alt
       text: Online Demo
-      link: /demo/
+      link: https://vallind.github.io/elegant-ui/demo/
     - theme: alt
       text: GitHub
       link: https://github.com/vallind/elegant-ui
