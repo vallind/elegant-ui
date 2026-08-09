@@ -30,7 +30,7 @@ jobs:
           target: aosp_atd
           arch: x86_64
           disable-animations: true
-          script: ./gradlew :example:android:generateBaselineProfile
+          script: ./gradlew :example:android:generateBaselineProfile :elyon-ui:generateBaselineProfile
       - name: Commit refreshed profiles
         run: |
           git config user.name "github-actions[bot]"
