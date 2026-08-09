@@ -90,5 +90,5 @@ Scaffold 组件为跨平台提供了一个合适的弹出窗口的容器。`Over
 
 ## API 文档
 
-- 查看 [API 文档](/elyon/dokka/index.html){target="_blank"}，此文档使用 Dokka 生成，包含了所有 API
+- 查看 [API 文档](/elegant-ui/dokka/index.html){target="_blank"}，此文档使用 Dokka 生成，包含了所有 API
   的详细信息。

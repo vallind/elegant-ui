@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 import locales from "./locales";
 
 export default defineConfig({
-  base: "/elyon/",
+  base: "/elegant-ui/",
   title: "Elyon",
   locales: locales.locales,
   head: [
@@ -16,7 +16,7 @@ export default defineConfig({
         var lang = (navigator.language || '').toLowerCase();
         var isSimplifiedZh = lang === 'zh-cn' || lang === 'zh-sg' || lang.indexOf('zh-hans') === 0;
         if (!isSimplifiedZh) return;
-        var base = '/elyon/';
+        var base = '/elegant-ui/';
         var path = window.location.pathname;
         if (path.indexOf(base) !== 0) return;
         if (path.indexOf(base + 'zh_CN') === 0) return;
@@ -25,7 +25,7 @@ export default defineConfig({
       } catch (e) {}
     })();`],
     ['meta', { name: 'color-scheme', content: 'light dark' }],
-    ['link', { rel: 'icon', href: '/elyon/logo.svg' }],
+    ['link', { rel: 'icon', href: '/elegant-ui/logo.svg' }],
     ['link', { rel: 'preconnect', href: 'https://cdn-font.hyperos.mi.com/font/css?family=MiSans_VF:VF:Chinese_Simplify,Latin&display=swap' }],
   ],
   markdown: {
