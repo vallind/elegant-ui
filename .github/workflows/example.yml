@@ -1,6 +1,13 @@
 name: Build Example App
 
 on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "README.md"
+      - "CLAUDE.md"
+      - "AGENTS.md"
+      - "docs/**"
   workflow_dispatch:
 
 concurrency:
